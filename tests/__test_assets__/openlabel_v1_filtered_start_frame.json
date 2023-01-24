@@ -1,0 +1,573 @@
+{
+    "openlabel": {
+        "metadata": {
+            "schema_version": "1.0.0",
+            "comment": "test_comment",
+            "name": "test_project",
+            "tagged_file": "test_folder",
+            "exporter_version": "2.0.0"
+        },
+        "streams": {
+            "rgb_middle": {
+                "type": "camera",
+                "uri": "/S1206063/image",
+                "stream_properties": {
+                    "intrinsics_pinhole": {
+                        "camera_matrix": [
+                            0.48,
+                            0,
+                            0.81,
+                            0,
+                            0,
+                            0.16,
+                            0.83,
+                            0,
+                            0,
+                            0,
+                            1,
+                            0
+                        ],
+                        "distortion_coeffs": [
+                            0.49,
+                            0.69,
+                            0.31,
+                            0.81,
+                            0.99
+                        ],
+                        "width_px": 2464,
+                        "height_px": 1600
+                    }
+                }
+            },
+            "ir_middle": {
+                "type": "camera",
+                "uri": "/A0001781/image",
+                "stream_properties": {
+                    "intrinsics_pinhole": {
+                        "camera_matrix": [
+                            0.47,
+                            0,
+                            0.85,
+                            0,
+                            0,
+                            0.15,
+                            0.23,
+                            0,
+                            0,
+                            0,
+                            1,
+                            0
+                        ],
+                        "distortion_coeffs": [
+                            0.19,
+                            0.66,
+                            0.31,
+                            0.21,
+                            0.99
+                        ],
+                        "width_px": 640,
+                        "height_px": 480
+                    }
+                }
+            },
+            "lidar": {
+                "type": "lidar",
+                "uri": "/lidar_merged"
+            }
+        },
+        "coordinate_systems": {
+            "base": {
+                "type": "local",
+                "parent": "",
+                "children": [
+                    "rgb_middle",
+                    "ir_middle",
+                    "lidar"
+                ]
+            },
+            "rgb_middle": {
+                "type": "sensor",
+                "parent": "base",
+                "children": [],
+                "pose_wrt_parent": {
+                    "translation": [
+                        0,
+                        1,
+                        2
+                    ],
+                    "quaternion": [
+                        0.97518507,
+                        -0.18529384,
+                        -0.05469746,
+                        -0.10811315
+                    ]
+                }
+            },
+            "ir_middle": {
+                "type": "sensor",
+                "parent": "base",
+                "children": [],
+                "pose_wrt_parent": {
+                    "translation": [
+                        0,
+                        2,
+                        1
+                    ],
+                    "quaternion": [
+                        -0.64984101,
+                        -0.72563166,
+                        0.18784818,
+                        -0.12600959
+                    ]
+                }
+            },
+            "lidar": {
+                "type": "sensor",
+                "parent": "base",
+                "children": [],
+                "pose_wrt_parent": {
+                    "translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "quaternion": [
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                }
+            }
+        },
+        "objects": {
+            "6fe55546-0dd7-4e40-b6b4-bb7ea3445772": {
+                "name": "person_0001",
+                "type": "person",
+                "frame_intervals": [
+                    {
+                        "frame_start": 1,
+                        "frame_end": 1
+                    }
+                ],
+                "object_data_pointers": {
+                    "general": {
+                        "frame_intervals": [
+                            {
+                                "frame_start": 1,
+                                "frame_end": 1
+                            }
+                        ]
+                    }
+                }
+            },
+            "22dedd49-6dcb-413b-87ef-00ccfb532e98": {
+                "name": "train_0000",
+                "type": "train",
+                "frame_intervals": [
+                    {
+                        "frame_start": 1,
+                        "frame_end": 1
+                    }
+                ],
+                "object_data_pointers": {
+                    "general": {
+                        "frame_intervals": [
+                            {
+                                "frame_start": 1,
+                                "frame_end": 1
+                            }
+                        ]
+                    }
+                }
+            }
+        },
+        "frames": {
+            "1": {
+                "frame_properties": {
+                    "timestamp": "1632321743.233263",
+                    "streams": {
+                        "rgb_middle": {
+                            "stream_properties": {
+                                "stream_sync": {
+                                    "timestamp": "1632321743.2"
+                                }
+                            }
+                        },
+                        "ir_middle": {
+                            "stream_properties": {
+                                "stream_sync": {
+                                    "timestamp": "1632321743.208000004"
+                                }
+                            }
+                        },
+                        "lidar": {
+                            "stream_properties": {
+                                "stream_sync": {
+                                    "timestamp": "1632321743.233263"
+                                }
+                            }
+                        }
+                    }
+                },
+                "objects": {
+                    "6fe55546-0dd7-4e40-b6b4-bb7ea3445772": {
+                        "object_data": {
+                            "bbox": [
+                                {
+                                    "uid": "6ba42cbc-484e-4b8d-a022-b23c2bb6643c",
+                                    "name": "general",
+                                    "val": [
+                                        0.0,
+                                        1.0,
+                                        2.0,
+                                        3.0
+                                    ],
+                                    "coordinate_system": "rgb_middle",
+                                    "attributes": {
+                                        "text": [
+                                            {
+                                                "name": "test_text_attr0",
+                                                "val": "test_text_attr0_val"
+                                            },
+                                            {
+                                                "name": "test_text_attr1",
+                                                "val": "test_text_attr1_val"
+                                            }
+                                        ],
+                                        "boolean": [
+                                            {
+                                                "name": "test_bool_attr0",
+                                                "val": true
+                                            }
+                                        ],
+                                        "num": [
+                                            {
+                                                "name": "test_num_attr0",
+                                                "val": 0
+                                            },
+                                            {
+                                                "name": "test_num_attr1",
+                                                "val": 1
+                                            }
+                                        ],
+                                        "vec": [
+                                            {
+                                                "name": "test_vec_attr0",
+                                                "val": [
+                                                    "0",
+                                                    "1"
+                                                ]
+                                            },
+                                            {
+                                                "name": "test_vec_attr1",
+                                                "val": [
+                                                    0,
+                                                    1,
+                                                    2
+                                                ]
+                                            },
+                                            {
+                                                "name": "test_vec_attr2",
+                                                "val": [
+                                                    "a",
+                                                    "b",
+                                                    "c"
+                                                ]
+                                            }
+                                        ]
+                                    }
+                                },
+                                {
+                                    "uid": "5f28fa18-8f2a-4a40-a0b6-c0bbedc00f2e",
+                                    "name": "general",
+                                    "val": [
+                                        3.0,
+                                        2.0,
+                                        1.0,
+                                        0.0
+                                    ],
+                                    "coordinate_system": "ir_middle",
+                                    "attributes": {
+                                        "boolean": [
+                                            {
+                                                "name": "test_bool_attr0",
+                                                "val": false
+                                            }
+                                        ]
+                                    }
+                                }
+                            ],
+                            "poly2d": [
+                                {
+                                    "uid": "e2503c5d-9fe4-4666-b510-ef644c5a766b",
+                                    "name": "general",
+                                    "val": [
+                                        1.0,
+                                        2.0,
+                                        3.0,
+                                        4.0
+                                    ],
+                                    "closed": false,
+                                    "mode": "MODE_POLY2D_ABSOLUTE",
+                                    "coordinate_system": "rgb_middle",
+                                    "attributes": {
+                                        "text": [
+                                            {
+                                                "name": "test_text_attr0",
+                                                "val": "test_text_attr0_val"
+                                            },
+                                            {
+                                                "name": "test_text_attr1",
+                                                "val": "test_text_attr1_val"
+                                            }
+                                        ],
+                                        "boolean": [
+                                            {
+                                                "name": "test_bool_attr0",
+                                                "val": true
+                                            }
+                                        ],
+                                        "num": [
+                                            {
+                                                "name": "test_num_attr0",
+                                                "val": 0
+                                            },
+                                            {
+                                                "name": "test_num_attr1",
+                                                "val": 1
+                                            }
+                                        ],
+                                        "vec": [
+                                            {
+                                                "name": "test_vec_attr0",
+                                                "val": [
+                                                    "0",
+                                                    "1"
+                                                ]
+                                            },
+                                            {
+                                                "name": "test_vec_attr1",
+                                                "val": [
+                                                    0,
+                                                    1,
+                                                    2
+                                                ]
+                                            },
+                                            {
+                                                "name": "test_vec_attr2",
+                                                "val": [
+                                                    "a",
+                                                    "b",
+                                                    "c"
+                                                ]
+                                            }
+                                        ]
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "22dedd49-6dcb-413b-87ef-00ccfb532e98": {
+                        "object_data": {
+                            "cuboid": [
+                                {
+                                    "uid": "536ac83a-32c8-4fce-8499-ef32716c64a6",
+                                    "name": "general",
+                                    "val": [
+                                        0.0,
+                                        1.0,
+                                        2.0,
+                                        3.0,
+                                        4.0,
+                                        5.0,
+                                        6.0,
+                                        7.0,
+                                        8.0,
+                                        9.0
+                                    ],
+                                    "coordinate_system": "lidar",
+                                    "attributes": {
+                                        "text": [
+                                            {
+                                                "name": "test_text_attr0",
+                                                "val": "test_text_attr0_val"
+                                            },
+                                            {
+                                                "name": "test_text_attr1",
+                                                "val": "test_text_attr1_val"
+                                            }
+                                        ],
+                                        "boolean": [
+                                            {
+                                                "name": "test_bool_attr0",
+                                                "val": true
+                                            }
+                                        ],
+                                        "num": [
+                                            {
+                                                "name": "test_num_attr0",
+                                                "val": 0
+                                            },
+                                            {
+                                                "name": "test_num_attr1",
+                                                "val": 1
+                                            }
+                                        ],
+                                        "vec": [
+                                            {
+                                                "name": "test_vec_attr0",
+                                                "val": [
+                                                    "0",
+                                                    "1"
+                                                ]
+                                            },
+                                            {
+                                                "name": "test_vec_attr1",
+                                                "val": [
+                                                    0,
+                                                    1,
+                                                    2
+                                                ]
+                                            },
+                                            {
+                                                "name": "test_vec_attr2",
+                                                "val": [
+                                                    "a",
+                                                    "b",
+                                                    "c"
+                                                ]
+                                            }
+                                        ]
+                                    }
+                                },
+                                {
+                                    "uid": "e53bd5e3-980a-4fa7-a0f9-5a2e59ba663c",
+                                    "name": "general",
+                                    "val": [
+                                        0.0,
+                                        1.0,
+                                        2.0,
+                                        3.0,
+                                        4.0,
+                                        5.0,
+                                        6.0,
+                                        7.0,
+                                        8.0,
+                                        9.0
+                                    ],
+                                    "coordinate_system": "lidar",
+                                    "attributes": {
+                                        "boolean": [
+                                            {
+                                                "name": "test_bool_attr0",
+                                                "val": false
+                                            }
+                                        ]
+                                    }
+                                }
+                            ],
+                            "vec": [
+                                {
+                                    "uid": "550df2c3-0e66-483e-bcc6-f3013b7e581b",
+                                    "name": "general",
+                                    "val": [
+                                        0,
+                                        1,
+                                        2,
+                                        3,
+                                        4,
+                                        5,
+                                        6,
+                                        7,
+                                        8,
+                                        9
+                                    ],
+                                    "coordinate_system": "lidar",
+                                    "attributes": {
+                                        "text": [
+                                            {
+                                                "name": "test_text_attr0",
+                                                "val": "test_text_attr0_val"
+                                            },
+                                            {
+                                                "name": "test_text_attr1",
+                                                "val": "test_text_attr1_val"
+                                            }
+                                        ],
+                                        "boolean": [
+                                            {
+                                                "name": "test_bool_attr0",
+                                                "val": true
+                                            }
+                                        ],
+                                        "num": [
+                                            {
+                                                "name": "test_num_attr0",
+                                                "val": 0
+                                            },
+                                            {
+                                                "name": "test_num_attr1",
+                                                "val": 1
+                                            }
+                                        ],
+                                        "vec": [
+                                            {
+                                                "name": "test_vec_attr0",
+                                                "val": [
+                                                    "0",
+                                                    "1"
+                                                ]
+                                            },
+                                            {
+                                                "name": "test_vec_attr1",
+                                                "val": [
+                                                    0,
+                                                    1,
+                                                    2
+                                                ]
+                                            },
+                                            {
+                                                "name": "test_vec_attr2",
+                                                "val": [
+                                                    "a",
+                                                    "b",
+                                                    "c"
+                                                ]
+                                            }
+                                        ]
+                                    }
+                                },
+                                {
+                                    "uid": "12b21c52-06ea-4269-9805-e7167e7a74ed",
+                                    "name": "general",
+                                    "val": [
+                                        9,
+                                        8,
+                                        7,
+                                        6,
+                                        5,
+                                        4,
+                                        3,
+                                        2,
+                                        1,
+                                        0
+                                    ],
+                                    "coordinate_system": "lidar",
+                                    "attributes": {
+                                        "boolean": [
+                                            {
+                                                "name": "test_bool_attr0",
+                                                "val": false
+                                            }
+                                        ]
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

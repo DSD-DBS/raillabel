@@ -1,0 +1,99 @@
+# Copyright DB Netz AG and contributors
+# SPDX-License-Identifier: CC0-1.0
+
+default_install_hook_types: [commit-msg, pre-commit]
+default_stages: [commit, merge-commit]
+repos:
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v4.2.0
+    hooks:
+      - id: check-added-large-files
+      - id: check-ast
+      - id: check-builtin-literals
+      - id: check-case-conflict
+      - id: check-executables-have-shebangs
+      - id: check-json
+      - id: check-merge-conflict
+      - id: check-shebang-scripts-are-executable
+      - id: check-symlinks
+      - id: check-toml
+      - id: check-vcs-permalinks
+      - id: check-xml
+      - id: check-yaml
+      - id: debug-statements
+      - id: destroyed-symlinks
+      - id: end-of-file-fixer
+      - id: fix-byte-order-marker
+      - id: trailing-whitespace
+  - repo: https://github.com/psf/black
+    rev: 22.3.0
+    hooks:
+      - id: black
+  - repo: https://github.com/PyCQA/isort
+    rev: 5.10.1
+    hooks:
+      - id: isort
+  - repo: https://github.com/PyCQA/docformatter
+    rev: v1.5.0
+    hooks:
+      - id: docformatter
+        additional_dependencies:
+          - docformatter[tomli]
+  - repo: https://github.com/PyCQA/pydocstyle
+    rev: 6.1.1
+    hooks:
+      - id: pydocstyle
+        exclude: '^tests/'
+        additional_dependencies:
+          - pydocstyle[toml]
+  - repo: https://github.com/Lucas-C/pre-commit-hooks
+    rev: v1.1.13
+    hooks:
+      - id: insert-license
+        name: Insert license headers (shell-style comments)
+        files: '(?:^|/)(?:.*\.(?:py|sh|toml|ya?ml)|Dockerfile|Makefile)$'
+        exclude: '(?:^|/)\..+|^docs/Makefile$'
+        args:
+          - --detect-license-in-X-top-lines=15
+          - --license-filepath
+          - LICENSES/.license_header.txt
+          - --comment-style
+          - '#'
+      - id: insert-license
+        name: Insert license headers (XML-style comments)
+        files: '\.(?:html|md|xml)$'
+        exclude: '(?:^|/)\..+'
+        args:
+          - --detect-license-in-X-top-lines=15
+          - --license-filepath
+          - LICENSES/.license_header.txt
+          - --comment-style
+          - '<!--| ~| -->'
+      - id: insert-license
+        name: Insert license headers (C-style comments)
+        files: '\.(?:css|js|ts)$'
+        exclude: '(?:^|/)\..+'
+        args:
+          - --detect-license-in-X-top-lines=15
+          - --license-filepath
+          - LICENSES/.license_header.txt
+          - --comment-style
+          - '/*| *| */'
+      - id: insert-license
+        name: Insert license headers (reST comments)
+        files: '\.rst$'
+        exclude: '(?:^|/)\..+'
+        args:
+          - --detect-license-in-X-top-lines=15
+          - --license-filepath
+          - LICENSES/.license_header.txt
+          - --comment-style
+          - '..|  |'
+  - repo: https://github.com/fsfe/reuse-tool
+    rev: v1.0.0
+    hooks:
+      - id: reuse
+  - repo: https://github.com/qoomon/git-conventional-commits
+    rev: v2.1.1
+    hooks:
+      - id: conventional-commits

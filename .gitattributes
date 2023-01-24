@@ -1,0 +1,11 @@
+# Copyright DB Netz AG and contributors
+# SPDX-License-Identifier: CC0-1.0
+
+* text=auto
+
+*.{cmd,[cC][mM][dD]} text eol=crlf
+*.{bat,[bB][aA][tT]} text eol=crlf
+
+*.{sh,py} text eol=lf
+
+.git_archival.txt  export-subst

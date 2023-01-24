@@ -1,0 +1,20 @@
+{
+    "openlabel": {
+        "metadata": {
+            "name": "test_project",
+            "comment": "test_comment",
+            "schema_version": "1.0.0",
+            "tagged_file": "test_folder"
+        },
+        "streams": {},
+        "coordinate_systems": {
+            "base": {
+                "type": "local",
+                "parent": "",
+                "children": []
+            }
+        },
+        "objects": {},
+        "frames": {}
+    }
+}
