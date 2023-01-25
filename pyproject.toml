@@ -53,7 +53,7 @@ test = [
 ]
 
 [tool.black]
-line-length = 79
+line-length = 100
 target-version = ["py38"]
 
 [tool.docformatter]
@@ -62,7 +62,7 @@ wrap-summaries = 79
 
 [tool.isort]
 profile = 'black'
-line_length = 79
+line_length = 100
 
 [tool.mypy]
 check_untyped_defs = true
@@ -103,7 +103,7 @@ add-ignore = [
 ]
 
 [tool.pylint.master]
-max-line-length = 79
+max-line-length = 100
 
 [tool.pylint.messages_control]
 disable = [
