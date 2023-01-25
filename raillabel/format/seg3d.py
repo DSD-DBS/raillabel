@@ -2,13 +2,13 @@
 # SPDX-License-Identifier: Apache-2.0
 
 import typing
-from dataclasses import dataclass, field
+from dataclasses import dataclass
 
-from .coordinate_system import CoordinateSystem
+from ._annotation import _Annotation
 
 
 @dataclass
-class Seg3d:
+class Seg3d(_Annotation):
     """The 3D segmentation of a lidar pointcloud.
 
     Parameters
@@ -33,43 +33,9 @@ class Seg3d:
         URI to the file, which contains the annotated object.
     """
 
-    uid: str
-    name: str
-    point_ids: typing.List[int]
-    attributes: typing.Dict[
-        str, typing.Union[int, float, bool, str, list]
-    ] = field(default_factory=dict)
-    coordinate_system: CoordinateSystem = None
-    object_annotations: typing.Any = None
+    point_ids: typing.List[int] = None
 
-    @property
-    def uri(self) -> str or None:
-        """URI to the file, which contains the annotated object."""
-        if (
-            self.object_annotations == None
-            or self.object_annotations.frame == None
-        ):
-            return None
-        return self.object_annotations.frame.streams[
-            self.coordinate_system.uid
-        ].uri
-
-    @uri.setter
-    def uri(self, value):
-
-        if self.object_annotations == None:
-            raise AttributeError(
-                f"Attribute object_annotations not set for annotation {self.uri}."
-            )
-
-        if self.object_annotations.frame == None:
-            raise AttributeError(
-                f"Attribute frame not set for ObjectAnnotation of annotation {self.uri}."
-            )
-
-        self.object_annotations.frame.streams[
-            self.coordinate_system.uid
-        ].uri = value
+    _REQ_FIELDS = ["point_ids"]
 
     @classmethod
     def fromdict(
@@ -156,59 +122,14 @@ class Seg3d:
             if an attribute can not be converted to the type required by the OpenLabel schema.
         """
 
-        dict_repr = {
-            "uid": str(self.uid),
-            "name": str(self.name),
-            "val": [int(pid) for pid in self.point_ids],
-        }
+        dict_repr = self._annotation_required_fields_asdict()
 
-        if self.coordinate_system != None:
-            dict_repr["coordinate_system"] = str(self.coordinate_system.uid)
+        dict_repr["val"] = [int(pid) for pid in self.point_ids]
 
-        if self.attributes != {} or self.uri != None:
-            dict_repr["attributes"] = {}
-
-            for attr_name, attr_value in self.attributes.items():
-
-                # Since the annotation stores the attributes in a collective
-                # dictionary, they must be seperated by type in order to comply
-                # with the OpenLabel format.
-
-                if type(attr_value) == str:
-                    attr_type = "text"
-
-                elif type(attr_value) in [float, int]:
-                    attr_type = "num"
-
-                elif type(attr_value) == bool:
-                    attr_type = "boolean"
-
-                elif type(attr_value) in [list, tuple]:
-                    attr_type = "vec"
-
-                else:
-                    raise TypeError(
-                        f"Attribute type {type(attr_value)} of {attr_value} is not supported. "
-                        + "Supported types are str, float, int, bool, list, tuple."
-                    )
-
-                if attr_type not in dict_repr["attributes"]:
-                    dict_repr["attributes"][attr_type] = []
-
-                dict_repr["attributes"][attr_type].append(
-                    {"name": attr_name, "val": attr_value}
-                )
+        dict_repr.update(self._annotation_optional_fields_asdict())
 
         return dict_repr
 
     def __eq__(self, __o: object) -> bool:
         """Compare this annotation with another one."""
-
-        if type(__o) != type(self):
-            return False
-
-        # object_annotations is omitted from the equal comparison, because it contains this
-        # annotation, which will lead to a RecursionError.
-        return {
-            k: v for k, v in vars(self).items() if k != "object_annotations"
-        } == {k: v for k, v in vars(__o).items() if k != "object_annotations"}
+        return super().equals(self, __o)
