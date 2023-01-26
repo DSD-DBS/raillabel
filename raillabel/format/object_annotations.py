@@ -115,8 +115,8 @@ class AnnotationContainer(dict):
         except KeyError as e:
             try:
                 return self.switched_keys[__key]
-            except KeyError:
-                raise e
+            except KeyError as e1:
+                raise e from e1
 
     def __contains__(self, __o: object) -> bool:
         """Return true if the object is in the dict."""

@@ -6,7 +6,7 @@ from abc import ABC, abstractmethod
 from pathlib import Path
 
 from ... import format
-from ..validate import validate
+from ..validate import validate as global_validate
 
 
 class LoaderABC(ABC):
@@ -91,4 +91,4 @@ class LoaderABC(ABC):
             All SchemaError messages found in the data. If the data is valid (if no SchemaErrors are
             found), this is an empty list.
         """
-        return validate(data, str(self.SCHEMA_PATH))
+        return global_validate(data, str(self.SCHEMA_PATH))

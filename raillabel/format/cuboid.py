@@ -75,9 +75,7 @@ class Cuboid(_Annotation):
             List of non-critical errors, that have occurred during the conversion.
         """
 
-        warnings = (
-            []
-        )  # list of warnings, that have occurred during the parsing
+        warnings = []  # list of warnings, that have occurred during the parsing
 
         # Creates the annotation with all mandatory properties
         annotation = Cuboid(
@@ -103,14 +101,9 @@ class Cuboid(_Annotation):
         )
 
         # Adds the optional properties
-        if (
-            "coordinate_system" in data_dict
-            and data_dict["coordinate_system"] != ""
-        ):
+        if "coordinate_system" in data_dict and data_dict["coordinate_system"] != "":
             try:
-                annotation.coordinate_system = coordinate_systems[
-                    data_dict["coordinate_system"]
-                ]
+                annotation.coordinate_system = coordinate_systems[data_dict["coordinate_system"]]
 
             except KeyError:
                 warnings.append(
@@ -121,10 +114,8 @@ class Cuboid(_Annotation):
         # Adds the attributes
         if "attributes" in data_dict:
 
-            annotation.attributes = d = {
-                a["name"]: a["val"]
-                for l in data_dict["attributes"].values()
-                for a in l
+            annotation.attributes = {
+                a["name"]: a["val"] for l in data_dict["attributes"].values() for a in l
             }
 
             # Saves the uri attribute as a class attribute

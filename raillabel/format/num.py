@@ -31,9 +31,7 @@ class Num(_Annotation):
     _REQ_FIELDS = ["val"]
 
     @classmethod
-    def fromdict(
-        self, data_dict: dict, coordinate_systems: dict
-    ) -> typing.Tuple[dict, list]:
+    def fromdict(self, data_dict: dict, coordinate_systems: dict) -> typing.Tuple[dict, list]:
         """Generate a Bbox object from a dictionary in the OpenLABEL format.
 
         Parameters
@@ -51,9 +49,7 @@ class Num(_Annotation):
             List of non-critical errors, that have occurred during the conversion.
         """
 
-        warnings = (
-            []
-        )  # list of warnings, that have occurred during the parsing
+        warnings = []  # list of warnings, that have occurred during the parsing
 
         # Creates the annotation with all mandatory properties
         annotation = Num(
@@ -63,14 +59,9 @@ class Num(_Annotation):
         )
 
         # Adds the optional properties
-        if (
-            "coordinate_system" in data_dict
-            and data_dict["coordinate_system"] != ""
-        ):
+        if "coordinate_system" in data_dict and data_dict["coordinate_system"] != "":
             try:
-                annotation.coordinate_system = coordinate_systems[
-                    data_dict["coordinate_system"]
-                ]
+                annotation.coordinate_system = coordinate_systems[data_dict["coordinate_system"]]
 
             except KeyError:
                 warnings.append(
@@ -81,10 +72,8 @@ class Num(_Annotation):
         # Adds the attributes
         if "attributes" in data_dict:
 
-            annotation.attributes = d = {
-                a["name"]: a["val"]
-                for l in data_dict["attributes"].values()
-                for a in l
+            annotation.attributes = {
+                a["name"]: a["val"] for l in data_dict["attributes"].values() for a in l
             }
 
             # Saves the uri attribute as a class attribute

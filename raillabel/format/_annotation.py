@@ -3,7 +3,7 @@
 
 from abc import ABC, abstractmethod
 from dataclasses import dataclass, field
-from typing import Any, Dict, List, Tuple, Union
+from typing import Any, Dict, Tuple, Union
 
 from .coordinate_system import CoordinateSystem
 
@@ -171,6 +171,6 @@ class _Annotation(ABC):
             If a required field has not been set.
         """
 
-        for field in self._REQ_FIELDS:
-            if getattr(self, field) is None:
-                raise TypeError(f"{field} is a required argument for {self.__class__.__name__}")
+        for f in self._REQ_FIELDS:
+            if getattr(self, f) is None:
+                raise TypeError(f"{f} is a required argument for {self.__class__.__name__}")
