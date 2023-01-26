@@ -25,9 +25,7 @@ class LoaderOpenLabelV1(LoaderABC):
     scene: format.Scene
     warnings: List[str]
 
-    SCHEMA_PATH: Path = (
-        Path(__file__).parent.parent / "schemas" / "openlabel_v1_schema.json"
-    )
+    SCHEMA_PATH: Path = Path(__file__).parent.parent / "schemas" / "openlabel_v1_schema.json"
 
     _OPENLABEL_CLASS_MAPPING = {
         "bbox": {
@@ -71,7 +69,9 @@ class LoaderOpenLabelV1(LoaderABC):
             is_data_valid, schema_errors = self.validate(data)
             if not is_data_valid:
 
-                error_msg = "The loaded data does not validate against the schema. Errors in the schema:\n"
+                error_msg = (
+                    "The loaded data does not validate against the schema. Errors in the schema:\n"
+                )
 
                 for err in schema_errors:
                     error_msg += " - " + err + "\n"
@@ -81,9 +81,7 @@ class LoaderOpenLabelV1(LoaderABC):
         self.warnings = []
 
         # Initializes the scene
-        self.scene = format.Scene(
-            metadata=format.Metadata(schema_version="1.0.0")
-        )
+        self.scene = format.Scene(metadata=format.Metadata(schema_version="1.0.0"))
 
         # The code for loading the data in split into functions, that load one respective part of
         # the data. This is meant to improve readibility.
@@ -114,9 +112,7 @@ class LoaderOpenLabelV1(LoaderABC):
             "openlabel" in data
             and "metadata" in data["openlabel"]
             and "schema_version" in data["openlabel"]["metadata"]
-            and data["openlabel"]["metadata"]["schema_version"].startswith(
-                "1."
-            )
+            and data["openlabel"]["metadata"]["schema_version"].startswith("1.")
         )
 
     # === Sub-functions for better readibility --- #
@@ -144,17 +140,9 @@ class LoaderOpenLabelV1(LoaderABC):
         # Version of the raillabel-devkit can not be imported due to circular imports and therefore
         # needs to be read from the __init__.py file directly.
         with (Path(__file__).parent.parent.parent / "__init__.py").open() as f:
-            exporter_version = [
-                line
-                for line in f.readlines()
-                if line.startswith("__version__ =")
-            ]
+            exporter_version = [line for line in f.readlines() if line.startswith("__version__ =")]
 
-        self.scene.metadata.exporter_version = exporter_version[-1].split('"')[
-            1
-        ]
-
-        pass
+        self.scene.metadata.exporter_version = exporter_version[-1].split('"')[1]
 
     def _load_streams(self, data: dict):
 
@@ -162,9 +150,7 @@ class LoaderOpenLabelV1(LoaderABC):
         for uid, stream in data["streams"].items():
 
             # stream.uid and stream.type
-            self.scene.streams[uid] = format.Stream(
-                uid=uid, type=stream["type"]
-            )
+            self.scene.streams[uid] = format.Stream(uid=uid, type=stream["type"])
 
             # stream.rostopic
             if "uri" in stream:
@@ -183,36 +169,24 @@ class LoaderOpenLabelV1(LoaderABC):
                 # stream.calibration.camera_matrix and stream.calibration.distortion
                 self.scene.streams[uid].calibration = format.StreamCalibration(
                     camera_matrix=tuple(
-                        stream["stream_properties"]["intrinsics_pinhole"][
-                            "camera_matrix"
-                        ]
+                        stream["stream_properties"]["intrinsics_pinhole"]["camera_matrix"]
                     ),
                     distortion=tuple(
-                        stream["stream_properties"]["intrinsics_pinhole"][
-                            "distortion_coeffs"
-                        ]
+                        stream["stream_properties"]["intrinsics_pinhole"]["distortion_coeffs"]
                     ),
                 )
 
                 # stream.calibration.width_px
-                if (
-                    "width_px"
-                    in stream["stream_properties"]["intrinsics_pinhole"]
-                ):
-                    self.scene.streams[uid].calibration.width_px = stream[
-                        "stream_properties"
-                    ]["intrinsics_pinhole"]["width_px"]
+                if "width_px" in stream["stream_properties"]["intrinsics_pinhole"]:
+                    self.scene.streams[uid].calibration.width_px = stream["stream_properties"][
+                        "intrinsics_pinhole"
+                    ]["width_px"]
 
                 # stream.calibration.height_px
-                if (
-                    "height_px"
-                    in stream["stream_properties"]["intrinsics_pinhole"]
-                ):
-                    self.scene.streams[uid].calibration.height_px = stream[
-                        "stream_properties"
-                    ]["intrinsics_pinhole"]["height_px"]
-
-        pass
+                if "height_px" in stream["stream_properties"]["intrinsics_pinhole"]:
+                    self.scene.streams[uid].calibration.height_px = stream["stream_properties"][
+                        "intrinsics_pinhole"
+                    ]["height_px"]
 
     def _load_coordinate_systems(self, data: dict):
 
@@ -225,9 +199,7 @@ class LoaderOpenLabelV1(LoaderABC):
         for uid, cs in data["coordinate_systems"].items():
 
             # coordinate_system.uid and coordinate_system.type
-            self.scene.coordinate_systems[uid] = format.CoordinateSystem(
-                uid=uid, type=cs["type"]
-            )
+            self.scene.coordinate_systems[uid] = format.CoordinateSystem(uid=uid, type=cs["type"])
 
         # Iterates over the scenes coordinate systems to add the parents and children
         for uid, cs in data["coordinate_systems"].items():
@@ -236,9 +208,9 @@ class LoaderOpenLabelV1(LoaderABC):
             if cs["parent"] != "":
 
                 try:
-                    self.scene.coordinate_systems[
-                        uid
-                    ].parent = self.scene.coordinate_systems[cs["parent"]]
+                    self.scene.coordinate_systems[uid].parent = self.scene.coordinate_systems[
+                        cs["parent"]
+                    ]
 
                 except KeyError:
                     self.warnings.append(
@@ -265,9 +237,7 @@ class LoaderOpenLabelV1(LoaderABC):
                 and "translation" in cs["pose_wrt_parent"]
                 and "quaternion" in cs["pose_wrt_parent"]
             ):
-                self.scene.coordinate_systems[
-                    uid
-                ].transform = format.Transform(
+                self.scene.coordinate_systems[uid].transform = format.Transform(
                     pos=format.Point3d(
                         x=cs["pose_wrt_parent"]["translation"][0],
                         y=cs["pose_wrt_parent"]["translation"][1],
@@ -281,24 +251,18 @@ class LoaderOpenLabelV1(LoaderABC):
                     ),
                 )
 
-        pass
-
     def _load_objects(self, data: dict):
 
         # Iterates over the objects
         for uid, obj in data["objects"].items():
 
             # object.uid and object.type and object.name
-            self.scene.objects[uid] = format.Object(
-                uid=uid, type=obj["type"], name=obj["name"]
-            )
+            self.scene.objects[uid] = format.Object(uid=uid, type=obj["type"], name=obj["name"])
 
             # object.coordinate_system
             if "coordinate_system" in obj and obj["coordinate_system"] != "":
                 try:
-                    self.scene.objects[
-                        uid
-                    ].coordinate_system = self.scene.coordinate_systems[
+                    self.scene.objects[uid].coordinate_system = self.scene.coordinate_systems[
                         obj["coordinate_system"]
                     ]
 
@@ -306,8 +270,6 @@ class LoaderOpenLabelV1(LoaderABC):
                     self.warnings.append(
                         f"{obj['coordinate_system']} does not exist as a coordinate system, but is referenced in the object {uid}."
                     )
-
-        pass
 
     def _load_frames(self, data: dict):
 
@@ -317,25 +279,17 @@ class LoaderOpenLabelV1(LoaderABC):
             # frame.uid and frame.timestamp
             self.scene.frames[int(uid)] = format.Frame(
                 uid=int(uid),
-                timestamp=decimal.Decimal(
-                    frame["frame_properties"]["timestamp"]
-                ),
+                timestamp=decimal.Decimal(frame["frame_properties"]["timestamp"]),
             )
 
             # frame.streams
             if "streams" in frame["frame_properties"]:
-                for stream_uid, stream_reference in frame["frame_properties"][
-                    "streams"
-                ].items():
+                for stream_uid, stream_reference in frame["frame_properties"]["streams"].items():
                     try:
-                        self.scene.frames[int(uid)].streams[
-                            stream_uid
-                        ] = format.StreamReference(
+                        self.scene.frames[int(uid)].streams[stream_uid] = format.StreamReference(
                             stream=self.scene.streams[stream_uid],
                             timestamp=decimal.Decimal(
-                                stream_reference["stream_properties"][
-                                    "stream_sync"
-                                ]["timestamp"]
+                                stream_reference["stream_properties"]["stream_sync"]["timestamp"]
                             ),
                         )
 
@@ -347,9 +301,9 @@ class LoaderOpenLabelV1(LoaderABC):
 
                     else:
                         if "uri" in stream_reference:
-                            self.scene.frames[int(uid)].streams[
-                                stream_uid
-                            ].uri = stream_reference["uri"]
+                            self.scene.frames[int(uid)].streams[stream_uid].uri = stream_reference[
+                                "uri"
+                            ]
 
             # frame.data
             if "frame_data" in frame["frame_properties"]:
@@ -361,23 +315,19 @@ class LoaderOpenLabelV1(LoaderABC):
                     if ann_type not in self._OPENLABEL_CLASS_MAPPING:
                         self.warnings.append(
                             f"Annotation type {ann_type} (frame {uid}, object {obj_uid}) is "
-                            + f"currently not supported."
+                            + "currently not supported."
                         )
                         continue
 
                     # Collects the converted annotations
                     annotations = format.AnnotationContainer()
-                    for ann_raw in frame["frame_properties"]["frame_data"][
-                        ann_type
-                    ]:
+                    for ann_raw in frame["frame_properties"]["frame_data"][ann_type]:
 
                         # Older version have the annotation UUID stored in the 'name' field. This
                         # needs to be corrected first.
                         if not "uid" in ann_raw:
                             try:
-                                ann_raw["uid"] = str(
-                                    uuid.UUID(ann_raw["name"])
-                                )
+                                ann_raw["uid"] = str(uuid.UUID(ann_raw["name"]))
                             except ValueError:
                                 ann_raw["uid"] = str(uuid.uuid4())
                             else:
@@ -392,14 +342,9 @@ class LoaderOpenLabelV1(LoaderABC):
                             continue
 
                         # Converts the annotation
-                        (
-                            annotations[ann_raw["uid"]],
-                            w,
-                        ) = self._OPENLABEL_CLASS_MAPPING[ann_type][
+                        (annotations[ann_raw["uid"]], w,) = self._OPENLABEL_CLASS_MAPPING[ann_type][
                             "class"
-                        ].fromdict(
-                            ann_raw, self.scene.coordinate_systems
-                        )
+                        ].fromdict(ann_raw, self.scene.coordinate_systems)
                         self.warnings.extend(w)
 
                     # Allocates the annotations to the frame
@@ -413,9 +358,7 @@ class LoaderOpenLabelV1(LoaderABC):
 
                     # frame.objects
                     try:
-                        self.scene.frames[int(uid)].objects[
-                            obj_uid
-                        ] = format.ObjectAnnotations(
+                        self.scene.frames[int(uid)].objects[obj_uid] = format.ObjectAnnotations(
                             object=self.scene.objects[obj_uid],
                             frame=self.scene.frames[int(uid)],
                         )
@@ -440,7 +383,7 @@ class LoaderOpenLabelV1(LoaderABC):
                         if ann_type not in self._OPENLABEL_CLASS_MAPPING:
                             self.warnings.append(
                                 f"Annotation type {ann_type} (frame {uid}, object {obj_uid}) is "
-                                + f"currently not supported."
+                                + "currently not supported."
                             )
                             continue
 
@@ -452,9 +395,7 @@ class LoaderOpenLabelV1(LoaderABC):
                             # needs to be corrected first.
                             if not "uid" in ann_raw:
                                 try:
-                                    ann_raw["uid"] = str(
-                                        uuid.UUID(ann_raw["name"])
-                                    )
+                                    ann_raw["uid"] = str(uuid.UUID(ann_raw["name"]))
                                 except ValueError:
                                     ann_raw["uid"] = str(uuid.uuid4())
                                 else:
@@ -469,12 +410,9 @@ class LoaderOpenLabelV1(LoaderABC):
                                 continue
 
                             # Converts the annotation
-                            (
-                                annotations[ann_raw["uid"]],
-                                w,
-                            ) = self._OPENLABEL_CLASS_MAPPING[ann_type][
-                                "class"
-                            ].fromdict(
+                            (annotations[ann_raw["uid"]], w,) = self._OPENLABEL_CLASS_MAPPING[
+                                ann_type
+                            ]["class"].fromdict(
                                 ann_raw,
                                 self.scene.coordinate_systems,
                                 self.scene.frames[int(uid)].objects[obj_uid],
@@ -484,12 +422,6 @@ class LoaderOpenLabelV1(LoaderABC):
                         # Allocates the annotations to the frame-object
                         setattr(
                             self.scene.frames[int(uid)].objects[obj_uid],
-                            self._OPENLABEL_CLASS_MAPPING[ann_type][
-                                "attribute_name"
-                            ],
+                            self._OPENLABEL_CLASS_MAPPING[ann_type]["attribute_name"],
                             annotations,
                         )
-
-        pass
-
-    pass

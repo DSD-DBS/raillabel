@@ -13,5 +13,3 @@ pytest.main(
         "--cache-clear",
     ]
 )
-
-pass

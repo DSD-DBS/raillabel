@@ -173,12 +173,12 @@ class Scene:
         """
 
         # Preprocesses the parameters and raises and Error if mutually exclusive parameters are set
-        if type(include_annotation_ids) == str:
+        if isinstance(include_annotation_ids, str):
             include_annotation_ids = [include_annotation_ids]
         else:
             include_annotation_ids = list(include_annotation_ids)
 
-        if type(exclude_annotation_ids) == str:
+        if isinstance(exclude_annotation_ids, str):
             exclude_annotation_ids = [exclude_annotation_ids]
         else:
             exclude_annotation_ids = list(exclude_annotation_ids)
@@ -188,12 +188,12 @@ class Scene:
                 "The include_annotation_ids and exclude_annotation_ids parameters are mutually exclusive."
             )
 
-        if type(include_annotation_types) == str:
+        if isinstance(include_annotation_types, str):
             include_annotation_types = [include_annotation_types]
         else:
             include_annotation_types = list(include_annotation_types)
 
-        if type(exclude_annotation_types) == str:
+        if isinstance(exclude_annotation_types, str):
             exclude_annotation_types = [exclude_annotation_types]
         else:
             exclude_annotation_types = list(exclude_annotation_types)
@@ -208,12 +208,12 @@ class Scene:
                 "The include_attributes and exclude_attributes parameters are mutually exclusive."
             )
 
-        if type(include_classes) == str:
+        if isinstance(include_classes, str):
             include_classes = [include_classes]
         else:
             include_classes = list(include_classes)
 
-        if type(exclude_classes) == str:
+        if isinstance(exclude_classes, str):
             exclude_classes = [exclude_classes]
         else:
             exclude_classes = list(exclude_classes)
@@ -223,7 +223,7 @@ class Scene:
                 "The include_classes and exclude_classes parameters are mutually exclusive."
             )
 
-        if type(include_frames) == int:
+        if isinstance(include_frames, int):
             include_frames = [include_frames]
         else:
             include_frames = list(include_frames)
@@ -231,7 +231,7 @@ class Scene:
         for i in range(len(include_frames)):
             include_frames[i] = int(include_frames[i])
 
-        if type(exclude_frames) == int:
+        if isinstance(exclude_frames, int):
             exclude_frames = [exclude_frames]
         else:
             exclude_frames = list(exclude_frames)
@@ -264,12 +264,12 @@ class Scene:
         if end_frame != float("inf") and end_timestamp != float("inf"):
             raise ValueError("The end_frame and end_timestamp parameters are mutually exclusive.")
 
-        if type(include_object_ids) == str:
+        if isinstance(include_object_ids, str):
             include_object_ids = [include_object_ids]
         else:
             include_object_ids = list(include_object_ids)
 
-        if type(exclude_object_ids) == str:
+        if isinstance(exclude_object_ids, str):
             exclude_object_ids = [exclude_object_ids]
         else:
             exclude_object_ids = list(exclude_object_ids)
@@ -279,12 +279,12 @@ class Scene:
                 "The include_object_ids and exclude_object_ids parameters are mutually exclusive."
             )
 
-        if type(include_sensors) == str:
+        if isinstance(include_sensors, str):
             include_sensors = [include_sensors]
         else:
             include_sensors = list(include_sensors)
 
-        if type(exclude_sensors) == str:
+        if isinstance(exclude_sensors, str):
             exclude_sensors = [exclude_sensors]
         else:
             exclude_sensors = list(exclude_sensors)
@@ -452,16 +452,16 @@ class Scene:
                         )
 
                     # Adds the annotation
-                    if type(ann) == Bbox:
+                    if isinstance(ann, Bbox):
                         filtered_scene.frames[frame.uid].objects[obj_uid].bboxs[ann.uid] = ann
 
-                    if type(ann) == Poly2d:
+                    if isinstance(ann, Poly2d):
                         filtered_scene.frames[frame.uid].objects[obj_uid].poly2ds[ann.uid] = ann
 
-                    if type(ann) == Cuboid:
+                    if isinstance(ann, Cuboid):
                         filtered_scene.frames[frame.uid].objects[obj_uid].cuboids[ann.uid] = ann
 
-                    if type(ann) == Seg3d:
+                    if isinstance(ann, Seg3d):
                         filtered_scene.frames[frame.uid].objects[obj_uid].seg3ds[ann.uid] = ann
 
                     # Stores the sensor name for adding it later

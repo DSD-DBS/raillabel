@@ -53,7 +53,7 @@ class Frame:
         annotations = {}
         for object in self.objects.values():
             for annotation_type in vars(object).values():
-                if type(annotation_type) == dict:
+                if isinstance(annotation_type, dict):
                     annotations.update(annotation_type)
 
         return annotations

@@ -75,37 +75,23 @@ class CoordinateSystem:
         # (self.parent, self.children), not implementing a custom __eq__() would raise a
         # RecursionError.
 
-        if not hasattr(other, "__dict__"):
+        self_dict = {k: v for k, v in vars(self).items()}
+
+        if self_dict["parent"] is not None:
+            self_dict["parent"] = self_dict["parent"].uid
+
+        if len(self_dict["children"]) > 0:
+            self_dict["children"] = set(self_dict["children"].keys())
+
+        other_dict = {k: v for k, v in vars(other).items()}
+
+        try:
+            if other_dict["parent"] is not None:
+                other_dict["parent"] = other_dict["parent"].uid
+
+            if len(other_dict["children"]) > 0:
+                other_dict["children"] = set(other_dict["children"].keys())
+        except KeyError:
             return False
 
-        if len(self.__dict__) != len(other.__dict__):
-            return False
-
-        for attr in self.__dict__:
-
-            if type(getattr(self, attr)) == type(self):
-                if getattr(self, attr).uid != getattr(other, attr).uid:
-                    return False
-
-            elif type(getattr(self, attr)) in [dict, list, tuple]:
-                for key in getattr(self, attr).keys():
-                    if type(getattr(self, attr)[key]) == type(self):
-
-                        try:
-                            if getattr(self, attr)[key].uid != getattr(other, attr)[key].uid:
-                                return False
-                        except KeyError:
-                            return False
-
-                    else:
-                        try:
-                            if getattr(self, attr)[key].uid != getattr(other, attr)[key].uid:
-                                return False
-                        except KeyError:
-                            return False
-
-            else:
-                if getattr(self, attr) != getattr(other, attr):
-                    return False
-
-        return True
+        return self_dict == other_dict

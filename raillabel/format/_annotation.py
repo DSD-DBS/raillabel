@@ -144,8 +144,8 @@ class _Annotation(ABC):
 
                 else:
                     raise TypeError(
-                        f"Attribute type {type(attr_value)} of {attr_value} is not supported. "
-                        + "Supported types are str, float, int, bool, list, tuple."
+                        f"Attribute type {attr_value.__class__.__name__} of {attr_value} is not "
+                        + "supported. Supported types are str, float, int, bool, list, tuple."
                     )
 
                 if attr_type not in dict_repr["attributes"]:
@@ -174,5 +174,3 @@ class _Annotation(ABC):
         for field in self._REQ_FIELDS:
             if getattr(self, field) is None:
                 raise TypeError(f"{field} is a required argument for {self.__class__.__name__}")
-
-    pass

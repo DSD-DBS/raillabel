@@ -9,9 +9,7 @@ from ..format import Scene
 from .validate import validate as validate_func
 
 
-def save(
-    scene: Scene, path: str, prettify_json: bool = False, validate: bool = True
-):
+def save(scene: Scene, path: str, prettify_json: bool = False, validate: bool = True):
     """Save a raillabel.Scene in a JSON file.
 
     Parameters
@@ -74,8 +72,6 @@ def save(
         else:
             json.dump(data, save_file)
 
-    pass
-
 
 def _add_object_data_pointers(data: dict, scene: Scene) -> dict:
     """Add object frame intervals and object_data_pointers to the JSON-data.
@@ -113,9 +109,7 @@ def _add_object_data_pointers(data: dict, scene: Scene) -> dict:
 
             else:
                 if (
-                    object_frame_intervals[object_id]["frame_intervals"][-1][
-                        "frame_end"
-                    ]
+                    object_frame_intervals[object_id]["frame_intervals"][-1]["frame_end"]
                     == frame.uid - 1
                 ):
                     object_frame_intervals[object_id]["frame_intervals"][-1][
@@ -123,9 +117,7 @@ def _add_object_data_pointers(data: dict, scene: Scene) -> dict:
                     ] = frame.uid
 
                 else:
-                    object_frame_intervals[object_id][
-                        "frame_intervals"
-                    ].append(
+                    object_frame_intervals[object_id]["frame_intervals"].append(
                         {
                             "frame_start": frame.uid,
                             "frame_end": frame.uid,
@@ -137,15 +129,8 @@ def _add_object_data_pointers(data: dict, scene: Scene) -> dict:
 
             object_id = annotation.object_annotations.object.uid
 
-            if (
-                annotation.name
-                not in object_frame_intervals[object_id][
-                    "object_data_pointers"
-                ]
-            ):
-                object_frame_intervals[object_id]["object_data_pointers"][
-                    annotation.name
-                ] = {
+            if annotation.name not in object_frame_intervals[object_id]["object_data_pointers"]:
+                object_frame_intervals[object_id]["object_data_pointers"][annotation.name] = {
                     "frame_intervals": [
                         {
                             "frame_start": frame.uid,
@@ -156,19 +141,19 @@ def _add_object_data_pointers(data: dict, scene: Scene) -> dict:
 
             else:
                 if (
-                    object_frame_intervals[object_id]["object_data_pointers"][
-                        annotation.name
-                    ]["frame_intervals"][-1]["frame_end"]
+                    object_frame_intervals[object_id]["object_data_pointers"][annotation.name][
+                        "frame_intervals"
+                    ][-1]["frame_end"]
                     >= frame.uid - 1
                 ):
-                    object_frame_intervals[object_id]["object_data_pointers"][
-                        annotation.name
-                    ]["frame_intervals"][-1]["frame_end"] = frame.uid
+                    object_frame_intervals[object_id]["object_data_pointers"][annotation.name][
+                        "frame_intervals"
+                    ][-1]["frame_end"] = frame.uid
 
                 else:
-                    object_frame_intervals[object_id]["object_data_pointers"][
-                        annotation.name
-                    ]["frame_intervals"].append(
+                    object_frame_intervals[object_id]["object_data_pointers"][annotation.name][
+                        "frame_intervals"
+                    ].append(
                         {
                             "frame_start": frame.uid,
                             "frame_end": frame.uid,
