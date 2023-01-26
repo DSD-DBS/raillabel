@@ -55,7 +55,7 @@ def validate(data: dict, schema_path: str = "openlabel_v1") -> Tuple[bool, List[
 
         elif len(applicable_local_schemas) == 0:  # if no applicable files have been found
 
-            err_msg = f"The key {schema_path} does not apply to any files in /io/schemas. Available schema files:"
+            err_msg = f"The key {schema_path} does not apply to a schema. Available schema files:"
             for p in local_schemas:
                 err_msg += "\n - " + p
 
