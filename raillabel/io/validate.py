@@ -74,8 +74,8 @@ def validate(data: dict, schema_path: str = "openlabel_v1") -> Tuple[bool, List[
         with schema_path.open() as schema_file:
             schema = json.load(schema_file)
 
-    except FileNotFoundError:
-        raise FileNotFoundError(f"The schema file could not be found in {schema_path}")
+    except FileNotFoundError as e:
+        raise FileNotFoundError(f"The schema file could not be found in {schema_path}") from e
 
     # Validates the data
     validator = jsonschema.Draft7Validator(schema=schema)
