@@ -42,9 +42,7 @@ class Frame:
     timestamp: decimal.Decimal = None
     streams: typing.Dict[str, StreamReference] = field(default_factory=dict)
     data: typing.Dict[str, Num] = field(default_factory=dict)
-    objects: typing.Dict[uuid.UUID, ObjectAnnotations] = field(
-        default_factory=dict
-    )
+    objects: typing.Dict[uuid.UUID, ObjectAnnotations] = field(default_factory=dict)
 
     @property
     def annotations(self) -> typing.Dict[uuid.UUID, typing.Any]:
@@ -76,10 +74,10 @@ class Frame:
 
         dict_repr = {}
 
-        if self.timestamp != None or self.streams != {}:
+        if self.timestamp is not None or self.streams != {}:
             dict_repr["frame_properties"] = {}
 
-        if self.timestamp != None:
+        if self.timestamp is not None:
             dict_repr["frame_properties"]["timestamp"] = str(self.timestamp)
 
         if self.streams != {}:
@@ -93,9 +91,7 @@ class Frame:
             }
 
         if self.objects != {}:
-            dict_repr["objects"] = {
-                str(k): v.asdict() for k, v in self.objects.items()
-            }
+            dict_repr["objects"] = {str(k): v.asdict() for k, v in self.objects.items()}
 
         return dict_repr
 

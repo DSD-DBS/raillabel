@@ -22,9 +22,7 @@ def test_supports_true(openlabel_v1_short_data, loader):
 
 
 def test_supports_false(openlabel_v1_short_data, loader):
-    openlabel_v1_short_data["openlabel"]["metadata"][
-        "schema_version"
-    ] = "2.0.0"
+    openlabel_v1_short_data["openlabel"]["metadata"]["schema_version"] = "2.0.0"
     assert not loader.supports(openlabel_v1_short_data)
 
 
@@ -112,62 +110,43 @@ def test_load_coordinate_systems(openlabel_v1_short_data, loader):
     assert "base" in scene.coordinate_systems
     assert scene.coordinate_systems["base"].uid == "base"
     assert scene.coordinate_systems["base"].type == "local"
-    assert scene.coordinate_systems["base"].parent == None
+    assert scene.coordinate_systems["base"].parent is None
     assert scene.coordinate_systems["base"].children == {
         "rgb_middle": scene.coordinate_systems["rgb_middle"],
         "ir_middle": scene.coordinate_systems["ir_middle"],
         "lidar": scene.coordinate_systems["lidar"],
     }
-    assert scene.coordinate_systems["base"].transform == None
+    assert scene.coordinate_systems["base"].transform is None
 
     assert "rgb_middle" in scene.coordinate_systems
     assert scene.coordinate_systems["rgb_middle"].uid == "rgb_middle"
     assert scene.coordinate_systems["rgb_middle"].type == "sensor"
-    assert (
-        scene.coordinate_systems["rgb_middle"].parent
-        == scene.coordinate_systems["base"]
-    )
+    assert scene.coordinate_systems["rgb_middle"].parent == scene.coordinate_systems["base"]
     assert scene.coordinate_systems["rgb_middle"].children == {}
-    assert scene.coordinate_systems[
-        "rgb_middle"
-    ].transform.pos == raillabel.format.Point3d(0, 1, 2)
-    assert scene.coordinate_systems[
-        "rgb_middle"
-    ].transform.quat == raillabel.format.Quaternion(
+    assert scene.coordinate_systems["rgb_middle"].transform.pos == raillabel.format.Point3d(0, 1, 2)
+    assert scene.coordinate_systems["rgb_middle"].transform.quat == raillabel.format.Quaternion(
         0.97518507, -0.18529384, -0.05469746, -0.10811315
     )
 
     assert "ir_middle" in scene.coordinate_systems
     assert scene.coordinate_systems["ir_middle"].uid == "ir_middle"
     assert scene.coordinate_systems["ir_middle"].type == "sensor"
-    assert (
-        scene.coordinate_systems["ir_middle"].parent
-        == scene.coordinate_systems["base"]
-    )
+    assert scene.coordinate_systems["ir_middle"].parent == scene.coordinate_systems["base"]
     assert scene.coordinate_systems["ir_middle"].children == {}
-    assert scene.coordinate_systems[
-        "ir_middle"
-    ].transform.pos == raillabel.format.Point3d(0, 2, 1)
-    assert scene.coordinate_systems[
-        "ir_middle"
-    ].transform.quat == raillabel.format.Quaternion(
+    assert scene.coordinate_systems["ir_middle"].transform.pos == raillabel.format.Point3d(0, 2, 1)
+    assert scene.coordinate_systems["ir_middle"].transform.quat == raillabel.format.Quaternion(
         -0.64984101, -0.72563166, 0.18784818, -0.12600959
     )
 
     assert "lidar" in scene.coordinate_systems
     assert scene.coordinate_systems["lidar"].uid == "lidar"
     assert scene.coordinate_systems["lidar"].type == "sensor"
-    assert (
-        scene.coordinate_systems["lidar"].parent
-        == scene.coordinate_systems["base"]
-    )
+    assert scene.coordinate_systems["lidar"].parent == scene.coordinate_systems["base"]
     assert scene.coordinate_systems["lidar"].children == {}
-    assert scene.coordinate_systems[
-        "lidar"
-    ].transform.pos == raillabel.format.Point3d(0, 0, 0)
-    assert scene.coordinate_systems[
-        "lidar"
-    ].transform.quat == raillabel.format.Quaternion(0, 0, 0, 1)
+    assert scene.coordinate_systems["lidar"].transform.pos == raillabel.format.Point3d(0, 0, 0)
+    assert scene.coordinate_systems["lidar"].transform.quat == raillabel.format.Quaternion(
+        0, 0, 0, 1
+    )
 
 
 def test_load_objects(openlabel_v1_short_data, loader):
@@ -185,39 +164,24 @@ def test_load_objects(openlabel_v1_short_data, loader):
         scene.objects["b40ba3ad-0327-46ff-9c28-2506cfd6d934"].uid
         == "b40ba3ad-0327-46ff-9c28-2506cfd6d934"
     )
-    assert (
-        scene.objects["b40ba3ad-0327-46ff-9c28-2506cfd6d934"].name
-        == "person_0000"
-    )
-    assert (
-        scene.objects["b40ba3ad-0327-46ff-9c28-2506cfd6d934"].type == "person"
-    )
+    assert scene.objects["b40ba3ad-0327-46ff-9c28-2506cfd6d934"].name == "person_0000"
+    assert scene.objects["b40ba3ad-0327-46ff-9c28-2506cfd6d934"].type == "person"
 
     assert "6fe55546-0dd7-4e40-b6b4-bb7ea3445772" in scene.objects
     assert (
         scene.objects["6fe55546-0dd7-4e40-b6b4-bb7ea3445772"].uid
         == "6fe55546-0dd7-4e40-b6b4-bb7ea3445772"
     )
-    assert (
-        scene.objects["6fe55546-0dd7-4e40-b6b4-bb7ea3445772"].name
-        == "person_0001"
-    )
-    assert (
-        scene.objects["6fe55546-0dd7-4e40-b6b4-bb7ea3445772"].type == "person"
-    )
+    assert scene.objects["6fe55546-0dd7-4e40-b6b4-bb7ea3445772"].name == "person_0001"
+    assert scene.objects["6fe55546-0dd7-4e40-b6b4-bb7ea3445772"].type == "person"
 
     assert "22dedd49-6dcb-413b-87ef-00ccfb532e98" in scene.objects
     assert (
         scene.objects["22dedd49-6dcb-413b-87ef-00ccfb532e98"].uid
         == "22dedd49-6dcb-413b-87ef-00ccfb532e98"
     )
-    assert (
-        scene.objects["22dedd49-6dcb-413b-87ef-00ccfb532e98"].name
-        == "train_0000"
-    )
-    assert (
-        scene.objects["22dedd49-6dcb-413b-87ef-00ccfb532e98"].type == "train"
-    )
+    assert scene.objects["22dedd49-6dcb-413b-87ef-00ccfb532e98"].name == "train_0000"
+    assert scene.objects["22dedd49-6dcb-413b-87ef-00ccfb532e98"].type == "train"
 
 
 def test_load_frame0_metadata(openlabel_v1_short_data, loader):
@@ -228,54 +192,32 @@ def test_load_frame0_metadata(openlabel_v1_short_data, loader):
 
     assert len(scene.frames[0].streams) == 3
     assert "rgb_middle" in scene.frames[0].streams
-    assert (
-        scene.frames[0].streams["rgb_middle"].stream
-        == scene.streams["rgb_middle"]
-    )
+    assert scene.frames[0].streams["rgb_middle"].stream == scene.streams["rgb_middle"]
     assert scene.frames[0].streams["rgb_middle"].timestamp == decimal.Decimal(
         "1632321743.100000072"
     )
     assert scene.frames[0].streams["rgb_middle"].uri == "rgb_test0.png"
     assert "ir_middle" in scene.frames[0].streams
-    assert (
-        scene.frames[0].streams["ir_middle"].stream
-        == scene.streams["ir_middle"]
-    )
-    assert scene.frames[0].streams["ir_middle"].timestamp == decimal.Decimal(
-        "1632321743.106000004"
-    )
+    assert scene.frames[0].streams["ir_middle"].stream == scene.streams["ir_middle"]
+    assert scene.frames[0].streams["ir_middle"].timestamp == decimal.Decimal("1632321743.106000004")
     assert scene.frames[0].streams["ir_middle"].uri == "ir_test0.png"
     assert "lidar" in scene.frames[0].streams
     assert scene.frames[0].streams["lidar"].stream == scene.streams["lidar"]
-    assert scene.frames[0].streams["lidar"].timestamp == decimal.Decimal(
-        "1632321743.134149"
-    )
+    assert scene.frames[0].streams["lidar"].timestamp == decimal.Decimal("1632321743.134149")
     assert scene.frames[0].streams["lidar"].uri == "lidar_test0.pcd"
 
     assert len(scene.frames[0].data) == 2
     assert "test_frame_data0" in scene.frames[0].data
-    assert (
-        scene.frames[0].data["test_frame_data0"].uid
-        == "a06fe567-29c7-475b-92a4-fbca64e671a7"
-    )
-    assert (
-        scene.frames[0].data["a06fe567-29c7-475b-92a4-fbca64e671a7"].name
-        == "test_frame_data0"
-    )
+    assert scene.frames[0].data["test_frame_data0"].uid == "a06fe567-29c7-475b-92a4-fbca64e671a7"
+    assert scene.frames[0].data["a06fe567-29c7-475b-92a4-fbca64e671a7"].name == "test_frame_data0"
     assert scene.frames[0].data["test_frame_data0"].val == 53.1
     assert (
         scene.frames[0].data["test_frame_data0"].coordinate_system
         == scene.coordinate_systems["rgb_middle"]
     )
     assert "test_frame_data1" in scene.frames[0].data
-    assert (
-        scene.frames[0].data["test_frame_data1"].uid
-        == "4bb95df7-a051-48a9-b77e-72f27ca43f64"
-    )
-    assert (
-        scene.frames[0].data["4bb95df7-a051-48a9-b77e-72f27ca43f64"].name
-        == "test_frame_data1"
-    )
+    assert scene.frames[0].data["test_frame_data1"].uid == "4bb95df7-a051-48a9-b77e-72f27ca43f64"
+    assert scene.frames[0].data["4bb95df7-a051-48a9-b77e-72f27ca43f64"].name == "test_frame_data1"
     assert scene.frames[0].data["test_frame_data1"].val == 10
     assert (
         scene.frames[0].data["test_frame_data1"].coordinate_system
@@ -293,20 +235,11 @@ def test_load_frame0_metadata(openlabel_v1_short_data, loader):
 def test_load_frame0_bboxs(openlabel_v1_short_data, loader):
     scene = loader.load(openlabel_v1_short_data)
 
-    assert (
-        len(
-            scene.frames[0]
-            .objects["b40ba3ad-0327-46ff-9c28-2506cfd6d934"]
-            .bboxs
-        )
-        == 2
-    )
+    assert len(scene.frames[0].objects["b40ba3ad-0327-46ff-9c28-2506cfd6d934"].bboxs) == 2
 
     assert (
         "78f0ad89-2750-4a30-9d66-44c9da73a714"
-        in scene.frames[0]
-        .objects["b40ba3ad-0327-46ff-9c28-2506cfd6d934"]
-        .bboxs
+        in scene.frames[0].objects["b40ba3ad-0327-46ff-9c28-2506cfd6d934"].bboxs
     )
     assert (
         scene.frames[0]
@@ -370,9 +303,9 @@ def test_load_frame0_bboxs(openlabel_v1_short_data, loader):
         .coordinate_system
         == scene.coordinate_systems["rgb_middle"]
     )
-    assert scene.frames[0].objects[
-        "b40ba3ad-0327-46ff-9c28-2506cfd6d934"
-    ].bboxs["78f0ad89-2750-4a30-9d66-44c9da73a714"].attributes == {
+    assert scene.frames[0].objects["b40ba3ad-0327-46ff-9c28-2506cfd6d934"].bboxs[
+        "78f0ad89-2750-4a30-9d66-44c9da73a714"
+    ].attributes == {
         "test_text_attr0": "test_text_attr0_val",
         "test_text_attr1": "test_text_attr1_val",
         "test_num_attr0": 0,
@@ -385,9 +318,7 @@ def test_load_frame0_bboxs(openlabel_v1_short_data, loader):
 
     assert (
         "68b4e02c-40c8-4de0-89ad-bc00ed05a043"
-        in scene.frames[0]
-        .objects["b40ba3ad-0327-46ff-9c28-2506cfd6d934"]
-        .bboxs
+        in scene.frames[0].objects["b40ba3ad-0327-46ff-9c28-2506cfd6d934"].bboxs
     )
     assert (
         scene.frames[0]
@@ -451,30 +382,19 @@ def test_load_frame0_bboxs(openlabel_v1_short_data, loader):
         .coordinate_system
         == scene.coordinate_systems["ir_middle"]
     )
-    assert scene.frames[0].objects[
-        "b40ba3ad-0327-46ff-9c28-2506cfd6d934"
-    ].bboxs["68b4e02c-40c8-4de0-89ad-bc00ed05a043"].attributes == {
-        "test_bool_attr0": False
-    }
+    assert scene.frames[0].objects["b40ba3ad-0327-46ff-9c28-2506cfd6d934"].bboxs[
+        "68b4e02c-40c8-4de0-89ad-bc00ed05a043"
+    ].attributes == {"test_bool_attr0": False}
 
 
 def test_load_frame0_poly2ds(openlabel_v1_short_data, loader):
     scene = loader.load(openlabel_v1_short_data)
 
-    assert (
-        len(
-            scene.frames[0]
-            .objects["b40ba3ad-0327-46ff-9c28-2506cfd6d934"]
-            .poly2ds
-        )
-        == 2
-    )
+    assert len(scene.frames[0].objects["b40ba3ad-0327-46ff-9c28-2506cfd6d934"].poly2ds) == 2
 
     assert (
         "bebfbae4-61a2-4758-993c-efa846b050a5"
-        in scene.frames[0]
-        .objects["b40ba3ad-0327-46ff-9c28-2506cfd6d934"]
-        .poly2ds
+        in scene.frames[0].objects["b40ba3ad-0327-46ff-9c28-2506cfd6d934"].poly2ds
     )
     assert (
         scene.frames[0]
@@ -519,20 +439,12 @@ def test_load_frame0_poly2ds(openlabel_v1_short_data, loader):
         )
         == 2
     )
-    assert scene.frames[0].objects[
-        "b40ba3ad-0327-46ff-9c28-2506cfd6d934"
-    ].poly2ds["bebfbae4-61a2-4758-993c-efa846b050a5"].points[
-        0
-    ] == raillabel.format.Point2d(
-        1, 2
-    )
-    assert scene.frames[0].objects[
-        "b40ba3ad-0327-46ff-9c28-2506cfd6d934"
-    ].poly2ds["bebfbae4-61a2-4758-993c-efa846b050a5"].points[
-        1
-    ] == raillabel.format.Point2d(
-        3, 4
-    )
+    assert scene.frames[0].objects["b40ba3ad-0327-46ff-9c28-2506cfd6d934"].poly2ds[
+        "bebfbae4-61a2-4758-993c-efa846b050a5"
+    ].points[0] == raillabel.format.Point2d(1, 2)
+    assert scene.frames[0].objects["b40ba3ad-0327-46ff-9c28-2506cfd6d934"].poly2ds[
+        "bebfbae4-61a2-4758-993c-efa846b050a5"
+    ].points[1] == raillabel.format.Point2d(3, 4)
     assert (
         scene.frames[0]
         .objects["b40ba3ad-0327-46ff-9c28-2506cfd6d934"]
@@ -547,9 +459,9 @@ def test_load_frame0_poly2ds(openlabel_v1_short_data, loader):
         .coordinate_system
         == scene.coordinate_systems["rgb_middle"]
     )
-    assert scene.frames[0].objects[
-        "b40ba3ad-0327-46ff-9c28-2506cfd6d934"
-    ].poly2ds["bebfbae4-61a2-4758-993c-efa846b050a5"].attributes == {
+    assert scene.frames[0].objects["b40ba3ad-0327-46ff-9c28-2506cfd6d934"].poly2ds[
+        "bebfbae4-61a2-4758-993c-efa846b050a5"
+    ].attributes == {
         "test_text_attr0": "test_text_attr0_val",
         "test_text_attr1": "test_text_attr1_val",
         "test_num_attr0": 0,
@@ -562,9 +474,7 @@ def test_load_frame0_poly2ds(openlabel_v1_short_data, loader):
 
     assert (
         "3f63201c-fb33-4487-aff6-ae0aa5fa976c"
-        in scene.frames[0]
-        .objects["b40ba3ad-0327-46ff-9c28-2506cfd6d934"]
-        .poly2ds
+        in scene.frames[0].objects["b40ba3ad-0327-46ff-9c28-2506cfd6d934"].poly2ds
     )
     assert (
         scene.frames[0]
@@ -609,34 +519,18 @@ def test_load_frame0_poly2ds(openlabel_v1_short_data, loader):
         )
         == 4
     )
-    assert scene.frames[0].objects[
-        "b40ba3ad-0327-46ff-9c28-2506cfd6d934"
-    ].poly2ds["3f63201c-fb33-4487-aff6-ae0aa5fa976c"].points[
-        0
-    ] == raillabel.format.Point2d(
-        7, 6
-    )
-    assert scene.frames[0].objects[
-        "b40ba3ad-0327-46ff-9c28-2506cfd6d934"
-    ].poly2ds["3f63201c-fb33-4487-aff6-ae0aa5fa976c"].points[
-        1
-    ] == raillabel.format.Point2d(
-        5, 4
-    )
-    assert scene.frames[0].objects[
-        "b40ba3ad-0327-46ff-9c28-2506cfd6d934"
-    ].poly2ds["3f63201c-fb33-4487-aff6-ae0aa5fa976c"].points[
-        2
-    ] == raillabel.format.Point2d(
-        3, 2
-    )
-    assert scene.frames[0].objects[
-        "b40ba3ad-0327-46ff-9c28-2506cfd6d934"
-    ].poly2ds["3f63201c-fb33-4487-aff6-ae0aa5fa976c"].points[
-        3
-    ] == raillabel.format.Point2d(
-        1, 0
-    )
+    assert scene.frames[0].objects["b40ba3ad-0327-46ff-9c28-2506cfd6d934"].poly2ds[
+        "3f63201c-fb33-4487-aff6-ae0aa5fa976c"
+    ].points[0] == raillabel.format.Point2d(7, 6)
+    assert scene.frames[0].objects["b40ba3ad-0327-46ff-9c28-2506cfd6d934"].poly2ds[
+        "3f63201c-fb33-4487-aff6-ae0aa5fa976c"
+    ].points[1] == raillabel.format.Point2d(5, 4)
+    assert scene.frames[0].objects["b40ba3ad-0327-46ff-9c28-2506cfd6d934"].poly2ds[
+        "3f63201c-fb33-4487-aff6-ae0aa5fa976c"
+    ].points[2] == raillabel.format.Point2d(3, 2)
+    assert scene.frames[0].objects["b40ba3ad-0327-46ff-9c28-2506cfd6d934"].poly2ds[
+        "3f63201c-fb33-4487-aff6-ae0aa5fa976c"
+    ].points[3] == raillabel.format.Point2d(1, 0)
     assert (
         scene.frames[0]
         .objects["b40ba3ad-0327-46ff-9c28-2506cfd6d934"]
@@ -651,30 +545,19 @@ def test_load_frame0_poly2ds(openlabel_v1_short_data, loader):
         .coordinate_system
         == scene.coordinate_systems["ir_middle"]
     )
-    assert scene.frames[0].objects[
-        "b40ba3ad-0327-46ff-9c28-2506cfd6d934"
-    ].poly2ds["3f63201c-fb33-4487-aff6-ae0aa5fa976c"].attributes == {
-        "test_bool_attr0": False
-    }
+    assert scene.frames[0].objects["b40ba3ad-0327-46ff-9c28-2506cfd6d934"].poly2ds[
+        "3f63201c-fb33-4487-aff6-ae0aa5fa976c"
+    ].attributes == {"test_bool_attr0": False}
 
 
 def test_load_frame0_cuboids(openlabel_v1_short_data, loader):
     scene = loader.load(openlabel_v1_short_data)
 
-    assert (
-        len(
-            scene.frames[0]
-            .objects["b40ba3ad-0327-46ff-9c28-2506cfd6d934"]
-            .cuboids
-        )
-        == 2
-    )
+    assert len(scene.frames[0].objects["b40ba3ad-0327-46ff-9c28-2506cfd6d934"].cuboids) == 2
 
     assert (
         "dc2be700-8ee4-45c4-9256-920b5d55c917"
-        in scene.frames[0]
-        .objects["b40ba3ad-0327-46ff-9c28-2506cfd6d934"]
-        .cuboids
+        in scene.frames[0].objects["b40ba3ad-0327-46ff-9c28-2506cfd6d934"].cuboids
     )
     assert (
         scene.frames[0]
@@ -780,9 +663,9 @@ def test_load_frame0_cuboids(openlabel_v1_short_data, loader):
         .coordinate_system
         == scene.coordinate_systems["lidar"]
     )
-    assert scene.frames[0].objects[
-        "b40ba3ad-0327-46ff-9c28-2506cfd6d934"
-    ].cuboids["dc2be700-8ee4-45c4-9256-920b5d55c917"].attributes == {
+    assert scene.frames[0].objects["b40ba3ad-0327-46ff-9c28-2506cfd6d934"].cuboids[
+        "dc2be700-8ee4-45c4-9256-920b5d55c917"
+    ].attributes == {
         "test_text_attr0": "test_text_attr0_val",
         "test_text_attr1": "test_text_attr1_val",
         "test_num_attr0": 0,
@@ -795,9 +678,7 @@ def test_load_frame0_cuboids(openlabel_v1_short_data, loader):
 
     assert (
         "450ceb81-9778-4e63-bf89-42f3ed9f6747"
-        in scene.frames[0]
-        .objects["b40ba3ad-0327-46ff-9c28-2506cfd6d934"]
-        .cuboids
+        in scene.frames[0].objects["b40ba3ad-0327-46ff-9c28-2506cfd6d934"].cuboids
     )
     assert (
         scene.frames[0]
@@ -903,30 +784,19 @@ def test_load_frame0_cuboids(openlabel_v1_short_data, loader):
         .coordinate_system
         == scene.coordinate_systems["lidar"]
     )
-    assert scene.frames[0].objects[
-        "b40ba3ad-0327-46ff-9c28-2506cfd6d934"
-    ].cuboids["450ceb81-9778-4e63-bf89-42f3ed9f6747"].attributes == {
-        "test_bool_attr0": False
-    }
+    assert scene.frames[0].objects["b40ba3ad-0327-46ff-9c28-2506cfd6d934"].cuboids[
+        "450ceb81-9778-4e63-bf89-42f3ed9f6747"
+    ].attributes == {"test_bool_attr0": False}
 
 
 def test_load_frame0_seg3ds(openlabel_v1_short_data, loader):
     scene = loader.load(openlabel_v1_short_data)
 
-    assert (
-        len(
-            scene.frames[0]
-            .objects["b40ba3ad-0327-46ff-9c28-2506cfd6d934"]
-            .seg3ds
-        )
-        == 2
-    )
+    assert len(scene.frames[0].objects["b40ba3ad-0327-46ff-9c28-2506cfd6d934"].seg3ds) == 2
 
     assert (
         "c1087f1d-7271-4dee-83ad-519a4e3b78a8"
-        in scene.frames[0]
-        .objects["b40ba3ad-0327-46ff-9c28-2506cfd6d934"]
-        .seg3ds
+        in scene.frames[0].objects["b40ba3ad-0327-46ff-9c28-2506cfd6d934"].seg3ds
     )
     assert (
         scene.frames[0]
@@ -948,11 +818,9 @@ def test_load_frame0_seg3ds(openlabel_v1_short_data, loader):
         .name
         == "general"
     )
-    assert scene.frames[0].objects[
-        "b40ba3ad-0327-46ff-9c28-2506cfd6d934"
-    ].seg3ds["c1087f1d-7271-4dee-83ad-519a4e3b78a8"].point_ids == list(
-        range(10)
-    )
+    assert scene.frames[0].objects["b40ba3ad-0327-46ff-9c28-2506cfd6d934"].seg3ds[
+        "c1087f1d-7271-4dee-83ad-519a4e3b78a8"
+    ].point_ids == list(range(10))
     assert (
         scene.frames[0]
         .objects["b40ba3ad-0327-46ff-9c28-2506cfd6d934"]
@@ -967,9 +835,9 @@ def test_load_frame0_seg3ds(openlabel_v1_short_data, loader):
         .coordinate_system
         == scene.coordinate_systems["lidar"]
     )
-    assert scene.frames[0].objects[
-        "b40ba3ad-0327-46ff-9c28-2506cfd6d934"
-    ].seg3ds["c1087f1d-7271-4dee-83ad-519a4e3b78a8"].attributes == {
+    assert scene.frames[0].objects["b40ba3ad-0327-46ff-9c28-2506cfd6d934"].seg3ds[
+        "c1087f1d-7271-4dee-83ad-519a4e3b78a8"
+    ].attributes == {
         "test_text_attr0": "test_text_attr0_val",
         "test_text_attr1": "test_text_attr1_val",
         "test_num_attr0": 0,
@@ -982,9 +850,7 @@ def test_load_frame0_seg3ds(openlabel_v1_short_data, loader):
 
     assert (
         "50be7fe3-1f43-47ca-b65a-930e6cfacfeb"
-        in scene.frames[0]
-        .objects["b40ba3ad-0327-46ff-9c28-2506cfd6d934"]
-        .seg3ds
+        in scene.frames[0].objects["b40ba3ad-0327-46ff-9c28-2506cfd6d934"].seg3ds
     )
     assert (
         scene.frames[0]
@@ -1006,11 +872,9 @@ def test_load_frame0_seg3ds(openlabel_v1_short_data, loader):
         .name
         == "general"
     )
-    assert scene.frames[0].objects[
-        "b40ba3ad-0327-46ff-9c28-2506cfd6d934"
-    ].seg3ds["50be7fe3-1f43-47ca-b65a-930e6cfacfeb"].point_ids == list(
-        reversed(range(10))
-    )
+    assert scene.frames[0].objects["b40ba3ad-0327-46ff-9c28-2506cfd6d934"].seg3ds[
+        "50be7fe3-1f43-47ca-b65a-930e6cfacfeb"
+    ].point_ids == list(reversed(range(10)))
     assert (
         scene.frames[0]
         .objects["b40ba3ad-0327-46ff-9c28-2506cfd6d934"]
@@ -1025,11 +889,9 @@ def test_load_frame0_seg3ds(openlabel_v1_short_data, loader):
         .coordinate_system
         == scene.coordinate_systems["lidar"]
     )
-    assert scene.frames[0].objects[
-        "b40ba3ad-0327-46ff-9c28-2506cfd6d934"
-    ].seg3ds["50be7fe3-1f43-47ca-b65a-930e6cfacfeb"].attributes == {
-        "test_bool_attr0": False
-    }
+    assert scene.frames[0].objects["b40ba3ad-0327-46ff-9c28-2506cfd6d934"].seg3ds[
+        "50be7fe3-1f43-47ca-b65a-930e6cfacfeb"
+    ].attributes == {"test_bool_attr0": False}
 
 
 def test_load_frame1_metadata(openlabel_v1_short_data, loader):
@@ -1040,54 +902,30 @@ def test_load_frame1_metadata(openlabel_v1_short_data, loader):
 
     assert len(scene.frames[1].streams) == 3
     assert "rgb_middle" in scene.frames[1].streams
-    assert (
-        scene.frames[1].streams["rgb_middle"].stream
-        == scene.streams["rgb_middle"]
-    )
-    assert scene.frames[1].streams["rgb_middle"].timestamp == decimal.Decimal(
-        "1632321743.2"
-    )
+    assert scene.frames[1].streams["rgb_middle"].stream == scene.streams["rgb_middle"]
+    assert scene.frames[1].streams["rgb_middle"].timestamp == decimal.Decimal("1632321743.2")
     assert scene.frames[1].streams["rgb_middle"].uri == "rgb_test1.png"
     assert "ir_middle" in scene.frames[1].streams
-    assert (
-        scene.frames[1].streams["ir_middle"].stream
-        == scene.streams["ir_middle"]
-    )
-    assert scene.frames[1].streams["ir_middle"].timestamp == decimal.Decimal(
-        "1632321743.208000004"
-    )
+    assert scene.frames[1].streams["ir_middle"].stream == scene.streams["ir_middle"]
+    assert scene.frames[1].streams["ir_middle"].timestamp == decimal.Decimal("1632321743.208000004")
     assert scene.frames[1].streams["ir_middle"].uri == "ir_test1.png"
     assert "lidar" in scene.frames[1].streams
     assert scene.frames[1].streams["lidar"].stream == scene.streams["lidar"]
-    assert scene.frames[1].streams["lidar"].timestamp == decimal.Decimal(
-        "1632321743.233263"
-    )
+    assert scene.frames[1].streams["lidar"].timestamp == decimal.Decimal("1632321743.233263")
     assert scene.frames[1].streams["lidar"].uri == "lidar_test1.pcd"
 
     assert len(scene.frames[1].data) == 2
     assert "test_frame_data0" in scene.frames[1].data
-    assert (
-        scene.frames[1].data["test_frame_data0"].uid
-        == "558697df-61f5-41b0-b112-3d6fcbd7d6c9"
-    )
-    assert (
-        scene.frames[1].data["558697df-61f5-41b0-b112-3d6fcbd7d6c9"].name
-        == "test_frame_data0"
-    )
+    assert scene.frames[1].data["test_frame_data0"].uid == "558697df-61f5-41b0-b112-3d6fcbd7d6c9"
+    assert scene.frames[1].data["558697df-61f5-41b0-b112-3d6fcbd7d6c9"].name == "test_frame_data0"
     assert scene.frames[1].data["test_frame_data0"].val == 53
     assert (
         scene.frames[1].data["test_frame_data0"].coordinate_system
         == scene.coordinate_systems["rgb_middle"]
     )
     assert "test_frame_data1" in scene.frames[1].data
-    assert (
-        scene.frames[1].data["test_frame_data1"].uid
-        == "843e07a0-aac5-4f62-8200-1468dbd3055d"
-    )
-    assert (
-        scene.frames[1].data["843e07a0-aac5-4f62-8200-1468dbd3055d"].name
-        == "test_frame_data1"
-    )
+    assert scene.frames[1].data["test_frame_data1"].uid == "843e07a0-aac5-4f62-8200-1468dbd3055d"
+    assert scene.frames[1].data["843e07a0-aac5-4f62-8200-1468dbd3055d"].name == "test_frame_data1"
     assert scene.frames[1].data["test_frame_data1"].val == 10.1
     assert (
         scene.frames[1].data["test_frame_data1"].coordinate_system
@@ -1110,20 +948,11 @@ def test_load_frame1_metadata(openlabel_v1_short_data, loader):
 def test_load_frame1_bboxs(openlabel_v1_short_data, loader):
     scene = loader.load(openlabel_v1_short_data)
 
-    assert (
-        len(
-            scene.frames[1]
-            .objects["6fe55546-0dd7-4e40-b6b4-bb7ea3445772"]
-            .bboxs
-        )
-        == 2
-    )
+    assert len(scene.frames[1].objects["6fe55546-0dd7-4e40-b6b4-bb7ea3445772"].bboxs) == 2
 
     assert (
         "6ba42cbc-484e-4b8d-a022-b23c2bb6643c"
-        in scene.frames[1]
-        .objects["6fe55546-0dd7-4e40-b6b4-bb7ea3445772"]
-        .bboxs
+        in scene.frames[1].objects["6fe55546-0dd7-4e40-b6b4-bb7ea3445772"].bboxs
     )
     assert (
         scene.frames[1]
@@ -1187,9 +1016,9 @@ def test_load_frame1_bboxs(openlabel_v1_short_data, loader):
         .coordinate_system
         == scene.coordinate_systems["rgb_middle"]
     )
-    assert scene.frames[1].objects[
-        "6fe55546-0dd7-4e40-b6b4-bb7ea3445772"
-    ].bboxs["6ba42cbc-484e-4b8d-a022-b23c2bb6643c"].attributes == {
+    assert scene.frames[1].objects["6fe55546-0dd7-4e40-b6b4-bb7ea3445772"].bboxs[
+        "6ba42cbc-484e-4b8d-a022-b23c2bb6643c"
+    ].attributes == {
         "test_text_attr0": "test_text_attr0_val",
         "test_text_attr1": "test_text_attr1_val",
         "test_num_attr0": 0,
@@ -1202,9 +1031,7 @@ def test_load_frame1_bboxs(openlabel_v1_short_data, loader):
 
     assert (
         "5f28fa18-8f2a-4a40-a0b6-c0bbedc00f2e"
-        in scene.frames[1]
-        .objects["6fe55546-0dd7-4e40-b6b4-bb7ea3445772"]
-        .bboxs
+        in scene.frames[1].objects["6fe55546-0dd7-4e40-b6b4-bb7ea3445772"].bboxs
     )
     assert (
         scene.frames[1]
@@ -1268,30 +1095,19 @@ def test_load_frame1_bboxs(openlabel_v1_short_data, loader):
         .coordinate_system
         == scene.coordinate_systems["ir_middle"]
     )
-    assert scene.frames[1].objects[
-        "6fe55546-0dd7-4e40-b6b4-bb7ea3445772"
-    ].bboxs["5f28fa18-8f2a-4a40-a0b6-c0bbedc00f2e"].attributes == {
-        "test_bool_attr0": False
-    }
+    assert scene.frames[1].objects["6fe55546-0dd7-4e40-b6b4-bb7ea3445772"].bboxs[
+        "5f28fa18-8f2a-4a40-a0b6-c0bbedc00f2e"
+    ].attributes == {"test_bool_attr0": False}
 
 
 def test_load_frame1_poly2ds(openlabel_v1_short_data, loader):
     scene = loader.load(openlabel_v1_short_data)
 
-    assert (
-        len(
-            scene.frames[1]
-            .objects["6fe55546-0dd7-4e40-b6b4-bb7ea3445772"]
-            .poly2ds
-        )
-        == 1
-    )
+    assert len(scene.frames[1].objects["6fe55546-0dd7-4e40-b6b4-bb7ea3445772"].poly2ds) == 1
 
     assert (
         "e2503c5d-9fe4-4666-b510-ef644c5a766b"
-        in scene.frames[1]
-        .objects["6fe55546-0dd7-4e40-b6b4-bb7ea3445772"]
-        .poly2ds
+        in scene.frames[1].objects["6fe55546-0dd7-4e40-b6b4-bb7ea3445772"].poly2ds
     )
     assert (
         scene.frames[1]
@@ -1336,20 +1152,12 @@ def test_load_frame1_poly2ds(openlabel_v1_short_data, loader):
         )
         == 2
     )
-    assert scene.frames[1].objects[
-        "6fe55546-0dd7-4e40-b6b4-bb7ea3445772"
-    ].poly2ds["e2503c5d-9fe4-4666-b510-ef644c5a766b"].points[
-        0
-    ] == raillabel.format.Point2d(
-        1, 2
-    )
-    assert scene.frames[1].objects[
-        "6fe55546-0dd7-4e40-b6b4-bb7ea3445772"
-    ].poly2ds["e2503c5d-9fe4-4666-b510-ef644c5a766b"].points[
-        1
-    ] == raillabel.format.Point2d(
-        3, 4
-    )
+    assert scene.frames[1].objects["6fe55546-0dd7-4e40-b6b4-bb7ea3445772"].poly2ds[
+        "e2503c5d-9fe4-4666-b510-ef644c5a766b"
+    ].points[0] == raillabel.format.Point2d(1, 2)
+    assert scene.frames[1].objects["6fe55546-0dd7-4e40-b6b4-bb7ea3445772"].poly2ds[
+        "e2503c5d-9fe4-4666-b510-ef644c5a766b"
+    ].points[1] == raillabel.format.Point2d(3, 4)
     assert (
         scene.frames[1]
         .objects["6fe55546-0dd7-4e40-b6b4-bb7ea3445772"]
@@ -1364,9 +1172,9 @@ def test_load_frame1_poly2ds(openlabel_v1_short_data, loader):
         .coordinate_system
         == scene.coordinate_systems["rgb_middle"]
     )
-    assert scene.frames[1].objects[
-        "6fe55546-0dd7-4e40-b6b4-bb7ea3445772"
-    ].poly2ds["e2503c5d-9fe4-4666-b510-ef644c5a766b"].attributes == {
+    assert scene.frames[1].objects["6fe55546-0dd7-4e40-b6b4-bb7ea3445772"].poly2ds[
+        "e2503c5d-9fe4-4666-b510-ef644c5a766b"
+    ].attributes == {
         "test_text_attr0": "test_text_attr0_val",
         "test_text_attr1": "test_text_attr1_val",
         "test_num_attr0": 0,
@@ -1381,20 +1189,11 @@ def test_load_frame1_poly2ds(openlabel_v1_short_data, loader):
 def test_load_frame1_cuboids(openlabel_v1_short_data, loader):
     scene = loader.load(openlabel_v1_short_data)
 
-    assert (
-        len(
-            scene.frames[1]
-            .objects["22dedd49-6dcb-413b-87ef-00ccfb532e98"]
-            .cuboids
-        )
-        == 2
-    )
+    assert len(scene.frames[1].objects["22dedd49-6dcb-413b-87ef-00ccfb532e98"].cuboids) == 2
 
     assert (
         "536ac83a-32c8-4fce-8499-ef32716c64a6"
-        in scene.frames[1]
-        .objects["22dedd49-6dcb-413b-87ef-00ccfb532e98"]
-        .cuboids
+        in scene.frames[1].objects["22dedd49-6dcb-413b-87ef-00ccfb532e98"].cuboids
     )
     assert (
         scene.frames[1]
@@ -1500,9 +1299,9 @@ def test_load_frame1_cuboids(openlabel_v1_short_data, loader):
         .coordinate_system
         == scene.coordinate_systems["lidar"]
     )
-    assert scene.frames[1].objects[
-        "22dedd49-6dcb-413b-87ef-00ccfb532e98"
-    ].cuboids["536ac83a-32c8-4fce-8499-ef32716c64a6"].attributes == {
+    assert scene.frames[1].objects["22dedd49-6dcb-413b-87ef-00ccfb532e98"].cuboids[
+        "536ac83a-32c8-4fce-8499-ef32716c64a6"
+    ].attributes == {
         "test_text_attr0": "test_text_attr0_val",
         "test_text_attr1": "test_text_attr1_val",
         "test_num_attr0": 0,
@@ -1515,9 +1314,7 @@ def test_load_frame1_cuboids(openlabel_v1_short_data, loader):
 
     assert (
         "e53bd5e3-980a-4fa7-a0f9-5a2e59ba663c"
-        in scene.frames[1]
-        .objects["22dedd49-6dcb-413b-87ef-00ccfb532e98"]
-        .cuboids
+        in scene.frames[1].objects["22dedd49-6dcb-413b-87ef-00ccfb532e98"].cuboids
     )
     assert (
         scene.frames[1]
@@ -1623,30 +1420,19 @@ def test_load_frame1_cuboids(openlabel_v1_short_data, loader):
         .coordinate_system
         == scene.coordinate_systems["lidar"]
     )
-    assert scene.frames[1].objects[
-        "22dedd49-6dcb-413b-87ef-00ccfb532e98"
-    ].cuboids["e53bd5e3-980a-4fa7-a0f9-5a2e59ba663c"].attributes == {
-        "test_bool_attr0": False
-    }
+    assert scene.frames[1].objects["22dedd49-6dcb-413b-87ef-00ccfb532e98"].cuboids[
+        "e53bd5e3-980a-4fa7-a0f9-5a2e59ba663c"
+    ].attributes == {"test_bool_attr0": False}
 
 
 def test_load_frame1_seg3ds(openlabel_v1_short_data, loader):
     scene = loader.load(openlabel_v1_short_data)
 
-    assert (
-        len(
-            scene.frames[1]
-            .objects["22dedd49-6dcb-413b-87ef-00ccfb532e98"]
-            .seg3ds
-        )
-        == 2
-    )
+    assert len(scene.frames[1].objects["22dedd49-6dcb-413b-87ef-00ccfb532e98"].seg3ds) == 2
 
     assert (
         "550df2c3-0e66-483e-bcc6-f3013b7e581b"
-        in scene.frames[1]
-        .objects["22dedd49-6dcb-413b-87ef-00ccfb532e98"]
-        .seg3ds
+        in scene.frames[1].objects["22dedd49-6dcb-413b-87ef-00ccfb532e98"].seg3ds
     )
     assert (
         scene.frames[1]
@@ -1668,11 +1454,9 @@ def test_load_frame1_seg3ds(openlabel_v1_short_data, loader):
         .name
         == "general"
     )
-    assert scene.frames[1].objects[
-        "22dedd49-6dcb-413b-87ef-00ccfb532e98"
-    ].seg3ds["550df2c3-0e66-483e-bcc6-f3013b7e581b"].point_ids == list(
-        range(10)
-    )
+    assert scene.frames[1].objects["22dedd49-6dcb-413b-87ef-00ccfb532e98"].seg3ds[
+        "550df2c3-0e66-483e-bcc6-f3013b7e581b"
+    ].point_ids == list(range(10))
     assert (
         scene.frames[1]
         .objects["22dedd49-6dcb-413b-87ef-00ccfb532e98"]
@@ -1687,9 +1471,9 @@ def test_load_frame1_seg3ds(openlabel_v1_short_data, loader):
         .coordinate_system
         == scene.coordinate_systems["lidar"]
     )
-    assert scene.frames[1].objects[
-        "22dedd49-6dcb-413b-87ef-00ccfb532e98"
-    ].seg3ds["550df2c3-0e66-483e-bcc6-f3013b7e581b"].attributes == {
+    assert scene.frames[1].objects["22dedd49-6dcb-413b-87ef-00ccfb532e98"].seg3ds[
+        "550df2c3-0e66-483e-bcc6-f3013b7e581b"
+    ].attributes == {
         "test_text_attr0": "test_text_attr0_val",
         "test_text_attr1": "test_text_attr1_val",
         "test_num_attr0": 0,
@@ -1702,9 +1486,7 @@ def test_load_frame1_seg3ds(openlabel_v1_short_data, loader):
 
     assert (
         "12b21c52-06ea-4269-9805-e7167e7a74ed"
-        in scene.frames[1]
-        .objects["22dedd49-6dcb-413b-87ef-00ccfb532e98"]
-        .seg3ds
+        in scene.frames[1].objects["22dedd49-6dcb-413b-87ef-00ccfb532e98"].seg3ds
     )
     assert (
         scene.frames[1]
@@ -1726,11 +1508,9 @@ def test_load_frame1_seg3ds(openlabel_v1_short_data, loader):
         .name
         == "general"
     )
-    assert scene.frames[1].objects[
-        "22dedd49-6dcb-413b-87ef-00ccfb532e98"
-    ].seg3ds["12b21c52-06ea-4269-9805-e7167e7a74ed"].point_ids == list(
-        reversed(range(10))
-    )
+    assert scene.frames[1].objects["22dedd49-6dcb-413b-87ef-00ccfb532e98"].seg3ds[
+        "12b21c52-06ea-4269-9805-e7167e7a74ed"
+    ].point_ids == list(reversed(range(10)))
     assert (
         scene.frames[1]
         .objects["22dedd49-6dcb-413b-87ef-00ccfb532e98"]
@@ -1745,11 +1525,9 @@ def test_load_frame1_seg3ds(openlabel_v1_short_data, loader):
         .coordinate_system
         == scene.coordinate_systems["lidar"]
     )
-    assert scene.frames[1].objects[
-        "22dedd49-6dcb-413b-87ef-00ccfb532e98"
-    ].seg3ds["12b21c52-06ea-4269-9805-e7167e7a74ed"].attributes == {
-        "test_bool_attr0": False
-    }
+    assert scene.frames[1].objects["22dedd49-6dcb-413b-87ef-00ccfb532e98"].seg3ds[
+        "12b21c52-06ea-4269-9805-e7167e7a74ed"
+    ].attributes == {"test_bool_attr0": False}
 
 
 def test_load_uri_vcd_incompatible(
@@ -1768,13 +1546,11 @@ def test_load_uri_vcd_incompatible(
             for other_frame_data in list(scene.frames[frame_id].data):
                 if (
                     scene.frames[frame_id].data[other_frame_data].name
-                    == scene_ground_truth.frames[frame_id]
-                    .data[frame_data]
-                    .name
+                    == scene_ground_truth.frames[frame_id].data[frame_data].name
                 ):
-                    scene.frames[frame_id].data[frame_data] = scene.frames[
-                        frame_id
-                    ].data[other_frame_data]
+                    scene.frames[frame_id].data[frame_data] = scene.frames[frame_id].data[
+                        other_frame_data
+                    ]
                     del scene.frames[frame_id].data[other_frame_data]
                     scene.frames[frame_id].data[frame_data].uid = frame_data
                     break
@@ -1791,14 +1567,12 @@ def test_no_warnings(openlabel_v1_short_data, loader):
 
 
 def test_warnings_cs_parent(openlabel_v1_short_data, loader):
-    openlabel_v1_short_data["openlabel"]["coordinate_systems"]["lidar"][
-        "parent"
-    ] = "test_cs"
+    openlabel_v1_short_data["openlabel"]["coordinate_systems"]["lidar"]["parent"] = "test_cs"
 
     loader.load(openlabel_v1_short_data)
     assert len(loader.warnings) == 1
 
-    assert loader.scene.coordinate_systems["lidar"].parent == None
+    assert loader.scene.coordinate_systems["lidar"].parent is None
 
     # Tests for keywords in the warning that can help the user identify the source
     assert "coordinate system" in loader.warnings[0]
@@ -1808,9 +1582,7 @@ def test_warnings_cs_parent(openlabel_v1_short_data, loader):
 
 
 def test_warnings_cs_child(openlabel_v1_short_data, loader):
-    openlabel_v1_short_data["openlabel"]["coordinate_systems"]["base"][
-        "children"
-    ].append("test_cs")
+    openlabel_v1_short_data["openlabel"]["coordinate_systems"]["base"]["children"].append("test_cs")
 
     loader.load(openlabel_v1_short_data)
     assert len(loader.warnings) == 1
@@ -1825,19 +1597,14 @@ def test_warnings_cs_child(openlabel_v1_short_data, loader):
 
 
 def test_warnings_objects_cs(openlabel_v1_short_data, loader):
-    openlabel_v1_short_data["openlabel"]["objects"][
-        "b40ba3ad-0327-46ff-9c28-2506cfd6d934"
-    ]["coordinate_system"] = "test_cs"
+    openlabel_v1_short_data["openlabel"]["objects"]["b40ba3ad-0327-46ff-9c28-2506cfd6d934"][
+        "coordinate_system"
+    ] = "test_cs"
 
     loader.load(openlabel_v1_short_data)
     assert len(loader.warnings) == 1
 
-    assert (
-        loader.scene.objects[
-            "b40ba3ad-0327-46ff-9c28-2506cfd6d934"
-        ].coordinate_system
-        == None
-    )
+    assert loader.scene.objects["b40ba3ad-0327-46ff-9c28-2506cfd6d934"].coordinate_system is None
 
     # Tests for keywords in the warning that can help the user identify the source
     assert "coordinate system" in loader.warnings[0]
@@ -1847,9 +1614,9 @@ def test_warnings_objects_cs(openlabel_v1_short_data, loader):
 
 
 def test_warnings_stream_sync(openlabel_v1_short_data, loader):
-    openlabel_v1_short_data["openlabel"]["frames"]["0"]["frame_properties"][
-        "streams"
-    ]["test_stream"] = {}
+    openlabel_v1_short_data["openlabel"]["frames"]["0"]["frame_properties"]["streams"][
+        "test_stream"
+    ] = {}
 
     loader.load(openlabel_v1_short_data)
     assert len(loader.warnings) == 1
@@ -1869,10 +1636,7 @@ def test_warnings_ann_object(openlabel_v1_short_data, loader):
     loader.load(openlabel_v1_short_data)
     assert len(loader.warnings) == 1
 
-    assert (
-        not "affeaffe-0327-46ff-9c28-2506cfd6d934"
-        in loader.scene.frames[0].objects
-    )
+    assert not "affeaffe-0327-46ff-9c28-2506cfd6d934" in loader.scene.frames[0].objects
 
     # Tests for keywords in the warning that can help the user identify the source
     assert "frame" in loader.warnings[0]
@@ -1894,7 +1658,7 @@ def test_warnings_bbox_cs(openlabel_v1_short_data, loader):
         .objects["b40ba3ad-0327-46ff-9c28-2506cfd6d934"]
         .bboxs["78f0ad89-2750-4a30-9d66-44c9da73a714"]
         .coordinate_system
-        == None
+        is None
     )
 
     # Tests for keywords in the warning that can help the user identify the source
@@ -1917,7 +1681,7 @@ def test_warnings_poly2d_cs(openlabel_v1_short_data, loader):
         .objects["b40ba3ad-0327-46ff-9c28-2506cfd6d934"]
         .poly2ds["bebfbae4-61a2-4758-993c-efa846b050a5"]
         .coordinate_system
-        == None
+        is None
     )
 
     # Tests for keywords in the warning that can help the user identify the source
@@ -1940,7 +1704,7 @@ def test_warnings_cuboid_cs(openlabel_v1_short_data, loader):
         .objects["b40ba3ad-0327-46ff-9c28-2506cfd6d934"]
         .cuboids["dc2be700-8ee4-45c4-9256-920b5d55c917"]
         .coordinate_system
-        == None
+        is None
     )
 
     # Tests for keywords in the warning that can help the user identify the source
@@ -1963,7 +1727,7 @@ def test_warnings_seg3d_cs(openlabel_v1_short_data, loader):
         .objects["b40ba3ad-0327-46ff-9c28-2506cfd6d934"]
         .seg3ds["c1087f1d-7271-4dee-83ad-519a4e3b78a8"]
         .coordinate_system
-        == None
+        is None
     )
 
     # Tests for keywords in the warning that can help the user identify the source

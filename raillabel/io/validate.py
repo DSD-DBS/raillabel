@@ -11,9 +11,7 @@ import jsonschema
 from .. import exceptions
 
 
-def validate(
-    data: dict, schema_path: str = "openlabel_v1"
-) -> Tuple[bool, List[str]]:
+def validate(data: dict, schema_path: str = "openlabel_v1") -> Tuple[bool, List[str]]:
     """Validate JSON data represented by a dict via a given schema.
 
     Parameters
@@ -39,16 +37,12 @@ def validate(
     # options must be distinguished. It is therefore assumed, that a complete path contains at #
     # least one '/' or '\'.
 
-    if (
-        "/" in schema_path or "\\" in schema_path
-    ):  # if schema_path is a complete path
+    if "/" in schema_path or "\\" in schema_path:  # if schema_path is a complete path
         schema_path = Path(schema_path)
 
     else:  # if schema_path is a schema name in /io/schemas
         local_schemas = [  # list of json files in /io/schemas
-            p
-            for p in os.listdir(Path(__file__).parent / "schemas")
-            if p.endswith(".json")
+            p for p in os.listdir(Path(__file__).parent / "schemas") if p.endswith(".json")
         ]
 
         applicable_local_schemas = []  # list of possible schemas
@@ -56,16 +50,10 @@ def validate(
             if schema_path in local_schema_path:
                 applicable_local_schemas.append(local_schema_path)
 
-        if (
-            len(applicable_local_schemas) == 1
-        ):  # if exactly one applicable file has been found
-            schema_path = (
-                Path(__file__).parent / "schemas" / applicable_local_schemas[0]
-            )
+        if len(applicable_local_schemas) == 1:  # if exactly one applicable file has been found
+            schema_path = Path(__file__).parent / "schemas" / applicable_local_schemas[0]
 
-        elif (
-            len(applicable_local_schemas) == 0
-        ):  # if no applicable files have been found
+        elif len(applicable_local_schemas) == 0:  # if no applicable files have been found
 
             err_msg = f"The key {schema_path} does not apply to any files in /io/schemas. Available schema files:"
             for p in local_schemas:
@@ -87,18 +75,14 @@ def validate(
             schema = json.load(schema_file)
 
     except FileNotFoundError:
-        raise FileNotFoundError(
-            f"The schema file could not be found in {schema_path}"
-        )
+        raise FileNotFoundError(f"The schema file could not be found in {schema_path}")
 
     # Validates the data
     validator = jsonschema.Draft7Validator(schema=schema)
 
     schema_errors = []
     for error in validator.iter_errors(data):
-        schema_errors.append(
-            "$" + error.json_path[1:] + ": " + str(error.message)
-        )
+        schema_errors.append("$" + error.json_path[1:] + ": " + str(error.message))
 
     is_data_valid = len(schema_errors) == 0
 

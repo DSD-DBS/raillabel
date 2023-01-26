@@ -50,22 +50,22 @@ class Metadata:
 
         dict_repr = {"schema_version": str(self.schema_version)}
 
-        if self.annotator != None:
+        if self.annotator is not None:
             dict_repr["annotator"] = str(self.annotator)
 
-        if self.comment != None:
+        if self.comment is not None:
             dict_repr["comment"] = str(self.comment)
 
-        if self.file_version != None:
+        if self.file_version is not None:
             dict_repr["file_version"] = str(self.file_version)
 
-        if self.name != None:
+        if self.name is not None:
             dict_repr["name"] = str(self.name)
 
-        if self.tagged_file != None:
+        if self.tagged_file is not None:
             dict_repr["tagged_file"] = str(self.tagged_file)
 
-        if self.exporter_version != None:
+        if self.exporter_version is not None:
             dict_repr["exporter_version"] = str(self.exporter_version)
 
         return dict_repr

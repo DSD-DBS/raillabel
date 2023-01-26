@@ -49,12 +49,10 @@ class Object:
 
         dict_repr = {"name": str(self.name), "type": str(self.type)}
 
-        if self.coordinate_system != None:
+        if self.coordinate_system is not None:
             dict_repr["coordinate_system"] = str(self.coordinate_system.uid)
 
         if self.frame_intervals != []:
-            dict_repr["frame_intervals"] = [
-                fi.asdict() for fi in self.frame_intervals
-            ]
+            dict_repr["frame_intervals"] = [fi.asdict() for fi in self.frame_intervals]
 
         return dict_repr

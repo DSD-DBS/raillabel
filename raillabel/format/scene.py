@@ -40,9 +40,7 @@ class Scene:
 
     metadata: Metadata
     streams: Dict[str, Stream] = field(default_factory=dict)
-    coordinate_systems: Dict[str, CoordinateSystem] = field(
-        default_factory=dict
-    )
+    coordinate_systems: Dict[str, CoordinateSystem] = field(default_factory=dict)
     objects: Dict[uuid.UUID, Object] = field(default_factory=dict)
     frames: Dict[int, Frame] = field(default_factory=dict)
 
@@ -78,9 +76,7 @@ class Scene:
             }
 
         if self.frames != {}:
-            dict_repr["openlabel"]["frames"] = {
-                str(k): v.asdict() for k, v in self.frames.items()
-            }
+            dict_repr["openlabel"]["frames"] = {str(k): v.asdict() for k, v in self.frames.items()}
 
         return dict_repr
 
@@ -202,10 +198,7 @@ class Scene:
         else:
             exclude_annotation_types = list(exclude_annotation_types)
 
-        if (
-            len(include_annotation_types) > 0
-            and len(exclude_annotation_types) > 0
-        ):
+        if len(include_annotation_types) > 0 and len(exclude_annotation_types) > 0:
             raise ValueError(
                 "The include_annotation_types and exclude_annotation_types parameters are mutually exclusive."
             )
@@ -269,9 +262,7 @@ class Scene:
             end_timestamp = Decimal(end_timestamp)
 
         if end_frame != float("inf") and end_timestamp != float("inf"):
-            raise ValueError(
-                "The end_frame and end_timestamp parameters are mutually exclusive."
-            )
+            raise ValueError("The end_frame and end_timestamp parameters are mutually exclusive.")
 
         if type(include_object_ids) == str:
             include_object_ids = [include_object_ids]
@@ -309,9 +300,7 @@ class Scene:
         # Creates the return scene
         filtered_scene = Scene(
             metadata=self.metadata,
-            coordinate_systems={
-                "base": CoordinateSystem(uid="base", parent=None, type="local")
-            },
+            coordinate_systems={"base": CoordinateSystem(uid="base", parent=None, type="local")},
         )
 
         # Iterates over the frames
@@ -321,9 +310,9 @@ class Scene:
             if frame.uid < start_frame or frame.uid > end_frame:
                 continue
 
-            if frame.timestamp < Decimal(
-                start_timestamp
-            ) or frame.timestamp > Decimal(end_timestamp):
+            if frame.timestamp < Decimal(start_timestamp) or frame.timestamp > Decimal(
+                end_timestamp
+            ):
                 continue
 
             if (
@@ -336,14 +325,12 @@ class Scene:
 
                 # Skips the iteration if the object should be omitted
                 if (
-                    obj.object.type not in include_classes
-                    and len(include_classes) > 0
+                    obj.object.type not in include_classes and len(include_classes) > 0
                 ) or obj.object.type in exclude_classes:
                     continue
 
                 if (
-                    obj_uid not in include_object_ids
-                    and len(include_object_ids) > 0
+                    obj_uid not in include_object_ids and len(include_object_ids) > 0
                 ) or obj_uid in exclude_object_ids:
                     continue
 
@@ -407,8 +394,7 @@ class Scene:
                 for ann in anns.values():
 
                     if (
-                        ann.uid not in include_annotation_ids
-                        and len(include_annotation_ids) > 0
+                        ann.uid not in include_annotation_ids and len(include_annotation_ids) > 0
                     ) or ann.uid in exclude_annotation_ids:
                         continue
 
@@ -423,7 +409,7 @@ class Scene:
                         omit_due_to_attribute = True
                         for attr_key, attr_val in ann.attributes.items():
                             if attr_key in include_attributes and (
-                                include_attributes[attr_key] == None
+                                include_attributes[attr_key] is None
                                 or include_attributes[attr_key] == attr_val
                             ):
                                 omit_due_to_attribute = False
@@ -434,7 +420,7 @@ class Scene:
                         omit_due_to_attribute = False
                         for attr_key, attr_val in ann.attributes.items():
                             if attr_key in exclude_attributes and (
-                                exclude_attributes[attr_key] == None
+                                exclude_attributes[attr_key] is None
                                 or exclude_attributes[attr_key] == attr_val
                             ):
                                 omit_due_to_attribute = True
@@ -461,32 +447,22 @@ class Scene:
 
                     # Adds the object to the frame, if not already added
                     if obj_uid not in filtered_scene.frames[frame.uid].objects:
-                        filtered_scene.frames[frame.uid].objects[
-                            obj_uid
-                        ] = ObjectAnnotations(
+                        filtered_scene.frames[frame.uid].objects[obj_uid] = ObjectAnnotations(
                             object=filtered_scene.objects[obj_uid]
                         )
 
                     # Adds the annotation
                     if type(ann) == Bbox:
-                        filtered_scene.frames[frame.uid].objects[
-                            obj_uid
-                        ].bboxs[ann.uid] = ann
+                        filtered_scene.frames[frame.uid].objects[obj_uid].bboxs[ann.uid] = ann
 
                     if type(ann) == Poly2d:
-                        filtered_scene.frames[frame.uid].objects[
-                            obj_uid
-                        ].poly2ds[ann.uid] = ann
+                        filtered_scene.frames[frame.uid].objects[obj_uid].poly2ds[ann.uid] = ann
 
                     if type(ann) == Cuboid:
-                        filtered_scene.frames[frame.uid].objects[
-                            obj_uid
-                        ].cuboids[ann.uid] = ann
+                        filtered_scene.frames[frame.uid].objects[obj_uid].cuboids[ann.uid] = ann
 
                     if type(ann) == Seg3d:
-                        filtered_scene.frames[frame.uid].objects[
-                            obj_uid
-                        ].seg3ds[ann.uid] = ann
+                        filtered_scene.frames[frame.uid].objects[obj_uid].seg3ds[ann.uid] = ann
 
                     # Stores the sensor name for adding it later
                     if not ann.coordinate_system.uid in used_sensors:
@@ -496,9 +472,7 @@ class Scene:
         for sensor_uid in used_sensors:
             filtered_scene.streams[sensor_uid] = self.streams[sensor_uid]
 
-            filtered_scene.coordinate_systems[
-                sensor_uid
-            ] = self.coordinate_systems[sensor_uid]
+            filtered_scene.coordinate_systems[sensor_uid] = self.coordinate_systems[sensor_uid]
             filtered_scene.coordinate_systems["base"].children[
                 sensor_uid
             ] = filtered_scene.coordinate_systems[sensor_uid]
@@ -508,9 +482,7 @@ class Scene:
 
         for frame_uid in filtered_scene.frames.keys():
             for sensor_uid in used_sensors:
-                filtered_scene.frames[frame_uid].streams[
-                    sensor_uid
-                ] = StreamReference(
+                filtered_scene.frames[frame_uid].streams[sensor_uid] = StreamReference(
                     stream=filtered_scene.streams[sensor_uid],
                     timestamp=self.frames[frame_uid]
                     .streams[sensor_uid]

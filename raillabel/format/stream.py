@@ -47,18 +47,16 @@ class Stream:
 
         dict_repr = {}
 
-        if self.type != None:
+        if self.type is not None:
             dict_repr["type"] = str(self.type)
 
-        if self.rostopic != None:
+        if self.rostopic is not None:
             dict_repr["uri"] = str(self.rostopic)
 
-        if self.description != None:
+        if self.description is not None:
             dict_repr["description"] = str(self.description)
 
-        if self.calibration != None:
-            dict_repr["stream_properties"] = {
-                "intrinsics_pinhole": self.calibration.asdict()
-            }
+        if self.calibration is not None:
+            dict_repr["stream_properties"] = {"intrinsics_pinhole": self.calibration.asdict()}
 
         return dict_repr

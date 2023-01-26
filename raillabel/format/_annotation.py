@@ -13,40 +13,29 @@ class _Annotation(ABC):
 
     uid: str
     name: str
-    attributes: Dict[str, Union[int, float, bool, str, list]] = field(
-        default_factory=dict
-    )
+    attributes: Dict[str, Union[int, float, bool, str, list]] = field(default_factory=dict)
     coordinate_system: CoordinateSystem = None
     object_annotations: Any = None
 
     @property
     def uri(self) -> str or None:
         """URI to the file, which contains the annotated object."""
-        if (
-            self.object_annotations == None
-            or self.object_annotations.frame == None
-        ):
+        if self.object_annotations is None or self.object_annotations.frame is None:
             return None
-        return self.object_annotations.frame.streams[
-            self.coordinate_system.uid
-        ].uri
+        return self.object_annotations.frame.streams[self.coordinate_system.uid].uri
 
     @uri.setter
     def uri(self, value):
 
-        if self.object_annotations == None:
-            raise AttributeError(
-                f"Attribute object_annotations not set for annotation {self.uri}."
-            )
+        if self.object_annotations is None:
+            raise AttributeError(f"Attribute object_annotations not set for annotation {self.uri}.")
 
-        if self.object_annotations.frame == None:
+        if self.object_annotations.frame is None:
             raise AttributeError(
                 f"Attribute frame not set for ObjectAnnotation of annotation {self.uri}."
             )
 
-        self.object_annotations.frame.streams[
-            self.coordinate_system.uid
-        ].uri = value
+        self.object_annotations.frame.streams[self.coordinate_system.uid].uri = value
 
         return
 
@@ -70,9 +59,7 @@ class _Annotation(ABC):
 
     @classmethod
     @abstractmethod
-    def fromdict(
-        self, data_dict: dict, coordinate_systems: dict
-    ) -> Tuple[dict, list]:
+    def fromdict(self, data_dict: dict, coordinate_systems: dict) -> Tuple[dict, list]:
         """Generate a Bbox object from a dictionary in the OpenLABEL format.
 
         Parameters
@@ -113,9 +100,7 @@ class _Annotation(ABC):
 
         # object_annotations is omitted from the equal comparison, because it contains this
         # annotation, which will lead to a RecursionError.
-        return {
-            k: v for k, v in vars(child).items() if k != "object_annotations"
-        } == {
+        return {k: v for k, v in vars(child).items() if k != "object_annotations"} == {
             k: v for k, v in vars(other).items() if k != "object_annotations"
         }
 
@@ -133,10 +118,10 @@ class _Annotation(ABC):
 
         dict_repr = {}
 
-        if self.coordinate_system != None:
+        if self.coordinate_system is not None:
             dict_repr["coordinate_system"] = str(self.coordinate_system.uid)
 
-        if self.attributes != {} or self.uri != None:
+        if self.attributes != {} or self.uri is not None:
             dict_repr["attributes"] = {}
 
             for attr_name, attr_value in self.attributes.items():
@@ -166,9 +151,7 @@ class _Annotation(ABC):
                 if attr_type not in dict_repr["attributes"]:
                     dict_repr["attributes"][attr_type] = []
 
-                dict_repr["attributes"][attr_type].append(
-                    {"name": attr_name, "val": attr_value}
-                )
+                dict_repr["attributes"][attr_type].append({"name": attr_name, "val": attr_value})
 
         return dict_repr
 
@@ -189,9 +172,7 @@ class _Annotation(ABC):
         """
 
         for field in self._REQ_FIELDS:
-            if getattr(self, field) == None:
-                raise TypeError(
-                    f"{field} is a required argument for {self.__class__.__name__}"
-                )
+            if getattr(self, field) is None:
+                raise TypeError(f"{field} is a required argument for {self.__class__.__name__}")
 
     pass

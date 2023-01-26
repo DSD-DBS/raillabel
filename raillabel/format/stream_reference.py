@@ -42,13 +42,9 @@ class StreamReference:
             if an attribute can not be converted to the type required by the OpenLabel schema.
         """
 
-        dict_repr = {
-            "stream_properties": {
-                "stream_sync": {"timestamp": str(self.timestamp)}
-            }
-        }
+        dict_repr = {"stream_properties": {"stream_sync": {"timestamp": str(self.timestamp)}}}
 
-        if self.uri != None:
+        if self.uri is not None:
             dict_repr["uri"] = self.uri
 
         return dict_repr

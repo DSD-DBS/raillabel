@@ -36,9 +36,7 @@ class CoordinateSystem:
     uid: str
     type: str
     parent: "CoordinateSystem" = None
-    children: typing.Dict[str, "CoordinateSystem"] = field(
-        default_factory=dict
-    )
+    children: typing.Dict[str, "CoordinateSystem"] = field(default_factory=dict)
     transform: Transform = None
 
     def asdict(self) -> dict:
@@ -57,7 +55,7 @@ class CoordinateSystem:
 
         dict_repr = {"type": str(self.type)}
 
-        if self.parent != None:
+        if self.parent is not None:
             dict_repr["parent"] = self.parent.uid
         else:
             dict_repr["parent"] = ""
@@ -65,7 +63,7 @@ class CoordinateSystem:
         if self.children != []:
             dict_repr["children"] = [c.uid for c in self.children.values()]
 
-        if self.transform != None:
+        if self.transform is not None:
             dict_repr["pose_wrt_parent"] = self.transform.asdict()
 
         return dict_repr
@@ -94,20 +92,14 @@ class CoordinateSystem:
                     if type(getattr(self, attr)[key]) == type(self):
 
                         try:
-                            if (
-                                getattr(self, attr)[key].uid
-                                != getattr(other, attr)[key].uid
-                            ):
+                            if getattr(self, attr)[key].uid != getattr(other, attr)[key].uid:
                                 return False
                         except KeyError:
                             return False
 
                     else:
                         try:
-                            if (
-                                getattr(self, attr)[key].uid
-                                != getattr(other, attr)[key].uid
-                            ):
+                            if getattr(self, attr)[key].uid != getattr(other, attr)[key].uid:
                                 return False
                         except KeyError:
                             return False

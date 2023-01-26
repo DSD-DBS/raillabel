@@ -49,10 +49,10 @@ class StreamCalibration:
             "distortion_coeffs": list(self.distortion),
         }
 
-        if self.width_px != None:
+        if self.width_px is not None:
             dict_repr["width_px"] = int(self.width_px)
 
-        if self.height_px != None:
+        if self.height_px is not None:
             dict_repr["height_px"] = int(self.height_px)
 
         return dict_repr
