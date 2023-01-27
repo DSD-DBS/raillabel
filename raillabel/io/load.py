@@ -8,9 +8,7 @@ from . import format_loaders
 from .format_loaders._loader_abc import LoaderABC
 
 
-def load(
-    path: str, validate: bool = True, show_warnings: bool = True
-) -> format.Scene:
+def load(path: str, validate: bool = True, show_warnings: bool = True) -> format.Scene:
     """Load an annotation file of any supported type.
 
     Parameters
@@ -45,19 +43,13 @@ def load(
 
     loader_classes = []
     for cls in format_loaders.__dict__.values():
-        if (
-            isinstance(cls, type)
-            and issubclass(cls, LoaderABC)
-            and cls != LoaderABC
-        ):
+        if isinstance(cls, type) and issubclass(cls, LoaderABC) and cls != LoaderABC:
             loader_classes.append(cls)
 
     # Checks for the supported file type
     if not str(path).lower().endswith(".json"):
 
-        raise exceptions.UnsupportedFormatError(
-            f"{path} is not in a supported file format."
-        )
+        raise exceptions.UnsupportedFormatError(f"{path} is not in a supported file format.")
 
     # Loads the JSON data
     with open(path) as data_file:
@@ -89,6 +81,4 @@ def load(
     # This part of the code is only reached if no suitable loader has been found or the data is
     # not in a supported file format. Therefore an exception is raised.
 
-    raise exceptions.UnsupportedFormatError(
-        f"{path} is not in a supported file format."
-    )
+    raise exceptions.UnsupportedFormatError(f"{path} is not in a supported file format.")

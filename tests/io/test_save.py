@@ -24,14 +24,10 @@ def test_save(openlabel_v1_short_data):
         with (Path(temp_dir) / "stripped_input_data.json").open("w") as f:
             json.dump(openlabel_v1_short_data, f)
 
-        scene_orig = raillabel.load(
-            Path(temp_dir) / "stripped_input_data.json", False, False
-        )
+        scene_orig = raillabel.load(Path(temp_dir) / "stripped_input_data.json", False, False)
 
         raillabel.save(scene_orig, Path(temp_dir) / "test_save_file.json")
-        scene_saved = raillabel.load(
-            Path(temp_dir) / "test_save_file.json", False, False
-        )
+        scene_saved = raillabel.load(Path(temp_dir) / "test_save_file.json", False, False)
 
     assert scene_orig == scene_saved
 

@@ -13,9 +13,7 @@ import raillabel
 
 filtered_gt_dir = Path(__file__).parent.parent / "__test_assets__"
 
-openlabel_filtered_include_frames = (
-    filtered_gt_dir / "openlabel_v1_filtered_include_frames.json"
-)
+openlabel_filtered_include_frames = filtered_gt_dir / "openlabel_v1_filtered_include_frames.json"
 
 
 def test_filter_include_frames(openlabel_v1_short_path):
@@ -24,9 +22,7 @@ def test_filter_include_frames(openlabel_v1_short_path):
     scene_filtered = raillabel.filter(scene, include_frames=0)
 
     # Loads the ground truth filtered data
-    scene_filtered_ground_truth = raillabel.load(
-        openlabel_filtered_include_frames
-    )
+    scene_filtered_ground_truth = raillabel.load(openlabel_filtered_include_frames)
 
     # Compares the two
     assert scene_filtered == scene_filtered_ground_truth
@@ -38,20 +34,14 @@ def test_filter_exclude_frames(openlabel_v1_short_path):
     scene_filtered = scene.filter(exclude_frames="1")
 
     # Loads the ground truth filtered data
-    scene_filtered_ground_truth = raillabel.load(
-        openlabel_filtered_include_frames
-    )
+    scene_filtered_ground_truth = raillabel.load(openlabel_filtered_include_frames)
 
     # Compares the two
     assert scene_filtered == scene_filtered_ground_truth
 
 
-openlabel_filtered_start_frame = (
-    filtered_gt_dir / "openlabel_v1_filtered_start_frame.json"
-)
-openlabel_filtered_end_frame = (
-    filtered_gt_dir / "openlabel_v1_filtered_end_frame.json"
-)
+openlabel_filtered_start_frame = filtered_gt_dir / "openlabel_v1_filtered_start_frame.json"
+openlabel_filtered_end_frame = filtered_gt_dir / "openlabel_v1_filtered_end_frame.json"
 
 
 def test_filter_start_frame(openlabel_v1_short_path):
@@ -60,9 +50,7 @@ def test_filter_start_frame(openlabel_v1_short_path):
     scene_filtered = scene.filter(start_frame=1)
 
     # Loads the ground truth filtered data
-    scene_filtered_ground_truth = raillabel.load(
-        openlabel_filtered_start_frame
-    )
+    scene_filtered_ground_truth = raillabel.load(openlabel_filtered_start_frame)
 
     # Compares the two
     assert scene_filtered == scene_filtered_ground_truth
@@ -86,9 +74,7 @@ def test_filter_start_timestamp(openlabel_v1_short_path):
     scene_filtered = scene.filter(start_timestamp="1632321743.144149")
 
     # Loads the ground truth filtered data
-    scene_filtered_ground_truth = raillabel.load(
-        openlabel_filtered_start_frame
-    )
+    scene_filtered_ground_truth = raillabel.load(openlabel_filtered_start_frame)
 
     # Compares the two
     assert scene_filtered == scene_filtered_ground_truth
@@ -106,12 +92,8 @@ def test_filter_end_timestamp(openlabel_v1_short_path):
     assert scene_filtered == scene_filtered_ground_truth
 
 
-openlabel_filtered_include_classes = (
-    filtered_gt_dir / "openlabel_v1_filtered_include_classes.json"
-)
-openlabel_filtered_exclude_classes = (
-    filtered_gt_dir / "openlabel_v1_filtered_exclude_classes.json"
-)
+openlabel_filtered_include_classes = filtered_gt_dir / "openlabel_v1_filtered_include_classes.json"
+openlabel_filtered_exclude_classes = filtered_gt_dir / "openlabel_v1_filtered_exclude_classes.json"
 
 
 def test_filter_include_classes(openlabel_v1_short_path):
@@ -120,9 +102,7 @@ def test_filter_include_classes(openlabel_v1_short_path):
     scene_filtered = scene.filter(include_classes="person")
 
     # Loads the ground truth filtered data
-    scene_filtered_ground_truth = raillabel.load(
-        openlabel_filtered_include_classes
-    )
+    scene_filtered_ground_truth = raillabel.load(openlabel_filtered_include_classes)
 
     # Compares the two
     assert scene_filtered == scene_filtered_ground_truth
@@ -134,20 +114,14 @@ def test_filter_exclude_classes(openlabel_v1_short_path):
     scene_filtered = scene.filter(exclude_classes="person")
 
     # Loads the ground truth filtered data
-    scene_filtered_ground_truth = raillabel.load(
-        openlabel_filtered_exclude_classes
-    )
+    scene_filtered_ground_truth = raillabel.load(openlabel_filtered_exclude_classes)
 
     # Compares the two
     assert scene_filtered == scene_filtered_ground_truth
 
 
-openlabel_filtered_include_sensors = (
-    filtered_gt_dir / "openlabel_v1_filtered_include_sensors.json"
-)
-openlabel_filtered_exclude_sensors = (
-    filtered_gt_dir / "openlabel_v1_filtered_exclude_sensors.json"
-)
+openlabel_filtered_include_sensors = filtered_gt_dir / "openlabel_v1_filtered_include_sensors.json"
+openlabel_filtered_exclude_sensors = filtered_gt_dir / "openlabel_v1_filtered_exclude_sensors.json"
 
 
 def test_filter_include_sensors(openlabel_v1_short_path):
@@ -156,9 +130,7 @@ def test_filter_include_sensors(openlabel_v1_short_path):
     scene_filtered = scene.filter(include_sensors=["rgb_middle", "ir_middle"])
 
     # Loads the ground truth filtered data
-    scene_filtered_ground_truth = raillabel.load(
-        openlabel_filtered_include_sensors
-    )
+    scene_filtered_ground_truth = raillabel.load(openlabel_filtered_include_sensors)
 
     # Compares the two
     assert scene_filtered == scene_filtered_ground_truth
@@ -170,9 +142,7 @@ def test_filter_exclude_sensors(openlabel_v1_short_path):
     scene_filtered = scene.filter(exclude_sensors=["rgb_middle", "ir_middle"])
 
     # Loads the ground truth filtered data
-    scene_filtered_ground_truth = raillabel.load(
-        openlabel_filtered_exclude_sensors
-    )
+    scene_filtered_ground_truth = raillabel.load(openlabel_filtered_exclude_sensors)
 
     # Compares the two
     assert scene_filtered == scene_filtered_ground_truth
@@ -226,9 +196,7 @@ def test_filter_include_annotation_ids(openlabel_v1_short_path):
     )
 
     # Loads the ground truth filtered data
-    scene_filtered_ground_truth = raillabel.load(
-        openlabel_filtered_include_annotation_ids
-    )
+    scene_filtered_ground_truth = raillabel.load(openlabel_filtered_include_annotation_ids)
 
     # Compares the two
     assert scene_filtered == scene_filtered_ground_truth
@@ -237,14 +205,10 @@ def test_filter_include_annotation_ids(openlabel_v1_short_path):
 def test_filter_exclude_annotation_ids(openlabel_v1_short_path):
     # Loads and filters the scene
     scene = raillabel.load(openlabel_v1_short_path, validate=False)
-    scene_filtered = scene.filter(
-        exclude_annotation_ids="78f0ad89-2750-4a30-9d66-44c9da73a714"
-    )
+    scene_filtered = scene.filter(exclude_annotation_ids="78f0ad89-2750-4a30-9d66-44c9da73a714")
 
     # Loads the ground truth filtered data
-    scene_filtered_ground_truth = raillabel.load(
-        openlabel_filtered_exclude_annotation_ids
-    )
+    scene_filtered_ground_truth = raillabel.load(openlabel_filtered_exclude_annotation_ids)
 
     # Compares the two
     assert scene_filtered == scene_filtered_ground_truth
@@ -258,14 +222,10 @@ openlabel_filtered_include_object_ids = (
 def test_filter_include_object_ids(openlabel_v1_short_path):
     # Loads and filters the scene
     scene = raillabel.load(openlabel_v1_short_path, validate=False)
-    scene_filtered = scene.filter(
-        include_object_ids="6fe55546-0dd7-4e40-b6b4-bb7ea3445772"
-    )
+    scene_filtered = scene.filter(include_object_ids="6fe55546-0dd7-4e40-b6b4-bb7ea3445772")
 
     # Loads the ground truth filtered data
-    scene_filtered_ground_truth = raillabel.load(
-        openlabel_filtered_include_object_ids
-    )
+    scene_filtered_ground_truth = raillabel.load(openlabel_filtered_include_object_ids)
 
     # Compares the two
     assert scene_filtered == scene_filtered_ground_truth
@@ -304,9 +264,7 @@ def test_filter_include_attributes(openlabel_v1_short_path):
     scene_filtered = scene.filter(include_attributes={"test_bool_attr0": True})
 
     # Loads the ground truth filtered data
-    scene_filtered_ground_truth = raillabel.load(
-        openlabel_filtered_include_attributes
-    )
+    scene_filtered_ground_truth = raillabel.load(openlabel_filtered_include_attributes)
 
     # Compares the two
     assert scene_filtered == scene_filtered_ground_truth
@@ -318,17 +276,13 @@ def test_filter_exclude_attributes(openlabel_v1_short_path):
     scene_filtered = scene.filter(exclude_attributes={"test_text_attr0": None})
 
     # Loads the ground truth filtered data
-    scene_filtered_ground_truth = raillabel.load(
-        openlabel_filtered_exclude_attributes
-    )
+    scene_filtered_ground_truth = raillabel.load(openlabel_filtered_exclude_attributes)
 
     # Compares the two
     assert scene_filtered == scene_filtered_ground_truth
 
 
-openlabel_filtered_multi0 = (
-    filtered_gt_dir / "openlabel_v1_filtered_multi0.json"
-)
+openlabel_filtered_multi0 = filtered_gt_dir / "openlabel_v1_filtered_multi0.json"
 
 
 def test_filter_multi0(openlabel_v1_short_path):

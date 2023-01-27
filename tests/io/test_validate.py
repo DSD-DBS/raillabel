@@ -26,9 +26,7 @@ def test_file_one_type_error(openlabel_v1_short_data):
 
 def test_file_two_type_errors(openlabel_v1_short_data):
     openlabel_v1_short_data["openlabel"]["streams"]["lidar"]["uri"] = 42
-    openlabel_v1_short_data["openlabel"]["coordinate_systems"]["base"][
-        "type"
-    ] = 0
+    openlabel_v1_short_data["openlabel"]["coordinate_systems"]["base"]["type"] = 0
 
     validation_result = raillabel.validate(openlabel_v1_short_data)
 
@@ -37,9 +35,7 @@ def test_file_two_type_errors(openlabel_v1_short_data):
 
 def test_valid_file_path(openlabel_v1_short_data, openlabel_v1_schema_path):
     assert openlabel_v1_schema_path.is_file()
-    validation_result = raillabel.validate(
-        openlabel_v1_short_data, str(openlabel_v1_schema_path)
-    )
+    validation_result = raillabel.validate(openlabel_v1_short_data, str(openlabel_v1_schema_path))
     assert validation_result[0]
 
 
