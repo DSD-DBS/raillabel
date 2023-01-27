@@ -2,7 +2,7 @@
 # SPDX-License-Identifier: Apache-2.0
 
 import decimal
-import typing
+import typing as t
 import uuid
 from dataclasses import dataclass, field
 
@@ -40,12 +40,12 @@ class Frame:
 
     uid: int
     timestamp: decimal.Decimal = None
-    streams: typing.Dict[str, StreamReference] = field(default_factory=dict)
-    data: typing.Dict[str, Num] = field(default_factory=dict)
-    objects: typing.Dict[uuid.UUID, ObjectAnnotations] = field(default_factory=dict)
+    streams: t.Dict[str, StreamReference] = field(default_factory=dict)
+    data: t.Dict[str, Num] = field(default_factory=dict)
+    objects: t.Dict[uuid.UUID, ObjectAnnotations] = field(default_factory=dict)
 
     @property
-    def annotations(self) -> typing.Dict[uuid.UUID, typing.Any]:
+    def annotations(self) -> t.Dict[uuid.UUID, t.Any]:
         """Return dict containing all annotations of this frame.
 
         Dictionary keys are annotation UIDs.

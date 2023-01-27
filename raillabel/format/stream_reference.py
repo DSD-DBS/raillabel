@@ -2,8 +2,8 @@
 # SPDX-License-Identifier: Apache-2.0
 
 import decimal
+import typing as t
 from dataclasses import dataclass
-from typing import Optional
 
 from .stream import Stream
 
@@ -26,7 +26,7 @@ class StreamReference:
 
     stream: Stream
     timestamp: decimal.Decimal
-    uri: Optional[str] = None
+    uri: t.Optional[str] = None
 
     def asdict(self) -> dict:
         """Export self as a dict compatible with the OpenLABEL schema.

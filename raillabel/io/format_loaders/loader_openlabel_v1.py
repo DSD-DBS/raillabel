@@ -2,9 +2,9 @@
 # SPDX-License-Identifier: Apache-2.0
 
 import decimal
+import typing as t
 import uuid
 from pathlib import Path
-from typing import List
 
 from ... import format
 from ...exceptions import SchemaError
@@ -23,7 +23,7 @@ class LoaderOpenLabelV1(LoaderABC):
     """
 
     scene: format.Scene
-    warnings: List[str]
+    warnings: t.List[str]
 
     SCHEMA_PATH: Path = Path(__file__).parent.parent / "schemas" / "openlabel_v1_schema.json"
 

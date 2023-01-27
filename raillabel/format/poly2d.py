@@ -1,7 +1,7 @@
 # Copyright DB Netz AG and contributors
 # SPDX-License-Identifier: Apache-2.0
 
-import typing
+import typing as t
 from dataclasses import dataclass
 
 from ._annotation import _Annotation
@@ -45,7 +45,7 @@ class Poly2d(_Annotation):
         URI to the file, which contains the annotated object.
     """
 
-    points: typing.List[Point2d] = None
+    points: t.List[Point2d] = None
     closed: bool = None
     mode: str = "MODE_POLY2D_ABSOLUTE"
 
@@ -57,7 +57,7 @@ class Poly2d(_Annotation):
         data_dict: dict,
         coordinate_systems: dict,
         object_annotations=None,
-    ) -> typing.Tuple["Poly2d", list]:
+    ) -> t.Tuple["Poly2d", list]:
         """Generate a Bbox object from a dictionary in the OpenLABEL format.
 
         Parameters

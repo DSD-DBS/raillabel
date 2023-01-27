@@ -1,32 +1,32 @@
 # Copyright DB Netz AG and contributors
 # SPDX-License-Identifier: Apache-2.0
 
+import typing as t
 from decimal import Decimal
-from typing import List
 
 from ..format.scene import Scene
 
 
 def filter(
     scene: Scene,
-    include_annotation_ids: List[str] = [],
-    exclude_annotation_ids: List[str] = [],
-    include_annotation_types: List[str] = [],
-    exclude_annotation_types: List[str] = [],
+    include_annotation_ids: t.List[str] = [],
+    exclude_annotation_ids: t.List[str] = [],
+    include_annotation_types: t.List[str] = [],
+    exclude_annotation_types: t.List[str] = [],
     include_attributes: dict = {},
     exclude_attributes: dict = {},
-    include_classes: List[str] = [],
-    exclude_classes: List[str] = [],
-    include_frames: List[int] = [],
-    exclude_frames: List[int] = [],
+    include_classes: t.List[str] = [],
+    exclude_classes: t.List[str] = [],
+    include_frames: t.List[int] = [],
+    exclude_frames: t.List[int] = [],
     start_frame: int = -1,
     end_frame: int = float("inf"),
     start_timestamp: Decimal = -1,
     end_timestamp: Decimal = float("inf"),
-    include_object_ids: List[str] = [],
-    exclude_object_ids: List[str] = [],
-    include_sensors: List[str] = [],
-    exclude_sensors: List[str] = [],
+    include_object_ids: t.List[str] = [],
+    exclude_object_ids: t.List[str] = [],
+    include_sensors: t.List[str] = [],
+    exclude_sensors: t.List[str] = [],
 ) -> Scene:
     """Return a copy of the scene with the annotations filtered.
 

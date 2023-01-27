@@ -1,8 +1,8 @@
 # Copyright DB Netz AG and contributors
 # SPDX-License-Identifier: Apache-2.0
 
+import typing as t
 from dataclasses import dataclass
-from typing import Union
 
 
 @dataclass
@@ -21,7 +21,7 @@ class Quaternion:
         The w component of the quaternion.
     """
 
-    x: Union[float, int]
-    y: Union[float, int]
-    z: Union[float, int]
-    w: Union[float, int]
+    x: t.Union[float, int]
+    y: t.Union[float, int]
+    z: t.Union[float, int]
+    w: t.Union[float, int]

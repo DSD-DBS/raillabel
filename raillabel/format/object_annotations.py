@@ -1,7 +1,7 @@
 # Copyright DB Netz AG and contributors
 # SPDX-License-Identifier: Apache-2.0
 
-import typing
+import typing as t
 import uuid
 from dataclasses import dataclass, field
 
@@ -34,11 +34,11 @@ class ObjectAnnotations:
     """
 
     object: Object
-    bboxs: typing.Dict[uuid.UUID, Bbox] = field(default_factory=dict)
-    cuboids: typing.Dict[uuid.UUID, Cuboid] = field(default_factory=dict)
-    poly2ds: typing.Dict[uuid.UUID, Poly2d] = field(default_factory=dict)
-    seg3ds: typing.Dict[uuid.UUID, Seg3d] = field(default_factory=dict)
-    frame: typing.Any = None
+    bboxs: t.Dict[uuid.UUID, Bbox] = field(default_factory=dict)
+    cuboids: t.Dict[uuid.UUID, Cuboid] = field(default_factory=dict)
+    poly2ds: t.Dict[uuid.UUID, Poly2d] = field(default_factory=dict)
+    seg3ds: t.Dict[uuid.UUID, Seg3d] = field(default_factory=dict)
+    frame: t.Any = None
 
     def asdict(self) -> dict:
         """Export self as a dict compatible with the OpenLABEL schema.

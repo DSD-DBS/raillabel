@@ -1,10 +1,10 @@
 # Copyright DB Netz AG and contributors
 # SPDX-License-Identifier: Apache-2.0
 
+import typing as t
 import uuid
 from dataclasses import dataclass, field
 from decimal import Decimal
-from typing import Dict, List
 
 from .bbox import Bbox
 from .coordinate_system import CoordinateSystem
@@ -39,10 +39,10 @@ class Scene:
     """
 
     metadata: Metadata
-    streams: Dict[str, Stream] = field(default_factory=dict)
-    coordinate_systems: Dict[str, CoordinateSystem] = field(default_factory=dict)
-    objects: Dict[uuid.UUID, Object] = field(default_factory=dict)
-    frames: Dict[int, Frame] = field(default_factory=dict)
+    streams: t.Dict[str, Stream] = field(default_factory=dict)
+    coordinate_systems: t.Dict[str, CoordinateSystem] = field(default_factory=dict)
+    objects: t.Dict[uuid.UUID, Object] = field(default_factory=dict)
+    frames: t.Dict[int, Frame] = field(default_factory=dict)
 
     def asdict(self) -> dict:
         """Export self as a dict compatible with the OpenLABEL schema.
@@ -82,24 +82,24 @@ class Scene:
 
     def filter(
         self,
-        include_annotation_ids: List[str] = [],
-        exclude_annotation_ids: List[str] = [],
-        include_annotation_types: List[str] = [],
-        exclude_annotation_types: List[str] = [],
+        include_annotation_ids: t.List[str] = [],
+        exclude_annotation_ids: t.List[str] = [],
+        include_annotation_types: t.List[str] = [],
+        exclude_annotation_types: t.List[str] = [],
         include_attributes: dict = {},
         exclude_attributes: dict = {},
-        include_classes: List[str] = [],
-        exclude_classes: List[str] = [],
-        include_frames: List[int] = [],
-        exclude_frames: List[int] = [],
+        include_classes: t.List[str] = [],
+        exclude_classes: t.List[str] = [],
+        include_frames: t.List[int] = [],
+        exclude_frames: t.List[int] = [],
         start_frame: int = -1,
         end_frame: int = float("inf"),
         start_timestamp: Decimal = -1,
         end_timestamp: Decimal = float("inf"),
-        include_object_ids: List[str] = [],
-        exclude_object_ids: List[str] = [],
-        include_sensors: List[str] = [],
-        exclude_sensors: List[str] = [],
+        include_object_ids: t.List[str] = [],
+        exclude_object_ids: t.List[str] = [],
+        include_sensors: t.List[str] = [],
+        exclude_sensors: t.List[str] = [],
     ) -> "Scene":
         """Return a copy of the scene with the annotations filtered.
 

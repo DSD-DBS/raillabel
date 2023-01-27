@@ -1,7 +1,7 @@
 # Copyright DB Netz AG and contributors
 # SPDX-License-Identifier: Apache-2.0
 
-import typing
+import typing as t
 from dataclasses import dataclass
 
 from ._annotation import _Annotation
@@ -54,7 +54,7 @@ class Cuboid(_Annotation):
         data_dict: dict,
         coordinate_systems: dict,
         object_annotations=None,
-    ) -> typing.Tuple["Cuboid", list]:
+    ) -> t.Tuple["Cuboid", list]:
         """Generate a Cuboid object from a dictionary in the OpenLABEL format.
 
         Parameters

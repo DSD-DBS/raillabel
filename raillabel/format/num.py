@@ -1,7 +1,7 @@
 # Copyright DB Netz AG and contributors
 # SPDX-License-Identifier: Apache-2.0
 
-import typing
+import typing as t
 from dataclasses import dataclass
 
 from ._annotation import _Annotation
@@ -26,12 +26,12 @@ class Num(_Annotation):
         A reference to the coordinate_system, this value is represented in. Default is None.
     """
 
-    val: typing.Union[int, float] = None
+    val: t.Union[int, float] = None
 
     _REQ_FIELDS = ["val"]
 
     @classmethod
-    def fromdict(self, data_dict: dict, coordinate_systems: dict) -> typing.Tuple[dict, list]:
+    def fromdict(self, data_dict: dict, coordinate_systems: dict) -> t.Tuple[dict, list]:
         """Generate a Bbox object from a dictionary in the OpenLABEL format.
 
         Parameters

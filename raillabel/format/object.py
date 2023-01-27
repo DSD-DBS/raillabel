@@ -1,7 +1,7 @@
 # Copyright DB Netz AG and contributors
 # SPDX-License-Identifier: Apache-2.0
 
-import typing
+import typing as t
 from dataclasses import dataclass, field
 
 from .coordinate_system import CoordinateSystem
@@ -31,7 +31,7 @@ class Object:
     name: str
     type: str
     coordinate_system: CoordinateSystem = None
-    frame_intervals: typing.List[FrameInterval] = field(default_factory=list)
+    frame_intervals: t.List[FrameInterval] = field(default_factory=list)
 
     def asdict(self) -> dict:
         """Export self as a dict compatible with the OpenLABEL schema.

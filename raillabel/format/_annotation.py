@@ -1,9 +1,9 @@
 # Copyright DB Netz AG and contributors
 # SPDX-License-Identifier: Apache-2.0
 
+import typing as t
 from abc import ABC, abstractmethod
 from dataclasses import dataclass, field
-from typing import Any, Dict, Tuple, Union
 
 from .coordinate_system import CoordinateSystem
 
@@ -13,9 +13,9 @@ class _Annotation(ABC):
 
     uid: str
     name: str
-    attributes: Dict[str, Union[int, float, bool, str, list]] = field(default_factory=dict)
+    attributes: t.Dict[str, t.Union[int, float, bool, str, list]] = field(default_factory=dict)
     coordinate_system: CoordinateSystem = None
-    object_annotations: Any = None
+    object_annotations: t.Any = None
 
     @property
     def uri(self) -> str or None:
@@ -42,7 +42,7 @@ class _Annotation(ABC):
     # === Public Methods =====================================================
 
     @abstractmethod
-    def asdict(self) -> dict:
+    def asdict(self) -> t.Dict:
         """Export self as a dict compatible with the OpenLABEL schema.
 
         Returns
@@ -59,7 +59,7 @@ class _Annotation(ABC):
 
     @classmethod
     @abstractmethod
-    def fromdict(self, data_dict: dict, coordinate_systems: dict) -> Tuple[dict, list]:
+    def fromdict(self, data_dict: t.Dict, coordinate_systems: t.Dict) -> t.Tuple[t.Dict, list]:
         """Generate a Bbox object from a dictionary in the OpenLABEL format.
 
         Parameters
@@ -84,9 +84,9 @@ class _Annotation(ABC):
 
         Parameters
         ----------
-        child: Any
+        child: t.Any
             Child of this class.
-        other: Any
+        other: t.Any
             Object to compare the child to.
 
         Returns
@@ -106,14 +106,14 @@ class _Annotation(ABC):
 
     # === Private Methods ====================================================
 
-    def _annotation_required_fields_asdict(self) -> dict:
+    def _annotation_required_fields_asdict(self) -> t.Dict:
         """Return the required fields from the parent class to dict."""
         return {
             "uid": str(self.uid),
             "name": str(self.name),
         }
 
-    def _annotation_optional_fields_asdict(self) -> dict:
+    def _annotation_optional_fields_asdict(self) -> t.Dict:
         """Return the optional fields from the parent class to dict."""
 
         dict_repr = {}
@@ -139,13 +139,13 @@ class _Annotation(ABC):
                 elif type(attr_value) == bool:
                     attr_type = "boolean"
 
-                elif type(attr_value) in [list, tuple]:
+                elif type(attr_value) in [list, t.Tuple]:
                     attr_type = "vec"
 
                 else:
                     raise TypeError(
                         f"Attribute type {attr_value.__class__.__name__} of {attr_value} is not "
-                        + "supported. Supported types are str, float, int, bool, list, tuple."
+                        + "supported. Supported types are str, float, int, bool, list, t.Tuple."
                     )
 
                 if attr_type not in dict_repr["attributes"]:

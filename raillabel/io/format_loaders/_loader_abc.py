@@ -1,7 +1,7 @@
 # Copyright DB Netz AG and contributors
 # SPDX-License-Identifier: Apache-2.0
 
-import typing
+import typing as t
 from abc import ABC, abstractmethod
 from pathlib import Path
 
@@ -26,7 +26,7 @@ class LoaderABC(ABC):
     """
 
     scene: format.Scene
-    warnings: typing.List[str]
+    warnings: t.List[str]
     SCHEMA_PATH: Path
 
     @abstractmethod
@@ -75,7 +75,7 @@ class LoaderABC(ABC):
         """
         raise NotImplementedError
 
-    def validate(self, data: dict) -> typing.Tuple[bool, typing.List[str]]:
+    def validate(self, data: dict) -> t.Tuple[bool, t.List[str]]:
         """Validate JSON-data with the corresponding schema.
 
         Parameters

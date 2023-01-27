@@ -1,8 +1,8 @@
 # Copyright DB Netz AG and contributors
 # SPDX-License-Identifier: Apache-2.0
 
+import typing as t
 from dataclasses import dataclass
-from typing import Optional, Tuple
 
 
 @dataclass
@@ -25,10 +25,10 @@ class StreamCalibration:
         Height of the image frame in pixels. Default is None.
     """
 
-    camera_matrix: Tuple[float, ...]
-    distortion: Tuple[float, ...]
-    width_px: Optional[int] = None
-    height_px: Optional[int] = None
+    camera_matrix: t.Tuple[float, ...]
+    distortion: t.Tuple[float, ...]
+    width_px: t.Optional[int] = None
+    height_px: t.Optional[int] = None
 
     def asdict(self) -> dict:
         """Export self as a dict compatible with the OpenLABEL schema.

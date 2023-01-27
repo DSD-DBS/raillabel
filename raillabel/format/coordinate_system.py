@@ -1,7 +1,7 @@
 # Copyright DB Netz AG and contributors
 # SPDX-License-Identifier: Apache-2.0
 
-import typing
+import typing as t
 from dataclasses import dataclass, field
 
 from .transform import Transform
@@ -36,7 +36,7 @@ class CoordinateSystem:
     uid: str
     type: str
     parent: "CoordinateSystem" = None
-    children: typing.Dict[str, "CoordinateSystem"] = field(default_factory=dict)
+    children: t.Dict[str, "CoordinateSystem"] = field(default_factory=dict)
     transform: Transform = None
 
     def asdict(self) -> dict:

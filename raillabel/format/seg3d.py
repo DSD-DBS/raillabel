@@ -1,7 +1,7 @@
 # Copyright DB Netz AG and contributors
 # SPDX-License-Identifier: Apache-2.0
 
-import typing
+import typing as t
 from dataclasses import dataclass
 
 from ._annotation import _Annotation
@@ -33,7 +33,7 @@ class Seg3d(_Annotation):
         URI to the file, which contains the annotated object.
     """
 
-    point_ids: typing.List[int] = None
+    point_ids: t.List[int] = None
 
     _REQ_FIELDS = ["point_ids"]
 
@@ -43,7 +43,7 @@ class Seg3d(_Annotation):
         data_dict: dict,
         coordinate_systems: dict,
         object_annotations=None,
-    ) -> typing.Tuple["Seg3d", list]:
+    ) -> t.Tuple["Seg3d", list]:
         """Generate a Bbox object from a dictionary in the OpenLABEL format.
 
         Parameters

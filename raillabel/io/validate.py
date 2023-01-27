@@ -3,15 +3,15 @@
 
 import json
 import os
+import typing as t
 from pathlib import Path
-from typing import List, Tuple
 
 import jsonschema
 
 from .. import exceptions
 
 
-def validate(data: dict, schema_path: str = "openlabel_v1") -> Tuple[bool, List[str]]:
+def validate(data: dict, schema_path: str = "openlabel_v1") -> t.Tuple[bool, t.List[str]]:
     """Validate JSON data represented by a dict via a given schema.
 
     Parameters
@@ -28,9 +28,9 @@ def validate(data: dict, schema_path: str = "openlabel_v1") -> Tuple[bool, List[
     -------
     is_data_valid: bool
         True if the data validates against the schema, False if not.
-    schema_errors: list of str
+    schema_errors: t.List of str
         All SchemaError messages found in the data. If the data is valid (if no SchemaErrors are
-        found), this is an empty list.
+        found), this is an empty t.List.
     """
 
     # Since the schema_path can either be a complete path or the short name of a schema, these two
@@ -41,11 +41,11 @@ def validate(data: dict, schema_path: str = "openlabel_v1") -> Tuple[bool, List[
         schema_path = Path(schema_path)
 
     else:  # if schema_path is a schema name in /io/schemas
-        local_schemas = [  # list of json files in /io/schemas
+        local_schemas = [  # t.List of json files in /io/schemas
             p for p in os.listdir(Path(__file__).parent / "schemas") if p.endswith(".json")
         ]
 
-        applicable_local_schemas = []  # list of possible schemas
+        applicable_local_schemas = []  # t.List of possible schemas
         for local_schema_path in local_schemas:
             if schema_path in local_schema_path:
                 applicable_local_schemas.append(local_schema_path)
