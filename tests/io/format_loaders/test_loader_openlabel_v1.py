@@ -27,7 +27,7 @@ def test_supports_false(openlabel_v1_short_data, loader):
 
 
 def test_load_metadata(openlabel_v1_short_data, loader):
-    scene = loader.load(openlabel_v1_short_data)
+    scene = loader.load(openlabel_v1_short_data, validate=False)
 
     assert scene.metadata.name == "test_project"
     assert scene.metadata.schema_version == "1.0.0"
@@ -36,7 +36,7 @@ def test_load_metadata(openlabel_v1_short_data, loader):
 
 
 def test_load_streams(openlabel_v1_short_data, loader):
-    scene = loader.load(openlabel_v1_short_data)
+    scene = loader.load(openlabel_v1_short_data, validate=False)
 
     assert len(scene.streams) == 3
 
@@ -103,7 +103,7 @@ def test_load_streams(openlabel_v1_short_data, loader):
 
 
 def test_load_coordinate_systems(openlabel_v1_short_data, loader):
-    scene = loader.load(openlabel_v1_short_data)
+    scene = loader.load(openlabel_v1_short_data, validate=False)
 
     assert len(scene.coordinate_systems) == 4
 
@@ -155,7 +155,7 @@ def test_load_objects(openlabel_v1_short_data, loader):
         del object["frame_intervals"]
         del object["object_data_pointers"]
 
-    scene = loader.load(openlabel_v1_short_data)
+    scene = loader.load(openlabel_v1_short_data, validate=False)
 
     assert len(scene.objects) == 3
 
@@ -185,7 +185,7 @@ def test_load_objects(openlabel_v1_short_data, loader):
 
 
 def test_load_frame0_metadata(openlabel_v1_short_data, loader):
-    scene = loader.load(openlabel_v1_short_data)
+    scene = loader.load(openlabel_v1_short_data, validate=False)
 
     assert 0 in scene.frames
     assert scene.frames[0].timestamp == decimal.Decimal("1632321743.134149")
@@ -224,16 +224,21 @@ def test_load_frame0_metadata(openlabel_v1_short_data, loader):
         == scene.coordinate_systems["lidar"]
     )
 
-    assert len(scene.frames[0].objects) == 1
+    assert len(scene.frames[0].objects) == 2
     assert "b40ba3ad-0327-46ff-9c28-2506cfd6d934" in scene.frames[0].objects
     assert (
         scene.frames[0].objects["b40ba3ad-0327-46ff-9c28-2506cfd6d934"].object
         == scene.objects["b40ba3ad-0327-46ff-9c28-2506cfd6d934"]
     )
+    assert "22dedd49-6dcb-413b-87ef-00ccfb532e98" in scene.frames[0].objects
+    assert (
+        scene.frames[0].objects["22dedd49-6dcb-413b-87ef-00ccfb532e98"].object
+        == scene.objects["22dedd49-6dcb-413b-87ef-00ccfb532e98"]
+    )
 
 
 def test_load_frame0_bboxs(openlabel_v1_short_data, loader):
-    scene = loader.load(openlabel_v1_short_data)
+    scene = loader.load(openlabel_v1_short_data, validate=False)
 
     assert len(scene.frames[0].objects["b40ba3ad-0327-46ff-9c28-2506cfd6d934"].bboxs) == 2
 
@@ -388,7 +393,7 @@ def test_load_frame0_bboxs(openlabel_v1_short_data, loader):
 
 
 def test_load_frame0_poly2ds(openlabel_v1_short_data, loader):
-    scene = loader.load(openlabel_v1_short_data)
+    scene = loader.load(openlabel_v1_short_data, validate=False)
 
     assert len(scene.frames[0].objects["b40ba3ad-0327-46ff-9c28-2506cfd6d934"].poly2ds) == 2
 
@@ -551,7 +556,7 @@ def test_load_frame0_poly2ds(openlabel_v1_short_data, loader):
 
 
 def test_load_frame0_cuboids(openlabel_v1_short_data, loader):
-    scene = loader.load(openlabel_v1_short_data)
+    scene = loader.load(openlabel_v1_short_data, validate=False)
 
     assert len(scene.frames[0].objects["b40ba3ad-0327-46ff-9c28-2506cfd6d934"].cuboids) == 2
 
@@ -789,8 +794,78 @@ def test_load_frame0_cuboids(openlabel_v1_short_data, loader):
     ].attributes == {"test_bool_attr0": False}
 
 
+def test_load_frame0_poly3ds(openlabel_v1_short_data, loader):
+    scene = loader.load(openlabel_v1_short_data, validate=False)
+
+    assert len(scene.frames[0].objects["22dedd49-6dcb-413b-87ef-00ccfb532e98"].poly3ds) == 1
+
+    assert (
+        "14f58fb0-add7-4ed9-85b3-74615986d854"
+        in scene.frames[0].objects["22dedd49-6dcb-413b-87ef-00ccfb532e98"].poly3ds
+    )
+    assert (
+        scene.frames[0]
+        .objects["22dedd49-6dcb-413b-87ef-00ccfb532e98"]
+        .poly3ds["14f58fb0-add7-4ed9-85b3-74615986d854"]
+        == scene.frames[0].annotations["14f58fb0-add7-4ed9-85b3-74615986d854"]
+    )
+    assert (
+        scene.frames[0]
+        .objects["22dedd49-6dcb-413b-87ef-00ccfb532e98"]
+        .poly3ds["14f58fb0-add7-4ed9-85b3-74615986d854"]
+        .uid
+        == "14f58fb0-add7-4ed9-85b3-74615986d854"
+    )
+    assert (
+        scene.frames[0]
+        .objects["22dedd49-6dcb-413b-87ef-00ccfb532e98"]
+        .poly3ds["14f58fb0-add7-4ed9-85b3-74615986d854"]
+        .name
+        == "general"
+    )
+    assert (
+        scene.frames[0]
+        .objects["22dedd49-6dcb-413b-87ef-00ccfb532e98"]
+        .poly3ds["14f58fb0-add7-4ed9-85b3-74615986d854"]
+        .closed
+        == False
+    )
+    assert (
+        len(
+            scene.frames[0]
+            .objects["22dedd49-6dcb-413b-87ef-00ccfb532e98"]
+            .poly3ds["14f58fb0-add7-4ed9-85b3-74615986d854"]
+            .points
+        )
+        == 3
+    )
+    assert scene.frames[0].objects["22dedd49-6dcb-413b-87ef-00ccfb532e98"].poly3ds[
+        "14f58fb0-add7-4ed9-85b3-74615986d854"
+    ].points[0] == raillabel.format.Point3d(9, 8, 7)
+    assert scene.frames[0].objects["22dedd49-6dcb-413b-87ef-00ccfb532e98"].poly3ds[
+        "14f58fb0-add7-4ed9-85b3-74615986d854"
+    ].points[1] == raillabel.format.Point3d(6, 5, 4)
+    assert scene.frames[0].objects["22dedd49-6dcb-413b-87ef-00ccfb532e98"].poly3ds[
+        "14f58fb0-add7-4ed9-85b3-74615986d854"
+    ].points[2] == raillabel.format.Point3d(3, 2, 1)
+    assert (
+        scene.frames[0]
+        .objects["22dedd49-6dcb-413b-87ef-00ccfb532e98"]
+        .poly3ds["14f58fb0-add7-4ed9-85b3-74615986d854"]
+        .uri
+        == "lidar_test0.pcd"
+    )
+    assert (
+        scene.frames[0]
+        .objects["22dedd49-6dcb-413b-87ef-00ccfb532e98"]
+        .poly3ds["14f58fb0-add7-4ed9-85b3-74615986d854"]
+        .coordinate_system
+        == scene.coordinate_systems["lidar"]
+    )
+
+
 def test_load_frame0_seg3ds(openlabel_v1_short_data, loader):
-    scene = loader.load(openlabel_v1_short_data)
+    scene = loader.load(openlabel_v1_short_data, validate=False)
 
     assert len(scene.frames[0].objects["b40ba3ad-0327-46ff-9c28-2506cfd6d934"].seg3ds) == 2
 
@@ -895,7 +970,7 @@ def test_load_frame0_seg3ds(openlabel_v1_short_data, loader):
 
 
 def test_load_frame1_metadata(openlabel_v1_short_data, loader):
-    scene = loader.load(openlabel_v1_short_data)
+    scene = loader.load(openlabel_v1_short_data, validate=False)
 
     assert 1 in scene.frames
     assert scene.frames[1].timestamp == decimal.Decimal("1632321743.233263")
@@ -946,7 +1021,7 @@ def test_load_frame1_metadata(openlabel_v1_short_data, loader):
 
 
 def test_load_frame1_bboxs(openlabel_v1_short_data, loader):
-    scene = loader.load(openlabel_v1_short_data)
+    scene = loader.load(openlabel_v1_short_data, validate=False)
 
     assert len(scene.frames[1].objects["6fe55546-0dd7-4e40-b6b4-bb7ea3445772"].bboxs) == 2
 
@@ -1101,7 +1176,7 @@ def test_load_frame1_bboxs(openlabel_v1_short_data, loader):
 
 
 def test_load_frame1_poly2ds(openlabel_v1_short_data, loader):
-    scene = loader.load(openlabel_v1_short_data)
+    scene = loader.load(openlabel_v1_short_data, validate=False)
 
     assert len(scene.frames[1].objects["6fe55546-0dd7-4e40-b6b4-bb7ea3445772"].poly2ds) == 1
 
@@ -1187,7 +1262,7 @@ def test_load_frame1_poly2ds(openlabel_v1_short_data, loader):
 
 
 def test_load_frame1_cuboids(openlabel_v1_short_data, loader):
-    scene = loader.load(openlabel_v1_short_data)
+    scene = loader.load(openlabel_v1_short_data, validate=False)
 
     assert len(scene.frames[1].objects["22dedd49-6dcb-413b-87ef-00ccfb532e98"].cuboids) == 2
 
@@ -1426,7 +1501,7 @@ def test_load_frame1_cuboids(openlabel_v1_short_data, loader):
 
 
 def test_load_frame1_seg3ds(openlabel_v1_short_data, loader):
-    scene = loader.load(openlabel_v1_short_data)
+    scene = loader.load(openlabel_v1_short_data, validate=False)
 
     assert len(scene.frames[1].objects["22dedd49-6dcb-413b-87ef-00ccfb532e98"].seg3ds) == 2
 
@@ -1536,8 +1611,8 @@ def test_load_uri_vcd_incompatible(
     """Tests, whether an older annotation file, which is not usable for the VCD
     library is converted into a compatible one."""
 
-    scene_ground_truth = loader.load(openlabel_v1_short_data)
-    scene = loader.load(openlabel_v1_vcd_incompatible_data)
+    scene_ground_truth = loader.load(openlabel_v1_short_data, validate=False)
+    scene = loader.load(openlabel_v1_vcd_incompatible_data, validate=False)
 
     # The UUIDs of the frame data have been generated and therefore do not match the ground truth.
     # They are set equal here.
@@ -1562,14 +1637,14 @@ def test_load_uri_vcd_incompatible(
 
 # Tests the warnings
 def test_no_warnings(openlabel_v1_short_data, loader):
-    loader.load(openlabel_v1_short_data)
+    loader.load(openlabel_v1_short_data, validate=False)
     assert len(loader.warnings) == 0
 
 
 def test_warnings_cs_parent(openlabel_v1_short_data, loader):
     openlabel_v1_short_data["openlabel"]["coordinate_systems"]["lidar"]["parent"] = "test_cs"
 
-    loader.load(openlabel_v1_short_data)
+    loader.load(openlabel_v1_short_data, validate=False)
     assert len(loader.warnings) == 1
 
     assert loader.scene.coordinate_systems["lidar"].parent is None
@@ -1584,7 +1659,7 @@ def test_warnings_cs_parent(openlabel_v1_short_data, loader):
 def test_warnings_cs_child(openlabel_v1_short_data, loader):
     openlabel_v1_short_data["openlabel"]["coordinate_systems"]["base"]["children"].append("test_cs")
 
-    loader.load(openlabel_v1_short_data)
+    loader.load(openlabel_v1_short_data, validate=False)
     assert len(loader.warnings) == 1
 
     assert not "test_cs" in loader.scene.coordinate_systems["base"].children
@@ -1601,7 +1676,7 @@ def test_warnings_objects_cs(openlabel_v1_short_data, loader):
         "coordinate_system"
     ] = "test_cs"
 
-    loader.load(openlabel_v1_short_data)
+    loader.load(openlabel_v1_short_data, validate=False)
     assert len(loader.warnings) == 1
 
     assert loader.scene.objects["b40ba3ad-0327-46ff-9c28-2506cfd6d934"].coordinate_system is None
@@ -1618,7 +1693,7 @@ def test_warnings_sync(openlabel_v1_short_data, loader):
         "test_stream"
     ] = {"stream_properties": {"sync": {"timestamp": "1632321743.100000072"}}}
 
-    loader.load(openlabel_v1_short_data)
+    loader.load(openlabel_v1_short_data, validate=False)
     assert len(loader.warnings) == 1
 
     # Tests for keywords in the warning that can help the user identify the source
@@ -1646,7 +1721,7 @@ def test_warnings_stream_sync_field(openlabel_v1_short_data, loader):
         "rgb_middle"
     ]["stream_properties"]["sync"]
 
-    loader.load(openlabel_v1_short_data)
+    loader.load(openlabel_v1_short_data, validate=False)
     assert len(loader.warnings) == 1
 
     # Tests for keywords in the warning that can help the user identify the source
@@ -1660,7 +1735,7 @@ def test_warnings_ann_object(openlabel_v1_short_data, loader):
         "affeaffe-0327-46ff-9c28-2506cfd6d934"
     ] = {"object_data": {}}
 
-    loader.load(openlabel_v1_short_data)
+    loader.load(openlabel_v1_short_data, validate=False)
     assert len(loader.warnings) == 1
 
     assert not "affeaffe-0327-46ff-9c28-2506cfd6d934" in loader.scene.frames[0].objects
@@ -1677,7 +1752,7 @@ def test_warnings_bbox_cs(openlabel_v1_short_data, loader):
         "b40ba3ad-0327-46ff-9c28-2506cfd6d934"
     ]["object_data"]["bbox"][0]["coordinate_system"] = "test_cs"
 
-    loader.load(openlabel_v1_short_data)
+    loader.load(openlabel_v1_short_data, validate=False)
     assert len(loader.warnings) == 1
 
     assert (
@@ -1700,7 +1775,7 @@ def test_warnings_poly2d_cs(openlabel_v1_short_data, loader):
         "b40ba3ad-0327-46ff-9c28-2506cfd6d934"
     ]["object_data"]["poly2d"][0]["coordinate_system"] = "test_cs"
 
-    loader.load(openlabel_v1_short_data)
+    loader.load(openlabel_v1_short_data, validate=False)
     assert len(loader.warnings) == 1
 
     assert (
@@ -1723,7 +1798,7 @@ def test_warnings_cuboid_cs(openlabel_v1_short_data, loader):
         "b40ba3ad-0327-46ff-9c28-2506cfd6d934"
     ]["object_data"]["cuboid"][0]["coordinate_system"] = "test_cs"
 
-    loader.load(openlabel_v1_short_data)
+    loader.load(openlabel_v1_short_data, validate=False)
     assert len(loader.warnings) == 1
 
     assert (
@@ -1746,7 +1821,7 @@ def test_warnings_seg3d_cs(openlabel_v1_short_data, loader):
         "b40ba3ad-0327-46ff-9c28-2506cfd6d934"
     ]["object_data"]["vec"][0]["coordinate_system"] = "test_cs"
 
-    loader.load(openlabel_v1_short_data)
+    loader.load(openlabel_v1_short_data, validate=False)
     assert len(loader.warnings) == 1
 
     assert (
@@ -1766,4 +1841,4 @@ def test_warnings_seg3d_cs(openlabel_v1_short_data, loader):
 
 # Executes the test if the file is called
 if __name__ == "__main__":
-    pytest.main([__file__, "--disable-pytest-warnings", "--cache-clear"])
+    pytest.main([__file__, "--disable-pytest-warnings", "--cache-clear", "-vv"])

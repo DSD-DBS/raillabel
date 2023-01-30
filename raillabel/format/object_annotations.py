@@ -9,6 +9,7 @@ from .bbox import Bbox
 from .cuboid import Cuboid
 from .object import Object
 from .poly2d import Poly2d
+from .poly3d import Poly3d
 from .seg3d import Seg3d
 
 
@@ -25,7 +26,9 @@ class ObjectAnnotations:
     cuboids: dict of raillabel.format.Cuboid, optional
         Dictionary of all cuboids representing this object in this frame. Default is {}.
     poly2ds: dict of raillabel.format.Poly2d, optional
-        Dictionary of all polylines representing this object in this frame. Default is {}.
+        Dictionary of all 2d polylines representing this object in this frame. Default is {}.
+    poly3ds: dict of raillabel.format.Poly3d, optional
+        Dictionary of all 3d polylines representing this object in this frame. Default is {}.
     seg3ds: dict of raillabel.format.Seg3d, optional
         Dictionary of all 3d segmentations representing this object in this frame. Default is {}.
     frame: raillabel.format.frame, optional
@@ -37,6 +40,7 @@ class ObjectAnnotations:
     bboxs: t.Dict[uuid.UUID, Bbox] = field(default_factory=dict)
     cuboids: t.Dict[uuid.UUID, Cuboid] = field(default_factory=dict)
     poly2ds: t.Dict[uuid.UUID, Poly2d] = field(default_factory=dict)
+    poly3ds: t.Dict[uuid.UUID, Poly3d] = field(default_factory=dict)
     seg3ds: t.Dict[uuid.UUID, Seg3d] = field(default_factory=dict)
     frame: t.Any = None
 
@@ -67,6 +71,12 @@ class ObjectAnnotations:
 
             for poly2d in self.poly2ds.values():
                 dict_repr["object_data"]["poly2d"].append(poly2d.asdict())
+
+        if self.poly3ds != {}:
+            dict_repr["object_data"]["poly3d"] = []
+
+            for poly3d in self.poly3ds.values():
+                dict_repr["object_data"]["poly3d"].append(poly3d.asdict())
 
         if self.cuboids != {}:
             dict_repr["object_data"]["cuboid"] = []

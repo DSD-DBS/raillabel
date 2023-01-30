@@ -5,12 +5,12 @@ import typing as t
 from dataclasses import dataclass
 
 from ._annotation import _Annotation
-from .point2d import Point2d
+from .point3d import Point3d
 
 
 @dataclass
-class Poly2d(_Annotation):
-    """Sequence of 2D points. Can either be a polygon or polyline.
+class Poly3d(_Annotation):
+    """Sequence of 3D points. Can either be a polygon or polyline.
 
     Parameters
     ----------
@@ -18,25 +18,18 @@ class Poly2d(_Annotation):
         This a string representing the unique universal identifier for the annotation.
     name: str
         Human readable name describing the annotation.
-    points: list of raillabel.format.Point2d
-        List of the 2d points that make up the polyline.
+    points: list of raillabel.format.Point3d
+        List of the 3d points that make up the polyline.
     closed: bool
         This parameter states, whether the polyline represents a closed shape (a polygon) or an
         open line.
-    mode: str, optional
-        Mode of the polyline list of values: "MODE_POLY2D_ABSOLUTE" determines that the poly2d list
-        contains the sequence of (x, y) values of all points of the polyline. "MODE_POLY2D_RELATIVE"
-        specifies that only the first point of the sequence is defined with its (x, y) values, while
-        all the rest are defined relative to it. "MODE_POLY2D_SRF6DCC" specifies that SRF6DCC chain
-        code method is used. "MODE_POLY2D_RS6FCC" specifies that the RS6FCC method is used. Default
-        is 'MODE_POLY2D_ABSOLUTE'.
     attributes: dict, optional
         Attributes of the annotation. Dict keys are the name str of the attribute, values are the
         attribute values. Default is {}.
     coordinate_system: raillabel.format.CoordinateSystem, optional
         A reference to the coordinate_system, this annotation is labeled in. Default is None.
     object_annotations: raillabel.format.ObjectAnnotations, optional
-        ObjectAnnotations containing the Poly2d. Used for accessing higher level informations.
+        ObjectAnnotations containing the Poly3d. Used for accessing higher level informations.
         Default is None.
 
     Parameters
@@ -45,9 +38,8 @@ class Poly2d(_Annotation):
         URI to the file, which contains the annotated object.
     """
 
-    points: t.List[Point2d] = None
+    points: t.List[Point3d] = None
     closed: bool = None
-    mode: str = "MODE_POLY2D_ABSOLUTE"
 
     _REQ_FIELDS = ["points", "closed"]
 
@@ -57,7 +49,7 @@ class Poly2d(_Annotation):
         data_dict: dict,
         coordinate_systems: dict,
         object_annotations=None,
-    ) -> t.Tuple["Poly2d", list]:
+    ) -> t.Tuple["Poly3d", list]:
         """Generate a Bbox object from a dictionary in the OpenLABEL format.
 
         Parameters
@@ -67,7 +59,7 @@ class Poly2d(_Annotation):
         coordinate_systems: dict
             Dictionary containing all coordinate_systems for the scene.
         object_annotations: raillabel.format.ObjectAnnotations, optional
-            ObjectAnnotations containing the Poly2d. Used for accessing higher level informations.
+            ObjectAnnotations containing the Poly3d. Used for accessing higher level informations.
             Default is None.
 
         Returns
@@ -82,15 +74,16 @@ class Poly2d(_Annotation):
 
         # Parses the points
         points = []
-        for i in range(0, len(data_dict["val"]), 2):
-            points.append(Point2d(x=data_dict["val"][i], y=data_dict["val"][i + 1]))
+        for i in range(0, len(data_dict["val"]), 3):
+            points.append(
+                Point3d(x=data_dict["val"][i], y=data_dict["val"][i + 1], z=data_dict["val"][i + 2])
+            )
 
         # Creates the annotation with all mandatory properties
-        annotation = Poly2d(
+        annotation = Poly3d(
             uid=str(data_dict["uid"]),
             name=str(data_dict["name"]),
             closed=data_dict["closed"],
-            mode=data_dict["mode"],
             points=points,
             object_annotations=object_annotations,
         )
@@ -138,7 +131,6 @@ class Poly2d(_Annotation):
 
         dict_repr["closed"] = bool(self.closed)
         dict_repr["val"] = []
-        dict_repr["mode"] = self.mode
         for point in self.points:
             dict_repr["val"].extend(point.asdict())
 

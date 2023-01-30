@@ -603,6 +603,36 @@
                                 }
                             ]
                         }
+                    },
+                    "22dedd49-6dcb-413b-87ef-00ccfb532e98": {
+                        "object_data": {
+                            "poly3d": [
+                                {
+                                    "name": "14f58fb0-add7-4ed9-85b3-74615986d854",
+                                    "val": [
+                                        9.0,
+                                        8.0,
+                                        7.0,
+                                        6.0,
+                                        5.0,
+                                        4.0,
+                                        3.0,
+                                        2.0,
+                                        1.0
+                                    ],
+                                    "closed": false,
+                                    "coordinate_system": "lidar",
+                                    "attributes": {
+                                        "text": [
+                                            {
+                                                "name": "uri",
+                                                "val": "lidar_test0.pcd"
+                                            }
+                                        ]
+                                    }
+                                }
+                            ]
+                        }
                     }
                 }
             },

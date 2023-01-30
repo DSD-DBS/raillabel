@@ -14,6 +14,7 @@ from .object_annotations import AnnotationContainer, ObjectAnnotations
 from .point2d import Point2d
 from .point3d import Point3d
 from .poly2d import Poly2d
+from .poly3d import Poly3d
 from .quaternion import Quaternion
 from .scene import Scene
 from .seg3d import Seg3d

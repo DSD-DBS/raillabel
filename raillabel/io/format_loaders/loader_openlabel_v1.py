@@ -33,9 +33,10 @@ class LoaderOpenLabelV1(LoaderABC):
             "attribute_name": "bboxs",
         },
         "cuboid": {"class": format.Cuboid, "attribute_name": "cuboids"},
-        "poly2d": {"class": format.Poly2d, "attribute_name": "poly2ds"},
-        "vec": {"class": format.Seg3d, "attribute_name": "seg3ds"},
         "num": {"class": format.Num, "attribute_name": "nums"},
+        "poly2d": {"class": format.Poly2d, "attribute_name": "poly2ds"},
+        "poly3d": {"class": format.Poly3d, "attribute_name": "poly3ds"},
+        "vec": {"class": format.Seg3d, "attribute_name": "seg3ds"},
     }
     """Mapping between the OpenLABEL annotation type names and the classes / raillabel
         attribute names"""
