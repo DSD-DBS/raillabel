@@ -30,3 +30,4 @@ Release
 - FrameInterval.\_\_len\_\_() now returns the number of frames in the FrameInterval
 - Frame.annotations returns a dict of all annotations in the frame regardless of type or object
 - Removed proprietary parts
+- Added poly3d as a supported annotation type
