@@ -1613,10 +1613,10 @@ def test_warnings_objects_cs(openlabel_v1_short_data, loader):
     assert "test_cs" in loader.warnings[0]
 
 
-def test_warnings_stream_sync(openlabel_v1_short_data, loader):
+def test_warnings_sync(openlabel_v1_short_data, loader):
     openlabel_v1_short_data["openlabel"]["frames"]["0"]["frame_properties"]["streams"][
         "test_stream"
-    ] = {}
+    ] = {"stream_properties": {"sync": {"timestamp": "1632321743.100000072"}}}
 
     loader.load(openlabel_v1_short_data)
     assert len(loader.warnings) == 1
@@ -1624,8 +1624,35 @@ def test_warnings_stream_sync(openlabel_v1_short_data, loader):
     # Tests for keywords in the warning that can help the user identify the source
     assert "frame" in loader.warnings[0]
     assert "0" in loader.warnings[0]
-    assert "stream_sync" in loader.warnings[0]
+    assert "sync" in loader.warnings[0]
     assert "test_stream" in loader.warnings[0]
+
+
+def test_warnings_stream_sync_field(openlabel_v1_short_data, loader):
+    openlabel_v1_short_data["openlabel"]["frames"]["0"]["frame_properties"]["streams"][
+        "rgb_middle"
+    ]["stream_properties"]["stream_sync"] = openlabel_v1_short_data["openlabel"]["frames"]["0"][
+        "frame_properties"
+    ][
+        "streams"
+    ][
+        "rgb_middle"
+    ][
+        "stream_properties"
+    ][
+        "sync"
+    ]
+    del openlabel_v1_short_data["openlabel"]["frames"]["0"]["frame_properties"]["streams"][
+        "rgb_middle"
+    ]["stream_properties"]["sync"]
+
+    loader.load(openlabel_v1_short_data)
+    assert len(loader.warnings) == 1
+
+    # Tests for keywords in the warning that can help the user identify the source
+    assert "stream_sync" in loader.warnings[0]
+    assert "deprecated" in loader.warnings[0].lower()
+    assert "save()" in loader.warnings[0]
 
 
 def test_warnings_ann_object(openlabel_v1_short_data, loader):

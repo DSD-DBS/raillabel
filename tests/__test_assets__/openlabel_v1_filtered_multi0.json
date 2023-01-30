@@ -139,14 +139,14 @@
                     "streams": {
                         "rgb_middle": {
                             "stream_properties": {
-                                "stream_sync": {
+                                "sync": {
                                     "timestamp": "1632321743.2"
                                 }
                             }
                         },
                         "lidar": {
                             "stream_properties": {
-                                "stream_sync": {
+                                "sync": {
                                     "timestamp": "1632321743.233263"
                                 }
                             }

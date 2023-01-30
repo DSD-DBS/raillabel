@@ -89,7 +89,7 @@
                     "streams": {
                         "lidar": {
                             "stream_properties": {
-                                "stream_sync": {
+                                "sync": {
                                     "timestamp": "1632321743.134149"
                                 }
                             }
@@ -303,7 +303,7 @@
                     "streams": {
                         "lidar": {
                             "stream_properties": {
-                                "stream_sync": {
+                                "sync": {
                                     "timestamp": "1632321743.233263"
                                 }
                             }

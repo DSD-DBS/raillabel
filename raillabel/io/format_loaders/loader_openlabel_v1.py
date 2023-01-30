@@ -284,19 +284,31 @@ class LoaderOpenLabelV1(LoaderABC):
 
             # frame.streams
             if "streams" in frame["frame_properties"]:
+
                 for stream_uid, stream_reference in frame["frame_properties"]["streams"].items():
+
+                    # Older version store the stream timestamp under stream_sync. This adressed here.
+                    if "stream_sync" in stream_reference["stream_properties"]:
+                        stream_reference["stream_properties"]["sync"] = stream_reference[
+                            "stream_properties"
+                        ]["stream_sync"]
+
+                        warning_message = f"Deprecated field 'stream_sync' in frame {uid}. Please update file with raillable.save()."
+                        if warning_message not in self.warnings:
+                            self.warnings.append(warning_message)
+
                     try:
                         self.scene.frames[int(uid)].streams[stream_uid] = format.StreamReference(
                             stream=self.scene.streams[stream_uid],
                             timestamp=decimal.Decimal(
-                                stream_reference["stream_properties"]["stream_sync"]["timestamp"]
+                                stream_reference["stream_properties"]["sync"]["timestamp"]
                             ),
                         )
 
                     except KeyError:
                         self.warnings.append(
                             f"{stream_uid} does not exist as a stream, but is referenced in the "
-                            + f"stream_sync of frame {uid}."
+                            + f"sync of frame {uid}."
                         )
 
                     else:
