@@ -7,7 +7,7 @@ import uuid
 from dataclasses import dataclass, field
 
 from .num import Num
-from .object_annotations import ObjectAnnotations
+from .object_data import ObjectData
 from .stream_reference import StreamReference
 
 
@@ -27,7 +27,7 @@ class Frame:
     data: dict, optional
         Dictionary containing data directly connected to the frame and not to anny object.
         Dictionary keys are the ID-strings of the variable the data belongs to. Default is {}.
-    objects: dict of raillabel.format.ObjectAnnotations, optional
+    objects: dict of raillabel.format.ObjectData, optional
         Dictionary containing the annotations per object. Dictionary keys are the object uids.
         Default is {}.
 
@@ -42,7 +42,7 @@ class Frame:
     timestamp: decimal.Decimal = None
     streams: t.Dict[str, StreamReference] = field(default_factory=dict)
     data: t.Dict[str, Num] = field(default_factory=dict)
-    objects: t.Dict[uuid.UUID, ObjectAnnotations] = field(default_factory=dict)
+    objects: t.Dict[uuid.UUID, ObjectData] = field(default_factory=dict)
 
     @property
     def annotations(self) -> t.Dict[uuid.UUID, t.Any]:

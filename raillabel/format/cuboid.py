@@ -32,8 +32,8 @@ class Cuboid(_Annotation):
         attribute values. Default is {}.
     coordinate_system: raillabel.format.CoordinateSystem, optional
         A reference to the coordinate_system, this annotation is labeled in. Default is None.
-    object_annotations: raillabel.format.ObjectAnnotations, optional
-        ObjectAnnotations containing the Cuboid. Used for accessing higher level informations.
+    object_data: raillabel.format.ObjectData, optional
+        ObjectData containing the Cuboid. Used for accessing higher level informations.
         Default is None.
 
     Parameters
@@ -53,7 +53,7 @@ class Cuboid(_Annotation):
         self,
         data_dict: dict,
         coordinate_systems: dict,
-        object_annotations=None,
+        object_data=None,
     ) -> t.Tuple["Cuboid", list]:
         """Generate a Cuboid object from a dictionary in the OpenLABEL format.
 
@@ -63,8 +63,8 @@ class Cuboid(_Annotation):
             OpenLABEL format dictionary containing the data for the annotation.
         coordinate_systems: dict
             Dictionary containing all coordinate_systems for the scene.
-        object_annotations: raillabel.format.ObjectAnnotations, optional
-            ObjectAnnotations containing the Cuboid. Used for accessing higher level informations.
+        object_data: raillabel.format.ObjectData, optional
+            ObjectData containing the Cuboid. Used for accessing higher level informations.
             Default is None.
 
         Returns
@@ -97,7 +97,7 @@ class Cuboid(_Annotation):
                 y=data_dict["val"][8],
                 z=data_dict["val"][9],
             ),
-            object_annotations=object_annotations,
+            object_data=object_data,
         )
 
         # Adds the optional properties

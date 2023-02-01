@@ -15,29 +15,27 @@ class _Annotation(ABC):
     name: str
     attributes: t.Dict[str, t.Union[int, float, bool, str, list]] = field(default_factory=dict)
     coordinate_system: CoordinateSystem = None
-    object_annotations: t.Any = None
+    object_data: t.Any = None
 
     @property
     def uri(self) -> str or None:
         """URI to the file, which contains the annotated object."""
-        if self.object_annotations is None or self.object_annotations.frame is None:
+        if self.object_data is None or self.object_data.frame is None:
             return None
-        return self.object_annotations.frame.streams[self.coordinate_system.uid].uri
+        return self.object_data.frame.streams[self.coordinate_system.uid].uri
 
     @uri.setter
     def uri(self, value):
 
-        if self.object_annotations is None:
-            raise AttributeError(f"Attribute object_annotations not set for annotation {self.uri}.")
+        if self.object_data is None:
+            raise AttributeError(f"Attribute object_data not set for annotation {self.uri}.")
 
-        if self.object_annotations.frame is None:
+        if self.object_data.frame is None:
             raise AttributeError(
                 f"Attribute frame not set for ObjectAnnotation of annotation {self.uri}."
             )
 
-        self.object_annotations.frame.streams[self.coordinate_system.uid].uri = value
-
-        return
+        self.object_data.frame.streams[self.coordinate_system.uid].uri = value
 
     # === Public Methods =====================================================
 
@@ -98,10 +96,10 @@ class _Annotation(ABC):
         if type(child) != type(other):
             return False
 
-        # object_annotations is omitted from the equal comparison, because it contains this
+        # object_data is omitted from the equal comparison, because it contains this
         # annotation, which will lead to a RecursionError.
-        return {k: v for k, v in vars(child).items() if k != "object_annotations"} == {
-            k: v for k, v in vars(other).items() if k != "object_annotations"
+        return {k: v for k, v in vars(child).items() if k != "object_data"} == {
+            k: v for k, v in vars(other).items() if k != "object_data"
         }
 
     # === Private Methods ====================================================

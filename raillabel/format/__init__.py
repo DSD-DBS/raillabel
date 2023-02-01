@@ -10,7 +10,7 @@ from .frame_interval import FrameInterval
 from .metadata import Metadata
 from .num import Num
 from .object import Object
-from .object_annotations import AnnotationContainer, ObjectAnnotations
+from .object_data import AnnotationContainer, ObjectData
 from .point2d import Point2d
 from .point3d import Point3d
 from .poly2d import Poly2d

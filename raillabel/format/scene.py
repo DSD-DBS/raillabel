@@ -12,7 +12,7 @@ from .cuboid import Cuboid
 from .frame import Frame
 from .metadata import Metadata
 from .object import Object
-from .object_annotations import ObjectAnnotations
+from .object_data import ObjectData
 from .poly2d import Poly2d
 from .seg3d import Seg3d
 from .stream import Stream
@@ -447,7 +447,7 @@ class Scene:
 
                     # Adds the object to the frame, if not already added
                     if obj_uid not in filtered_scene.frames[frame.uid].objects:
-                        filtered_scene.frames[frame.uid].objects[obj_uid] = ObjectAnnotations(
+                        filtered_scene.frames[frame.uid].objects[obj_uid] = ObjectData(
                             object=filtered_scene.objects[obj_uid]
                         )
 

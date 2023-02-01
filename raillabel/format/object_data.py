@@ -14,7 +14,7 @@ from .seg3d import Seg3d
 
 
 @dataclass
-class ObjectAnnotations:
+class ObjectData:
     """Annotations associated with a specific object in a frame.
 
     Parameters
@@ -32,7 +32,7 @@ class ObjectAnnotations:
     seg3ds: dict of raillabel.format.Seg3d, optional
         Dictionary of all 3d segmentations representing this object in this frame. Default is {}.
     frame: raillabel.format.frame, optional
-        Frame containing the ObjectAnnotations. Used for accessing higher level informations.
+        Frame containing the ObjectData. Used for accessing higher level informations.
         Default is None.
     """
 
