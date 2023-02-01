@@ -8,7 +8,7 @@ from . import format_loaders
 from .format_loaders._loader_abc import LoaderABC
 
 
-def load(path: str, validate: bool = True, show_warnings: bool = True) -> format.Scene:
+def load(path: str, validate: bool = False, show_warnings: bool = True) -> format.Scene:
     """Load an annotation file of any supported type.
 
     Parameters
@@ -18,7 +18,7 @@ def load(path: str, validate: bool = True, show_warnings: bool = True) -> format
     validate: bool, optional
         If True, the annotation data is validated via the respective schema. This is highly
         recommended, as not validating the data may lead to Errors during loading or while handling
-        the scene. However, validating may increase the loading time. Default is True.
+        the scene. However, validating may increase the loading time. Default is False.
     show_warnings: bool, optional
         If True, any non-critical inconsistencies in the data are output as a warning. Default is
         True.
@@ -48,7 +48,6 @@ def load(path: str, validate: bool = True, show_warnings: bool = True) -> format
 
     # Checks for the supported file type
     if not str(path).lower().endswith(".json"):
-
         raise exceptions.UnsupportedFormatError(f"{path} is not in a supported file format.")
 
     # Loads the JSON data

@@ -9,7 +9,7 @@ from ..format import Scene
 from .validate import validate as validate_func
 
 
-def save(scene: Scene, path: str, prettify_json: bool = False, validate: bool = True):
+def save(scene: Scene, path: str, prettify_json: bool = False, validate: bool = False):
     """Save a raillabel.Scene in a JSON file.
 
     Parameters
@@ -28,7 +28,7 @@ def save(scene: Scene, path: str, prettify_json: bool = False, validate: bool = 
     validate: bool, optional
         If True, the annotation data is validated via the OpenLabel schema. This is highly
         recommended, as not validating the data may lead to Errors during loading or while handling
-        the scene. However, validating may increase the loading time. Default is True.
+        the scene. However, validating may increase the loading time. Default is False.
 
     Raises
     ------
