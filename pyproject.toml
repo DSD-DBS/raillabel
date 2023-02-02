@@ -46,6 +46,7 @@ docs = [
   "sphinx",
   "sphinx-copybutton",
   "nbsphinx",
+  "sphinx_argparse_cli",
   "tomli; python_version<'3.11'",
 ]
 
