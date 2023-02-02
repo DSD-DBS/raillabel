@@ -26,8 +26,12 @@ with open("../../pyproject.toml", "rb") as f:
     _metadata = tomllib.load(f)["project"]
 
 project = "RailLabel"
+pypi = "raillabel"
 author = _metadata["authors"][0]["name"]
 copyright = f"{author} and the {_metadata['name']} contributors"
+license = _metadata["license"]["text"]
+install_requirements = _metadata["dependencies"]
+python_requirement = _metadata["requires-python"]
 
 
 # -- General configuration ---------------------------------------------------
@@ -36,10 +40,12 @@ copyright = f"{author} and the {_metadata['name']} contributors"
 # extensions coming with Sphinx (named 'sphinx.ext.*') or your custom
 # ones.
 extensions = [
+    "nbsphinx",
     "sphinx.ext.autodoc",
+    "sphinx.ext.coverage",
     "sphinx.ext.intersphinx",
     "sphinx.ext.napoleon",
-    "sphinx_copybutton",
+    "sphinx_argparse_cli",
 ]
 
 # Add any paths that contain templates here, relative to this directory.
@@ -85,6 +91,9 @@ napoleon_include_init_with_doc = True
 intersphinx_mapping = {
     "python": ("https://docs.python.org/3", None),
 }
+
+# -- Options for NBSphinx output ---------------------------------------------
+nbsphinx_allow_errors = True
 
 
 # -- Options for HTML output -------------------------------------------------
