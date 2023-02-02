@@ -45,9 +45,6 @@ docs = [
   "furo",
   "sphinx",
   "sphinx-copybutton",
-  "nbsphinx",
-  "sphinx_argparse_cli",
-  "pandoc",
   "tomli; python_version<'3.11'",
 ]
 
