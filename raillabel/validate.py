@@ -8,7 +8,7 @@ from pathlib import Path
 
 import jsonschema
 
-from .. import exceptions
+from . import exceptions
 
 
 def validate(data: dict, schema_path: str = "openlabel_v1") -> t.Tuple[bool, t.List[str]]:
@@ -19,7 +19,7 @@ def validate(data: dict, schema_path: str = "openlabel_v1") -> t.Tuple[bool, t.L
     data: dict
         JSON data to be validated.
     schema_path: str, optional
-        Path to the JSON schema used for the validation. If the schema is in the /io/schemas
+        Path to the JSON schema used for the validation. If the schema is in the /schemas
         folder, the format name can be used (i.e. schema_path can be 'openlabel_v1' or
         'openlabel_v1_schema' to load the openlabel_v1_schema.json file). Default is
         'openlabel_v1'.
@@ -40,8 +40,8 @@ def validate(data: dict, schema_path: str = "openlabel_v1") -> t.Tuple[bool, t.L
     if "/" in schema_path or "\\" in schema_path:  # if schema_path is a complete path
         schema_path = Path(schema_path)
 
-    else:  # if schema_path is a schema name in /io/schemas
-        local_schemas = [  # t.List of json files in /io/schemas
+    else:  # if schema_path is a schema name in /schemas
+        local_schemas = [  # t.List of json files in /schemas
             p for p in os.listdir(Path(__file__).parent / "schemas") if p.endswith(".json")
         ]
 
@@ -63,7 +63,7 @@ def validate(data: dict, schema_path: str = "openlabel_v1") -> t.Tuple[bool, t.L
 
         else:  # if more than one applicable files have been found
 
-            err_msg = f"The key {schema_path} applies to multiple files in /io/schemas:"
+            err_msg = f"The key {schema_path} applies to multiple files in /schemas:"
             for p in applicable_local_schemas:
                 err_msg += "\n - " + p
 

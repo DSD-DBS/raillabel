@@ -5,7 +5,7 @@ import typing as t
 from abc import ABC, abstractmethod
 from pathlib import Path
 
-from ... import format
+from .. import format
 from ..validate import validate as global_validate
 
 

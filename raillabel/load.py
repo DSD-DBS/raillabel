@@ -3,8 +3,7 @@
 
 import json
 
-from .. import exceptions, format
-from . import format_loaders
+from . import exceptions, format, format_loaders
 from .format_loaders._loader_abc import LoaderABC
 
 

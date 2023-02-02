@@ -11,7 +11,7 @@ sys.path.insert(1, str(Path(__file__).parent.parent.parent))
 
 import raillabel
 
-filtered_gt_dir = Path(__file__).parent.parent / "__test_assets__"
+filtered_gt_dir = Path(__file__).parent / "__test_assets__"
 
 openlabel_filtered_include_frames = filtered_gt_dir / "openlabel_v1_filtered_include_frames.json"
 

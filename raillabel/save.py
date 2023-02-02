@@ -4,8 +4,8 @@
 import json
 from pathlib import Path
 
-from .. import exceptions
-from ..format import Scene
+from . import exceptions
+from .format import Scene
 from .validate import validate as validate_func
 
 
@@ -20,8 +20,6 @@ def save(scene: Scene, path: str, prettify_json: bool = False, validate: bool = 
         Path to the file location, that should be used for saving.
     save_path: str
         Path to the JSON file.
-    quiet: bool, optional
-        If true, only minimal console output is produced. Default is True.
     prettify_json: bool, optional
         If true, the JSON is saved with linebreaks and indents. This increases readibility but
         also the file size. Default is False.
@@ -127,7 +125,7 @@ def _add_object_data_pointers(data: dict, scene: Scene) -> dict:
         # Adds the object_data_pointers
         for annotation in frame.annotations.values():
 
-            object_id = annotation.object_annotations.object.uid
+            object_id = annotation.object_data.object.uid
 
             if annotation.name not in object_frame_intervals[object_id]["object_data_pointers"]:
                 object_frame_intervals[object_id]["object_data_pointers"][annotation.name] = {

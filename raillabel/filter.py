@@ -4,7 +4,7 @@
 import typing as t
 from decimal import Decimal
 
-from ..format.scene import Scene
+from .format.scene import Scene
 
 
 def filter(

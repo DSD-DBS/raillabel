@@ -6,8 +6,8 @@ import typing as t
 import uuid
 from pathlib import Path
 
-from ... import format
-from ...exceptions import SchemaError
+from .. import format
+from ..exceptions import SchemaError
 from ._loader_abc import LoaderABC
 
 
@@ -140,7 +140,7 @@ class LoaderOpenLabelV1(LoaderABC):
 
         # Version of the raillabel-devkit can not be imported due to circular imports and therefore
         # needs to be read from the __init__.py file directly.
-        with (Path(__file__).parent.parent.parent / "__init__.py").open() as f:
+        with (Path(__file__).parent.parent / "__init__.py").open() as f:
             exporter_version = [line for line in f.readlines() if line.startswith("__version__ =")]
 
         self.scene.metadata.exporter_version = exporter_version[-1].split('"')[1]
@@ -371,7 +371,7 @@ class LoaderOpenLabelV1(LoaderABC):
 
                     # frame.objects
                     try:
-                        self.scene.frames[int(uid)].objects[obj_uid] = format.ObjectAnnotations(
+                        self.scene.frames[int(uid)].objects[obj_uid] = format.ObjectData(
                             object=self.scene.objects[obj_uid],
                             frame=self.scene.frames[int(uid)],
                         )

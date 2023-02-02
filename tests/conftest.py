@@ -8,33 +8,31 @@ import pytest
 
 # Variables
 openlabel_v1_schema_path_var = (
-    pathlib.Path(__file__).parent.parent
-    / "raillabel"
-    / "io"
-    / "schemas"
-    / "openlabel_v1_schema.json"
+    pathlib.Path(__file__).parent.parent / "raillabel" / "schemas" / "openlabel_v1_schema.json"
 )
 openlabel_v1_short_path_var = (
-    pathlib.Path(__file__).parent / "__test_assets__" / "openlabel_v1_short.json"
+    pathlib.Path(__file__).parent / "test_raillabel" / "__test_assets__" / "openlabel_v1_short.json"
 )
 openlabel_v1_vcd_incompatible_path_var = (
-    pathlib.Path(__file__).parent / "__test_assets__" / "openlabel_v1_vcd_incompatible.json"
+    pathlib.Path(__file__).parent
+    / "test_raillabel"
+    / "__test_assets__"
+    / "openlabel_v1_vcd_incompatible.json"
 )
 understandai_v3_schema_path_var = (
-    pathlib.Path(__file__).parent.parent
-    / "raillabel"
-    / "io"
-    / "schemas"
-    / "understandai_v3_schema.json"
+    pathlib.Path(__file__).parent.parent / "raillabel" / "schemas" / "understandai_v3_schema.json"
 )
 understandai_v3_short_path_var = (
-    pathlib.Path(__file__).parent / "__test_assets__" / "understandai_v3_short.json"
+    pathlib.Path(__file__).parent
+    / "test_raillabel"
+    / "__test_assets__"
+    / "understandai_v3_short.json"
 )
 clabel_v2_schema_path_var = (
-    pathlib.Path(__file__).parent.parent / "raillabel" / "io" / "schemas" / "clabel_v2_schema.json"
+    pathlib.Path(__file__).parent.parent / "raillabel" / "schemas" / "clabel_v2_schema.json"
 )
 clabel_v2_short_path_var = (
-    pathlib.Path(__file__).parent / "__test_assets__" / "clabel_v2_short.json"
+    pathlib.Path(__file__).parent / "test_raillabel" / "__test_assets__" / "clabel_v2_short.json"
 )
 
 # OpenLabel v1 schema

@@ -17,7 +17,7 @@ class SchemaError(Exception):
 class AmbiguousSchemaNameError(Exception):
     """Raised when a schema key applies to more than one schema files in.
 
-    /io/schemas.
+    /schemas.
     """
 
     __module__ = "raillabel"
