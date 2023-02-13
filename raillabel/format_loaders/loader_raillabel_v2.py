@@ -364,11 +364,10 @@ class LoaderRailLabelV2(LoaderABC):
 
                     obj_ann = obj_ann["object_data"]
 
-                    # frame.objects
+                    # frame.object_data
                     try:
-                        self.scene.frames[int(uid)].objects[obj_uid] = format.ObjectData(
-                            object=self.scene.objects[obj_uid],
-                            frame=self.scene.frames[int(uid)],
+                        self.scene.frames[int(uid)].object_data[obj_uid] = format.ObjectData(
+                            object=self.scene.objects[obj_uid]
                         )
 
                     except KeyError:
@@ -396,11 +395,10 @@ class LoaderRailLabelV2(LoaderABC):
                             continue
 
                         # Collects the converted annotations
-                        annotations = {}
                         for ann_raw in obj_ann[ann_type]:
 
-                            # Older version have the annotation UUID stored in the 'name' field. This
-                            # needs to be corrected first.
+                            # Older versions have the annotation UUID stored in the 'name' field.
+                            # This needs to be corrected first.
                             if not "uid" in ann_raw:
                                 try:
                                     ann_raw["uid"] = str(uuid.UUID(ann_raw["name"]))
@@ -409,8 +407,22 @@ class LoaderRailLabelV2(LoaderABC):
                                 else:
                                     ann_raw["name"] = "general"
 
+                            # Older versions store the URI attribute in the annotation attributes.
+                            # This needs to be corrected if it is the case.
+                            if "attributes" in ann_raw and "text" in ann_raw["attributes"]:
+                                for i, attr in enumerate(ann_raw["attributes"]["text"]):
+                                    if attr["name"] == "uri":
+                                        self.scene.frames[int(uid)].streams[
+                                            ann_raw["coordinate_system"]
+                                        ].uri = attr["val"]
+                                        del ann_raw["attributes"]["text"][i]
+                                        break
+
                             # Raises a warning, if a duplicate annotation is detected
-                            if ann_raw["uid"] in annotations:
+                            if (
+                                ann_raw["uid"]
+                                in self.scene.frames[int(uid)].object_data[obj_uid].annotations
+                            ):
                                 self.warnings.append(
                                     f"Annotation {ann_raw['uid']} is contained more than one time "
                                     + f"in frame {uid}."
@@ -418,18 +430,13 @@ class LoaderRailLabelV2(LoaderABC):
                                 continue
 
                             # Converts the annotation
-                            (annotations[ann_raw["uid"]], w,) = self._OPENLABEL_CLASS_MAPPING[
-                                ann_type
-                            ].fromdict(
+                            (
+                                self.scene.frames[int(uid)]
+                                .object_data[obj_uid]
+                                .annotations[ann_raw["uid"]],
+                                w,
+                            ) = self._OPENLABEL_CLASS_MAPPING[ann_type].fromdict(
                                 ann_raw,
                                 self.scene.coordinate_systems,
-                                self.scene.frames[int(uid)].objects[obj_uid],
                             )
                             self.warnings.extend(w)
-
-                        # Allocates the annotations to the frame-object
-                        setattr(
-                            self.scene.frames[int(uid)].objects[obj_uid],
-                            self._OPENLABEL_CLASS_MAPPING[ann_type].OBJECT_DATA_FIELD,
-                            annotations,
-                        )

@@ -224,15 +224,15 @@ def test_load_frame0_metadata(openlabel_v1_short_data, loader):
         == scene.coordinate_systems["lidar"]
     )
 
-    assert len(scene.frames[0].objects) == 2
-    assert "b40ba3ad-0327-46ff-9c28-2506cfd6d934" in scene.frames[0].objects
+    assert len(scene.frames[0].object_data) == 2
+    assert "b40ba3ad-0327-46ff-9c28-2506cfd6d934" in scene.frames[0].object_data
     assert (
-        scene.frames[0].objects["b40ba3ad-0327-46ff-9c28-2506cfd6d934"].object
+        scene.frames[0].object_data["b40ba3ad-0327-46ff-9c28-2506cfd6d934"].object
         == scene.objects["b40ba3ad-0327-46ff-9c28-2506cfd6d934"]
     )
-    assert "22dedd49-6dcb-413b-87ef-00ccfb532e98" in scene.frames[0].objects
+    assert "22dedd49-6dcb-413b-87ef-00ccfb532e98" in scene.frames[0].object_data
     assert (
-        scene.frames[0].objects["22dedd49-6dcb-413b-87ef-00ccfb532e98"].object
+        scene.frames[0].object_data["22dedd49-6dcb-413b-87ef-00ccfb532e98"].object
         == scene.objects["22dedd49-6dcb-413b-87ef-00ccfb532e98"]
     )
 
@@ -240,75 +240,68 @@ def test_load_frame0_metadata(openlabel_v1_short_data, loader):
 def test_load_frame0_bboxs(openlabel_v1_short_data, loader):
     scene = loader.load(openlabel_v1_short_data, validate=False)
 
-    assert len(scene.frames[0].objects["b40ba3ad-0327-46ff-9c28-2506cfd6d934"].bboxs) == 2
+    assert len(scene.frames[0].object_data["b40ba3ad-0327-46ff-9c28-2506cfd6d934"].bboxs) == 2
 
     assert (
         "78f0ad89-2750-4a30-9d66-44c9da73a714"
-        in scene.frames[0].objects["b40ba3ad-0327-46ff-9c28-2506cfd6d934"].bboxs
+        in scene.frames[0].object_data["b40ba3ad-0327-46ff-9c28-2506cfd6d934"].bboxs
     )
     assert (
         scene.frames[0]
-        .objects["b40ba3ad-0327-46ff-9c28-2506cfd6d934"]
+        .object_data["b40ba3ad-0327-46ff-9c28-2506cfd6d934"]
         .bboxs["78f0ad89-2750-4a30-9d66-44c9da73a714"]
         == scene.frames[0].annotations["78f0ad89-2750-4a30-9d66-44c9da73a714"]
     )
     assert (
         scene.frames[0]
-        .objects["b40ba3ad-0327-46ff-9c28-2506cfd6d934"]
+        .object_data["b40ba3ad-0327-46ff-9c28-2506cfd6d934"]
         .bboxs["78f0ad89-2750-4a30-9d66-44c9da73a714"]
         .uid
         == "78f0ad89-2750-4a30-9d66-44c9da73a714"
     )
     assert (
         scene.frames[0]
-        .objects["b40ba3ad-0327-46ff-9c28-2506cfd6d934"]
+        .object_data["b40ba3ad-0327-46ff-9c28-2506cfd6d934"]
         .bboxs["78f0ad89-2750-4a30-9d66-44c9da73a714"]
         .name
         == "general"
     )
     assert (
         scene.frames[0]
-        .objects["b40ba3ad-0327-46ff-9c28-2506cfd6d934"]
+        .object_data["b40ba3ad-0327-46ff-9c28-2506cfd6d934"]
         .bboxs["78f0ad89-2750-4a30-9d66-44c9da73a714"]
         .pos.x
         == 0
     )
     assert (
         scene.frames[0]
-        .objects["b40ba3ad-0327-46ff-9c28-2506cfd6d934"]
+        .object_data["b40ba3ad-0327-46ff-9c28-2506cfd6d934"]
         .bboxs["78f0ad89-2750-4a30-9d66-44c9da73a714"]
         .pos.y
         == 1
     )
     assert (
         scene.frames[0]
-        .objects["b40ba3ad-0327-46ff-9c28-2506cfd6d934"]
+        .object_data["b40ba3ad-0327-46ff-9c28-2506cfd6d934"]
         .bboxs["78f0ad89-2750-4a30-9d66-44c9da73a714"]
         .size.x
         == 2
     )
     assert (
         scene.frames[0]
-        .objects["b40ba3ad-0327-46ff-9c28-2506cfd6d934"]
+        .object_data["b40ba3ad-0327-46ff-9c28-2506cfd6d934"]
         .bboxs["78f0ad89-2750-4a30-9d66-44c9da73a714"]
         .size.y
         == 3
     )
     assert (
         scene.frames[0]
-        .objects["b40ba3ad-0327-46ff-9c28-2506cfd6d934"]
-        .bboxs["78f0ad89-2750-4a30-9d66-44c9da73a714"]
-        .uri
-        == "rgb_test0.png"
-    )
-    assert (
-        scene.frames[0]
-        .objects["b40ba3ad-0327-46ff-9c28-2506cfd6d934"]
+        .object_data["b40ba3ad-0327-46ff-9c28-2506cfd6d934"]
         .bboxs["78f0ad89-2750-4a30-9d66-44c9da73a714"]
         .coordinate_system
         == scene.coordinate_systems["rgb_middle"]
     )
-    assert scene.frames[0].objects["b40ba3ad-0327-46ff-9c28-2506cfd6d934"].bboxs[
+    assert scene.frames[0].object_data["b40ba3ad-0327-46ff-9c28-2506cfd6d934"].bboxs[
         "78f0ad89-2750-4a30-9d66-44c9da73a714"
     ].attributes == {
         "test_text_attr0": "test_text_attr0_val",
@@ -323,71 +316,64 @@ def test_load_frame0_bboxs(openlabel_v1_short_data, loader):
 
     assert (
         "68b4e02c-40c8-4de0-89ad-bc00ed05a043"
-        in scene.frames[0].objects["b40ba3ad-0327-46ff-9c28-2506cfd6d934"].bboxs
+        in scene.frames[0].object_data["b40ba3ad-0327-46ff-9c28-2506cfd6d934"].bboxs
     )
     assert (
         scene.frames[0]
-        .objects["b40ba3ad-0327-46ff-9c28-2506cfd6d934"]
+        .object_data["b40ba3ad-0327-46ff-9c28-2506cfd6d934"]
         .bboxs["68b4e02c-40c8-4de0-89ad-bc00ed05a043"]
         == scene.frames[0].annotations["68b4e02c-40c8-4de0-89ad-bc00ed05a043"]
     )
     assert (
         scene.frames[0]
-        .objects["b40ba3ad-0327-46ff-9c28-2506cfd6d934"]
+        .object_data["b40ba3ad-0327-46ff-9c28-2506cfd6d934"]
         .bboxs["68b4e02c-40c8-4de0-89ad-bc00ed05a043"]
         .uid
         == "68b4e02c-40c8-4de0-89ad-bc00ed05a043"
     )
     assert (
         scene.frames[0]
-        .objects["b40ba3ad-0327-46ff-9c28-2506cfd6d934"]
+        .object_data["b40ba3ad-0327-46ff-9c28-2506cfd6d934"]
         .bboxs["68b4e02c-40c8-4de0-89ad-bc00ed05a043"]
         .name
         == "general"
     )
     assert (
         scene.frames[0]
-        .objects["b40ba3ad-0327-46ff-9c28-2506cfd6d934"]
+        .object_data["b40ba3ad-0327-46ff-9c28-2506cfd6d934"]
         .bboxs["68b4e02c-40c8-4de0-89ad-bc00ed05a043"]
         .pos.x
         == 3
     )
     assert (
         scene.frames[0]
-        .objects["b40ba3ad-0327-46ff-9c28-2506cfd6d934"]
+        .object_data["b40ba3ad-0327-46ff-9c28-2506cfd6d934"]
         .bboxs["68b4e02c-40c8-4de0-89ad-bc00ed05a043"]
         .pos.y
         == 2
     )
     assert (
         scene.frames[0]
-        .objects["b40ba3ad-0327-46ff-9c28-2506cfd6d934"]
+        .object_data["b40ba3ad-0327-46ff-9c28-2506cfd6d934"]
         .bboxs["68b4e02c-40c8-4de0-89ad-bc00ed05a043"]
         .size.x
         == 1
     )
     assert (
         scene.frames[0]
-        .objects["b40ba3ad-0327-46ff-9c28-2506cfd6d934"]
+        .object_data["b40ba3ad-0327-46ff-9c28-2506cfd6d934"]
         .bboxs["68b4e02c-40c8-4de0-89ad-bc00ed05a043"]
         .size.y
         == 0
     )
     assert (
         scene.frames[0]
-        .objects["b40ba3ad-0327-46ff-9c28-2506cfd6d934"]
-        .bboxs["68b4e02c-40c8-4de0-89ad-bc00ed05a043"]
-        .uri
-        == "ir_test0.png"
-    )
-    assert (
-        scene.frames[0]
-        .objects["b40ba3ad-0327-46ff-9c28-2506cfd6d934"]
+        .object_data["b40ba3ad-0327-46ff-9c28-2506cfd6d934"]
         .bboxs["68b4e02c-40c8-4de0-89ad-bc00ed05a043"]
         .coordinate_system
         == scene.coordinate_systems["ir_middle"]
     )
-    assert scene.frames[0].objects["b40ba3ad-0327-46ff-9c28-2506cfd6d934"].bboxs[
+    assert scene.frames[0].object_data["b40ba3ad-0327-46ff-9c28-2506cfd6d934"].bboxs[
         "68b4e02c-40c8-4de0-89ad-bc00ed05a043"
     ].attributes == {"test_bool_attr0": False}
 
@@ -395,42 +381,42 @@ def test_load_frame0_bboxs(openlabel_v1_short_data, loader):
 def test_load_frame0_poly2ds(openlabel_v1_short_data, loader):
     scene = loader.load(openlabel_v1_short_data, validate=False)
 
-    assert len(scene.frames[0].objects["b40ba3ad-0327-46ff-9c28-2506cfd6d934"].poly2ds) == 2
+    assert len(scene.frames[0].object_data["b40ba3ad-0327-46ff-9c28-2506cfd6d934"].poly2ds) == 2
 
     assert (
         "bebfbae4-61a2-4758-993c-efa846b050a5"
-        in scene.frames[0].objects["b40ba3ad-0327-46ff-9c28-2506cfd6d934"].poly2ds
+        in scene.frames[0].object_data["b40ba3ad-0327-46ff-9c28-2506cfd6d934"].poly2ds
     )
     assert (
         scene.frames[0]
-        .objects["b40ba3ad-0327-46ff-9c28-2506cfd6d934"]
+        .object_data["b40ba3ad-0327-46ff-9c28-2506cfd6d934"]
         .poly2ds["bebfbae4-61a2-4758-993c-efa846b050a5"]
         == scene.frames[0].annotations["bebfbae4-61a2-4758-993c-efa846b050a5"]
     )
     assert (
         scene.frames[0]
-        .objects["b40ba3ad-0327-46ff-9c28-2506cfd6d934"]
+        .object_data["b40ba3ad-0327-46ff-9c28-2506cfd6d934"]
         .poly2ds["bebfbae4-61a2-4758-993c-efa846b050a5"]
         .uid
         == "bebfbae4-61a2-4758-993c-efa846b050a5"
     )
     assert (
         scene.frames[0]
-        .objects["b40ba3ad-0327-46ff-9c28-2506cfd6d934"]
+        .object_data["b40ba3ad-0327-46ff-9c28-2506cfd6d934"]
         .poly2ds["bebfbae4-61a2-4758-993c-efa846b050a5"]
         .name
         == "general"
     )
     assert (
         scene.frames[0]
-        .objects["b40ba3ad-0327-46ff-9c28-2506cfd6d934"]
+        .object_data["b40ba3ad-0327-46ff-9c28-2506cfd6d934"]
         .poly2ds["bebfbae4-61a2-4758-993c-efa846b050a5"]
         .closed
         == False
     )
     assert (
         scene.frames[0]
-        .objects["b40ba3ad-0327-46ff-9c28-2506cfd6d934"]
+        .object_data["b40ba3ad-0327-46ff-9c28-2506cfd6d934"]
         .poly2ds["bebfbae4-61a2-4758-993c-efa846b050a5"]
         .mode
         == "MODE_POLY2D_ABSOLUTE"
@@ -438,33 +424,26 @@ def test_load_frame0_poly2ds(openlabel_v1_short_data, loader):
     assert (
         len(
             scene.frames[0]
-            .objects["b40ba3ad-0327-46ff-9c28-2506cfd6d934"]
+            .object_data["b40ba3ad-0327-46ff-9c28-2506cfd6d934"]
             .poly2ds["bebfbae4-61a2-4758-993c-efa846b050a5"]
             .points
         )
         == 2
     )
-    assert scene.frames[0].objects["b40ba3ad-0327-46ff-9c28-2506cfd6d934"].poly2ds[
+    assert scene.frames[0].object_data["b40ba3ad-0327-46ff-9c28-2506cfd6d934"].poly2ds[
         "bebfbae4-61a2-4758-993c-efa846b050a5"
     ].points[0] == raillabel.format.Point2d(1, 2)
-    assert scene.frames[0].objects["b40ba3ad-0327-46ff-9c28-2506cfd6d934"].poly2ds[
+    assert scene.frames[0].object_data["b40ba3ad-0327-46ff-9c28-2506cfd6d934"].poly2ds[
         "bebfbae4-61a2-4758-993c-efa846b050a5"
     ].points[1] == raillabel.format.Point2d(3, 4)
     assert (
         scene.frames[0]
-        .objects["b40ba3ad-0327-46ff-9c28-2506cfd6d934"]
-        .poly2ds["bebfbae4-61a2-4758-993c-efa846b050a5"]
-        .uri
-        == "rgb_test0.png"
-    )
-    assert (
-        scene.frames[0]
-        .objects["b40ba3ad-0327-46ff-9c28-2506cfd6d934"]
+        .object_data["b40ba3ad-0327-46ff-9c28-2506cfd6d934"]
         .poly2ds["bebfbae4-61a2-4758-993c-efa846b050a5"]
         .coordinate_system
         == scene.coordinate_systems["rgb_middle"]
     )
-    assert scene.frames[0].objects["b40ba3ad-0327-46ff-9c28-2506cfd6d934"].poly2ds[
+    assert scene.frames[0].object_data["b40ba3ad-0327-46ff-9c28-2506cfd6d934"].poly2ds[
         "bebfbae4-61a2-4758-993c-efa846b050a5"
     ].attributes == {
         "test_text_attr0": "test_text_attr0_val",
@@ -479,38 +458,38 @@ def test_load_frame0_poly2ds(openlabel_v1_short_data, loader):
 
     assert (
         "3f63201c-fb33-4487-aff6-ae0aa5fa976c"
-        in scene.frames[0].objects["b40ba3ad-0327-46ff-9c28-2506cfd6d934"].poly2ds
+        in scene.frames[0].object_data["b40ba3ad-0327-46ff-9c28-2506cfd6d934"].poly2ds
     )
     assert (
         scene.frames[0]
-        .objects["b40ba3ad-0327-46ff-9c28-2506cfd6d934"]
+        .object_data["b40ba3ad-0327-46ff-9c28-2506cfd6d934"]
         .poly2ds["3f63201c-fb33-4487-aff6-ae0aa5fa976c"]
         == scene.frames[0].annotations["3f63201c-fb33-4487-aff6-ae0aa5fa976c"]
     )
     assert (
         scene.frames[0]
-        .objects["b40ba3ad-0327-46ff-9c28-2506cfd6d934"]
+        .object_data["b40ba3ad-0327-46ff-9c28-2506cfd6d934"]
         .poly2ds["3f63201c-fb33-4487-aff6-ae0aa5fa976c"]
         .uid
         == "3f63201c-fb33-4487-aff6-ae0aa5fa976c"
     )
     assert (
         scene.frames[0]
-        .objects["b40ba3ad-0327-46ff-9c28-2506cfd6d934"]
+        .object_data["b40ba3ad-0327-46ff-9c28-2506cfd6d934"]
         .poly2ds["3f63201c-fb33-4487-aff6-ae0aa5fa976c"]
         .name
         == "general"
     )
     assert (
         scene.frames[0]
-        .objects["b40ba3ad-0327-46ff-9c28-2506cfd6d934"]
+        .object_data["b40ba3ad-0327-46ff-9c28-2506cfd6d934"]
         .poly2ds["3f63201c-fb33-4487-aff6-ae0aa5fa976c"]
         .closed
         == True
     )
     assert (
         scene.frames[0]
-        .objects["b40ba3ad-0327-46ff-9c28-2506cfd6d934"]
+        .object_data["b40ba3ad-0327-46ff-9c28-2506cfd6d934"]
         .poly2ds["3f63201c-fb33-4487-aff6-ae0aa5fa976c"]
         .mode
         == "MODE_POLY2D_ABSOLUTE"
@@ -518,39 +497,32 @@ def test_load_frame0_poly2ds(openlabel_v1_short_data, loader):
     assert (
         len(
             scene.frames[0]
-            .objects["b40ba3ad-0327-46ff-9c28-2506cfd6d934"]
+            .object_data["b40ba3ad-0327-46ff-9c28-2506cfd6d934"]
             .poly2ds["3f63201c-fb33-4487-aff6-ae0aa5fa976c"]
             .points
         )
         == 4
     )
-    assert scene.frames[0].objects["b40ba3ad-0327-46ff-9c28-2506cfd6d934"].poly2ds[
+    assert scene.frames[0].object_data["b40ba3ad-0327-46ff-9c28-2506cfd6d934"].poly2ds[
         "3f63201c-fb33-4487-aff6-ae0aa5fa976c"
     ].points[0] == raillabel.format.Point2d(7, 6)
-    assert scene.frames[0].objects["b40ba3ad-0327-46ff-9c28-2506cfd6d934"].poly2ds[
+    assert scene.frames[0].object_data["b40ba3ad-0327-46ff-9c28-2506cfd6d934"].poly2ds[
         "3f63201c-fb33-4487-aff6-ae0aa5fa976c"
     ].points[1] == raillabel.format.Point2d(5, 4)
-    assert scene.frames[0].objects["b40ba3ad-0327-46ff-9c28-2506cfd6d934"].poly2ds[
+    assert scene.frames[0].object_data["b40ba3ad-0327-46ff-9c28-2506cfd6d934"].poly2ds[
         "3f63201c-fb33-4487-aff6-ae0aa5fa976c"
     ].points[2] == raillabel.format.Point2d(3, 2)
-    assert scene.frames[0].objects["b40ba3ad-0327-46ff-9c28-2506cfd6d934"].poly2ds[
+    assert scene.frames[0].object_data["b40ba3ad-0327-46ff-9c28-2506cfd6d934"].poly2ds[
         "3f63201c-fb33-4487-aff6-ae0aa5fa976c"
     ].points[3] == raillabel.format.Point2d(1, 0)
     assert (
         scene.frames[0]
-        .objects["b40ba3ad-0327-46ff-9c28-2506cfd6d934"]
-        .poly2ds["3f63201c-fb33-4487-aff6-ae0aa5fa976c"]
-        .uri
-        == "ir_test0.png"
-    )
-    assert (
-        scene.frames[0]
-        .objects["b40ba3ad-0327-46ff-9c28-2506cfd6d934"]
+        .object_data["b40ba3ad-0327-46ff-9c28-2506cfd6d934"]
         .poly2ds["3f63201c-fb33-4487-aff6-ae0aa5fa976c"]
         .coordinate_system
         == scene.coordinate_systems["ir_middle"]
     )
-    assert scene.frames[0].objects["b40ba3ad-0327-46ff-9c28-2506cfd6d934"].poly2ds[
+    assert scene.frames[0].object_data["b40ba3ad-0327-46ff-9c28-2506cfd6d934"].poly2ds[
         "3f63201c-fb33-4487-aff6-ae0aa5fa976c"
     ].attributes == {"test_bool_attr0": False}
 
@@ -558,117 +530,110 @@ def test_load_frame0_poly2ds(openlabel_v1_short_data, loader):
 def test_load_frame0_cuboids(openlabel_v1_short_data, loader):
     scene = loader.load(openlabel_v1_short_data, validate=False)
 
-    assert len(scene.frames[0].objects["b40ba3ad-0327-46ff-9c28-2506cfd6d934"].cuboids) == 2
+    assert len(scene.frames[0].object_data["b40ba3ad-0327-46ff-9c28-2506cfd6d934"].cuboids) == 2
 
     assert (
         "dc2be700-8ee4-45c4-9256-920b5d55c917"
-        in scene.frames[0].objects["b40ba3ad-0327-46ff-9c28-2506cfd6d934"].cuboids
+        in scene.frames[0].object_data["b40ba3ad-0327-46ff-9c28-2506cfd6d934"].cuboids
     )
     assert (
         scene.frames[0]
-        .objects["b40ba3ad-0327-46ff-9c28-2506cfd6d934"]
+        .object_data["b40ba3ad-0327-46ff-9c28-2506cfd6d934"]
         .cuboids["dc2be700-8ee4-45c4-9256-920b5d55c917"]
         == scene.frames[0].annotations["dc2be700-8ee4-45c4-9256-920b5d55c917"]
     )
     assert (
         scene.frames[0]
-        .objects["b40ba3ad-0327-46ff-9c28-2506cfd6d934"]
+        .object_data["b40ba3ad-0327-46ff-9c28-2506cfd6d934"]
         .cuboids["dc2be700-8ee4-45c4-9256-920b5d55c917"]
         .uid
         == "dc2be700-8ee4-45c4-9256-920b5d55c917"
     )
     assert (
         scene.frames[0]
-        .objects["b40ba3ad-0327-46ff-9c28-2506cfd6d934"]
+        .object_data["b40ba3ad-0327-46ff-9c28-2506cfd6d934"]
         .cuboids["dc2be700-8ee4-45c4-9256-920b5d55c917"]
         .name
         == "general"
     )
     assert (
         scene.frames[0]
-        .objects["b40ba3ad-0327-46ff-9c28-2506cfd6d934"]
+        .object_data["b40ba3ad-0327-46ff-9c28-2506cfd6d934"]
         .cuboids["dc2be700-8ee4-45c4-9256-920b5d55c917"]
         .pos.x
         == 0.49
     )
     assert (
         scene.frames[0]
-        .objects["b40ba3ad-0327-46ff-9c28-2506cfd6d934"]
+        .object_data["b40ba3ad-0327-46ff-9c28-2506cfd6d934"]
         .cuboids["dc2be700-8ee4-45c4-9256-920b5d55c917"]
         .pos.y
         == 0.04
     )
     assert (
         scene.frames[0]
-        .objects["b40ba3ad-0327-46ff-9c28-2506cfd6d934"]
+        .object_data["b40ba3ad-0327-46ff-9c28-2506cfd6d934"]
         .cuboids["dc2be700-8ee4-45c4-9256-920b5d55c917"]
         .pos.z
         == 0.73
     )
     assert (
         scene.frames[0]
-        .objects["b40ba3ad-0327-46ff-9c28-2506cfd6d934"]
+        .object_data["b40ba3ad-0327-46ff-9c28-2506cfd6d934"]
         .cuboids["dc2be700-8ee4-45c4-9256-920b5d55c917"]
         .quat.x
         == 0
     )
     assert (
         scene.frames[0]
-        .objects["b40ba3ad-0327-46ff-9c28-2506cfd6d934"]
+        .object_data["b40ba3ad-0327-46ff-9c28-2506cfd6d934"]
         .cuboids["dc2be700-8ee4-45c4-9256-920b5d55c917"]
         .quat.y
         == 0
     )
     assert (
         scene.frames[0]
-        .objects["b40ba3ad-0327-46ff-9c28-2506cfd6d934"]
+        .object_data["b40ba3ad-0327-46ff-9c28-2506cfd6d934"]
         .cuboids["dc2be700-8ee4-45c4-9256-920b5d55c917"]
         .quat.z
         == 0
     )
     assert (
         scene.frames[0]
-        .objects["b40ba3ad-0327-46ff-9c28-2506cfd6d934"]
+        .object_data["b40ba3ad-0327-46ff-9c28-2506cfd6d934"]
         .cuboids["dc2be700-8ee4-45c4-9256-920b5d55c917"]
         .quat.w
         == 0
     )
     assert (
         scene.frames[0]
-        .objects["b40ba3ad-0327-46ff-9c28-2506cfd6d934"]
+        .object_data["b40ba3ad-0327-46ff-9c28-2506cfd6d934"]
         .cuboids["dc2be700-8ee4-45c4-9256-920b5d55c917"]
         .size.x
         == 0.75
     )
     assert (
         scene.frames[0]
-        .objects["b40ba3ad-0327-46ff-9c28-2506cfd6d934"]
+        .object_data["b40ba3ad-0327-46ff-9c28-2506cfd6d934"]
         .cuboids["dc2be700-8ee4-45c4-9256-920b5d55c917"]
         .size.y
         == 0.01
     )
     assert (
         scene.frames[0]
-        .objects["b40ba3ad-0327-46ff-9c28-2506cfd6d934"]
+        .object_data["b40ba3ad-0327-46ff-9c28-2506cfd6d934"]
         .cuboids["dc2be700-8ee4-45c4-9256-920b5d55c917"]
         .size.z
         == 0.10
     )
     assert (
         scene.frames[0]
-        .objects["b40ba3ad-0327-46ff-9c28-2506cfd6d934"]
-        .cuboids["dc2be700-8ee4-45c4-9256-920b5d55c917"]
-        .uri
-        == "lidar_test0.pcd"
-    )
-    assert (
-        scene.frames[0]
-        .objects["b40ba3ad-0327-46ff-9c28-2506cfd6d934"]
+        .object_data["b40ba3ad-0327-46ff-9c28-2506cfd6d934"]
         .cuboids["dc2be700-8ee4-45c4-9256-920b5d55c917"]
         .coordinate_system
         == scene.coordinate_systems["lidar"]
     )
-    assert scene.frames[0].objects["b40ba3ad-0327-46ff-9c28-2506cfd6d934"].cuboids[
+    assert scene.frames[0].object_data["b40ba3ad-0327-46ff-9c28-2506cfd6d934"].cuboids[
         "dc2be700-8ee4-45c4-9256-920b5d55c917"
     ].attributes == {
         "test_text_attr0": "test_text_attr0_val",
@@ -683,113 +648,106 @@ def test_load_frame0_cuboids(openlabel_v1_short_data, loader):
 
     assert (
         "450ceb81-9778-4e63-bf89-42f3ed9f6747"
-        in scene.frames[0].objects["b40ba3ad-0327-46ff-9c28-2506cfd6d934"].cuboids
+        in scene.frames[0].object_data["b40ba3ad-0327-46ff-9c28-2506cfd6d934"].cuboids
     )
     assert (
         scene.frames[0]
-        .objects["b40ba3ad-0327-46ff-9c28-2506cfd6d934"]
+        .object_data["b40ba3ad-0327-46ff-9c28-2506cfd6d934"]
         .cuboids["450ceb81-9778-4e63-bf89-42f3ed9f6747"]
         == scene.frames[0].annotations["450ceb81-9778-4e63-bf89-42f3ed9f6747"]
     )
     assert (
         scene.frames[0]
-        .objects["b40ba3ad-0327-46ff-9c28-2506cfd6d934"]
+        .object_data["b40ba3ad-0327-46ff-9c28-2506cfd6d934"]
         .cuboids["450ceb81-9778-4e63-bf89-42f3ed9f6747"]
         .uid
         == "450ceb81-9778-4e63-bf89-42f3ed9f6747"
     )
     assert (
         scene.frames[0]
-        .objects["b40ba3ad-0327-46ff-9c28-2506cfd6d934"]
+        .object_data["b40ba3ad-0327-46ff-9c28-2506cfd6d934"]
         .cuboids["450ceb81-9778-4e63-bf89-42f3ed9f6747"]
         .name
         == "general"
     )
     assert (
         scene.frames[0]
-        .objects["b40ba3ad-0327-46ff-9c28-2506cfd6d934"]
+        .object_data["b40ba3ad-0327-46ff-9c28-2506cfd6d934"]
         .cuboids["450ceb81-9778-4e63-bf89-42f3ed9f6747"]
         .pos.x
         == 0.0
     )
     assert (
         scene.frames[0]
-        .objects["b40ba3ad-0327-46ff-9c28-2506cfd6d934"]
+        .object_data["b40ba3ad-0327-46ff-9c28-2506cfd6d934"]
         .cuboids["450ceb81-9778-4e63-bf89-42f3ed9f6747"]
         .pos.y
         == 1.0
     )
     assert (
         scene.frames[0]
-        .objects["b40ba3ad-0327-46ff-9c28-2506cfd6d934"]
+        .object_data["b40ba3ad-0327-46ff-9c28-2506cfd6d934"]
         .cuboids["450ceb81-9778-4e63-bf89-42f3ed9f6747"]
         .pos.z
         == 2.0
     )
     assert (
         scene.frames[0]
-        .objects["b40ba3ad-0327-46ff-9c28-2506cfd6d934"]
+        .object_data["b40ba3ad-0327-46ff-9c28-2506cfd6d934"]
         .cuboids["450ceb81-9778-4e63-bf89-42f3ed9f6747"]
         .quat.x
         == 3.0
     )
     assert (
         scene.frames[0]
-        .objects["b40ba3ad-0327-46ff-9c28-2506cfd6d934"]
+        .object_data["b40ba3ad-0327-46ff-9c28-2506cfd6d934"]
         .cuboids["450ceb81-9778-4e63-bf89-42f3ed9f6747"]
         .quat.y
         == 4.0
     )
     assert (
         scene.frames[0]
-        .objects["b40ba3ad-0327-46ff-9c28-2506cfd6d934"]
+        .object_data["b40ba3ad-0327-46ff-9c28-2506cfd6d934"]
         .cuboids["450ceb81-9778-4e63-bf89-42f3ed9f6747"]
         .quat.z
         == 5.0
     )
     assert (
         scene.frames[0]
-        .objects["b40ba3ad-0327-46ff-9c28-2506cfd6d934"]
+        .object_data["b40ba3ad-0327-46ff-9c28-2506cfd6d934"]
         .cuboids["450ceb81-9778-4e63-bf89-42f3ed9f6747"]
         .quat.w
         == 6.0
     )
     assert (
         scene.frames[0]
-        .objects["b40ba3ad-0327-46ff-9c28-2506cfd6d934"]
+        .object_data["b40ba3ad-0327-46ff-9c28-2506cfd6d934"]
         .cuboids["450ceb81-9778-4e63-bf89-42f3ed9f6747"]
         .size.x
         == 7.0
     )
     assert (
         scene.frames[0]
-        .objects["b40ba3ad-0327-46ff-9c28-2506cfd6d934"]
+        .object_data["b40ba3ad-0327-46ff-9c28-2506cfd6d934"]
         .cuboids["450ceb81-9778-4e63-bf89-42f3ed9f6747"]
         .size.y
         == 8.0
     )
     assert (
         scene.frames[0]
-        .objects["b40ba3ad-0327-46ff-9c28-2506cfd6d934"]
+        .object_data["b40ba3ad-0327-46ff-9c28-2506cfd6d934"]
         .cuboids["450ceb81-9778-4e63-bf89-42f3ed9f6747"]
         .size.z
         == 9.0
     )
     assert (
         scene.frames[0]
-        .objects["b40ba3ad-0327-46ff-9c28-2506cfd6d934"]
-        .cuboids["450ceb81-9778-4e63-bf89-42f3ed9f6747"]
-        .uri
-        == "lidar_test0.pcd"
-    )
-    assert (
-        scene.frames[0]
-        .objects["b40ba3ad-0327-46ff-9c28-2506cfd6d934"]
+        .object_data["b40ba3ad-0327-46ff-9c28-2506cfd6d934"]
         .cuboids["450ceb81-9778-4e63-bf89-42f3ed9f6747"]
         .coordinate_system
         == scene.coordinate_systems["lidar"]
     )
-    assert scene.frames[0].objects["b40ba3ad-0327-46ff-9c28-2506cfd6d934"].cuboids[
+    assert scene.frames[0].object_data["b40ba3ad-0327-46ff-9c28-2506cfd6d934"].cuboids[
         "450ceb81-9778-4e63-bf89-42f3ed9f6747"
     ].attributes == {"test_bool_attr0": False}
 
@@ -797,35 +755,35 @@ def test_load_frame0_cuboids(openlabel_v1_short_data, loader):
 def test_load_frame0_poly3ds(openlabel_v1_short_data, loader):
     scene = loader.load(openlabel_v1_short_data, validate=False)
 
-    assert len(scene.frames[0].objects["22dedd49-6dcb-413b-87ef-00ccfb532e98"].poly3ds) == 1
+    assert len(scene.frames[0].object_data["22dedd49-6dcb-413b-87ef-00ccfb532e98"].poly3ds) == 1
 
     assert (
         "14f58fb0-add7-4ed9-85b3-74615986d854"
-        in scene.frames[0].objects["22dedd49-6dcb-413b-87ef-00ccfb532e98"].poly3ds
+        in scene.frames[0].object_data["22dedd49-6dcb-413b-87ef-00ccfb532e98"].poly3ds
     )
     assert (
         scene.frames[0]
-        .objects["22dedd49-6dcb-413b-87ef-00ccfb532e98"]
+        .object_data["22dedd49-6dcb-413b-87ef-00ccfb532e98"]
         .poly3ds["14f58fb0-add7-4ed9-85b3-74615986d854"]
         == scene.frames[0].annotations["14f58fb0-add7-4ed9-85b3-74615986d854"]
     )
     assert (
         scene.frames[0]
-        .objects["22dedd49-6dcb-413b-87ef-00ccfb532e98"]
+        .object_data["22dedd49-6dcb-413b-87ef-00ccfb532e98"]
         .poly3ds["14f58fb0-add7-4ed9-85b3-74615986d854"]
         .uid
         == "14f58fb0-add7-4ed9-85b3-74615986d854"
     )
     assert (
         scene.frames[0]
-        .objects["22dedd49-6dcb-413b-87ef-00ccfb532e98"]
+        .object_data["22dedd49-6dcb-413b-87ef-00ccfb532e98"]
         .poly3ds["14f58fb0-add7-4ed9-85b3-74615986d854"]
         .name
         == "general"
     )
     assert (
         scene.frames[0]
-        .objects["22dedd49-6dcb-413b-87ef-00ccfb532e98"]
+        .object_data["22dedd49-6dcb-413b-87ef-00ccfb532e98"]
         .poly3ds["14f58fb0-add7-4ed9-85b3-74615986d854"]
         .closed
         == False
@@ -833,31 +791,24 @@ def test_load_frame0_poly3ds(openlabel_v1_short_data, loader):
     assert (
         len(
             scene.frames[0]
-            .objects["22dedd49-6dcb-413b-87ef-00ccfb532e98"]
+            .object_data["22dedd49-6dcb-413b-87ef-00ccfb532e98"]
             .poly3ds["14f58fb0-add7-4ed9-85b3-74615986d854"]
             .points
         )
         == 3
     )
-    assert scene.frames[0].objects["22dedd49-6dcb-413b-87ef-00ccfb532e98"].poly3ds[
+    assert scene.frames[0].object_data["22dedd49-6dcb-413b-87ef-00ccfb532e98"].poly3ds[
         "14f58fb0-add7-4ed9-85b3-74615986d854"
     ].points[0] == raillabel.format.Point3d(9, 8, 7)
-    assert scene.frames[0].objects["22dedd49-6dcb-413b-87ef-00ccfb532e98"].poly3ds[
+    assert scene.frames[0].object_data["22dedd49-6dcb-413b-87ef-00ccfb532e98"].poly3ds[
         "14f58fb0-add7-4ed9-85b3-74615986d854"
     ].points[1] == raillabel.format.Point3d(6, 5, 4)
-    assert scene.frames[0].objects["22dedd49-6dcb-413b-87ef-00ccfb532e98"].poly3ds[
+    assert scene.frames[0].object_data["22dedd49-6dcb-413b-87ef-00ccfb532e98"].poly3ds[
         "14f58fb0-add7-4ed9-85b3-74615986d854"
     ].points[2] == raillabel.format.Point3d(3, 2, 1)
     assert (
         scene.frames[0]
-        .objects["22dedd49-6dcb-413b-87ef-00ccfb532e98"]
-        .poly3ds["14f58fb0-add7-4ed9-85b3-74615986d854"]
-        .uri
-        == "lidar_test0.pcd"
-    )
-    assert (
-        scene.frames[0]
-        .objects["22dedd49-6dcb-413b-87ef-00ccfb532e98"]
+        .object_data["22dedd49-6dcb-413b-87ef-00ccfb532e98"]
         .poly3ds["14f58fb0-add7-4ed9-85b3-74615986d854"]
         .coordinate_system
         == scene.coordinate_systems["lidar"]
@@ -867,50 +818,43 @@ def test_load_frame0_poly3ds(openlabel_v1_short_data, loader):
 def test_load_frame0_seg3ds(openlabel_v1_short_data, loader):
     scene = loader.load(openlabel_v1_short_data, validate=False)
 
-    assert len(scene.frames[0].objects["b40ba3ad-0327-46ff-9c28-2506cfd6d934"].seg3ds) == 2
+    assert len(scene.frames[0].object_data["b40ba3ad-0327-46ff-9c28-2506cfd6d934"].seg3ds) == 2
 
     assert (
         "c1087f1d-7271-4dee-83ad-519a4e3b78a8"
-        in scene.frames[0].objects["b40ba3ad-0327-46ff-9c28-2506cfd6d934"].seg3ds
+        in scene.frames[0].object_data["b40ba3ad-0327-46ff-9c28-2506cfd6d934"].seg3ds
     )
     assert (
         scene.frames[0]
-        .objects["b40ba3ad-0327-46ff-9c28-2506cfd6d934"]
+        .object_data["b40ba3ad-0327-46ff-9c28-2506cfd6d934"]
         .seg3ds["c1087f1d-7271-4dee-83ad-519a4e3b78a8"]
         == scene.frames[0].annotations["c1087f1d-7271-4dee-83ad-519a4e3b78a8"]
     )
     assert (
         scene.frames[0]
-        .objects["b40ba3ad-0327-46ff-9c28-2506cfd6d934"]
+        .object_data["b40ba3ad-0327-46ff-9c28-2506cfd6d934"]
         .seg3ds["c1087f1d-7271-4dee-83ad-519a4e3b78a8"]
         .uid
         == "c1087f1d-7271-4dee-83ad-519a4e3b78a8"
     )
     assert (
         scene.frames[0]
-        .objects["b40ba3ad-0327-46ff-9c28-2506cfd6d934"]
+        .object_data["b40ba3ad-0327-46ff-9c28-2506cfd6d934"]
         .seg3ds["c1087f1d-7271-4dee-83ad-519a4e3b78a8"]
         .name
         == "general"
     )
-    assert scene.frames[0].objects["b40ba3ad-0327-46ff-9c28-2506cfd6d934"].seg3ds[
+    assert scene.frames[0].object_data["b40ba3ad-0327-46ff-9c28-2506cfd6d934"].seg3ds[
         "c1087f1d-7271-4dee-83ad-519a4e3b78a8"
     ].point_ids == list(range(10))
     assert (
         scene.frames[0]
-        .objects["b40ba3ad-0327-46ff-9c28-2506cfd6d934"]
-        .seg3ds["c1087f1d-7271-4dee-83ad-519a4e3b78a8"]
-        .uri
-        == "lidar_test0.pcd"
-    )
-    assert (
-        scene.frames[0]
-        .objects["b40ba3ad-0327-46ff-9c28-2506cfd6d934"]
+        .object_data["b40ba3ad-0327-46ff-9c28-2506cfd6d934"]
         .seg3ds["c1087f1d-7271-4dee-83ad-519a4e3b78a8"]
         .coordinate_system
         == scene.coordinate_systems["lidar"]
     )
-    assert scene.frames[0].objects["b40ba3ad-0327-46ff-9c28-2506cfd6d934"].seg3ds[
+    assert scene.frames[0].object_data["b40ba3ad-0327-46ff-9c28-2506cfd6d934"].seg3ds[
         "c1087f1d-7271-4dee-83ad-519a4e3b78a8"
     ].attributes == {
         "test_text_attr0": "test_text_attr0_val",
@@ -925,46 +869,39 @@ def test_load_frame0_seg3ds(openlabel_v1_short_data, loader):
 
     assert (
         "50be7fe3-1f43-47ca-b65a-930e6cfacfeb"
-        in scene.frames[0].objects["b40ba3ad-0327-46ff-9c28-2506cfd6d934"].seg3ds
+        in scene.frames[0].object_data["b40ba3ad-0327-46ff-9c28-2506cfd6d934"].seg3ds
     )
     assert (
         scene.frames[0]
-        .objects["b40ba3ad-0327-46ff-9c28-2506cfd6d934"]
+        .object_data["b40ba3ad-0327-46ff-9c28-2506cfd6d934"]
         .seg3ds["50be7fe3-1f43-47ca-b65a-930e6cfacfeb"]
         == scene.frames[0].annotations["50be7fe3-1f43-47ca-b65a-930e6cfacfeb"]
     )
     assert (
         scene.frames[0]
-        .objects["b40ba3ad-0327-46ff-9c28-2506cfd6d934"]
+        .object_data["b40ba3ad-0327-46ff-9c28-2506cfd6d934"]
         .seg3ds["50be7fe3-1f43-47ca-b65a-930e6cfacfeb"]
         .uid
         == "50be7fe3-1f43-47ca-b65a-930e6cfacfeb"
     )
     assert (
         scene.frames[0]
-        .objects["b40ba3ad-0327-46ff-9c28-2506cfd6d934"]
+        .object_data["b40ba3ad-0327-46ff-9c28-2506cfd6d934"]
         .seg3ds["50be7fe3-1f43-47ca-b65a-930e6cfacfeb"]
         .name
         == "general"
     )
-    assert scene.frames[0].objects["b40ba3ad-0327-46ff-9c28-2506cfd6d934"].seg3ds[
+    assert scene.frames[0].object_data["b40ba3ad-0327-46ff-9c28-2506cfd6d934"].seg3ds[
         "50be7fe3-1f43-47ca-b65a-930e6cfacfeb"
     ].point_ids == list(reversed(range(10)))
     assert (
         scene.frames[0]
-        .objects["b40ba3ad-0327-46ff-9c28-2506cfd6d934"]
-        .seg3ds["50be7fe3-1f43-47ca-b65a-930e6cfacfeb"]
-        .uri
-        == "lidar_test0.pcd"
-    )
-    assert (
-        scene.frames[0]
-        .objects["b40ba3ad-0327-46ff-9c28-2506cfd6d934"]
+        .object_data["b40ba3ad-0327-46ff-9c28-2506cfd6d934"]
         .seg3ds["50be7fe3-1f43-47ca-b65a-930e6cfacfeb"]
         .coordinate_system
         == scene.coordinate_systems["lidar"]
     )
-    assert scene.frames[0].objects["b40ba3ad-0327-46ff-9c28-2506cfd6d934"].seg3ds[
+    assert scene.frames[0].object_data["b40ba3ad-0327-46ff-9c28-2506cfd6d934"].seg3ds[
         "50be7fe3-1f43-47ca-b65a-930e6cfacfeb"
     ].attributes == {"test_bool_attr0": False}
 
@@ -1007,15 +944,15 @@ def test_load_frame1_metadata(openlabel_v1_short_data, loader):
         == scene.coordinate_systems["lidar"]
     )
 
-    assert len(scene.frames[1].objects) == 2
-    assert "6fe55546-0dd7-4e40-b6b4-bb7ea3445772" in scene.frames[1].objects
+    assert len(scene.frames[1].object_data) == 2
+    assert "6fe55546-0dd7-4e40-b6b4-bb7ea3445772" in scene.frames[1].object_data
     assert (
-        scene.frames[1].objects["6fe55546-0dd7-4e40-b6b4-bb7ea3445772"].object
+        scene.frames[1].object_data["6fe55546-0dd7-4e40-b6b4-bb7ea3445772"].object
         == scene.objects["6fe55546-0dd7-4e40-b6b4-bb7ea3445772"]
     )
-    assert "22dedd49-6dcb-413b-87ef-00ccfb532e98" in scene.frames[1].objects
+    assert "22dedd49-6dcb-413b-87ef-00ccfb532e98" in scene.frames[1].object_data
     assert (
-        scene.frames[1].objects["22dedd49-6dcb-413b-87ef-00ccfb532e98"].object
+        scene.frames[1].object_data["22dedd49-6dcb-413b-87ef-00ccfb532e98"].object
         == scene.objects["22dedd49-6dcb-413b-87ef-00ccfb532e98"]
     )
 
@@ -1023,75 +960,68 @@ def test_load_frame1_metadata(openlabel_v1_short_data, loader):
 def test_load_frame1_bboxs(openlabel_v1_short_data, loader):
     scene = loader.load(openlabel_v1_short_data, validate=False)
 
-    assert len(scene.frames[1].objects["6fe55546-0dd7-4e40-b6b4-bb7ea3445772"].bboxs) == 2
+    assert len(scene.frames[1].object_data["6fe55546-0dd7-4e40-b6b4-bb7ea3445772"].bboxs) == 2
 
     assert (
         "6ba42cbc-484e-4b8d-a022-b23c2bb6643c"
-        in scene.frames[1].objects["6fe55546-0dd7-4e40-b6b4-bb7ea3445772"].bboxs
+        in scene.frames[1].object_data["6fe55546-0dd7-4e40-b6b4-bb7ea3445772"].bboxs
     )
     assert (
         scene.frames[1]
-        .objects["6fe55546-0dd7-4e40-b6b4-bb7ea3445772"]
+        .object_data["6fe55546-0dd7-4e40-b6b4-bb7ea3445772"]
         .bboxs["6ba42cbc-484e-4b8d-a022-b23c2bb6643c"]
         == scene.frames[1].annotations["6ba42cbc-484e-4b8d-a022-b23c2bb6643c"]
     )
     assert (
         scene.frames[1]
-        .objects["6fe55546-0dd7-4e40-b6b4-bb7ea3445772"]
+        .object_data["6fe55546-0dd7-4e40-b6b4-bb7ea3445772"]
         .bboxs["6ba42cbc-484e-4b8d-a022-b23c2bb6643c"]
         .uid
         == "6ba42cbc-484e-4b8d-a022-b23c2bb6643c"
     )
     assert (
         scene.frames[1]
-        .objects["6fe55546-0dd7-4e40-b6b4-bb7ea3445772"]
+        .object_data["6fe55546-0dd7-4e40-b6b4-bb7ea3445772"]
         .bboxs["6ba42cbc-484e-4b8d-a022-b23c2bb6643c"]
         .name
         == "general"
     )
     assert (
         scene.frames[1]
-        .objects["6fe55546-0dd7-4e40-b6b4-bb7ea3445772"]
+        .object_data["6fe55546-0dd7-4e40-b6b4-bb7ea3445772"]
         .bboxs["6ba42cbc-484e-4b8d-a022-b23c2bb6643c"]
         .pos.x
         == 0
     )
     assert (
         scene.frames[1]
-        .objects["6fe55546-0dd7-4e40-b6b4-bb7ea3445772"]
+        .object_data["6fe55546-0dd7-4e40-b6b4-bb7ea3445772"]
         .bboxs["6ba42cbc-484e-4b8d-a022-b23c2bb6643c"]
         .pos.y
         == 1
     )
     assert (
         scene.frames[1]
-        .objects["6fe55546-0dd7-4e40-b6b4-bb7ea3445772"]
+        .object_data["6fe55546-0dd7-4e40-b6b4-bb7ea3445772"]
         .bboxs["6ba42cbc-484e-4b8d-a022-b23c2bb6643c"]
         .size.x
         == 2
     )
     assert (
         scene.frames[1]
-        .objects["6fe55546-0dd7-4e40-b6b4-bb7ea3445772"]
+        .object_data["6fe55546-0dd7-4e40-b6b4-bb7ea3445772"]
         .bboxs["6ba42cbc-484e-4b8d-a022-b23c2bb6643c"]
         .size.y
         == 3
     )
     assert (
         scene.frames[1]
-        .objects["6fe55546-0dd7-4e40-b6b4-bb7ea3445772"]
-        .bboxs["6ba42cbc-484e-4b8d-a022-b23c2bb6643c"]
-        .uri
-        == "rgb_test1.png"
-    )
-    assert (
-        scene.frames[1]
-        .objects["6fe55546-0dd7-4e40-b6b4-bb7ea3445772"]
+        .object_data["6fe55546-0dd7-4e40-b6b4-bb7ea3445772"]
         .bboxs["6ba42cbc-484e-4b8d-a022-b23c2bb6643c"]
         .coordinate_system
         == scene.coordinate_systems["rgb_middle"]
     )
-    assert scene.frames[1].objects["6fe55546-0dd7-4e40-b6b4-bb7ea3445772"].bboxs[
+    assert scene.frames[1].object_data["6fe55546-0dd7-4e40-b6b4-bb7ea3445772"].bboxs[
         "6ba42cbc-484e-4b8d-a022-b23c2bb6643c"
     ].attributes == {
         "test_text_attr0": "test_text_attr0_val",
@@ -1106,71 +1036,64 @@ def test_load_frame1_bboxs(openlabel_v1_short_data, loader):
 
     assert (
         "5f28fa18-8f2a-4a40-a0b6-c0bbedc00f2e"
-        in scene.frames[1].objects["6fe55546-0dd7-4e40-b6b4-bb7ea3445772"].bboxs
+        in scene.frames[1].object_data["6fe55546-0dd7-4e40-b6b4-bb7ea3445772"].bboxs
     )
     assert (
         scene.frames[1]
-        .objects["6fe55546-0dd7-4e40-b6b4-bb7ea3445772"]
+        .object_data["6fe55546-0dd7-4e40-b6b4-bb7ea3445772"]
         .bboxs["5f28fa18-8f2a-4a40-a0b6-c0bbedc00f2e"]
         == scene.frames[1].annotations["5f28fa18-8f2a-4a40-a0b6-c0bbedc00f2e"]
     )
     assert (
         scene.frames[1]
-        .objects["6fe55546-0dd7-4e40-b6b4-bb7ea3445772"]
+        .object_data["6fe55546-0dd7-4e40-b6b4-bb7ea3445772"]
         .bboxs["5f28fa18-8f2a-4a40-a0b6-c0bbedc00f2e"]
         .uid
         == "5f28fa18-8f2a-4a40-a0b6-c0bbedc00f2e"
     )
     assert (
         scene.frames[1]
-        .objects["6fe55546-0dd7-4e40-b6b4-bb7ea3445772"]
+        .object_data["6fe55546-0dd7-4e40-b6b4-bb7ea3445772"]
         .bboxs["5f28fa18-8f2a-4a40-a0b6-c0bbedc00f2e"]
         .name
         == "general"
     )
     assert (
         scene.frames[1]
-        .objects["6fe55546-0dd7-4e40-b6b4-bb7ea3445772"]
+        .object_data["6fe55546-0dd7-4e40-b6b4-bb7ea3445772"]
         .bboxs["5f28fa18-8f2a-4a40-a0b6-c0bbedc00f2e"]
         .pos.x
         == 3
     )
     assert (
         scene.frames[1]
-        .objects["6fe55546-0dd7-4e40-b6b4-bb7ea3445772"]
+        .object_data["6fe55546-0dd7-4e40-b6b4-bb7ea3445772"]
         .bboxs["5f28fa18-8f2a-4a40-a0b6-c0bbedc00f2e"]
         .pos.y
         == 2
     )
     assert (
         scene.frames[1]
-        .objects["6fe55546-0dd7-4e40-b6b4-bb7ea3445772"]
+        .object_data["6fe55546-0dd7-4e40-b6b4-bb7ea3445772"]
         .bboxs["5f28fa18-8f2a-4a40-a0b6-c0bbedc00f2e"]
         .size.x
         == 1
     )
     assert (
         scene.frames[1]
-        .objects["6fe55546-0dd7-4e40-b6b4-bb7ea3445772"]
+        .object_data["6fe55546-0dd7-4e40-b6b4-bb7ea3445772"]
         .bboxs["5f28fa18-8f2a-4a40-a0b6-c0bbedc00f2e"]
         .size.y
         == 0
     )
     assert (
         scene.frames[1]
-        .objects["6fe55546-0dd7-4e40-b6b4-bb7ea3445772"]
-        .bboxs["5f28fa18-8f2a-4a40-a0b6-c0bbedc00f2e"]
-        .uri
-        == "ir_test1.png"
-    )
-    assert (
-        scene.frames[1]
-        .objects["6fe55546-0dd7-4e40-b6b4-bb7ea3445772"]
+        .object_data["6fe55546-0dd7-4e40-b6b4-bb7ea3445772"]
         .bboxs["5f28fa18-8f2a-4a40-a0b6-c0bbedc00f2e"]
         .coordinate_system
         == scene.coordinate_systems["ir_middle"]
     )
-    assert scene.frames[1].objects["6fe55546-0dd7-4e40-b6b4-bb7ea3445772"].bboxs[
+    assert scene.frames[1].object_data["6fe55546-0dd7-4e40-b6b4-bb7ea3445772"].bboxs[
         "5f28fa18-8f2a-4a40-a0b6-c0bbedc00f2e"
     ].attributes == {"test_bool_attr0": False}
 
@@ -1178,42 +1101,42 @@ def test_load_frame1_bboxs(openlabel_v1_short_data, loader):
 def test_load_frame1_poly2ds(openlabel_v1_short_data, loader):
     scene = loader.load(openlabel_v1_short_data, validate=False)
 
-    assert len(scene.frames[1].objects["6fe55546-0dd7-4e40-b6b4-bb7ea3445772"].poly2ds) == 1
+    assert len(scene.frames[1].object_data["6fe55546-0dd7-4e40-b6b4-bb7ea3445772"].poly2ds) == 1
 
     assert (
         "e2503c5d-9fe4-4666-b510-ef644c5a766b"
-        in scene.frames[1].objects["6fe55546-0dd7-4e40-b6b4-bb7ea3445772"].poly2ds
+        in scene.frames[1].object_data["6fe55546-0dd7-4e40-b6b4-bb7ea3445772"].poly2ds
     )
     assert (
         scene.frames[1]
-        .objects["6fe55546-0dd7-4e40-b6b4-bb7ea3445772"]
+        .object_data["6fe55546-0dd7-4e40-b6b4-bb7ea3445772"]
         .poly2ds["e2503c5d-9fe4-4666-b510-ef644c5a766b"]
         == scene.frames[1].annotations["e2503c5d-9fe4-4666-b510-ef644c5a766b"]
     )
     assert (
         scene.frames[1]
-        .objects["6fe55546-0dd7-4e40-b6b4-bb7ea3445772"]
+        .object_data["6fe55546-0dd7-4e40-b6b4-bb7ea3445772"]
         .poly2ds["e2503c5d-9fe4-4666-b510-ef644c5a766b"]
         .uid
         == "e2503c5d-9fe4-4666-b510-ef644c5a766b"
     )
     assert (
         scene.frames[1]
-        .objects["6fe55546-0dd7-4e40-b6b4-bb7ea3445772"]
+        .object_data["6fe55546-0dd7-4e40-b6b4-bb7ea3445772"]
         .poly2ds["e2503c5d-9fe4-4666-b510-ef644c5a766b"]
         .name
         == "general"
     )
     assert (
         scene.frames[1]
-        .objects["6fe55546-0dd7-4e40-b6b4-bb7ea3445772"]
+        .object_data["6fe55546-0dd7-4e40-b6b4-bb7ea3445772"]
         .poly2ds["e2503c5d-9fe4-4666-b510-ef644c5a766b"]
         .closed
         == False
     )
     assert (
         scene.frames[1]
-        .objects["6fe55546-0dd7-4e40-b6b4-bb7ea3445772"]
+        .object_data["6fe55546-0dd7-4e40-b6b4-bb7ea3445772"]
         .poly2ds["e2503c5d-9fe4-4666-b510-ef644c5a766b"]
         .mode
         == "MODE_POLY2D_ABSOLUTE"
@@ -1221,33 +1144,26 @@ def test_load_frame1_poly2ds(openlabel_v1_short_data, loader):
     assert (
         len(
             scene.frames[1]
-            .objects["6fe55546-0dd7-4e40-b6b4-bb7ea3445772"]
+            .object_data["6fe55546-0dd7-4e40-b6b4-bb7ea3445772"]
             .poly2ds["e2503c5d-9fe4-4666-b510-ef644c5a766b"]
             .points
         )
         == 2
     )
-    assert scene.frames[1].objects["6fe55546-0dd7-4e40-b6b4-bb7ea3445772"].poly2ds[
+    assert scene.frames[1].object_data["6fe55546-0dd7-4e40-b6b4-bb7ea3445772"].poly2ds[
         "e2503c5d-9fe4-4666-b510-ef644c5a766b"
     ].points[0] == raillabel.format.Point2d(1, 2)
-    assert scene.frames[1].objects["6fe55546-0dd7-4e40-b6b4-bb7ea3445772"].poly2ds[
+    assert scene.frames[1].object_data["6fe55546-0dd7-4e40-b6b4-bb7ea3445772"].poly2ds[
         "e2503c5d-9fe4-4666-b510-ef644c5a766b"
     ].points[1] == raillabel.format.Point2d(3, 4)
     assert (
         scene.frames[1]
-        .objects["6fe55546-0dd7-4e40-b6b4-bb7ea3445772"]
-        .poly2ds["e2503c5d-9fe4-4666-b510-ef644c5a766b"]
-        .uri
-        == "rgb_test1.png"
-    )
-    assert (
-        scene.frames[1]
-        .objects["6fe55546-0dd7-4e40-b6b4-bb7ea3445772"]
+        .object_data["6fe55546-0dd7-4e40-b6b4-bb7ea3445772"]
         .poly2ds["e2503c5d-9fe4-4666-b510-ef644c5a766b"]
         .coordinate_system
         == scene.coordinate_systems["rgb_middle"]
     )
-    assert scene.frames[1].objects["6fe55546-0dd7-4e40-b6b4-bb7ea3445772"].poly2ds[
+    assert scene.frames[1].object_data["6fe55546-0dd7-4e40-b6b4-bb7ea3445772"].poly2ds[
         "e2503c5d-9fe4-4666-b510-ef644c5a766b"
     ].attributes == {
         "test_text_attr0": "test_text_attr0_val",
@@ -1264,117 +1180,110 @@ def test_load_frame1_poly2ds(openlabel_v1_short_data, loader):
 def test_load_frame1_cuboids(openlabel_v1_short_data, loader):
     scene = loader.load(openlabel_v1_short_data, validate=False)
 
-    assert len(scene.frames[1].objects["22dedd49-6dcb-413b-87ef-00ccfb532e98"].cuboids) == 2
+    assert len(scene.frames[1].object_data["22dedd49-6dcb-413b-87ef-00ccfb532e98"].cuboids) == 2
 
     assert (
         "536ac83a-32c8-4fce-8499-ef32716c64a6"
-        in scene.frames[1].objects["22dedd49-6dcb-413b-87ef-00ccfb532e98"].cuboids
+        in scene.frames[1].object_data["22dedd49-6dcb-413b-87ef-00ccfb532e98"].cuboids
     )
     assert (
         scene.frames[1]
-        .objects["22dedd49-6dcb-413b-87ef-00ccfb532e98"]
+        .object_data["22dedd49-6dcb-413b-87ef-00ccfb532e98"]
         .cuboids["536ac83a-32c8-4fce-8499-ef32716c64a6"]
         == scene.frames[1].annotations["536ac83a-32c8-4fce-8499-ef32716c64a6"]
     )
     assert (
         scene.frames[1]
-        .objects["22dedd49-6dcb-413b-87ef-00ccfb532e98"]
+        .object_data["22dedd49-6dcb-413b-87ef-00ccfb532e98"]
         .cuboids["536ac83a-32c8-4fce-8499-ef32716c64a6"]
         .uid
         == "536ac83a-32c8-4fce-8499-ef32716c64a6"
     )
     assert (
         scene.frames[1]
-        .objects["22dedd49-6dcb-413b-87ef-00ccfb532e98"]
+        .object_data["22dedd49-6dcb-413b-87ef-00ccfb532e98"]
         .cuboids["536ac83a-32c8-4fce-8499-ef32716c64a6"]
         .name
         == "general"
     )
     assert (
         scene.frames[1]
-        .objects["22dedd49-6dcb-413b-87ef-00ccfb532e98"]
+        .object_data["22dedd49-6dcb-413b-87ef-00ccfb532e98"]
         .cuboids["536ac83a-32c8-4fce-8499-ef32716c64a6"]
         .pos.x
         == 0
     )
     assert (
         scene.frames[1]
-        .objects["22dedd49-6dcb-413b-87ef-00ccfb532e98"]
+        .object_data["22dedd49-6dcb-413b-87ef-00ccfb532e98"]
         .cuboids["536ac83a-32c8-4fce-8499-ef32716c64a6"]
         .pos.y
         == 1
     )
     assert (
         scene.frames[1]
-        .objects["22dedd49-6dcb-413b-87ef-00ccfb532e98"]
+        .object_data["22dedd49-6dcb-413b-87ef-00ccfb532e98"]
         .cuboids["536ac83a-32c8-4fce-8499-ef32716c64a6"]
         .pos.z
         == 2
     )
     assert (
         scene.frames[1]
-        .objects["22dedd49-6dcb-413b-87ef-00ccfb532e98"]
+        .object_data["22dedd49-6dcb-413b-87ef-00ccfb532e98"]
         .cuboids["536ac83a-32c8-4fce-8499-ef32716c64a6"]
         .quat.x
         == 3
     )
     assert (
         scene.frames[1]
-        .objects["22dedd49-6dcb-413b-87ef-00ccfb532e98"]
+        .object_data["22dedd49-6dcb-413b-87ef-00ccfb532e98"]
         .cuboids["536ac83a-32c8-4fce-8499-ef32716c64a6"]
         .quat.y
         == 4
     )
     assert (
         scene.frames[1]
-        .objects["22dedd49-6dcb-413b-87ef-00ccfb532e98"]
+        .object_data["22dedd49-6dcb-413b-87ef-00ccfb532e98"]
         .cuboids["536ac83a-32c8-4fce-8499-ef32716c64a6"]
         .quat.z
         == 5
     )
     assert (
         scene.frames[1]
-        .objects["22dedd49-6dcb-413b-87ef-00ccfb532e98"]
+        .object_data["22dedd49-6dcb-413b-87ef-00ccfb532e98"]
         .cuboids["536ac83a-32c8-4fce-8499-ef32716c64a6"]
         .quat.w
         == 6
     )
     assert (
         scene.frames[1]
-        .objects["22dedd49-6dcb-413b-87ef-00ccfb532e98"]
+        .object_data["22dedd49-6dcb-413b-87ef-00ccfb532e98"]
         .cuboids["536ac83a-32c8-4fce-8499-ef32716c64a6"]
         .size.x
         == 7
     )
     assert (
         scene.frames[1]
-        .objects["22dedd49-6dcb-413b-87ef-00ccfb532e98"]
+        .object_data["22dedd49-6dcb-413b-87ef-00ccfb532e98"]
         .cuboids["536ac83a-32c8-4fce-8499-ef32716c64a6"]
         .size.y
         == 8
     )
     assert (
         scene.frames[1]
-        .objects["22dedd49-6dcb-413b-87ef-00ccfb532e98"]
+        .object_data["22dedd49-6dcb-413b-87ef-00ccfb532e98"]
         .cuboids["536ac83a-32c8-4fce-8499-ef32716c64a6"]
         .size.z
         == 9
     )
     assert (
         scene.frames[1]
-        .objects["22dedd49-6dcb-413b-87ef-00ccfb532e98"]
-        .cuboids["536ac83a-32c8-4fce-8499-ef32716c64a6"]
-        .uri
-        == "lidar_test1.pcd"
-    )
-    assert (
-        scene.frames[1]
-        .objects["22dedd49-6dcb-413b-87ef-00ccfb532e98"]
+        .object_data["22dedd49-6dcb-413b-87ef-00ccfb532e98"]
         .cuboids["536ac83a-32c8-4fce-8499-ef32716c64a6"]
         .coordinate_system
         == scene.coordinate_systems["lidar"]
     )
-    assert scene.frames[1].objects["22dedd49-6dcb-413b-87ef-00ccfb532e98"].cuboids[
+    assert scene.frames[1].object_data["22dedd49-6dcb-413b-87ef-00ccfb532e98"].cuboids[
         "536ac83a-32c8-4fce-8499-ef32716c64a6"
     ].attributes == {
         "test_text_attr0": "test_text_attr0_val",
@@ -1389,113 +1298,106 @@ def test_load_frame1_cuboids(openlabel_v1_short_data, loader):
 
     assert (
         "e53bd5e3-980a-4fa7-a0f9-5a2e59ba663c"
-        in scene.frames[1].objects["22dedd49-6dcb-413b-87ef-00ccfb532e98"].cuboids
+        in scene.frames[1].object_data["22dedd49-6dcb-413b-87ef-00ccfb532e98"].cuboids
     )
     assert (
         scene.frames[1]
-        .objects["22dedd49-6dcb-413b-87ef-00ccfb532e98"]
+        .object_data["22dedd49-6dcb-413b-87ef-00ccfb532e98"]
         .cuboids["e53bd5e3-980a-4fa7-a0f9-5a2e59ba663c"]
         == scene.frames[1].annotations["e53bd5e3-980a-4fa7-a0f9-5a2e59ba663c"]
     )
     assert (
         scene.frames[1]
-        .objects["22dedd49-6dcb-413b-87ef-00ccfb532e98"]
+        .object_data["22dedd49-6dcb-413b-87ef-00ccfb532e98"]
         .cuboids["e53bd5e3-980a-4fa7-a0f9-5a2e59ba663c"]
         .uid
         == "e53bd5e3-980a-4fa7-a0f9-5a2e59ba663c"
     )
     assert (
         scene.frames[1]
-        .objects["22dedd49-6dcb-413b-87ef-00ccfb532e98"]
+        .object_data["22dedd49-6dcb-413b-87ef-00ccfb532e98"]
         .cuboids["e53bd5e3-980a-4fa7-a0f9-5a2e59ba663c"]
         .name
         == "general"
     )
     assert (
         scene.frames[1]
-        .objects["22dedd49-6dcb-413b-87ef-00ccfb532e98"]
+        .object_data["22dedd49-6dcb-413b-87ef-00ccfb532e98"]
         .cuboids["e53bd5e3-980a-4fa7-a0f9-5a2e59ba663c"]
         .pos.x
         == 0.0
     )
     assert (
         scene.frames[1]
-        .objects["22dedd49-6dcb-413b-87ef-00ccfb532e98"]
+        .object_data["22dedd49-6dcb-413b-87ef-00ccfb532e98"]
         .cuboids["e53bd5e3-980a-4fa7-a0f9-5a2e59ba663c"]
         .pos.y
         == 1.0
     )
     assert (
         scene.frames[1]
-        .objects["22dedd49-6dcb-413b-87ef-00ccfb532e98"]
+        .object_data["22dedd49-6dcb-413b-87ef-00ccfb532e98"]
         .cuboids["e53bd5e3-980a-4fa7-a0f9-5a2e59ba663c"]
         .pos.z
         == 2.0
     )
     assert (
         scene.frames[1]
-        .objects["22dedd49-6dcb-413b-87ef-00ccfb532e98"]
+        .object_data["22dedd49-6dcb-413b-87ef-00ccfb532e98"]
         .cuboids["e53bd5e3-980a-4fa7-a0f9-5a2e59ba663c"]
         .quat.x
         == 3.0
     )
     assert (
         scene.frames[1]
-        .objects["22dedd49-6dcb-413b-87ef-00ccfb532e98"]
+        .object_data["22dedd49-6dcb-413b-87ef-00ccfb532e98"]
         .cuboids["e53bd5e3-980a-4fa7-a0f9-5a2e59ba663c"]
         .quat.y
         == 4.0
     )
     assert (
         scene.frames[1]
-        .objects["22dedd49-6dcb-413b-87ef-00ccfb532e98"]
+        .object_data["22dedd49-6dcb-413b-87ef-00ccfb532e98"]
         .cuboids["e53bd5e3-980a-4fa7-a0f9-5a2e59ba663c"]
         .quat.z
         == 5.0
     )
     assert (
         scene.frames[1]
-        .objects["22dedd49-6dcb-413b-87ef-00ccfb532e98"]
+        .object_data["22dedd49-6dcb-413b-87ef-00ccfb532e98"]
         .cuboids["e53bd5e3-980a-4fa7-a0f9-5a2e59ba663c"]
         .quat.w
         == 6.0
     )
     assert (
         scene.frames[1]
-        .objects["22dedd49-6dcb-413b-87ef-00ccfb532e98"]
+        .object_data["22dedd49-6dcb-413b-87ef-00ccfb532e98"]
         .cuboids["e53bd5e3-980a-4fa7-a0f9-5a2e59ba663c"]
         .size.x
         == 7.0
     )
     assert (
         scene.frames[1]
-        .objects["22dedd49-6dcb-413b-87ef-00ccfb532e98"]
+        .object_data["22dedd49-6dcb-413b-87ef-00ccfb532e98"]
         .cuboids["e53bd5e3-980a-4fa7-a0f9-5a2e59ba663c"]
         .size.y
         == 8.0
     )
     assert (
         scene.frames[1]
-        .objects["22dedd49-6dcb-413b-87ef-00ccfb532e98"]
+        .object_data["22dedd49-6dcb-413b-87ef-00ccfb532e98"]
         .cuboids["e53bd5e3-980a-4fa7-a0f9-5a2e59ba663c"]
         .size.z
         == 9.0
     )
     assert (
         scene.frames[1]
-        .objects["22dedd49-6dcb-413b-87ef-00ccfb532e98"]
-        .cuboids["e53bd5e3-980a-4fa7-a0f9-5a2e59ba663c"]
-        .uri
-        == "lidar_test1.pcd"
-    )
-    assert (
-        scene.frames[1]
-        .objects["22dedd49-6dcb-413b-87ef-00ccfb532e98"]
+        .object_data["22dedd49-6dcb-413b-87ef-00ccfb532e98"]
         .cuboids["e53bd5e3-980a-4fa7-a0f9-5a2e59ba663c"]
         .coordinate_system
         == scene.coordinate_systems["lidar"]
     )
-    assert scene.frames[1].objects["22dedd49-6dcb-413b-87ef-00ccfb532e98"].cuboids[
+    assert scene.frames[1].object_data["22dedd49-6dcb-413b-87ef-00ccfb532e98"].cuboids[
         "e53bd5e3-980a-4fa7-a0f9-5a2e59ba663c"
     ].attributes == {"test_bool_attr0": False}
 
@@ -1503,50 +1405,43 @@ def test_load_frame1_cuboids(openlabel_v1_short_data, loader):
 def test_load_frame1_seg3ds(openlabel_v1_short_data, loader):
     scene = loader.load(openlabel_v1_short_data, validate=False)
 
-    assert len(scene.frames[1].objects["22dedd49-6dcb-413b-87ef-00ccfb532e98"].seg3ds) == 2
+    assert len(scene.frames[1].object_data["22dedd49-6dcb-413b-87ef-00ccfb532e98"].seg3ds) == 2
 
     assert (
         "550df2c3-0e66-483e-bcc6-f3013b7e581b"
-        in scene.frames[1].objects["22dedd49-6dcb-413b-87ef-00ccfb532e98"].seg3ds
+        in scene.frames[1].object_data["22dedd49-6dcb-413b-87ef-00ccfb532e98"].seg3ds
     )
     assert (
         scene.frames[1]
-        .objects["22dedd49-6dcb-413b-87ef-00ccfb532e98"]
+        .object_data["22dedd49-6dcb-413b-87ef-00ccfb532e98"]
         .seg3ds["550df2c3-0e66-483e-bcc6-f3013b7e581b"]
         == scene.frames[1].annotations["550df2c3-0e66-483e-bcc6-f3013b7e581b"]
     )
     assert (
         scene.frames[1]
-        .objects["22dedd49-6dcb-413b-87ef-00ccfb532e98"]
+        .object_data["22dedd49-6dcb-413b-87ef-00ccfb532e98"]
         .seg3ds["550df2c3-0e66-483e-bcc6-f3013b7e581b"]
         .uid
         == "550df2c3-0e66-483e-bcc6-f3013b7e581b"
     )
     assert (
         scene.frames[1]
-        .objects["22dedd49-6dcb-413b-87ef-00ccfb532e98"]
+        .object_data["22dedd49-6dcb-413b-87ef-00ccfb532e98"]
         .seg3ds["550df2c3-0e66-483e-bcc6-f3013b7e581b"]
         .name
         == "general"
     )
-    assert scene.frames[1].objects["22dedd49-6dcb-413b-87ef-00ccfb532e98"].seg3ds[
+    assert scene.frames[1].object_data["22dedd49-6dcb-413b-87ef-00ccfb532e98"].seg3ds[
         "550df2c3-0e66-483e-bcc6-f3013b7e581b"
     ].point_ids == list(range(10))
     assert (
         scene.frames[1]
-        .objects["22dedd49-6dcb-413b-87ef-00ccfb532e98"]
-        .seg3ds["550df2c3-0e66-483e-bcc6-f3013b7e581b"]
-        .uri
-        == "lidar_test1.pcd"
-    )
-    assert (
-        scene.frames[1]
-        .objects["22dedd49-6dcb-413b-87ef-00ccfb532e98"]
+        .object_data["22dedd49-6dcb-413b-87ef-00ccfb532e98"]
         .seg3ds["550df2c3-0e66-483e-bcc6-f3013b7e581b"]
         .coordinate_system
         == scene.coordinate_systems["lidar"]
     )
-    assert scene.frames[1].objects["22dedd49-6dcb-413b-87ef-00ccfb532e98"].seg3ds[
+    assert scene.frames[1].object_data["22dedd49-6dcb-413b-87ef-00ccfb532e98"].seg3ds[
         "550df2c3-0e66-483e-bcc6-f3013b7e581b"
     ].attributes == {
         "test_text_attr0": "test_text_attr0_val",
@@ -1561,46 +1456,39 @@ def test_load_frame1_seg3ds(openlabel_v1_short_data, loader):
 
     assert (
         "12b21c52-06ea-4269-9805-e7167e7a74ed"
-        in scene.frames[1].objects["22dedd49-6dcb-413b-87ef-00ccfb532e98"].seg3ds
+        in scene.frames[1].object_data["22dedd49-6dcb-413b-87ef-00ccfb532e98"].seg3ds
     )
     assert (
         scene.frames[1]
-        .objects["22dedd49-6dcb-413b-87ef-00ccfb532e98"]
+        .object_data["22dedd49-6dcb-413b-87ef-00ccfb532e98"]
         .seg3ds["12b21c52-06ea-4269-9805-e7167e7a74ed"]
         == scene.frames[1].annotations["12b21c52-06ea-4269-9805-e7167e7a74ed"]
     )
     assert (
         scene.frames[1]
-        .objects["22dedd49-6dcb-413b-87ef-00ccfb532e98"]
+        .object_data["22dedd49-6dcb-413b-87ef-00ccfb532e98"]
         .seg3ds["12b21c52-06ea-4269-9805-e7167e7a74ed"]
         .uid
         == "12b21c52-06ea-4269-9805-e7167e7a74ed"
     )
     assert (
         scene.frames[1]
-        .objects["22dedd49-6dcb-413b-87ef-00ccfb532e98"]
+        .object_data["22dedd49-6dcb-413b-87ef-00ccfb532e98"]
         .seg3ds["12b21c52-06ea-4269-9805-e7167e7a74ed"]
         .name
         == "general"
     )
-    assert scene.frames[1].objects["22dedd49-6dcb-413b-87ef-00ccfb532e98"].seg3ds[
+    assert scene.frames[1].object_data["22dedd49-6dcb-413b-87ef-00ccfb532e98"].seg3ds[
         "12b21c52-06ea-4269-9805-e7167e7a74ed"
     ].point_ids == list(reversed(range(10)))
     assert (
         scene.frames[1]
-        .objects["22dedd49-6dcb-413b-87ef-00ccfb532e98"]
-        .seg3ds["12b21c52-06ea-4269-9805-e7167e7a74ed"]
-        .uri
-        == "lidar_test1.pcd"
-    )
-    assert (
-        scene.frames[1]
-        .objects["22dedd49-6dcb-413b-87ef-00ccfb532e98"]
+        .object_data["22dedd49-6dcb-413b-87ef-00ccfb532e98"]
         .seg3ds["12b21c52-06ea-4269-9805-e7167e7a74ed"]
         .coordinate_system
         == scene.coordinate_systems["lidar"]
     )
-    assert scene.frames[1].objects["22dedd49-6dcb-413b-87ef-00ccfb532e98"].seg3ds[
+    assert scene.frames[1].object_data["22dedd49-6dcb-413b-87ef-00ccfb532e98"].seg3ds[
         "12b21c52-06ea-4269-9805-e7167e7a74ed"
     ].attributes == {"test_bool_attr0": False}
 
@@ -1631,8 +1519,6 @@ def test_load_uri_vcd_incompatible(
                     break
 
     assert scene == scene_ground_truth
-
-    return
 
 
 # Tests the warnings
@@ -1738,7 +1624,7 @@ def test_warnings_ann_object(openlabel_v1_short_data, loader):
     loader.load(openlabel_v1_short_data, validate=False)
     assert len(loader.warnings) == 1
 
-    assert not "affeaffe-0327-46ff-9c28-2506cfd6d934" in loader.scene.frames[0].objects
+    assert not "affeaffe-0327-46ff-9c28-2506cfd6d934" in loader.scene.frames[0].object_data
 
     # Tests for keywords in the warning that can help the user identify the source
     assert "frame" in loader.warnings[0]
@@ -1757,7 +1643,7 @@ def test_warnings_bbox_cs(openlabel_v1_short_data, loader):
 
     assert (
         loader.scene.frames[0]
-        .objects["b40ba3ad-0327-46ff-9c28-2506cfd6d934"]
+        .object_data["b40ba3ad-0327-46ff-9c28-2506cfd6d934"]
         .bboxs["78f0ad89-2750-4a30-9d66-44c9da73a714"]
         .coordinate_system
         is None
@@ -1780,7 +1666,7 @@ def test_warnings_poly2d_cs(openlabel_v1_short_data, loader):
 
     assert (
         loader.scene.frames[0]
-        .objects["b40ba3ad-0327-46ff-9c28-2506cfd6d934"]
+        .object_data["b40ba3ad-0327-46ff-9c28-2506cfd6d934"]
         .poly2ds["bebfbae4-61a2-4758-993c-efa846b050a5"]
         .coordinate_system
         is None
@@ -1803,7 +1689,7 @@ def test_warnings_cuboid_cs(openlabel_v1_short_data, loader):
 
     assert (
         loader.scene.frames[0]
-        .objects["b40ba3ad-0327-46ff-9c28-2506cfd6d934"]
+        .object_data["b40ba3ad-0327-46ff-9c28-2506cfd6d934"]
         .cuboids["dc2be700-8ee4-45c4-9256-920b5d55c917"]
         .coordinate_system
         is None
@@ -1826,7 +1712,7 @@ def test_warnings_seg3d_cs(openlabel_v1_short_data, loader):
 
     assert (
         loader.scene.frames[0]
-        .objects["b40ba3ad-0327-46ff-9c28-2506cfd6d934"]
+        .object_data["b40ba3ad-0327-46ff-9c28-2506cfd6d934"]
         .seg3ds["c1087f1d-7271-4dee-83ad-519a4e3b78a8"]
         .coordinate_system
         is None
@@ -1841,4 +1727,4 @@ def test_warnings_seg3d_cs(openlabel_v1_short_data, loader):
 
 # Executes the test if the file is called
 if __name__ == "__main__":
-    pytest.main([__file__, "--disable-pytest-warnings", "--cache-clear", "-vv"])
+    pytest.main([__file__, "--disable-pytest-warnings", "--cache-clear"])

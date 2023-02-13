@@ -27,7 +27,7 @@ class Frame:
     data: dict, optional
         Dictionary containing data directly connected to the frame and not to anny object.
         Dictionary keys are the ID-strings of the variable the data belongs to. Default is {}.
-    objects: dict of raillabel.format.ObjectData, optional
+    object_data: dict of raillabel.format.ObjectData, optional
         Dictionary containing the annotations per object. Dictionary keys are the object uids.
         Default is {}.
 
@@ -42,7 +42,7 @@ class Frame:
     timestamp: decimal.Decimal = None
     streams: t.Dict[str, StreamReference] = field(default_factory=dict)
     data: t.Dict[str, Num] = field(default_factory=dict)
-    objects: t.Dict[uuid.UUID, ObjectData] = field(default_factory=dict)
+    object_data: t.Dict[uuid.UUID, ObjectData] = field(default_factory=dict)
 
     @property
     def annotations(self) -> t.Dict[uuid.UUID, t.Any]:
@@ -51,10 +51,8 @@ class Frame:
         Dictionary keys are annotation UIDs.
         """
         annotations = {}
-        for object in self.objects.values():
-            for annotation_type in vars(object).values():
-                if isinstance(annotation_type, dict):
-                    annotations.update(annotation_type)
+        for object in self.object_data.values():
+            annotations.update(object.annotations)
 
         return annotations
 
@@ -90,8 +88,8 @@ class Frame:
                 "num": [v.asdict() for v in self.data.values()]
             }
 
-        if self.objects != {}:
-            dict_repr["objects"] = {str(k): v.asdict() for k, v in self.objects.items()}
+        if self.object_data != {}:
+            dict_repr["objects"] = {str(k): v.asdict() for k, v in self.object_data.items()}
 
         return dict_repr
 

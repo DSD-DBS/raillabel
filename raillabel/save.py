@@ -92,7 +92,7 @@ def _add_object_data_pointers(data: dict, scene: Scene) -> dict:
     for frame in scene.frames.values():
 
         # Adds the frame intervals
-        for object_id in frame.objects:
+        for object_id in frame.object_data:
 
             if object_id not in object_frame_intervals:
                 object_frame_intervals[object_id] = {
@@ -123,40 +123,39 @@ def _add_object_data_pointers(data: dict, scene: Scene) -> dict:
                     )
 
         # Adds the object_data_pointers
-        for annotation in frame.annotations.values():
+        for object_id in frame.object_data:
+            for annotation in frame.object_data[object_id].annotations.values():
 
-            object_id = annotation.object_data.object.uid
-
-            if annotation.name not in object_frame_intervals[object_id]["object_data_pointers"]:
-                object_frame_intervals[object_id]["object_data_pointers"][annotation.name] = {
-                    "frame_intervals": [
-                        {
-                            "frame_start": frame.uid,
-                            "frame_end": frame.uid,
-                        }
-                    ]
-                }
-
-            else:
-                if (
-                    object_frame_intervals[object_id]["object_data_pointers"][annotation.name][
-                        "frame_intervals"
-                    ][-1]["frame_end"]
-                    >= frame.uid - 1
-                ):
-                    object_frame_intervals[object_id]["object_data_pointers"][annotation.name][
-                        "frame_intervals"
-                    ][-1]["frame_end"] = frame.uid
+                if annotation.name not in object_frame_intervals[object_id]["object_data_pointers"]:
+                    object_frame_intervals[object_id]["object_data_pointers"][annotation.name] = {
+                        "frame_intervals": [
+                            {
+                                "frame_start": frame.uid,
+                                "frame_end": frame.uid,
+                            }
+                        ]
+                    }
 
                 else:
-                    object_frame_intervals[object_id]["object_data_pointers"][annotation.name][
-                        "frame_intervals"
-                    ].append(
-                        {
-                            "frame_start": frame.uid,
-                            "frame_end": frame.uid,
-                        }
-                    )
+                    if (
+                        object_frame_intervals[object_id]["object_data_pointers"][annotation.name][
+                            "frame_intervals"
+                        ][-1]["frame_end"]
+                        >= frame.uid - 1
+                    ):
+                        object_frame_intervals[object_id]["object_data_pointers"][annotation.name][
+                            "frame_intervals"
+                        ][-1]["frame_end"] = frame.uid
+
+                    else:
+                        object_frame_intervals[object_id]["object_data_pointers"][annotation.name][
+                            "frame_intervals"
+                        ].append(
+                            {
+                                "frame_start": frame.uid,
+                                "frame_end": frame.uid,
+                            }
+                        )
 
     # Adds the object_data_pointers to the dict
     for object_id, object in data["openlabel"]["objects"].items():
