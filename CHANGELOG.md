@@ -31,3 +31,4 @@ Release
 - Frame.annotations returns a dict of all annotations in the frame regardless of type or object
 - Removed proprietary parts
 - Added poly3d as a supported annotation type
+- All annotations are now stored in object_data.annotations (before they were stored in different fields according to their type)

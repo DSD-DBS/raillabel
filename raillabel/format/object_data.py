@@ -5,6 +5,7 @@ import typing as t
 import uuid
 from dataclasses import dataclass, field
 
+from ._annotation import _Annotation
 from .bbox import Bbox
 from .cuboid import Cuboid
 from .object import Object
@@ -21,28 +22,50 @@ class ObjectData:
     ----------
     object: raillabel.format.Object
         A reference to the object this ObjectData belongs to.
-    bboxs: dict of raillabel.format.Bbox, optional
-        Dictionary of all bounding boxes representing this object in this frame. Default is {}.
-    cuboids: dict of raillabel.format.Cuboid, optional
-        Dictionary of all cuboids representing this object in this frame. Default is {}.
-    poly2ds: dict of raillabel.format.Poly2d, optional
-        Dictionary of all 2d polylines representing this object in this frame. Default is {}.
-    poly3ds: dict of raillabel.format.Poly3d, optional
-        Dictionary of all 3d polylines representing this object in this frame. Default is {}.
-    seg3ds: dict of raillabel.format.Seg3d, optional
-        Dictionary of all 3d segmentations representing this object in this frame. Default is {}.
-    frame: raillabel.format.frame, optional
-        Frame containing the ObjectData. Used for accessing higher level informations.
-        Default is None.
+    annotations: dict, optional
+        Dictionary of all annotations representing this object in this frame.
+
+    Properties (read-only)
+    ----------------------
+    bboxs: dict of raillabel.format.Bbox
+        Dictionary of all bounding boxes representing this object in this frame.
+    cuboids: dict of raillabel.format.Cuboid
+        Dictionary of all cuboids representing this object in this frame.
+    poly2ds: dict of raillabel.format.Poly2d
+        Dictionary of all 2d polylines representing this object in this frame.
+    poly3ds: dict of raillabel.format.Poly3d
+        Dictionary of all 3d polylines representing this object in this frame.
+    seg3ds: dict of raillabel.format.Seg3d
+        Dictionary of all 3d segmentations representing this object in this frame.
     """
 
     object: Object
-    bboxs: t.Dict[uuid.UUID, Bbox] = field(default_factory=dict)
-    cuboids: t.Dict[uuid.UUID, Cuboid] = field(default_factory=dict)
-    poly2ds: t.Dict[uuid.UUID, Poly2d] = field(default_factory=dict)
-    poly3ds: t.Dict[uuid.UUID, Poly3d] = field(default_factory=dict)
-    seg3ds: t.Dict[uuid.UUID, Seg3d] = field(default_factory=dict)
-    frame: t.Any = None
+    annotations: t.Dict[str, t.Type[_Annotation]] = field(default_factory=dict)
+
+    @property
+    def bboxs(self) -> t.Dict[str, Bbox]:
+        """Return dictionary of all bounding boxes."""
+        return {k: v for k, v in self.annotations.items() if isinstance(v, Bbox)}
+
+    @property
+    def cuboids(self) -> t.Dict[str, Cuboid]:
+        """Return dictionary of all cuboids."""
+        return {k: v for k, v in self.annotations.items() if isinstance(v, Cuboid)}
+
+    @property
+    def poly2ds(self) -> t.Dict[str, Poly2d]:
+        """Return dictionary of all 2d poly lines."""
+        return {k: v for k, v in self.annotations.items() if isinstance(v, Poly2d)}
+
+    @property
+    def poly3ds(self) -> t.Dict[str, Bbox]:
+        """Return dictionary of all 3d poly lines."""
+        return {k: v for k, v in self.annotations.items() if isinstance(v, Poly3d)}
+
+    @property
+    def seg3ds(self) -> t.Dict[str, Seg3d]:
+        """Return dictionary of all 3d segmentations."""
+        return {k: v for k, v in self.annotations.items() if isinstance(v, Seg3d)}
 
     def asdict(self) -> dict:
         """Export self as a dict compatible with the OpenLABEL schema.
@@ -91,18 +114,6 @@ class ObjectData:
                 dict_repr["object_data"]["vec"].append(seg3d.asdict())
 
         return dict_repr
-
-    def __eq__(self, __o: object) -> bool:
-        """Compare this object with another one."""
-
-        if type(__o) != type(self):
-            return False
-
-        # frame is omitted from the equal comparison, because it contains this
-        # annotation, which will lead to a RecursionError.
-        return {k: v for k, v in vars(self).items() if k != "frame"} == {
-            k: v for k, v in vars(__o).items() if k != "frame"
-        }
 
 
 class AnnotationContainer(dict):
