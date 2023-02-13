@@ -14,7 +14,7 @@ import raillabel
 
 @pytest.fixture
 def loader():
-    return raillabel.format_loaders.LoaderOpenLabelV1()
+    return raillabel.format_loaders.LoaderRailLabelV2()
 
 
 def test_supports_true(openlabel_v1_short_data, loader):

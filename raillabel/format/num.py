@@ -28,6 +28,7 @@ class Num(_Annotation):
 
     val: t.Union[int, float] = None
 
+    OBJECT_DATA_FIELD = "nums"
     _REQ_FIELDS = ["val"]
 
     @classmethod

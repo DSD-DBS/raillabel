@@ -11,7 +11,7 @@ from ..exceptions import SchemaError
 from ._loader_abc import LoaderABC
 
 
-class LoaderOpenLabelV1(LoaderABC):
+class LoaderRailLabelV2(LoaderABC):
     """Loader class for the OpenLabel v1 annotation format.
 
     Attributes
@@ -28,18 +28,13 @@ class LoaderOpenLabelV1(LoaderABC):
     SCHEMA_PATH: Path = Path(__file__).parent.parent / "schemas" / "raillabel_v2_schema.json"
 
     _OPENLABEL_CLASS_MAPPING = {
-        "bbox": {
-            "class": format.Bbox,
-            "attribute_name": "bboxs",
-        },
-        "cuboid": {"class": format.Cuboid, "attribute_name": "cuboids"},
-        "num": {"class": format.Num, "attribute_name": "nums"},
-        "poly2d": {"class": format.Poly2d, "attribute_name": "poly2ds"},
-        "poly3d": {"class": format.Poly3d, "attribute_name": "poly3ds"},
-        "vec": {"class": format.Seg3d, "attribute_name": "seg3ds"},
+        "bbox": format.Bbox,
+        "cuboid": format.Cuboid,
+        "num": format.Num,
+        "poly2d": format.Poly2d,
+        "poly3d": format.Poly3d,
+        "vec": format.Seg3d,
     }
-    """Mapping between the OpenLABEL annotation type names and the classes / raillabel
-        attribute names"""
 
     def load(self, data: dict, validate: bool = True) -> format.Scene:
         """Load the data into a raillabel.Scene and return it.
@@ -355,8 +350,8 @@ class LoaderOpenLabelV1(LoaderABC):
                             continue
 
                         # Converts the annotation
-                        (annotations[ann_raw["uid"]], w,) = self._OPENLABEL_CLASS_MAPPING[ann_type][
-                            "class"
+                        (annotations[ann_raw["uid"]], w,) = self._OPENLABEL_CLASS_MAPPING[
+                            ann_type
                         ].fromdict(ann_raw, self.scene.coordinate_systems)
                         self.warnings.extend(w)
 
@@ -425,7 +420,7 @@ class LoaderOpenLabelV1(LoaderABC):
                             # Converts the annotation
                             (annotations[ann_raw["uid"]], w,) = self._OPENLABEL_CLASS_MAPPING[
                                 ann_type
-                            ]["class"].fromdict(
+                            ].fromdict(
                                 ann_raw,
                                 self.scene.coordinate_systems,
                                 self.scene.frames[int(uid)].objects[obj_uid],
@@ -435,6 +430,6 @@ class LoaderOpenLabelV1(LoaderABC):
                         # Allocates the annotations to the frame-object
                         setattr(
                             self.scene.frames[int(uid)].objects[obj_uid],
-                            self._OPENLABEL_CLASS_MAPPING[ann_type]["attribute_name"],
+                            self._OPENLABEL_CLASS_MAPPING[ann_type].OBJECT_DATA_FIELD,
                             annotations,
                         )

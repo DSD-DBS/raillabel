@@ -49,6 +49,7 @@ class Poly2d(_Annotation):
     closed: bool = None
     mode: str = "MODE_POLY2D_ABSOLUTE"
 
+    OBJECT_DATA_FIELD = "poly2ds"
     _REQ_FIELDS = ["points", "closed"]
 
     @classmethod

@@ -35,6 +35,7 @@ class Seg3d(_Annotation):
 
     point_ids: t.List[int] = None
 
+    OBJECT_DATA_FIELD = "seg3ds"
     _REQ_FIELDS = ["point_ids"]
 
     @classmethod

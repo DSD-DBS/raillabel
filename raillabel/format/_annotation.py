@@ -2,7 +2,7 @@
 # SPDX-License-Identifier: Apache-2.0
 
 import typing as t
-from abc import ABC, abstractmethod
+from abc import ABC, abstractmethod, abstractproperty
 from dataclasses import dataclass, field
 
 from .coordinate_system import CoordinateSystem
@@ -36,6 +36,16 @@ class _Annotation(ABC):
             )
 
         self.object_data.frame.streams[self.coordinate_system.uid].uri = value
+
+    @property
+    @abstractproperty
+    def OBJECT_DATA_FIELD(cls) -> str:
+        raise NotImplementedError
+
+    @property
+    @abstractproperty
+    def _REQ_FIELDS(self) -> t.List[str]:
+        raise NotImplementedError
 
     # === Public Methods =====================================================
 
