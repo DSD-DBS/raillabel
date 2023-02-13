@@ -28,29 +28,15 @@ class Bbox(_Annotation):
         attribute values. Default is {}.
     coordinate_system: raillabel.format.CoordinateSystem, optional
         A reference to the coordinate_system, this annotation is labeled in. Default is None.
-    object_data: raillabel.format.ObjectData, optional
-        ObjectData containing the Bbox. Used for accessing higher level informations.
-        Default is None.
-
-    Parameters
-    ----------
-    uri: str
-        URI to the file, which contains the annotated object.
     """
 
     pos: Point2d = None
     size: Size2d = None
 
-    OBJECT_DATA_FIELD = "bboxs"
     _REQ_FIELDS = ["pos", "size"]
 
     @classmethod
-    def fromdict(
-        self,
-        data_dict: dict,
-        coordinate_systems: dict,
-        object_data=None,
-    ) -> t.Tuple["Bbox", list]:
+    def fromdict(self, data_dict: dict, coordinate_systems: dict) -> t.Tuple["Bbox", list]:
         """Generate a Bbox object from a dictionary in the OpenLABEL format.
 
         Parameters
@@ -59,9 +45,6 @@ class Bbox(_Annotation):
             OpenLABEL format dictionary containing the data for the annotation.
         coordinate_systems: dict
             Dictionary containing all coordinate_systems for the scene.
-        object_data: raillabel.format.ObjectData, optional
-            ObjectData containing the Bbox. Used for accessing higher level informations.
-            Default is None.
 
         Returns
         -------
@@ -79,7 +62,6 @@ class Bbox(_Annotation):
             name=str(data_dict["name"]),
             pos=Point2d(x=data_dict["val"][0], y=data_dict["val"][1]),
             size=Size2d(x=data_dict["val"][2], y=data_dict["val"][3]),
-            object_data=object_data,
         )
 
         # Adds the optional properties
@@ -95,15 +77,9 @@ class Bbox(_Annotation):
 
         # Adds the attributes
         if "attributes" in data_dict:
-
             annotation.attributes = {
                 a["name"]: a["val"] for l in data_dict["attributes"].values() for a in l
             }
-
-            # Saves the uri attribute as a class attribute
-            if "uri" in annotation.attributes:
-                annotation.uri = annotation.attributes["uri"]
-                del annotation.attributes["uri"]
 
         return annotation, warnings
 
@@ -133,7 +109,3 @@ class Bbox(_Annotation):
         dict_repr.update(self._annotation_optional_fields_asdict())
 
         return dict_repr
-
-    def __eq__(self, __o: object) -> bool:
-        """Compare this annotation with another one."""
-        return super().equals(self, __o)

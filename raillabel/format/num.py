@@ -28,7 +28,6 @@ class Num(_Annotation):
 
     val: t.Union[int, float] = None
 
-    OBJECT_DATA_FIELD = "nums"
     _REQ_FIELDS = ["val"]
 
     @classmethod
@@ -77,11 +76,6 @@ class Num(_Annotation):
                 a["name"]: a["val"] for l in data_dict["attributes"].values() for a in l
             }
 
-            # Saves the uri attribute as a class attribute
-            if "uri" in annotation.attributes:
-                annotation.uri = annotation.attributes["uri"]
-                del annotation.attributes["uri"]
-
         return annotation, warnings
 
     def asdict(self) -> dict:
@@ -105,7 +99,3 @@ class Num(_Annotation):
         dict_repr.update(self._annotation_optional_fields_asdict())
 
         return dict_repr
-
-    def __eq__(self, __o: object) -> bool:
-        """Compare this annotation with another one."""
-        return super().equals(self, __o)

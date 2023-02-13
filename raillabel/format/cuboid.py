@@ -32,21 +32,12 @@ class Cuboid(_Annotation):
         attribute values. Default is {}.
     coordinate_system: raillabel.format.CoordinateSystem, optional
         A reference to the coordinate_system, this annotation is labeled in. Default is None.
-    object_data: raillabel.format.ObjectData, optional
-        ObjectData containing the Cuboid. Used for accessing higher level informations.
-        Default is None.
-
-    Parameters
-    ----------
-    uri: str
-        URI to the file, which contains the annotated object.
     """
 
     pos: Point3d = None
     quat: Quaternion = None
     size: Size3d = None
 
-    OBJECT_DATA_FIELD = "cuboids"
     _REQ_FIELDS = ["pos", "size", "quat"]
 
     @classmethod
@@ -54,7 +45,6 @@ class Cuboid(_Annotation):
         self,
         data_dict: dict,
         coordinate_systems: dict,
-        object_data=None,
     ) -> t.Tuple["Cuboid", list]:
         """Generate a Cuboid object from a dictionary in the OpenLABEL format.
 
@@ -64,9 +54,6 @@ class Cuboid(_Annotation):
             OpenLABEL format dictionary containing the data for the annotation.
         coordinate_systems: dict
             Dictionary containing all coordinate_systems for the scene.
-        object_data: raillabel.format.ObjectData, optional
-            ObjectData containing the Cuboid. Used for accessing higher level informations.
-            Default is None.
 
         Returns
         -------
@@ -98,7 +85,6 @@ class Cuboid(_Annotation):
                 y=data_dict["val"][8],
                 z=data_dict["val"][9],
             ),
-            object_data=object_data,
         )
 
         # Adds the optional properties
@@ -114,15 +100,9 @@ class Cuboid(_Annotation):
 
         # Adds the attributes
         if "attributes" in data_dict:
-
             annotation.attributes = {
                 a["name"]: a["val"] for l in data_dict["attributes"].values() for a in l
             }
-
-            # Saves the uri attribute as a class attribute
-            if "uri" in annotation.attributes:
-                annotation.uri = annotation.attributes["uri"]
-                del annotation.attributes["uri"]
 
         return annotation, warnings
 
@@ -158,7 +138,3 @@ class Cuboid(_Annotation):
         dict_repr.update(self._annotation_optional_fields_asdict())
 
         return dict_repr
-
-    def __eq__(self, __o: object) -> bool:
-        """Compare this annotation with another one."""
-        return super().equals(self, __o)

@@ -15,32 +15,6 @@ class _Annotation(ABC):
     name: str
     attributes: t.Dict[str, t.Union[int, float, bool, str, list]] = field(default_factory=dict)
     coordinate_system: CoordinateSystem = None
-    object_data: t.Any = None
-
-    @property
-    def uri(self) -> str or None:
-        """URI to the file, which contains the annotated object."""
-        if self.object_data is None or self.object_data.frame is None:
-            return None
-        return self.object_data.frame.streams[self.coordinate_system.uid].uri
-
-    @uri.setter
-    def uri(self, value):
-
-        if self.object_data is None:
-            raise AttributeError(f"Attribute object_data not set for annotation {self.uri}.")
-
-        if self.object_data.frame is None:
-            raise AttributeError(
-                f"Attribute frame not set for ObjectAnnotation of annotation {self.uri}."
-            )
-
-        self.object_data.frame.streams[self.coordinate_system.uid].uri = value
-
-    @property
-    @abstractproperty
-    def OBJECT_DATA_FIELD(cls) -> str:
-        raise NotImplementedError
 
     @property
     @abstractproperty
@@ -86,32 +60,6 @@ class _Annotation(ABC):
         """
         raise NotImplementedError
 
-    @classmethod
-    def equals(self, child: object, other: object):
-        """Compare a child of annotation with another object.
-
-        Parameters
-        ----------
-        child: t.Any
-            Child of this class.
-        other: t.Any
-            Object to compare the child to.
-
-        Returns
-        -------
-        bool
-            True, if the child is equal to the other.
-        """
-
-        if type(child) != type(other):
-            return False
-
-        # object_data is omitted from the equal comparison, because it contains this
-        # annotation, which will lead to a RecursionError.
-        return {k: v for k, v in vars(child).items() if k != "object_data"} == {
-            k: v for k, v in vars(other).items() if k != "object_data"
-        }
-
     # === Private Methods ====================================================
 
     def _annotation_required_fields_asdict(self) -> t.Dict:
@@ -129,7 +77,7 @@ class _Annotation(ABC):
         if self.coordinate_system is not None:
             dict_repr["coordinate_system"] = str(self.coordinate_system.uid)
 
-        if self.attributes != {} or self.uri is not None:
+        if self.attributes != {}:
             dict_repr["attributes"] = {}
 
             for attr_name, attr_value in self.attributes.items():
@@ -147,13 +95,13 @@ class _Annotation(ABC):
                 elif type(attr_value) == bool:
                     attr_type = "boolean"
 
-                elif type(attr_value) in [list, t.Tuple]:
+                elif type(attr_value) in [list, tuple]:
                     attr_type = "vec"
 
                 else:
                     raise TypeError(
                         f"Attribute type {attr_value.__class__.__name__} of {attr_value} is not "
-                        + "supported. Supported types are str, float, int, bool, list, t.Tuple."
+                        + "supported. Supported types are str, float, int, bool, list, tuple."
                     )
 
                 if attr_type not in dict_repr["attributes"]:

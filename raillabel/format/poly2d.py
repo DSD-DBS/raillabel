@@ -35,21 +35,12 @@ class Poly2d(_Annotation):
         attribute values. Default is {}.
     coordinate_system: raillabel.format.CoordinateSystem, optional
         A reference to the coordinate_system, this annotation is labeled in. Default is None.
-    object_data: raillabel.format.ObjectData, optional
-        ObjectData containing the Poly2d. Used for accessing higher level informations.
-        Default is None.
-
-    Parameters
-    ----------
-    uri: str
-        URI to the file, which contains the annotated object.
     """
 
     points: t.List[Point2d] = None
     closed: bool = None
     mode: str = "MODE_POLY2D_ABSOLUTE"
 
-    OBJECT_DATA_FIELD = "poly2ds"
     _REQ_FIELDS = ["points", "closed"]
 
     @classmethod
@@ -57,7 +48,6 @@ class Poly2d(_Annotation):
         self,
         data_dict: dict,
         coordinate_systems: dict,
-        object_data=None,
     ) -> t.Tuple["Poly2d", list]:
         """Generate a Bbox object from a dictionary in the OpenLABEL format.
 
@@ -67,9 +57,6 @@ class Poly2d(_Annotation):
             OpenLABEL format dictionary containing the data for the annotation.
         coordinate_systems: dict
             Dictionary containing all coordinate_systems for the scene.
-        object_data: raillabel.format.ObjectData, optional
-            ObjectData containing the Poly2d. Used for accessing higher level informations.
-            Default is None.
 
         Returns
         -------
@@ -93,7 +80,6 @@ class Poly2d(_Annotation):
             closed=data_dict["closed"],
             mode=data_dict["mode"],
             points=points,
-            object_data=object_data,
         )
 
         # Adds the optional properties
@@ -109,15 +95,9 @@ class Poly2d(_Annotation):
 
         # Adds the attributes
         if "attributes" in data_dict:
-
             annotation.attributes = {
                 a["name"]: a["val"] for l in data_dict["attributes"].values() for a in l
             }
-
-            # Saves the uri attribute as a class attribute
-            if "uri" in annotation.attributes:
-                annotation.uri = annotation.attributes["uri"]
-                del annotation.attributes["uri"]
 
         return annotation, warnings
 
@@ -146,7 +126,3 @@ class Poly2d(_Annotation):
         dict_repr.update(self._annotation_optional_fields_asdict())
 
         return dict_repr
-
-    def __eq__(self, __o: object) -> bool:
-        """Compare this annotation with another one."""
-        return super().equals(self, __o)

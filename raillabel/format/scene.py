@@ -321,7 +321,7 @@ class Scene:
                 continue
 
             # Iterates over the objects
-            for obj_uid, obj in frame.objects.items():
+            for obj_uid, obj in frame.object_data.items():
 
                 # Skips the iteration if the object should be omitted
                 if (
@@ -446,23 +446,23 @@ class Scene:
                         filtered_scene.objects[obj_uid] = self.objects[obj_uid]
 
                     # Adds the object to the frame, if not already added
-                    if obj_uid not in filtered_scene.frames[frame.uid].objects:
-                        filtered_scene.frames[frame.uid].objects[obj_uid] = ObjectData(
+                    if obj_uid not in filtered_scene.frames[frame.uid].object_data:
+                        filtered_scene.frames[frame.uid].object_data[obj_uid] = ObjectData(
                             object=filtered_scene.objects[obj_uid]
                         )
 
                     # Adds the annotation
                     if isinstance(ann, Bbox):
-                        filtered_scene.frames[frame.uid].objects[obj_uid].bboxs[ann.uid] = ann
+                        filtered_scene.frames[frame.uid].object_data[obj_uid].bboxs[ann.uid] = ann
 
                     if isinstance(ann, Poly2d):
-                        filtered_scene.frames[frame.uid].objects[obj_uid].poly2ds[ann.uid] = ann
+                        filtered_scene.frames[frame.uid].object_data[obj_uid].poly2ds[ann.uid] = ann
 
                     if isinstance(ann, Cuboid):
-                        filtered_scene.frames[frame.uid].objects[obj_uid].cuboids[ann.uid] = ann
+                        filtered_scene.frames[frame.uid].object_data[obj_uid].cuboids[ann.uid] = ann
 
                     if isinstance(ann, Seg3d):
-                        filtered_scene.frames[frame.uid].objects[obj_uid].seg3ds[ann.uid] = ann
+                        filtered_scene.frames[frame.uid].object_data[obj_uid].seg3ds[ann.uid] = ann
 
                     # Stores the sensor name for adding it later
                     if not ann.coordinate_system.uid in used_sensors:
