@@ -11,7 +11,7 @@ import jsonschema
 from . import exceptions
 
 
-def validate(data: dict, schema_path: str = "openlabel_v1") -> t.Tuple[bool, t.List[str]]:
+def validate(data: dict, schema_path: str = "raillabel_v2") -> t.Tuple[bool, t.List[str]]:
     """Validate JSON data represented by a dict via a given schema.
 
     Parameters
@@ -20,9 +20,9 @@ def validate(data: dict, schema_path: str = "openlabel_v1") -> t.Tuple[bool, t.L
         JSON data to be validated.
     schema_path: str, optional
         Path to the JSON schema used for the validation. If the schema is in the /schemas
-        folder, the format name can be used (i.e. schema_path can be 'openlabel_v1' or
-        'openlabel_v1_schema' to load the openlabel_v1_schema.json file). Default is
-        'openlabel_v1'.
+        folder, the format name can be used (i.e. schema_path can be 'raillabel_v2' or
+        'raillabel_v2_schema' to load the raillabel_v2_schema.json file). Default is
+        'raillabel_v2'.
 
     Returns
     -------

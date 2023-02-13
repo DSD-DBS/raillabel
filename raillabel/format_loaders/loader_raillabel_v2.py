@@ -25,7 +25,7 @@ class LoaderOpenLabelV1(LoaderABC):
     scene: format.Scene
     warnings: t.List[str]
 
-    SCHEMA_PATH: Path = Path(__file__).parent.parent / "schemas" / "openlabel_v1_schema.json"
+    SCHEMA_PATH: Path = Path(__file__).parent.parent / "schemas" / "raillabel_v2_schema.json"
 
     _OPENLABEL_CLASS_MAPPING = {
         "bbox": {

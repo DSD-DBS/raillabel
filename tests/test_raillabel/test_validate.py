@@ -33,17 +33,17 @@ def test_file_two_type_errors(openlabel_v1_short_data):
     assert not validation_result[0] and len(validation_result[1]) == 2
 
 
-def test_valid_file_path(openlabel_v1_short_data, openlabel_v1_schema_path):
-    assert openlabel_v1_schema_path.is_file()
-    validation_result = raillabel.validate(openlabel_v1_short_data, str(openlabel_v1_schema_path))
+def test_valid_file_path(openlabel_v1_short_data, raillabel_v2_schema_path):
+    assert raillabel_v2_schema_path.is_file()
+    validation_result = raillabel.validate(openlabel_v1_short_data, str(raillabel_v2_schema_path))
     assert validation_result[0]
 
 
-def test_invalid_file_path(openlabel_v1_short_data, openlabel_v1_schema_path):
-    openlabel_v1_schema_path = str(openlabel_v1_schema_path) + "_invalid"
+def test_invalid_file_path(openlabel_v1_short_data, raillabel_v2_schema_path):
+    raillabel_v2_schema_path = str(raillabel_v2_schema_path) + "_invalid"
 
     with pytest.raises(FileNotFoundError):
-        raillabel.validate(openlabel_v1_short_data, openlabel_v1_schema_path)
+        raillabel.validate(openlabel_v1_short_data, raillabel_v2_schema_path)
 
 
 def test_invalid_schema_key(openlabel_v1_short_data):
