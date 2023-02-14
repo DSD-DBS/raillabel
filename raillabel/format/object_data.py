@@ -2,7 +2,6 @@
 # SPDX-License-Identifier: Apache-2.0
 
 import typing as t
-import uuid
 from dataclasses import dataclass, field
 
 from ._annotation import _Annotation
