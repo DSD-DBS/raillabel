@@ -448,7 +448,7 @@ def test_load_frame0_poly2ds(openlabel_v1_short_data, loader):
     ].attributes == {
         "test_text_attr0": "test_text_attr0_val",
         "test_text_attr1": "test_text_attr1_val",
-        "test_num_attr0": 0,
+        "test_num_attr0": 2,
         "test_num_attr1": 1,
         "test_bool_attr0": True,
         "test_vec_attr0": ["0", "1"],

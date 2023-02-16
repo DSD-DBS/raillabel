@@ -320,7 +320,7 @@
                                         "num": [
                                             {
                                                 "name": "test_num_attr0",
-                                                "val": 0
+                                                "val": 2
                                             },
                                             {
                                                 "name": "test_num_attr1",
