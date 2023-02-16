@@ -20,7 +20,7 @@ openlabel_v1_vcd_incompatible_path_var = (
     / "openlabel_v1_vcd_incompatible.json"
 )
 
-# OpenLabel v1 schema
+# Raillabel v2 schema
 @pytest.fixture
 def raillabel_v2_schema_path():
     return raillabel_v2_schema_path_var

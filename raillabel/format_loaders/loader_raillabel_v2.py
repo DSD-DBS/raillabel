@@ -347,7 +347,7 @@ class LoaderRailLabelV2(LoaderABC):
                                 f"Annotation {ann_raw['uid']} is contained more than one time "
                                 + f"in frame {uid}."
                             )
-                            continue
+                            ann_raw["uid"] = str(uuid.uuid4())
 
                         # Converts the annotation
                         (annotations[ann_raw["uid"]], w,) = self._OPENLABEL_CLASS_MAPPING[
@@ -427,7 +427,7 @@ class LoaderRailLabelV2(LoaderABC):
                                     f"Annotation {ann_raw['uid']} is contained more than one time "
                                     + f"in frame {uid}."
                                 )
-                                continue
+                                ann_raw["uid"] = str(uuid.uuid4())
 
                             # Converts the annotation
                             (
