@@ -116,7 +116,11 @@
                 },
                 "parent": {
                     "description": "This is the string UID of the parent coordinate system this coordinate system is referring to.",
-                    "type": "string"
+                    "type": "string",
+                    "enum": [
+                        "base",
+                        ""
+                    ]
                 },
                 "pose_wrt_parent": {
                     "$ref": "#/definitions/transform_data"
