@@ -127,7 +127,11 @@
                 },
                 "type": {
                     "description": "This is a string that describes the type of the coordinate system, for example, \"local\", \"geo\").",
-                    "type": "string"
+                    "type": "string",
+                    "enum": [
+                        "sensor",
+                        "local"
+                    ]
                 }
             },
             "required": [
@@ -653,7 +657,13 @@
                             "type": "integer"
                         }
                     },
-                    "type": "object"
+                    "type": "object",
+                    "required": [
+                        "camera_matrix",
+                        "distortion_coeffs",
+                        "height_px",
+                        "width_px"
+                    ]
                 },
                 "sync": {
                     "properties": {
