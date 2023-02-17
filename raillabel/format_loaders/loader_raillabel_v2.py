@@ -83,8 +83,7 @@ class LoaderRailLabelV2(LoaderABC):
         # the data. This is meant to improve readibility.
 
         self._load_metadata(data["openlabel"])
-        self._load_streams(data["openlabel"])
-        self._load_coordinate_systems(data["openlabel"])
+        self._load_sensors(data["openlabel"])
         self._load_objects(data["openlabel"])
         self._load_frames(data["openlabel"])
 
@@ -140,112 +139,18 @@ class LoaderRailLabelV2(LoaderABC):
 
         self.scene.metadata.exporter_version = exporter_version[-1].split('"')[1]
 
-    def _load_streams(self, data: dict):
+    def _load_sensors(self, data: dict):
 
-        # Iterates over the scenes streams
-        for uid, stream in data["streams"].items():
+        for stream_id, stream_raw in data["streams"].items():
 
-            # stream.uid and stream.type
-            self.scene.streams[uid] = format.Stream(uid=uid, type=stream["type"])
+            if stream_id not in data["coordinate_systems"]:
+                self.warnings.append(f"Stream {stream_id} has no corresponding coordinate system.")
+                data["coordinate_systems"][stream_id] = {"parent": "base"}
 
-            # stream.rostopic
-            if "uri" in stream:
-                self.scene.streams[uid].rostopic = stream["uri"]
+            cs_raw = data["coordinate_systems"][stream_id]
 
-            # stream.description
-            if "description" in stream:
-                self.scene.streams[uid].description = stream["description"]
-
-            # stream.calibration
-            if (
-                "stream_properties" in stream
-                and "intrinsics_pinhole" in stream["stream_properties"]
-            ):
-
-                # stream.calibration.camera_matrix and stream.calibration.distortion
-                self.scene.streams[uid].calibration = format.StreamCalibration(
-                    camera_matrix=tuple(
-                        stream["stream_properties"]["intrinsics_pinhole"]["camera_matrix"]
-                    ),
-                    distortion=tuple(
-                        stream["stream_properties"]["intrinsics_pinhole"]["distortion_coeffs"]
-                    ),
-                )
-
-                # stream.calibration.width_px
-                if "width_px" in stream["stream_properties"]["intrinsics_pinhole"]:
-                    self.scene.streams[uid].calibration.width_px = stream["stream_properties"][
-                        "intrinsics_pinhole"
-                    ]["width_px"]
-
-                # stream.calibration.height_px
-                if "height_px" in stream["stream_properties"]["intrinsics_pinhole"]:
-                    self.scene.streams[uid].calibration.height_px = stream["stream_properties"][
-                        "intrinsics_pinhole"
-                    ]["height_px"]
-
-    def _load_coordinate_systems(self, data: dict):
-
-        # As coordinate systems have a parent and a children attribute, which point to other
-        # coordinate systems, they must be added to the scene without these values first to
-        # ensure, that every coordinate system already exists before it is pointed to. The parent
-        # and children attributes are added in the second loop.
-
-        # Iterates over the scenes coordinate systems to create them
-        for uid, cs in data["coordinate_systems"].items():
-
-            # coordinate_system.uid and coordinate_system.type
-            self.scene.coordinate_systems[uid] = format.CoordinateSystem(uid=uid, type=cs["type"])
-
-        # Iterates over the scenes coordinate systems to add the parents and children
-        for uid, cs in data["coordinate_systems"].items():
-
-            # coordinate_system.parent
-            if cs["parent"] != "":
-
-                try:
-                    self.scene.coordinate_systems[uid].parent = self.scene.coordinate_systems[
-                        cs["parent"]
-                    ]
-
-                except KeyError:
-                    self.warnings.append(
-                        f"{cs['parent']} does not exist as a coordinate system, but is referenced as the parent of {uid}."
-                    )
-
-            # coordinate_system.children
-            if "children" in cs and cs["children"] != []:
-
-                for child_uid in cs["children"]:
-                    try:
-                        self.scene.coordinate_systems[uid].children[
-                            child_uid
-                        ] = self.scene.coordinate_systems[child_uid]
-
-                    except KeyError:
-                        self.warnings.append(
-                            f"{child_uid} does not exist as a coordinate system, but is referenced as the child of {uid}."
-                        )
-
-            # coordinate_system.transform
-            if (
-                "pose_wrt_parent" in cs
-                and "translation" in cs["pose_wrt_parent"]
-                and "quaternion" in cs["pose_wrt_parent"]
-            ):
-                self.scene.coordinate_systems[uid].transform = format.Transform(
-                    pos=format.Point3d(
-                        x=cs["pose_wrt_parent"]["translation"][0],
-                        y=cs["pose_wrt_parent"]["translation"][1],
-                        z=cs["pose_wrt_parent"]["translation"][2],
-                    ),
-                    quat=format.Quaternion(
-                        x=cs["pose_wrt_parent"]["quaternion"][0],
-                        y=cs["pose_wrt_parent"]["quaternion"][1],
-                        z=cs["pose_wrt_parent"]["quaternion"][2],
-                        w=cs["pose_wrt_parent"]["quaternion"][3],
-                    ),
-                )
+            self.scene.sensors[stream_id], w = format.Sensor.fromdict(stream_id, cs_raw, stream_raw)
+            self.warnings.extend(w)
 
     def _load_objects(self, data: dict):
 
@@ -266,40 +171,38 @@ class LoaderRailLabelV2(LoaderABC):
                 timestamp=decimal.Decimal(frame["frame_properties"]["timestamp"]),
             )
 
-            # frame.streams
+            # frame.sensors
             if "streams" in frame["frame_properties"]:
 
-                for stream_uid, stream_reference in frame["frame_properties"]["streams"].items():
+                for sensor_uid, sensor in frame["frame_properties"]["streams"].items():
 
                     # Older version store the stream timestamp under stream_sync. This adressed here.
-                    if "stream_sync" in stream_reference["stream_properties"]:
-                        stream_reference["stream_properties"]["sync"] = stream_reference[
-                            "stream_properties"
-                        ]["stream_sync"]
+                    if "stream_sync" in sensor["stream_properties"]:
+                        sensor["stream_properties"]["sync"] = sensor["stream_properties"][
+                            "stream_sync"
+                        ]
 
                         warning_message = f"Deprecated field 'stream_sync' in frame {uid}. Please update file with raillable.save()."
                         if warning_message not in self.warnings:
                             self.warnings.append(warning_message)
 
                     try:
-                        self.scene.frames[int(uid)].streams[stream_uid] = format.StreamReference(
-                            stream=self.scene.streams[stream_uid],
+                        self.scene.frames[int(uid)].sensors[sensor_uid] = format.StreamReference(
+                            sensor=self.scene.sensors[sensor_uid],
                             timestamp=decimal.Decimal(
-                                stream_reference["stream_properties"]["sync"]["timestamp"]
+                                sensor["stream_properties"]["sync"]["timestamp"]
                             ),
                         )
 
                     except KeyError:
                         self.warnings.append(
-                            f"{stream_uid} does not exist as a stream, but is referenced in the "
+                            f"{sensor_uid} does not exist as a stream, but is referenced in the "
                             + f"sync of frame {uid}."
                         )
 
                     else:
-                        if "uri" in stream_reference:
-                            self.scene.frames[int(uid)].streams[stream_uid].uri = stream_reference[
-                                "uri"
-                            ]
+                        if "uri" in sensor:
+                            self.scene.frames[int(uid)].sensors[sensor_uid].uri = sensor["uri"]
 
             # frame.data
             if "frame_data" in frame["frame_properties"]:
@@ -340,7 +243,7 @@ class LoaderRailLabelV2(LoaderABC):
                         # Converts the annotation
                         (annotations[ann_raw["uid"]], w,) = self._OPENLABEL_CLASS_MAPPING[
                             ann_type
-                        ].fromdict(ann_raw, self.scene.coordinate_systems)
+                        ].fromdict(ann_raw, self.scene.sensors)
                         self.warnings.extend(w)
 
                     # Allocates the annotations to the frame
@@ -400,7 +303,7 @@ class LoaderRailLabelV2(LoaderABC):
                             if "attributes" in ann_raw and "text" in ann_raw["attributes"]:
                                 for i, attr in enumerate(ann_raw["attributes"]["text"]):
                                     if attr["name"] == "uri":
-                                        self.scene.frames[int(uid)].streams[
+                                        self.scene.frames[int(uid)].sensors[
                                             ann_raw["coordinate_system"]
                                         ].uri = attr["val"]
                                         del ann_raw["attributes"]["text"][i]
@@ -425,6 +328,6 @@ class LoaderRailLabelV2(LoaderABC):
                                 w,
                             ) = self._OPENLABEL_CLASS_MAPPING[ann_type].fromdict(
                                 ann_raw,
-                                self.scene.coordinate_systems,
+                                self.scene.sensors,
                             )
                             self.warnings.extend(w)

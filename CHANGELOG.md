@@ -33,3 +33,5 @@ Release
 - Added poly3d as a supported annotation type
 - All annotations are now stored in object_data.annotations (before they were stored in different fields according to their type)
 - raillabel.Scene.filter() has been removed. Use raillabel.filter() instead
+- Fields "coordinate_system" and "frame_intervals" have been removed from the raillabel.format.Object class
+- stream and coordinate system have been combined into a single sensor type

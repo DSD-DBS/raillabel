@@ -26,7 +26,7 @@ def test_file_one_type_error(openlabel_v1_short_data):
 
 def test_file_two_type_errors(openlabel_v1_short_data):
     openlabel_v1_short_data["openlabel"]["streams"]["lidar"]["uri"] = 42
-    openlabel_v1_short_data["openlabel"]["coordinate_systems"]["base"]["type"] = 0
+    openlabel_v1_short_data["openlabel"]["coordinate_systems"]["base"]["uri"] = 0
 
     validation_result = raillabel.validate(openlabel_v1_short_data)
 

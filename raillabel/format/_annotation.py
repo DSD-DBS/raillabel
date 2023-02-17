@@ -5,7 +5,7 @@ import typing as t
 from abc import ABC, abstractmethod, abstractproperty
 from dataclasses import dataclass, field
 
-from .coordinate_system import CoordinateSystem
+from .sensor import Sensor
 
 
 @dataclass
@@ -14,7 +14,7 @@ class _Annotation(ABC):
     uid: str
     name: str
     attributes: t.Dict[str, t.Union[int, float, bool, str, list]] = field(default_factory=dict)
-    coordinate_system: CoordinateSystem = None
+    sensor: Sensor = None
 
     @property
     @abstractproperty
@@ -41,15 +41,15 @@ class _Annotation(ABC):
 
     @classmethod
     @abstractmethod
-    def fromdict(self, data_dict: t.Dict, coordinate_systems: t.Dict) -> t.Tuple[t.Dict, list]:
+    def fromdict(self, data_dict: t.Dict, sensors: t.Dict) -> t.Tuple[t.Dict, list]:
         """Generate a Bbox object from a dictionary in the OpenLABEL format.
 
         Parameters
         ----------
         data_dict: dict
             OpenLABEL format dictionary containing the data for the annotation.
-        coordinate_systems: dict
-            Dictionary containing all coordinate_systems for the scene.
+        sensors: dict
+            Dictionary containing all sensors for the scene.
 
         Returns
         -------
@@ -74,8 +74,8 @@ class _Annotation(ABC):
 
         dict_repr = {}
 
-        if self.coordinate_system is not None:
-            dict_repr["coordinate_system"] = str(self.coordinate_system.uid)
+        if self.sensor is not None:
+            dict_repr["coordinate_system"] = str(self.sensor.uid)
 
         if self.attributes != {}:
             dict_repr["attributes"] = {}

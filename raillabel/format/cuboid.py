@@ -90,7 +90,7 @@ class Cuboid(_Annotation):
         # Adds the optional properties
         if "coordinate_system" in data_dict and data_dict["coordinate_system"] != "":
             try:
-                annotation.coordinate_system = coordinate_systems[data_dict["coordinate_system"]]
+                annotation.sensor = coordinate_systems[data_dict["coordinate_system"]]
 
             except KeyError:
                 warnings.append(

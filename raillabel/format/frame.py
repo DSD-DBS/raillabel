@@ -21,8 +21,8 @@ class Frame:
         Number of the frame withing the annotation file. Must be unique.
     timestamp: decimal.Decimal
         Timestamp containing the Unix epoch time of the frame with up to nanosecond precision.
-    streams: dict of raillabel.format.StreamReference, optional
-        References to the streams with frame specific information like timestamp and uri.
+    sensors: dict of raillabel.format.StreamReference, optional
+        References to the sensors with frame specific information like timestamp and uri.
         Default is {}.
     data: dict, optional
         Dictionary containing data directly connected to the frame and not to anny object.
@@ -40,7 +40,7 @@ class Frame:
 
     uid: int
     timestamp: decimal.Decimal = None
-    streams: t.Dict[str, StreamReference] = field(default_factory=dict)
+    sensors: t.Dict[str, StreamReference] = field(default_factory=dict)
     data: t.Dict[str, Num] = field(default_factory=dict)
     object_data: t.Dict[uuid.UUID, ObjectData] = field(default_factory=dict)
 
@@ -72,15 +72,15 @@ class Frame:
 
         dict_repr = {}
 
-        if self.timestamp is not None or self.streams != {}:
+        if self.timestamp is not None or self.sensors != {}:
             dict_repr["frame_properties"] = {}
 
         if self.timestamp is not None:
             dict_repr["frame_properties"]["timestamp"] = str(self.timestamp)
 
-        if self.streams != {}:
+        if self.sensors != {}:
             dict_repr["frame_properties"]["streams"] = {
-                str(k): v.asdict() for k, v in self.streams.items()
+                str(k): v.asdict() for k, v in self.sensors.items()
             }
 
         if self.data != {}:
