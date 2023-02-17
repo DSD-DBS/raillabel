@@ -1,7 +1,6 @@
 # Copyright DB Netz AG and contributors
 # SPDX-License-Identifier: Apache-2.0
 
-import typing as t
 from decimal import Decimal
 
 from ._filter_abc import Frame, _FilterABC

@@ -2,7 +2,6 @@
 # SPDX-License-Identifier: Apache-2.0
 
 import pickle
-import typing as t
 
 from . import _filter_classes, format
 

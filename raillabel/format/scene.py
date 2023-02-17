@@ -4,19 +4,12 @@
 import typing as t
 import uuid
 from dataclasses import dataclass, field
-from decimal import Decimal
 
-from .bbox import Bbox
 from .coordinate_system import CoordinateSystem
-from .cuboid import Cuboid
 from .frame import Frame
 from .metadata import Metadata
 from .object import Object
-from .object_data import ObjectData
-from .poly2d import Poly2d
-from .seg3d import Seg3d
 from .stream import Stream
-from .stream_reference import StreamReference
 
 
 @dataclass
