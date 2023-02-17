@@ -174,8 +174,8 @@ def filter(scene: format.Scene, **kwargs) -> format.Scene:
 
 
 def _passes_filters(data, filters):
-    for filter in filters:
-        if not filter.passes_filter(data):
+    for f in filters:
+        if not f.passes_filter(data):
             return False
 
     return True
