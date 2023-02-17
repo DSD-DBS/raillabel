@@ -7,7 +7,7 @@ from dataclasses import dataclass
 
 @dataclass
 class IntrinsicsPinhole:
-    """Intrinsic calibration for a camera stream.
+    """Intrinsic calibration for a camera sensor.
 
     Parameters
     ----------
