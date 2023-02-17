@@ -255,18 +255,6 @@ class LoaderRailLabelV2(LoaderABC):
             # object.uid and object.type and object.name
             self.scene.objects[uid] = format.Object(uid=uid, type=obj["type"], name=obj["name"])
 
-            # object.coordinate_system
-            if "coordinate_system" in obj and obj["coordinate_system"] != "":
-                try:
-                    self.scene.objects[uid].coordinate_system = self.scene.coordinate_systems[
-                        obj["coordinate_system"]
-                    ]
-
-                except KeyError:
-                    self.warnings.append(
-                        f"{obj['coordinate_system']} does not exist as a coordinate system, but is referenced in the object {uid}."
-                    )
-
     def _load_frames(self, data: dict):
 
         # Iterates over the frames
