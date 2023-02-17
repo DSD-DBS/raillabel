@@ -108,6 +108,7 @@ max-line-length = 100
 
 [tool.pylint.messages_control]
 disable = [
+  "arguments-renamed",
   "broad-except",
   "global-statement",
   "import-outside-toplevel",
