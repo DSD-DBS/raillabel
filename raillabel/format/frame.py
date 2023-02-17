@@ -8,7 +8,7 @@ from dataclasses import dataclass, field
 
 from .num import Num
 from .object_data import ObjectData
-from .stream_reference import StreamReference
+from .sensor_reference import SensorReference
 
 
 @dataclass
@@ -21,7 +21,7 @@ class Frame:
         Number of the frame withing the annotation file. Must be unique.
     timestamp: decimal.Decimal
         Timestamp containing the Unix epoch time of the frame with up to nanosecond precision.
-    sensors: dict of raillabel.format.StreamReference, optional
+    sensors: dict of raillabel.format.SensorReference, optional
         References to the sensors with frame specific information like timestamp and uri.
         Default is {}.
     data: dict, optional
@@ -40,7 +40,7 @@ class Frame:
 
     uid: int
     timestamp: decimal.Decimal = None
-    sensors: t.Dict[str, StreamReference] = field(default_factory=dict)
+    sensors: t.Dict[str, SensorReference] = field(default_factory=dict)
     data: t.Dict[str, Num] = field(default_factory=dict)
     object_data: t.Dict[uuid.UUID, ObjectData] = field(default_factory=dict)
 

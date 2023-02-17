@@ -4,9 +4,9 @@
 import typing as t
 from dataclasses import dataclass
 
+from .intrinsics_pinhole import IntrinsicsPinhole
 from .point3d import Point3d
 from .quaternion import Quaternion
-from .stream_calibration import StreamCalibration
 from .transform import Transform
 
 
@@ -26,7 +26,7 @@ class Sensor:
     extrinsics: raillabel.format.Transform, optional
         The external calibration of the sensor defined by the 3D transform to the coordinate
         system origin. Default is None.
-    intrinsics: raillabel.format.StreamCalibration, optional
+    intrinsics: raillabel.format.SensorCalibration, optional
         The intrinsic calibration of the sensor. Default is None.
     type: str-enum
         A string encoding the type of the sensor. The only valid values are 'camera', 'lidar',
@@ -39,7 +39,7 @@ class Sensor:
 
     uid: str
     extrinsics: t.Optional[Transform] = None
-    intrinsics: t.Optional[StreamCalibration] = None
+    intrinsics: t.Optional[IntrinsicsPinhole] = None
     type: str = None
     rostopic: t.Optional[str] = None
     description: t.Optional[str] = None
@@ -89,7 +89,7 @@ class Sensor:
             "stream_properties" in stream_raw
             and "intrinsics_pinhole" in stream_raw["stream_properties"]
         ):
-            sensor.intrinsics = StreamCalibration(
+            sensor.intrinsics = IntrinsicsPinhole(
                 camera_matrix=tuple(
                     stream_raw["stream_properties"]["intrinsics_pinhole"]["camera_matrix"]
                 ),

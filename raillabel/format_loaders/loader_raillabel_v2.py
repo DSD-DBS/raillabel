@@ -187,7 +187,7 @@ class LoaderRailLabelV2(LoaderABC):
                             self.warnings.append(warning_message)
 
                     try:
-                        self.scene.frames[int(uid)].sensors[sensor_uid] = format.StreamReference(
+                        self.scene.frames[int(uid)].sensors[sensor_uid] = format.SensorReference(
                             sensor=self.scene.sensors[sensor_uid],
                             timestamp=decimal.Decimal(
                                 sensor["stream_properties"]["sync"]["timestamp"]

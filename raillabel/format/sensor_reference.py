@@ -9,7 +9,7 @@ from .sensor import Sensor
 
 
 @dataclass
-class StreamReference:  # TODO
+class SensorReference:  # TODO
     """A reference to a sensor in a specific frame.
 
     Parameters

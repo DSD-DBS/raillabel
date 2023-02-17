@@ -6,6 +6,7 @@ from .bbox import Bbox
 from .cuboid import Cuboid
 from .frame import Frame
 from .frame_interval import FrameInterval
+from .intrinsics_pinhole import IntrinsicsPinhole
 from .metadata import Metadata
 from .num import Num
 from .object import Object
@@ -18,8 +19,7 @@ from .quaternion import Quaternion
 from .scene import Scene
 from .seg3d import Seg3d
 from .sensor import Sensor
+from .sensor_reference import SensorReference
 from .size2d import Size2d
 from .size3d import Size3d
-from .stream_calibration import StreamCalibration
-from .stream_reference import StreamReference
 from .transform import Transform
