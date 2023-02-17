@@ -30,8 +30,8 @@ class Cuboid(_Annotation):
     attributes: dict, optional
         Attributes of the annotation. Dict keys are the name str of the attribute, values are the
         attribute values. Default is {}.
-    coordinate_system: raillabel.format.CoordinateSystem, optional
-        A reference to the coordinate_system, this annotation is labeled in. Default is None.
+    sensor: raillabel.format.CoordinateSystem, optional
+        A reference to the sensor, this annotation is labeled in. Default is None.
     """
 
     pos: Point3d = None
@@ -44,7 +44,7 @@ class Cuboid(_Annotation):
     def fromdict(
         self,
         data_dict: dict,
-        coordinate_systems: dict,
+        sensors: dict,
     ) -> t.Tuple["Cuboid", list]:
         """Generate a Cuboid object from a dictionary in the OpenLABEL format.
 
@@ -52,8 +52,8 @@ class Cuboid(_Annotation):
         ----------
         data_dict: dict
             OpenLABEL format dictionary containing the data for the annotation.
-        coordinate_systems: dict
-            Dictionary containing all coordinate_systems for the scene.
+        sensors: dict
+            Dictionary containing all sensors for the scene.
 
         Returns
         -------
@@ -90,7 +90,7 @@ class Cuboid(_Annotation):
         # Adds the optional properties
         if "coordinate_system" in data_dict and data_dict["coordinate_system"] != "":
             try:
-                annotation.sensor = coordinate_systems[data_dict["coordinate_system"]]
+                annotation.sensor = sensors[data_dict["coordinate_system"]]
 
             except KeyError:
                 warnings.append(
