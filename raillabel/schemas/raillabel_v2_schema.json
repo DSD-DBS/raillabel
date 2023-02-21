@@ -9,25 +9,25 @@
             "properties": {
                 "boolean": {
                     "items": {
-                        "$ref": "#/definitions/boolean"
+                        "$ref": "#/definitions/boolean_attribute"
                     },
                     "type": "array"
                 },
                 "num": {
                     "items": {
-                        "$ref": "#/definitions/num"
+                        "$ref": "#/definitions/num_attribute"
                     },
                     "type": "array"
                 },
                 "text": {
                     "items": {
-                        "$ref": "#/definitions/text"
+                        "$ref": "#/definitions/text_attribute"
                     },
                     "type": "array"
                 },
                 "vec": {
                     "items": {
-                        "$ref": "#/definitions/vec"
+                        "$ref": "#/definitions/vec_attribute"
                     },
                     "type": "array"
                 }
@@ -70,26 +70,12 @@
             ],
             "type": "object"
         },
-        "boolean": {
+        "boolean_attribute": {
             "additionalProperties": false,
-            "description": "A boolean.",
+            "description": "A boolean attribute.",
             "properties": {
-                "attributes": {
-                    "$ref": "#/definitions/attributes"
-                },
-                "coordinate_system": {
-                    "description": "Name of the coordinate system in respect of which this object data is expressed.",
-                    "type": "string"
-                },
                 "name": {
-                    "description": "This is a string encoding the name of this object data. It is used as index inside the corresponding object data pointers.",
-                    "type": "string"
-                },
-                "type": {
-                    "description": "This attribute specifies how the boolean shall be considered. In this schema the only possible option is as a value.",
-                    "enum": [
-                        "value"
-                    ],
+                    "description": "Friendly identifier describing the attribute. Used to track the attribute throughout annotations and frames.",
                     "type": "string"
                 },
                 "val": {
@@ -116,14 +102,22 @@
                 },
                 "parent": {
                     "description": "This is the string UID of the parent coordinate system this coordinate system is referring to.",
-                    "type": "string"
+                    "type": "string",
+                    "enum": [
+                        "base",
+                        ""
+                    ]
                 },
                 "pose_wrt_parent": {
                     "$ref": "#/definitions/transform_data"
                 },
                 "type": {
                     "description": "This is a string that describes the type of the coordinate system, for example, \"local\", \"geo\").",
-                    "type": "string"
+                    "type": "string",
+                    "enum": [
+                        "sensor",
+                        "local"
+                    ]
                 }
             },
             "required": [
@@ -235,7 +229,7 @@
                             "description": "Streams is a JSON object which contains OpenLABEL streams with specific information for this frame. Stream keys can be any string, for example, a friendly stream name.",
                             "patternProperties": {
                                 "^": {
-                                    "$ref": "#/definitions/stream"
+                                    "$ref": "#/definitions/stream_sync"
                                 }
                             },
                             "type": "object"
@@ -343,15 +337,6 @@
                     "description": "This is a string encoding the name of this object data. It is used as index inside the corresponding object data pointers.",
                     "type": "string"
                 },
-                "type": {
-                    "description": "This attribute specifies whether the number shall be considered as a value, a minimum, or a maximum in its context.",
-                    "enum": [
-                        "value",
-                        "min",
-                        "max"
-                    ],
-                    "type": "string"
-                },
                 "val": {
                     "description": "The numerical value of the number.",
                     "type": "number"
@@ -367,14 +352,28 @@
             ],
             "type": "object"
         },
+        "num_attribute": {
+            "additionalProperties": false,
+            "description": "A number attribute.",
+            "properties": {
+                "name": {
+                    "description": "Friendly identifier describing the attribute. Used to track the attribute throughout annotations and frames.",
+                    "type": "string"
+                },
+                "val": {
+                    "description": "The numerical value of the number.",
+                    "type": "number"
+                }
+            },
+            "required": [
+                "val"
+            ],
+            "type": "object"
+        },
         "object": {
             "additionalProperties": false,
             "description": "An object is the main type of annotation element. Object is designed to represent spatiotemporal entities, such as physical objects in the real world. Objects shall have a name and type. Objects may have static and dynamic data. Objects are the only type of elements that may have geometric data, such as bounding boxes, cuboids, polylines, images, etc.",
             "properties": {
-                "coordinate_system": {
-                    "description": "This is the string key of the coordinate system this object is referenced with respect to.",
-                    "type": "string"
-                },
                 "frame_intervals": {
                     "description": "The array of frame intervals where this object exists or is defined.",
                     "items": {
@@ -503,15 +502,6 @@
                     "description": "Name of the coordinate system in respect of which this object data is expressed.",
                     "type": "string"
                 },
-                "hierarchy": {
-                    "description": "Hierarchy of the 2D polyline in the context of a set of 2D polylines.",
-                    "items": {
-                        "type": "integer"
-                    },
-                    "maxItems": 4,
-                    "minItems": 4,
-                    "type": "array"
-                },
                 "mode": {
                     "description": "Mode of the polyline list of values: \"MODE_POLY2D_ABSOLUTE\" determines that the poly2d list contains the sequence of (x, y) values of all points of the polyline. \"MODE_POLY2D_RELATIVE\" specifies that only the first point of the sequence is defined with its (x, y) values, while all the rest are defined relative to it. \"MODE_POLY2D_SRF6DCC\" specifies that SRF6DCC chain code method is used. \"MODE_POLY2D_RS6FCC\" specifies that the RS6FCC method is used.",
                     "type": "string"
@@ -613,7 +603,7 @@
                     "type": "string"
                 },
                 "uri": {
-                    "description": "A string encoding the URI, for example, a URL, or file name, for example, a video file name, the stream corresponds to.",
+                    "description": "A string encoding the ROS-topic of the stream.",
                     "type": "string"
                 }
             },
@@ -653,24 +643,49 @@
                             "type": "integer"
                         }
                     },
-                    "type": "object"
-                },
-                "sync": {
-                    "properties": {
-                        "timestamp": {
-                            "anyOf": [
-                                {
-                                    "type": "string"
-                                },
-                                {
-                                    "type": "number"
-                                }
-                            ],
-                            "description": "The timestamp indicates a time instant as a string or numerical value to describe this frame."
-                        }
-                    }
+                    "type": "object",
+                    "required": [
+                        "camera_matrix",
+                        "distortion_coeffs",
+                        "height_px",
+                        "width_px"
+                    ]
                 }
             }
+        },
+        "stream_sync": {
+            "additionalProperties": false,
+            "description": "Syncronization information of a stream in a frame.",
+            "properties": {
+                "stream_properties": {
+                    "additionalProperties": false,
+                    "properties": {
+                        "sync": {
+                            "additionalProperties": false,
+                            "properties": {
+                                "timestamp": {
+                                    "anyOf": [
+                                        {
+                                            "type": "string"
+                                        },
+                                        {
+                                            "type": "number"
+                                        }
+                                    ],
+                                    "description": "The timestamp indicates a time instant as a string or numerical value to describe this frame."
+                                }
+                            },
+                            "type": "object"
+                        }
+                    },
+                    "type": "object"
+                },
+                "uri": {
+                    "description": "A string encoding the URI, for example, a URL, or file name, for example, a video file name, the stream corresponds to.",
+                    "type": "string"
+                }
+            },
+            "type": "object"
         },
         "streams": {
             "additionalProperties": false,
@@ -682,35 +697,16 @@
             },
             "type": "object"
         },
-        "text": {
+        "text_attribute": {
             "additionalProperties": false,
-            "description": "A text.",
+            "description": "A text attribute.",
             "properties": {
-                "attributes": {
-                    "$ref": "#/definitions/attributes"
-                },
-                "coordinate_system": {
-                    "description": "Name of the coordinate system in respect of which this object data is expressed.",
-                    "type": "string"
-                },
                 "name": {
-                    "description": "This is a string encoding the name of this object data. It is used as index inside the corresponding object data pointers.",
-                    "type": "string"
-                },
-                "type": {
-                    "description": "This attribute specifies how the text shall be considered. The only possible option is as a value.",
-                    "enum": [
-                        "value"
-                    ],
+                    "description": "Friendly identifier describing the attribute. Used to track the attribute throughout annotations and frames.",
                     "type": "string"
                 },
                 "val": {
                     "description": "The characters of the text.",
-                    "type": "string"
-                },
-                "uid": {
-                    "description": "This is a string encoding the Universal Unique identifyer of the annotation.",
-                    "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12})$",
                     "type": "string"
                 }
             },
@@ -795,6 +791,34 @@
                 "val"
             ],
             "type": "object"
+        },
+        "vec_attribute": {
+            "additionalProperties": false,
+            "description": "A vector attribute.",
+            "properties": {
+                "name": {
+                    "description": "Friendly identifier describing the attribute. Used to track the attribute throughout annotations and frames.",
+                    "type": "string"
+                },
+                "val": {
+                    "description": "The numerical values of the vector (list) of numbers.",
+                    "items": {
+                        "oneOf": [
+                            {
+                                "type": "number"
+                            },
+                            {
+                                "type": "string"
+                            }
+                        ]
+                    },
+                    "type": "array"
+                }
+            },
+            "required": [
+                "val"
+            ],
+            "type": "object"
         }
     },
     "properties": {
@@ -806,5 +830,6 @@
         "openlabel"
     ],
     "type": "object",
-    "description": "This schema is a sub-set of the OpenLABEL schema, that more accurately describes the usage by raillabel. Every JSON file, that is valid in this schema, is also valid in the OpenLABEL schema."
+    "description": "This schema is a sub-set of the OpenLABEL schema, that more accurately describes the usage by raillabel. Every JSON file, that is valid in this schema, is also valid in the OpenLABEL schema.",
+    "version": "2.0.0"
 }
