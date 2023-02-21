@@ -10,6 +10,15 @@ import pytest
 raillabel_v2_schema_path_var = (
     pathlib.Path(__file__).parent.parent / "raillabel" / "schemas" / "raillabel_v2_schema.json"
 )
+metaschema_path_var = (
+    pathlib.Path(__file__).parent / "test_raillabel" / "__test_assets__" / "metaschema.json"
+)
+openlabel_v1_schema_path_var = (
+    pathlib.Path(__file__).parent
+    / "test_raillabel"
+    / "__test_assets__"
+    / "openlabel_v1_schema.json"
+)
 openlabel_v1_short_path_var = (
     pathlib.Path(__file__).parent / "test_raillabel" / "__test_assets__" / "openlabel_v1_short.json"
 )
@@ -36,6 +45,42 @@ def raillabel_v2_schema_data(request):
             request.config.cache.set("raillabel_v2_schema_data", raillabel_v2_schema_data)
 
     return raillabel_v2_schema_data
+
+
+# JSON metaschema
+@pytest.fixture
+def metaschema_path():
+    return metaschema_path_var
+
+
+@pytest.fixture
+def metaschema_data(request):
+    metaschema_data = request.config.cache.get("metaschema_data", None)
+
+    if metaschema_data is None:
+        with metaschema_path_var.open() as metashort_file:
+            metaschema_data = json.load(metashort_file)
+            request.config.cache.set("metaschema_data", metaschema_data)
+
+    return metaschema_data
+
+
+# JSON openlabel_v1_schema
+@pytest.fixture
+def openlabel_v1_schema_path():
+    return openlabel_v1_schema_path_var
+
+
+@pytest.fixture
+def openlabel_v1_schema_data(request):
+    openlabel_v1_schema_data = request.config.cache.get("openlabel_v1_schema_data", None)
+
+    if openlabel_v1_schema_data is None:
+        with openlabel_v1_schema_path_var.open() as openlabel_v1_short_file:
+            openlabel_v1_schema_data = json.load(openlabel_v1_short_file)
+            request.config.cache.set("openlabel_v1_schema_data", openlabel_v1_schema_data)
+
+    return openlabel_v1_schema_data
 
 
 # OpenLabel v1 short data
