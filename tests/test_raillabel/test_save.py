@@ -2,6 +2,7 @@
 # SPDX-License-Identifier: Apache-2.0
 
 import json
+import os
 import sys
 import tempfile
 from pathlib import Path
@@ -34,4 +35,5 @@ def test_save(openlabel_v1_short_data):
 
 # Executes the test if the file is called
 if __name__ == "__main__":
-    pytest.main([__file__, "--disable-pytest-warnings"])
+    os.system("clear")
+    pytest.main([__file__, "--disable-pytest-warnings", "--cache-clear"])

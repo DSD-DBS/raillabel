@@ -2,6 +2,7 @@
 # SPDX-License-Identifier: Apache-2.0
 
 import decimal
+import os
 import sys
 from pathlib import Path
 
@@ -1727,4 +1728,5 @@ def test_warnings_seg3d_cs(openlabel_v1_short_data, loader):
 
 # Executes the test if the file is called
 if __name__ == "__main__":
+    os.system("clear")
     pytest.main([__file__, "--disable-pytest-warnings", "--cache-clear"])

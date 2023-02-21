@@ -1,6 +1,7 @@
 # Copyright DB Netz AG and contributors
 # SPDX-License-Identifier: Apache-2.0
 
+import os
 import sys
 from pathlib import Path
 
@@ -29,4 +30,5 @@ def test_post_init():
 
 # Executes the test if the file is called
 if __name__ == "__main__":
-    pytest.main([__file__, "--disable-pytest-warnings"])
+    os.system("clear")
+    pytest.main([__file__, "--disable-pytest-warnings", "--cache-clear"])

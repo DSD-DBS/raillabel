@@ -1,6 +1,7 @@
 # Copyright DB Netz AG and contributors
 # SPDX-License-Identifier: Apache-2.0
 
+import os
 import sys
 from pathlib import Path
 
@@ -26,7 +27,7 @@ def test_file_one_type_error(openlabel_v1_short_data):
 
 def test_file_two_type_errors(openlabel_v1_short_data):
     openlabel_v1_short_data["openlabel"]["streams"]["lidar"]["uri"] = 42
-    openlabel_v1_short_data["openlabel"]["coordinate_systems"]["base"]["type"] = 0
+    openlabel_v1_short_data["openlabel"]["coordinate_systems"]["base"]["type"] = "invalid_value"
 
     validation_result = raillabel.validate(openlabel_v1_short_data)
 
@@ -53,4 +54,5 @@ def test_invalid_schema_key(openlabel_v1_short_data):
 
 # Executes the test if the file is called
 if __name__ == "__main__":
-    pytest.main([__file__, "--disable-pytest-warnings"])
+    os.system("clear")
+    pytest.main([__file__, "--disable-pytest-warnings", "--cache-clear"])
