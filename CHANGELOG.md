@@ -24,7 +24,7 @@ Release
 
 ## 2.0.0
 - Made the saved data VCD-compatible
-  - URIs of the annotation files (like the .png, where a bounding box is located) are now stored in the "frame_properties" under "streams"
+  - URIs of the annotation files (like the .png, where a bounding box is located) are now stored in the "frame_properties" under "sensors"
   - Implemented object data pointers
   - Devkit version is now stored in the metadata
 - FrameInterval.\_\_len\_\_() now returns the number of frames in the FrameInterval
