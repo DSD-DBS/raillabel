@@ -253,6 +253,8 @@ class LoaderRailLabelV2(LoaderABC):
             if "objects" in frame:
                 for obj_uid, obj_ann in frame["objects"].items():
 
+                    used_names = set()  # names used for the annotations
+
                     obj_ann = obj_ann["object_data"]
 
                     # frame.object_data
@@ -288,15 +290,9 @@ class LoaderRailLabelV2(LoaderABC):
                         # Collects the converted annotations
                         for ann_raw in obj_ann[ann_type]:
 
-                            # Older versions have the annotation UUID stored in the 'name' field.
-                            # This needs to be corrected first.
-                            if not "uid" in ann_raw:
-                                try:
-                                    ann_raw["uid"] = str(uuid.UUID(ann_raw["name"]))
-                                except ValueError:
-                                    ann_raw["uid"] = str(uuid.uuid4())
-                                else:
-                                    ann_raw["name"] = "general"
+                            ann_raw, w = self._correct_annotation_name(ann_raw, used_names)
+                            used_names.add(ann_raw["name"])
+                            self.warnings.extend(w)
 
                             # Older versions store the URI attribute in the annotation attributes.
                             # This needs to be corrected if it is the case.
@@ -331,3 +327,32 @@ class LoaderRailLabelV2(LoaderABC):
                                 self.scene.sensors,
                             )
                             self.warnings.extend(w)
+
+    def _correct_annotation_name(
+        self, ann_raw: dict, used_names: set
+    ) -> t.Tuple[dict, t.List[str]]:
+
+        warnings = []
+
+        if "uid" not in ann_raw:
+            try:
+                ann_raw["uid"] = str(uuid.UUID(ann_raw["name"]))
+            except ValueError:
+                ann_raw["uid"] = str(uuid.uuid4())
+            else:
+                ann_raw["name"] = "general"
+
+        if ann_raw["name"] in used_names:
+
+            increment = 1
+            while f"{ann_raw['name']}_{increment}" in used_names:
+                increment += 1
+
+            warnings.append(
+                f"Name {ann_raw['name']} of annotation {ann_raw['uid']} is a duplicate. "
+                + f"{ann_raw['name']}_{increment} is the new name of the annotation."
+            )
+
+            ann_raw["name"] = f"{ann_raw['name']}_{increment}"
+
+        return ann_raw, warnings

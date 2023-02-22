@@ -222,7 +222,7 @@ def test_load_frame0_bboxs(openlabel_v1_short_data, loader):
         .object_data["b40ba3ad-0327-46ff-9c28-2506cfd6d934"]
         .bboxs["78f0ad89-2750-4a30-9d66-44c9da73a714"]
         .name
-        == "general0"
+        == "general"
     )
     assert (
         scene.frames[0]
@@ -294,7 +294,7 @@ def test_load_frame0_bboxs(openlabel_v1_short_data, loader):
         .object_data["b40ba3ad-0327-46ff-9c28-2506cfd6d934"]
         .bboxs["68b4e02c-40c8-4de0-89ad-bc00ed05a043"]
         .name
-        == "general1"
+        == "general_1"
     )
     assert (
         scene.frames[0]
@@ -363,7 +363,7 @@ def test_load_frame0_poly2ds(openlabel_v1_short_data, loader):
         .object_data["b40ba3ad-0327-46ff-9c28-2506cfd6d934"]
         .poly2ds["bebfbae4-61a2-4758-993c-efa846b050a5"]
         .name
-        == "general2"
+        == "general_2"
     )
     assert (
         scene.frames[0]
@@ -436,7 +436,7 @@ def test_load_frame0_poly2ds(openlabel_v1_short_data, loader):
         .object_data["b40ba3ad-0327-46ff-9c28-2506cfd6d934"]
         .poly2ds["3f63201c-fb33-4487-aff6-ae0aa5fa976c"]
         .name
-        == "general3"
+        == "general_3"
     )
     assert (
         scene.frames[0]
@@ -512,7 +512,7 @@ def test_load_frame0_cuboids(openlabel_v1_short_data, loader):
         .object_data["b40ba3ad-0327-46ff-9c28-2506cfd6d934"]
         .cuboids["dc2be700-8ee4-45c4-9256-920b5d55c917"]
         .name
-        == "general4"
+        == "general_4"
     )
     assert (
         scene.frames[0]
@@ -626,7 +626,7 @@ def test_load_frame0_cuboids(openlabel_v1_short_data, loader):
         .object_data["b40ba3ad-0327-46ff-9c28-2506cfd6d934"]
         .cuboids["450ceb81-9778-4e63-bf89-42f3ed9f6747"]
         .name
-        == "general5"
+        == "general_5"
     )
     assert (
         scene.frames[0]
@@ -737,7 +737,7 @@ def test_load_frame0_seg3ds(openlabel_v1_short_data, loader):
         .object_data["b40ba3ad-0327-46ff-9c28-2506cfd6d934"]
         .seg3ds["c1087f1d-7271-4dee-83ad-519a4e3b78a8"]
         .name
-        == "general6"
+        == "general_6"
     )
     assert scene.frames[0].object_data["b40ba3ad-0327-46ff-9c28-2506cfd6d934"].seg3ds[
         "c1087f1d-7271-4dee-83ad-519a4e3b78a8"
@@ -784,7 +784,7 @@ def test_load_frame0_seg3ds(openlabel_v1_short_data, loader):
         .object_data["b40ba3ad-0327-46ff-9c28-2506cfd6d934"]
         .seg3ds["50be7fe3-1f43-47ca-b65a-930e6cfacfeb"]
         .name
-        == "general7"
+        == "general_7"
     )
     assert scene.frames[0].object_data["b40ba3ad-0327-46ff-9c28-2506cfd6d934"].seg3ds[
         "50be7fe3-1f43-47ca-b65a-930e6cfacfeb"
@@ -936,7 +936,7 @@ def test_load_frame1_bboxs(openlabel_v1_short_data, loader):
         .object_data["6fe55546-0dd7-4e40-b6b4-bb7ea3445772"]
         .bboxs["6ba42cbc-484e-4b8d-a022-b23c2bb6643c"]
         .name
-        == "general0"
+        == "general"
     )
     assert (
         scene.frames[1]
@@ -1008,7 +1008,7 @@ def test_load_frame1_bboxs(openlabel_v1_short_data, loader):
         .object_data["6fe55546-0dd7-4e40-b6b4-bb7ea3445772"]
         .bboxs["5f28fa18-8f2a-4a40-a0b6-c0bbedc00f2e"]
         .name
-        == "general1"
+        == "general_1"
     )
     assert (
         scene.frames[1]
@@ -1077,7 +1077,7 @@ def test_load_frame1_poly2ds(openlabel_v1_short_data, loader):
         .object_data["6fe55546-0dd7-4e40-b6b4-bb7ea3445772"]
         .poly2ds["e2503c5d-9fe4-4666-b510-ef644c5a766b"]
         .name
-        == "general2"
+        == "general_2"
     )
     assert (
         scene.frames[1]
@@ -1156,7 +1156,7 @@ def test_load_frame1_cuboids(openlabel_v1_short_data, loader):
         .object_data["22dedd49-6dcb-413b-87ef-00ccfb532e98"]
         .cuboids["536ac83a-32c8-4fce-8499-ef32716c64a6"]
         .name
-        == "general0"
+        == "general"
     )
     assert (
         scene.frames[1]
@@ -1270,7 +1270,7 @@ def test_load_frame1_cuboids(openlabel_v1_short_data, loader):
         .object_data["22dedd49-6dcb-413b-87ef-00ccfb532e98"]
         .cuboids["e53bd5e3-980a-4fa7-a0f9-5a2e59ba663c"]
         .name
-        == "general1"
+        == "general_1"
     )
     assert (
         scene.frames[1]
@@ -1381,7 +1381,7 @@ def test_load_frame1_seg3ds(openlabel_v1_short_data, loader):
         .object_data["22dedd49-6dcb-413b-87ef-00ccfb532e98"]
         .seg3ds["550df2c3-0e66-483e-bcc6-f3013b7e581b"]
         .name
-        == "general2"
+        == "general_2"
     )
     assert scene.frames[1].object_data["22dedd49-6dcb-413b-87ef-00ccfb532e98"].seg3ds[
         "550df2c3-0e66-483e-bcc6-f3013b7e581b"
@@ -1428,7 +1428,7 @@ def test_load_frame1_seg3ds(openlabel_v1_short_data, loader):
         .object_data["22dedd49-6dcb-413b-87ef-00ccfb532e98"]
         .seg3ds["12b21c52-06ea-4269-9805-e7167e7a74ed"]
         .name
-        == "general3"
+        == "general_3"
     )
     assert scene.frames[1].object_data["22dedd49-6dcb-413b-87ef-00ccfb532e98"].seg3ds[
         "12b21c52-06ea-4269-9805-e7167e7a74ed"
@@ -1470,7 +1470,19 @@ def test_load_uri_vcd_incompatible(
                     scene.frames[frame_id].data[frame_data].uid = frame_data
                     break
 
-    # assert scene == scene_ground_truth
+    # t# #TODO
+    raillabel.save(
+        scene,
+        "/Users/tobiasklockau/repo/raillabel/playground/scene_filtered.json",
+        prettify_json=True,
+    )
+    raillabel.save(
+        scene_ground_truth,
+        "/Users/tobiasklockau/repo/raillabel/playground/scene_filtered_ground_truth.json",
+        prettify_json=True,
+    )
+
+    assert scene == scene_ground_truth
 
 
 # Tests the warnings and errors
