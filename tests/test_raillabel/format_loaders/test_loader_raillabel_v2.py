@@ -1470,18 +1470,6 @@ def test_load_uri_vcd_incompatible(
                     scene.frames[frame_id].data[frame_data].uid = frame_data
                     break
 
-    # t# #TODO
-    raillabel.save(
-        scene,
-        "/Users/tobiasklockau/repo/raillabel/playground/scene_filtered.json",
-        prettify_json=True,
-    )
-    raillabel.save(
-        scene_ground_truth,
-        "/Users/tobiasklockau/repo/raillabel/playground/scene_filtered_ground_truth.json",
-        prettify_json=True,
-    )
-
     assert scene == scene_ground_truth
 
 
