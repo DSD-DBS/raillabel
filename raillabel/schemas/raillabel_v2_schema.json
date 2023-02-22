@@ -297,6 +297,7 @@
                 },
                 "file_version": {
                     "description": "Version number of the OpenLABEL annotation content.",
+                    "pattern": "^(0|[1-9]\\d*)\\.(0|[1-9]\\d*)\\.(0|[1-9]\\d*)$",
                     "type": "string"
                 },
                 "name": {
@@ -320,6 +321,7 @@
                 },
                 "subschema_version": {
                     "description": "Version number of the RailLabel subschema this annotation JSON object follows.",
+                    "pattern": "^(0|[1-9]\\d*)\\.(0|[1-9]\\d*)\\.(0|[1-9]\\d*)$",
                     "type": "string"
                 }
             },
