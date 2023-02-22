@@ -1,6 +1,8 @@
 {
     "$id": "https://openlabel.asam.net/V1-0-0/schema#",
     "$schema": "http://json-schema.org/draft-07/schema#",
+    "version": "2.0.0",
+    "description": "This schema is a sub-set of the OpenLABEL schema, that more accurately describes the usage by raillabel. Every JSON file, that is valid in this schema, is also valid in the OpenLABEL schema.",
     "additionalProperties": false,
     "definitions": {
         "attributes": {
@@ -314,6 +316,10 @@
                 },
                 "exporter_version": {
                     "description": "Version number of the exporter software.",
+                    "type": "string"
+                },
+                "subschema_version": {
+                    "description": "Version number of the RailLabel subschema this annotation JSON object follows.",
                     "type": "string"
                 }
             },
@@ -829,7 +835,5 @@
     "required": [
         "openlabel"
     ],
-    "type": "object",
-    "description": "This schema is a sub-set of the OpenLABEL schema, that more accurately describes the usage by raillabel. Every JSON file, that is valid in this schema, is also valid in the OpenLABEL schema.",
-    "version": "2.0.0"
+    "type": "object"
 }

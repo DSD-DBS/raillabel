@@ -2,6 +2,7 @@
 # SPDX-License-Identifier: Apache-2.0
 
 import decimal
+import json
 import typing as t
 import uuid
 from pathlib import Path
@@ -107,7 +108,7 @@ class LoaderRailLabelV2(LoaderABC):
             "openlabel" in data
             and "metadata" in data["openlabel"]
             and "schema_version" in data["openlabel"]["metadata"]
-            and data["openlabel"]["metadata"]["schema_version"].startswith("1.")
+            and data["openlabel"]["metadata"]["subschema_version"].startswith("2.")
         )
 
     # === Sub-functions for better readibility --- #
@@ -138,6 +139,10 @@ class LoaderRailLabelV2(LoaderABC):
             exporter_version = [line for line in f.readlines() if line.startswith("__version__ =")]
 
         self.scene.metadata.exporter_version = exporter_version[-1].split('"')[1]
+
+        # metadata.subschema_version
+        with self.SCHEMA_PATH.open() as schema_file:
+            self.scene.metadata.subschema_version = json.load(schema_file)["version"]
 
     def _load_sensors(self, data: dict):
 
@@ -235,8 +240,8 @@ class LoaderRailLabelV2(LoaderABC):
                         # Raises a warning, if a duplicate annotation is detected
                         if ann_raw["uid"] in annotations:
                             self.warnings.append(
-                                f"Annotation {ann_raw['uid']} is contained more than one time "
-                                + f"in frame {uid}."
+                                f"Annotation '{ann_raw['uid']}' is contained more than one time "
+                                + f"in frame '{uid}'. A new UID is beeing assigned."
                             )
                             ann_raw["uid"] = str(uuid.uuid4())
 
@@ -311,8 +316,8 @@ class LoaderRailLabelV2(LoaderABC):
                                 in self.scene.frames[int(uid)].object_data[obj_uid].annotations
                             ):
                                 self.warnings.append(
-                                    f"Annotation {ann_raw['uid']} is contained more than one time "
-                                    + f"in frame {uid}."
+                                    f"Annotation '{ann_raw['uid']}' is contained more than one "
+                                    + f"time in frame '{uid}'. A new UID is beeing assigned."
                                 )
                                 ann_raw["uid"] = str(uuid.uuid4())
 

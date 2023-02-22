@@ -23,17 +23,18 @@ def test_supports_true(openlabel_v1_short_data, loader):
 
 
 def test_supports_false(openlabel_v1_short_data, loader):
-    openlabel_v1_short_data["openlabel"]["metadata"]["schema_version"] = "2.0.0"
+    openlabel_v1_short_data["openlabel"]["metadata"]["subschema_version"] = "3.0.0"
     assert not loader.supports(openlabel_v1_short_data)
 
 
-def test_load_metadata(openlabel_v1_short_data, loader):
+def test_load_metadata(openlabel_v1_short_data, loader, raillabel_v2_schema_data):
     scene = loader.load(openlabel_v1_short_data, validate=False)
 
     assert scene.metadata.name == "test_project"
     assert scene.metadata.schema_version == "1.0.0"
     assert scene.metadata.tagged_file == "test_folder"
     assert scene.metadata.exporter_version == raillabel.__version__
+    assert scene.metadata.subschema_version == raillabel_v2_schema_data["version"]
 
 
 def test_load_sensors(openlabel_v1_short_data, loader):
