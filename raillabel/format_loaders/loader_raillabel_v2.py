@@ -349,8 +349,8 @@ class LoaderRailLabelV2(LoaderABC):
                 increment += 1
 
             warnings.append(
-                f"Name {ann_raw['name']} of annotation {ann_raw['uid']} is a duplicate. "
-                + f"{ann_raw['name']}_{increment} is the new name of the annotation."
+                f"Name '{ann_raw['name']}' of annotation '{ann_raw['uid']}' is a duplicate. "
+                + f"'{ann_raw['name']}_{increment}' is the new name of the annotation."
             )
 
             ann_raw["name"] = f"{ann_raw['name']}_{increment}"
