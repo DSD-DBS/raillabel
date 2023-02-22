@@ -24,7 +24,7 @@ Release
 
 ## 2.0.0
 - Made the saved data VCD-compatible
-  - URIs of the annotation files (like the .png, where a bounding box is located) are now stored in the "frame_properties" under "streams"
+  - URIs of the annotation files (like the .png, where a bounding box is located) are now stored in the "frame_properties" under "sensors"
   - Implemented object data pointers
   - Devkit version is now stored in the metadata
 - FrameInterval.\_\_len\_\_() now returns the number of frames in the FrameInterval
@@ -33,3 +33,5 @@ Release
 - Added poly3d as a supported annotation type
 - All annotations are now stored in object_data.annotations (before they were stored in different fields according to their type)
 - raillabel.Scene.filter() has been removed. Use raillabel.filter() instead
+- Fields "coordinate_system" and "frame_intervals" have been removed from the raillabel.format.Object class
+- stream and coordinate system have been combined into a single sensor type

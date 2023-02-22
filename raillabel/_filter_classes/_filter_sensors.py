@@ -14,10 +14,10 @@ class _FilterSensors(_FilterABC):
     def passes_filter(self, annotation: t.Type[_Annotation]) -> bool:
 
         if self.include_sensors is not None:
-            return annotation.coordinate_system.uid in self.include_sensors
+            return annotation.sensor.uid in self.include_sensors
 
         elif self.exclude_sensors is not None:
-            return annotation.coordinate_system.uid not in self.exclude_sensors
+            return annotation.sensor.uid not in self.exclude_sensors
 
         else:
             return True

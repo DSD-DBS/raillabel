@@ -3,10 +3,10 @@
 """Module containing all relevant OpenLABEL format classes."""
 
 from .bbox import Bbox
-from .coordinate_system import CoordinateSystem
 from .cuboid import Cuboid
 from .frame import Frame
 from .frame_interval import FrameInterval
+from .intrinsics_pinhole import IntrinsicsPinhole
 from .metadata import Metadata
 from .num import Num
 from .object import Object
@@ -18,9 +18,8 @@ from .poly3d import Poly3d
 from .quaternion import Quaternion
 from .scene import Scene
 from .seg3d import Seg3d
+from .sensor import Sensor
+from .sensor_reference import SensorReference
 from .size2d import Size2d
 from .size3d import Size3d
-from .stream import Stream
-from .stream_calibration import StreamCalibration
-from .stream_reference import StreamReference
 from .transform import Transform

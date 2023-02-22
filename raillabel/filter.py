@@ -121,7 +121,7 @@ def filter(scene: format.Scene, **kwargs) -> format.Scene:
         for frame_data_id, frame_data in frame.data.items():
 
             if _passes_filters(frame_data, frame_data_filters):
-                used_sensors.add(frame_data.coordinate_system.uid)
+                used_sensors.add(frame_data.sensor.uid)
 
             else:
                 del filtered_scene.frames[frame_id].data[frame_data_id]
@@ -135,7 +135,7 @@ def filter(scene: format.Scene, **kwargs) -> format.Scene:
 
                 if _passes_filters(annotation, annotation_filters):
                     used_objects.add(object_id)
-                    used_sensors.add(annotation.coordinate_system.uid)
+                    used_sensors.add(annotation.sensor.uid)
 
                 else:
                     del (
@@ -146,11 +146,9 @@ def filter(scene: format.Scene, **kwargs) -> format.Scene:
 
     # Clears out any unused sensors, objects and references
 
-    for sensor_id in scene.streams:
+    for sensor_id in scene.sensors:
         if sensor_id not in used_sensors:
-            del filtered_scene.streams[sensor_id]
-            del filtered_scene.coordinate_systems[sensor_id]
-            del filtered_scene.coordinate_systems["base"].children[sensor_id]
+            del filtered_scene.sensors[sensor_id]
 
     for object_id in scene.objects:
         if object_id not in used_objects:
@@ -158,9 +156,9 @@ def filter(scene: format.Scene, **kwargs) -> format.Scene:
 
     for frame_id in filtered_scene.frames:
 
-        for stream_id in scene.frames[frame_id].streams:
-            if stream_id not in used_sensors:
-                del filtered_scene.frames[frame_id].streams[stream_id]
+        for sensor_id in scene.frames[frame_id].sensors:
+            if sensor_id not in used_sensors:
+                del filtered_scene.frames[frame_id].sensors[sensor_id]
 
         for object_id in scene.frames[frame_id].object_data:
 

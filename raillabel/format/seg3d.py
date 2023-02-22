@@ -21,8 +21,8 @@ class Seg3d(_Annotation):
         The list of point indices.
     attributes: dict, optional
         Attributes of the annotation. Default is {}.
-    coordinate_system: raillabel.format.CoordinateSystem, optional
-        The coordinate_system, this annotation is labeled in. Default is None.
+    sensor: raillabel.format.CoordinateSystem, optional
+        The sensor, this annotation is labeled in. Default is None.
     """
 
     point_ids: t.List[int] = None
@@ -33,7 +33,7 @@ class Seg3d(_Annotation):
     def fromdict(
         self,
         data_dict: dict,
-        coordinate_systems: dict,
+        sensors: dict,
     ) -> t.Tuple["Seg3d", list]:
         """Generate a Bbox object from a dictionary in the OpenLABEL format.
 
@@ -41,8 +41,8 @@ class Seg3d(_Annotation):
         ----------
         data_dict: dict
             OpenLABEL format dictionary containing the data for the annotation.
-        coordinate_systems: dict
-            Dictionary containing all coordinate_systems for the scene.
+        sensors: dict
+            Dictionary containing all sensors for the scene.
 
         Returns
         -------
@@ -64,7 +64,7 @@ class Seg3d(_Annotation):
         # Adds the optional properties
         if "coordinate_system" in data_dict and data_dict["coordinate_system"] != "":
             try:
-                annotation.coordinate_system = coordinate_systems[data_dict["coordinate_system"]]
+                annotation.sensor = sensors[data_dict["coordinate_system"]]
 
             except KeyError:
                 warnings.append(

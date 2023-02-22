@@ -6,8 +6,8 @@ from dataclasses import dataclass
 
 
 @dataclass
-class StreamCalibration:
-    """Intrinsic calibration for a camera stream.
+class IntrinsicsPinhole:
+    """Intrinsic calibration for a camera sensor.
 
     Parameters
     ----------
@@ -19,16 +19,16 @@ class StreamCalibration:
         x-to-right, y-down, z-forward. The following equation applies: x_img = camera_matrix * X_ccs.
     distortion: tuple of float of length 5 to 14
         This is the array 1xN radial and tangential distortion coefficients.
-    width_px: int, optional
-        Width of the image frame in pixels. Default is None.
-    height_px: int, optional
-        Height of the image frame in pixels. Default is None.
+    width_px: int
+        Width of the image frame in pixels.
+    height_px: int
+        Height of the image frame in pixels.
     """
 
     camera_matrix: t.Tuple[float, ...]
     distortion: t.Tuple[float, ...]
-    width_px: t.Optional[int] = None
-    height_px: t.Optional[int] = None
+    width_px: int
+    height_px: int
 
     def asdict(self) -> dict:
         """Export self as a dict compatible with the OpenLABEL schema.
@@ -47,12 +47,8 @@ class StreamCalibration:
         dict_repr = {
             "camera_matrix": list(self.camera_matrix),
             "distortion_coeffs": list(self.distortion),
+            "width_px": int(self.width_px),
+            "height_px": int(self.height_px),
         }
-
-        if self.width_px is not None:
-            dict_repr["width_px"] = int(self.width_px)
-
-        if self.height_px is not None:
-            dict_repr["height_px"] = int(self.height_px)
 
         return dict_repr

@@ -22,8 +22,8 @@ class Num(_Annotation):
     attributes: dict, optional
         Attributes of the annotation. Dict keys are the uid str of the attribute, values are the
         attribute values. Default is {}.
-    coordinate_system: raillabel.format.CoordinateSystem, optional
-        A reference to the coordinate_system, this value is represented in. Default is None.
+    sensor: raillabel.format.CoordinateSystem, optional
+        A reference to the sensor, this value is represented in. Default is None.
     """
 
     val: t.Union[int, float] = None
@@ -31,15 +31,15 @@ class Num(_Annotation):
     _REQ_FIELDS = ["val"]
 
     @classmethod
-    def fromdict(self, data_dict: dict, coordinate_systems: dict) -> t.Tuple[dict, list]:
+    def fromdict(self, data_dict: dict, sensors: dict) -> t.Tuple[dict, list]:
         """Generate a Bbox object from a dictionary in the OpenLABEL format.
 
         Parameters
         ----------
         data_dict: dict
             OpenLABEL format dictionary containing the data for the annotation.
-        coordinate_systems: dict
-            Dictionary containing all coordinate_systems for the scene.
+        sensors: dict
+            Dictionary containing all sensors for the scene.
 
         Returns
         -------
@@ -61,7 +61,7 @@ class Num(_Annotation):
         # Adds the optional properties
         if "coordinate_system" in data_dict and data_dict["coordinate_system"] != "":
             try:
-                annotation.coordinate_system = coordinate_systems[data_dict["coordinate_system"]]
+                annotation.sensor = sensors[data_dict["coordinate_system"]]
 
             except KeyError:
                 warnings.append(

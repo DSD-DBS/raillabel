@@ -5,26 +5,26 @@ import decimal
 import typing as t
 from dataclasses import dataclass
 
-from .stream import Stream
+from .sensor import Sensor
 
 
 @dataclass
-class StreamReference:
-    """A reference to a stream in a specific frame.
+class SensorReference:  # TODO
+    """A reference to a sensor in a specific frame.
 
     Parameters
     ----------
-    stream: raillabel.format.Stream
-        The stream this StreamReference corresponds to.
+    sensor: raillabel.format.Sensor
+        The sensor this SensorReference corresponds to.
     timestamp: decimal.Decimal
-        Timestamp containing the Unix epoch time of the stream in a specific frame with up to
+        Timestamp containing the Unix epoch time of the sensor in a specific frame with up to
         nanosecond precision.
     uri: str, optional
         URI to the file corresponding to the frame recording in the particular frame. Default is
         None.
     """
 
-    stream: Stream
+    sensor: Sensor
     timestamp: decimal.Decimal
     uri: t.Optional[str] = None
 
