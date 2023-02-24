@@ -37,6 +37,13 @@ class LoaderRailLabelV2(LoaderABC):
         "vec": format.Seg3d,
     }
 
+    @property
+    def subschema_version(self):
+        """Return subschema version."""
+        with self.SCHEMA_PATH.open() as schema_file:
+            subschema_version = json.load(schema_file)["version"]
+        return subschema_version
+
     def load(self, data: dict, validate: bool = True) -> format.Scene:
         """Load the data into a raillabel.Scene and return it.
 
@@ -77,13 +84,12 @@ class LoaderRailLabelV2(LoaderABC):
 
         self.warnings = []
 
-        # Initializes the scene
-        self.scene = format.Scene(metadata=format.Metadata(schema_version="1.0.0"))
+        self.scene = format.Scene(
+            metadata=format.Metadata.fromdict(
+                data_dict=data["openlabel"]["metadata"], subschema_version=self.subschema_version
+            )
+        )
 
-        # The code for loading the data in split into functions, that load one respective part of
-        # the data. This is meant to improve readibility.
-
-        self._load_metadata(data["openlabel"])
         self._load_sensors(data["openlabel"])
         self._load_objects(data["openlabel"])
         self._load_frames(data["openlabel"])
@@ -112,37 +118,6 @@ class LoaderRailLabelV2(LoaderABC):
         )
 
     # === Sub-functions for better readibility --- #
-
-    def _load_metadata(self, data: dict):
-
-        # metadata.file_version
-        if "file_version" in data["metadata"]:
-            self.scene.metadata.file_version = data["metadata"]["file_version"]
-
-        # metadata.name
-        if "name" in data["metadata"]:
-            self.scene.metadata.name = data["metadata"]["name"]
-
-        # metadata.tagged_file
-        if "tagged_file" in data["metadata"]:
-            self.scene.metadata.tagged_file = data["metadata"]["tagged_file"]
-
-        # metadata.comment
-        if "comment" in data["metadata"]:
-            self.scene.metadata.comment = data["metadata"]["comment"]
-
-        # metadata.exporter_version
-
-        # Version of the raillabel-devkit can not be imported due to circular imports and therefore
-        # needs to be read from the __init__.py file directly.
-        with (Path(__file__).parent.parent / "__init__.py").open() as f:
-            exporter_version = [line for line in f.readlines() if line.startswith("__version__ =")]
-
-        self.scene.metadata.exporter_version = exporter_version[-1].split('"')[1]
-
-        # metadata.subschema_version
-        with self.SCHEMA_PATH.open() as schema_file:
-            self.scene.metadata.subschema_version = json.load(schema_file)["version"]
 
     def _load_sensors(self, data: dict):
 

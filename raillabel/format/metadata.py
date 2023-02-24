@@ -3,6 +3,7 @@
 
 import typing as t
 from dataclasses import dataclass
+from pathlib import Path
 
 
 @dataclass
@@ -26,7 +27,7 @@ class Metadata:
     subschema_version: str, optional
         Version number of the RailLabel schema this annotation object follows. Default is None.
     tagged_file: str, optional
-        Directory with the exported data (e.g. images, point clouds). Default is None.
+        Directory with the exported data_dict (e.g. images, point clouds). Default is None.
     """
 
     schema_version: str
@@ -37,6 +38,49 @@ class Metadata:
     name: t.Optional[str] = None
     subschema_version: t.Optional[str] = None
     tagged_file: t.Optional[str] = None
+
+    @classmethod
+    def fromdict(cls, data_dict: dict, subschema_version: t.Optional[str] = None) -> "Metadata":
+        """Generate a Metadata from a dictionary in the OpenLABEL format.
+
+        Parameters
+        ----------
+        data_dict: dict
+            OpenLABEL format dictionary containing the data_dict.
+        subschema_version: str, optional
+            Version of the RailLabel subschema
+
+        Returns
+        -------
+        metadata: Metadata
+            Converted metadata.
+        warnings: list of str
+            List of non-critical errors, that have occurred during the conversion.
+        """
+
+        metadata = Metadata(schema_version=data_dict["schema_version"])
+
+        if subschema_version is not None:
+            metadata.subschema_version = subschema_version
+
+        if "file_version" in data_dict:
+            metadata.file_version = data_dict["file_version"]
+
+        if "name" in data_dict:
+            metadata.name = data_dict["name"]
+
+        if "tagged_file" in data_dict:
+            metadata.tagged_file = data_dict["tagged_file"]
+
+        if "comment" in data_dict:
+            metadata.comment = data_dict["comment"]
+
+        with (Path(__file__).parent.parent / "__init__.py").open() as f:
+            exporter_version = [line for line in f.readlines() if line.startswith("__version__ =")]
+
+        metadata.exporter_version = exporter_version[-1].split('"')[1]
+
+        return metadata
 
     def asdict(self) -> dict:
         """Export self as a dict compatible with the OpenLABEL schema.
