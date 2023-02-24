@@ -88,7 +88,11 @@ class LoaderRailLabelV2(LoaderABC):
                 stream_raw=data["streams"][stream_id],
             )
 
-        self._load_objects(data)
+        for object_id in data["objects"]:
+            self.scene.objects[object_id] = format.Object.fromdict(
+                data["objects"][object_id], object_id
+            )
+
         self._load_frames(data)
 
         return self.scene
@@ -115,14 +119,6 @@ class LoaderRailLabelV2(LoaderABC):
         )
 
     # === Sub-functions for better readibility --- #
-
-    def _load_objects(self, data: dict):
-
-        # Iterates over the objects
-        for uid, obj in data["objects"].items():
-
-            # object.uid and object.type and object.name
-            self.scene.objects[uid] = format.Object(uid=uid, type=obj["type"], name=obj["name"])
 
     def _load_frames(self, data: dict):
 

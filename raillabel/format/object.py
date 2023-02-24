@@ -23,6 +23,24 @@ class Object:
     name: str
     type: str
 
+    @classmethod
+    def fromdict(cls, data_dict: dict, object_uid: str) -> "Object":
+        """Generate an Object from a dictionary in the OpenLABEL format.
+
+        Parameters
+        ----------
+        data_dict: dict
+            OpenLABEL format dictionary containing the data.
+        object_uid: str
+            Unique identifier of the object.
+
+        Returns
+        -------
+        object: raillabel.format.Object
+            Converted object.
+        """
+        return Object(uid=object_uid, type=data_dict["type"], name=data_dict["name"])
+
     def asdict(self) -> dict:
         """Export self as a dict compatible with the OpenLABEL schema.
 
