@@ -6,6 +6,7 @@ from abc import ABC, abstractmethod
 from pathlib import Path
 
 from .. import format
+from ..exceptions import SchemaError
 from ..validate import validate as global_validate
 
 
@@ -83,12 +84,20 @@ class LoaderABC(ABC):
         data: dict
             JSON data to be validated.
 
-        Returns
-        -------
-        is_data_valid: bool
-            True if the data validates against the schema, False if not.
-        schema_errors: list of str
-            All SchemaError messages found in the data. If the data is valid (if no SchemaErrors are
-            found), this is an empty list.
+        Raises
+        ------
+        raillabel.exceptions.SchemaError
+            if the schema is not valid.
         """
-        return global_validate(data, str(self.SCHEMA_PATH))
+
+        is_data_valid, schema_errors = global_validate(data, str(self.SCHEMA_PATH))
+        if not is_data_valid:
+
+            error_msg = (
+                "The loaded data does not validate against the schema. Errors in the schema:\n"
+            )
+
+            for err in schema_errors:
+                error_msg += " - " + err + "\n"
+
+            raise SchemaError(error_msg)

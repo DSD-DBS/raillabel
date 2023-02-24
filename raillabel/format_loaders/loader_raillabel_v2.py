@@ -8,7 +8,6 @@ import uuid
 from pathlib import Path
 
 from .. import format
-from ..exceptions import SchemaError
 from ._loader_abc import LoaderABC
 
 
@@ -67,20 +66,8 @@ class LoaderRailLabelV2(LoaderABC):
             if validate is True and the data does not validate against the schema.
         """
 
-        # Validates the data
         if validate:
-
-            is_data_valid, schema_errors = self.validate(data)
-            if not is_data_valid:
-
-                error_msg = (
-                    "The loaded data does not validate against the schema. Errors in the schema:\n"
-                )
-
-                for err in schema_errors:
-                    error_msg += " - " + err + "\n"
-
-                raise SchemaError(error_msg)
+            self.validate(data)
 
         self.warnings = []
 
