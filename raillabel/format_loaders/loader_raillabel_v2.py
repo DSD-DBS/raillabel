@@ -66,12 +66,12 @@ class LoaderRailLabelV2(LoaderABC):
             if validate is True and the data does not validate against the schema.
         """
 
+        self.warnings = []
+
         if validate:
             self.validate(data)
 
-        data = data["openlabel"]
-
-        self.warnings = []
+        data = self._prepare_data(data)
 
         self.scene = format.Scene(
             metadata=format.Metadata.fromdict(
@@ -79,16 +79,14 @@ class LoaderRailLabelV2(LoaderABC):
             )
         )
 
-        if "coordinate_systems" in data and "streams" in data:
+        self._check_sensor_completeness(data["coordinate_systems"], data["streams"])
 
-            self._check_sensor_completeness(data["coordinate_systems"], data["streams"])
-
-            for stream_id in data["streams"]:
-                self.scene.sensors[stream_id] = format.Sensor.fromdict(
-                    uid=stream_id,
-                    cs_raw=data["coordinate_systems"][stream_id],
-                    stream_raw=data["streams"][stream_id],
-                )
+        for stream_id in data["streams"]:
+            self.scene.sensors[stream_id] = format.Sensor.fromdict(
+                uid=stream_id,
+                cs_raw=data["coordinate_systems"][stream_id],
+                stream_raw=data["streams"][stream_id],
+            )
 
         self._load_objects(data)
         self._load_frames(data)
@@ -117,19 +115,6 @@ class LoaderRailLabelV2(LoaderABC):
         )
 
     # === Sub-functions for better readibility --- #
-
-    def _load_sensors(self, data: dict):
-
-        for stream_id, stream_raw in data["streams"].items():
-
-            if stream_id not in data["coordinate_systems"]:
-                self.warnings.append(f"Stream {stream_id} has no corresponding coordinate system.")
-                data["coordinate_systems"][stream_id] = {"parent": "base"}
-
-            cs_raw = data["coordinate_systems"][stream_id]
-
-            self.scene.sensors[stream_id], w = format.Sensor.fromdict(stream_id, cs_raw, stream_raw)
-            self.warnings.extend(w)
 
     def _load_objects(self, data: dict):
 
@@ -306,6 +291,34 @@ class LoaderRailLabelV2(LoaderABC):
                                 self.scene.sensors,
                             )
                             self.warnings.extend(w)
+
+    def _prepare_data(self, data: dict) -> dict:
+        """Add optional fields to dict and simplify interaction.
+
+        Parameters
+        ----------
+        data : dict
+            JSON data.
+
+        Returns
+        -------
+        dict
+            Enhanced JSON data.
+        """
+
+        if "coordinate_systems" not in data["openlabel"]:
+            data["openlabel"]["coordinate_systems"] = {}
+
+        if "streams" not in data["openlabel"]:
+            data["openlabel"]["streams"] = {}
+
+        if "objects" not in data["openlabel"]:
+            data["openlabel"]["objects"] = {}
+
+        if "frames" not in data["openlabel"]:
+            data["openlabel"]["frames"] = {}
+
+        return data["openlabel"]
 
     def _check_sensor_completeness(self, cs_data: dict, stream_data: dict):
         """Check for corresponding cs and stream completeness.
