@@ -1487,14 +1487,8 @@ def test_stream_with_no_coordinate_system(openlabel_v1_short_data, loader):
             "ir_middle"
         )
     ]
-    scene = loader.load(openlabel_v1_short_data)
-
-    assert len(loader.warnings) == 1
-    assert "ir_middle" in loader.warnings[0]
-    assert "stream" in loader.warnings[0].lower()
-    assert "coordinate system" in loader.warnings[0]
-
-    assert scene.sensors["ir_middle"].extrinsics is None
+    with pytest.raises(raillabel.exceptions.MissingCoordinateSystemError):
+        loader.load(openlabel_v1_short_data)
 
 
 def test_warnings_sync(openlabel_v1_short_data, loader):

@@ -7,7 +7,7 @@ import typing as t
 import uuid
 from pathlib import Path
 
-from .. import format
+from .. import exceptions, format
 from ._loader_abc import LoaderABC
 
 
@@ -69,17 +69,29 @@ class LoaderRailLabelV2(LoaderABC):
         if validate:
             self.validate(data)
 
+        data = data["openlabel"]
+
         self.warnings = []
 
         self.scene = format.Scene(
             metadata=format.Metadata.fromdict(
-                data_dict=data["openlabel"]["metadata"], subschema_version=self.subschema_version
+                data_dict=data["metadata"], subschema_version=self.subschema_version
             )
         )
 
-        self._load_sensors(data["openlabel"])
-        self._load_objects(data["openlabel"])
-        self._load_frames(data["openlabel"])
+        if "coordinate_systems" in data and "streams" in data:
+
+            self._check_sensor_completeness(data["coordinate_systems"], data["streams"])
+
+            for stream_id in data["streams"]:
+                self.scene.sensors[stream_id] = format.Sensor.fromdict(
+                    uid=stream_id,
+                    cs_raw=data["coordinate_systems"][stream_id],
+                    stream_raw=data["streams"][stream_id],
+                )
+
+        self._load_objects(data)
+        self._load_frames(data)
 
         return self.scene
 
@@ -294,6 +306,47 @@ class LoaderRailLabelV2(LoaderABC):
                                 self.scene.sensors,
                             )
                             self.warnings.extend(w)
+
+    def _check_sensor_completeness(self, cs_data: dict, stream_data: dict):
+        """Check for corresponding cs and stream completeness.
+
+        Parameters
+        ----------
+        cs_data : dict
+            Coordinate system data in the RailLabel format.
+        stream_data : dict
+            Stream data in the RailLabel format.
+
+        Raises
+        ------
+        raillabel.exceptions.MissingCoordinateSystemError
+            if a stream has no corresponding coordinate system.
+        raillabel.exceptions.MissingStreamError
+            if a coordinate system has no corresponding stream.
+        raillabel.exceptions.UnsupportedParentError
+            if a coordinate system has no corresponding stream.
+        """
+
+        for stream_uid in stream_data:
+            if stream_uid not in cs_data:
+                raise exceptions.MissingCoordinateSystemError(
+                    f"Stream {stream_uid} has no corresponding coordinate system."
+                )
+
+        for cs_uid in cs_data:
+            if cs_uid == "base":
+                continue
+
+            if cs_data[cs_uid]["parent"] != "base":
+                raise exceptions.UnsupportedParentError(
+                    f"Only 'base' is permitted as a parent for coordinate system {cs_uid}, "
+                    + f"not {cs_data[cs_uid]['parent']}."
+                )
+
+            if cs_uid not in stream_data:
+                raise exceptions.MissingStreamError(
+                    f"Coordinate sytem {cs_uid} has no corresponding stream."
+                )
 
     def _correct_annotation_name(
         self, ann_raw: dict, used_names: set
