@@ -1,9 +1,10 @@
 {
     "openlabel": {
         "metadata": {
-            "name": "test_project",
-            "comment": "test_comment",
             "schema_version": "1.0.0",
+            "comment": "test_comment",
+            "exporter_version": "2.0.0",
+            "name": "test_project",
             "subschema_version": "2.0.0",
             "tagged_file": "test_folder"
         },
@@ -76,19 +77,9 @@
             }
         },
         "coordinate_systems": {
-            "base": {
-                "type": "local",
-                "parent": "",
-                "children": [
-                    "rgb_middle",
-                    "ir_middle",
-                    "lidar"
-                ]
-            },
             "rgb_middle": {
                 "type": "sensor",
                 "parent": "base",
-                "children": [],
                 "pose_wrt_parent": {
                     "translation": [
                         0,
@@ -106,7 +97,6 @@
             "ir_middle": {
                 "type": "sensor",
                 "parent": "base",
-                "children": [],
                 "pose_wrt_parent": {
                     "translation": [
                         0,
@@ -124,7 +114,6 @@
             "lidar": {
                 "type": "sensor",
                 "parent": "base",
-                "children": [],
                 "pose_wrt_parent": {
                     "translation": [
                         0,
@@ -138,6 +127,15 @@
                         1
                     ]
                 }
+            },
+            "base": {
+                "type": "local",
+                "parent": "",
+                "children": [
+                    "rgb_middle",
+                    "ir_middle",
+                    "lidar"
+                ]
             }
         },
         "objects": {
@@ -151,7 +149,7 @@
                     }
                 ],
                 "object_data_pointers": {
-                    "general": {
+                    "rgb_middle": {
                         "frame_intervals": [
                             {
                                 "frame_start": 0,
@@ -159,7 +157,7 @@
                             }
                         ]
                     },
-                    "general_1": {
+                    "ir_middle": {
                         "frame_intervals": [
                             {
                                 "frame_start": 0,
@@ -167,47 +165,7 @@
                             }
                         ]
                     },
-                    "general_2": {
-                        "frame_intervals": [
-                            {
-                                "frame_start": 0,
-                                "frame_end": 0
-                            }
-                        ]
-                    },
-                    "general_3": {
-                        "frame_intervals": [
-                            {
-                                "frame_start": 0,
-                                "frame_end": 0
-                            }
-                        ]
-                    },
-                    "general_4": {
-                        "frame_intervals": [
-                            {
-                                "frame_start": 0,
-                                "frame_end": 0
-                            }
-                        ]
-                    },
-                    "general_5": {
-                        "frame_intervals": [
-                            {
-                                "frame_start": 0,
-                                "frame_end": 0
-                            }
-                        ]
-                    },
-                    "general_6": {
-                        "frame_intervals": [
-                            {
-                                "frame_start": 0,
-                                "frame_end": 0
-                            }
-                        ]
-                    },
-                    "general_7": {
+                    "lidar": {
                         "frame_intervals": [
                             {
                                 "frame_start": 0,
@@ -227,7 +185,7 @@
                     }
                 ],
                 "object_data_pointers": {
-                    "general": {
+                    "rgb_middle": {
                         "frame_intervals": [
                             {
                                 "frame_start": 1,
@@ -235,15 +193,7 @@
                             }
                         ]
                     },
-                    "general_1": {
-                        "frame_intervals": [
-                            {
-                                "frame_start": 1,
-                                "frame_end": 1
-                            }
-                        ]
-                    },
-                    "general_2": {
+                    "ir_middle": {
                         "frame_intervals": [
                             {
                                 "frame_start": 1,
@@ -263,34 +213,10 @@
                     }
                 ],
                 "object_data_pointers": {
-                    "general": {
+                    "lidar": {
                         "frame_intervals": [
                             {
                                 "frame_start": 0,
-                                "frame_end": 1
-                            }
-                        ]
-                    },
-                    "general_1": {
-                        "frame_intervals": [
-                            {
-                                "frame_start": 1,
-                                "frame_end": 1
-                            }
-                        ]
-                    },
-                    "general_2": {
-                        "frame_intervals": [
-                            {
-                                "frame_start": 1,
-                                "frame_end": 1
-                            }
-                        ]
-                    },
-                    "general_3": {
-                        "frame_intervals": [
-                            {
-                                "frame_start": 1,
                                 "frame_end": 1
                             }
                         ]
@@ -351,7 +277,7 @@
                             "bbox": [
                                 {
                                     "uid": "78f0ad89-2750-4a30-9d66-44c9da73a714",
-                                    "name": "general",
+                                    "name": "rgb_middle",
                                     "val": [
                                         0.0,
                                         1.0,
@@ -415,7 +341,7 @@
                                 },
                                 {
                                     "uid": "68b4e02c-40c8-4de0-89ad-bc00ed05a043",
-                                    "name": "general_1",
+                                    "name": "ir_middle",
                                     "val": [
                                         3.0,
                                         2.0,
@@ -436,14 +362,14 @@
                             "poly2d": [
                                 {
                                     "uid": "bebfbae4-61a2-4758-993c-efa846b050a5",
-                                    "name": "general_2",
+                                    "name": "rgb_middle",
+                                    "closed": false,
                                     "val": [
                                         1.0,
                                         2.0,
                                         3.0,
                                         4.0
                                     ],
-                                    "closed": false,
                                     "mode": "MODE_POLY2D_ABSOLUTE",
                                     "coordinate_system": "rgb_middle",
                                     "attributes": {
@@ -502,7 +428,8 @@
                                 },
                                 {
                                     "uid": "3f63201c-fb33-4487-aff6-ae0aa5fa976c",
-                                    "name": "general_3",
+                                    "name": "ir_middle",
+                                    "closed": true,
                                     "val": [
                                         7.0,
                                         6.0,
@@ -513,7 +440,6 @@
                                         1.0,
                                         0.0
                                     ],
-                                    "closed": true,
                                     "mode": "MODE_POLY2D_ABSOLUTE",
                                     "coordinate_system": "ir_middle",
                                     "attributes": {
@@ -529,7 +455,7 @@
                             "cuboid": [
                                 {
                                     "uid": "dc2be700-8ee4-45c4-9256-920b5d55c917",
-                                    "name": "general_4",
+                                    "name": "lidar",
                                     "val": [
                                         0.49,
                                         0.04,
@@ -599,7 +525,7 @@
                                 },
                                 {
                                     "uid": "450ceb81-9778-4e63-bf89-42f3ed9f6747",
-                                    "name": "general_5",
+                                    "name": "lidar",
                                     "val": [
                                         0.0,
                                         1.0,
@@ -626,7 +552,7 @@
                             "vec": [
                                 {
                                     "uid": "c1087f1d-7271-4dee-83ad-519a4e3b78a8",
-                                    "name": "general_6",
+                                    "name": "lidar",
                                     "val": [
                                         0,
                                         1,
@@ -696,7 +622,7 @@
                                 },
                                 {
                                     "uid": "50be7fe3-1f43-47ca-b65a-930e6cfacfeb",
-                                    "name": "general_7",
+                                    "name": "lidar",
                                     "val": [
                                         9,
                                         8,
@@ -727,7 +653,8 @@
                             "poly3d": [
                                 {
                                     "uid": "14f58fb0-add7-4ed9-85b3-74615986d854",
-                                    "name": "general",
+                                    "name": "lidar",
+                                    "closed": false,
                                     "val": [
                                         9.0,
                                         8.0,
@@ -739,9 +666,7 @@
                                         2.0,
                                         1.0
                                     ],
-                                    "closed": false,
-                                    "coordinate_system": "lidar",
-                                    "attributes": {}
+                                    "coordinate_system": "lidar"
                                 }
                             ]
                         }
@@ -800,7 +725,7 @@
                             "bbox": [
                                 {
                                     "uid": "6ba42cbc-484e-4b8d-a022-b23c2bb6643c",
-                                    "name": "general",
+                                    "name": "rgb_middle",
                                     "val": [
                                         0.0,
                                         1.0,
@@ -864,7 +789,7 @@
                                 },
                                 {
                                     "uid": "5f28fa18-8f2a-4a40-a0b6-c0bbedc00f2e",
-                                    "name": "general_1",
+                                    "name": "ir_middle",
                                     "val": [
                                         3.0,
                                         2.0,
@@ -885,14 +810,14 @@
                             "poly2d": [
                                 {
                                     "uid": "e2503c5d-9fe4-4666-b510-ef644c5a766b",
-                                    "name": "general_2",
+                                    "name": "rgb_middle",
+                                    "closed": false,
                                     "val": [
                                         1.0,
                                         2.0,
                                         3.0,
                                         4.0
                                     ],
-                                    "closed": false,
                                     "mode": "MODE_POLY2D_ABSOLUTE",
                                     "coordinate_system": "rgb_middle",
                                     "attributes": {
@@ -957,7 +882,7 @@
                             "cuboid": [
                                 {
                                     "uid": "536ac83a-32c8-4fce-8499-ef32716c64a6",
-                                    "name": "general",
+                                    "name": "lidar",
                                     "val": [
                                         0.0,
                                         1.0,
@@ -1027,7 +952,7 @@
                                 },
                                 {
                                     "uid": "e53bd5e3-980a-4fa7-a0f9-5a2e59ba663c",
-                                    "name": "general_1",
+                                    "name": "lidar",
                                     "val": [
                                         0.0,
                                         1.0,
@@ -1054,7 +979,7 @@
                             "vec": [
                                 {
                                     "uid": "550df2c3-0e66-483e-bcc6-f3013b7e581b",
-                                    "name": "general_2",
+                                    "name": "lidar",
                                     "val": [
                                         0,
                                         1,
@@ -1124,7 +1049,7 @@
                                 },
                                 {
                                     "uid": "12b21c52-06ea-4269-9805-e7167e7a74ed",
-                                    "name": "general_3",
+                                    "name": "lidar",
                                     "val": [
                                         9,
                                         8,

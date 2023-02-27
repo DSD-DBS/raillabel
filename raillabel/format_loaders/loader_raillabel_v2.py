@@ -250,9 +250,8 @@ class LoaderRailLabelV2(LoaderABC):
                         # Collects the converted annotations
                         for ann_raw in obj_ann[ann_type]:
 
-                            ann_raw, w = self._correct_annotation_name(ann_raw, used_names)
+                            ann_raw = self._correct_annotation_name(ann_raw, used_names)
                             used_names.add(ann_raw["name"])
-                            self.warnings.extend(w)
 
                             # Older versions store the URI attribute in the annotation attributes.
                             # This needs to be corrected if it is the case.
@@ -361,8 +360,6 @@ class LoaderRailLabelV2(LoaderABC):
         self, ann_raw: dict, used_names: set
     ) -> t.Tuple[dict, t.List[str]]:
 
-        warnings = []
-
         if "uid" not in ann_raw:
             try:
                 ann_raw["uid"] = str(uuid.UUID(ann_raw["name"]))
@@ -371,17 +368,7 @@ class LoaderRailLabelV2(LoaderABC):
             else:
                 ann_raw["name"] = "general"
 
-        if ann_raw["name"] in used_names:
+        if ann_raw["name"] == "general" and "coordinate_system" in ann_raw:
+            ann_raw["name"] = ann_raw["coordinate_system"]
 
-            increment = 1
-            while f"{ann_raw['name']}_{increment}" in used_names:
-                increment += 1
-
-            warnings.append(
-                f"Name '{ann_raw['name']}' of annotation '{ann_raw['uid']}' is a duplicate. "
-                + f"'{ann_raw['name']}_{increment}' is the new name of the annotation."
-            )
-
-            ann_raw["name"] = f"{ann_raw['name']}_{increment}"
-
-        return ann_raw, warnings
+        return ann_raw
