@@ -163,3 +163,4 @@ cython_debug/
 # Project related
 playground/
 scripts/
+tests/test_raillabel/__test_assets__/openlabel_v1_short.json

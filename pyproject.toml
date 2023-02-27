@@ -51,6 +51,7 @@ docs = [
 test = [
   "pytest",
   "pytest-cov",
+  "json5"
 ]
 
 [tool.black]
