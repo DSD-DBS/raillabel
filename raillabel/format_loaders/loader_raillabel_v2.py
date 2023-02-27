@@ -213,8 +213,6 @@ class LoaderRailLabelV2(LoaderABC):
             if "objects" in frame:
                 for obj_uid, obj_ann in frame["objects"].items():
 
-                    used_names = set()  # names used for the annotations
-
                     obj_ann = obj_ann["object_data"]
 
                     # frame.object_data
@@ -250,8 +248,7 @@ class LoaderRailLabelV2(LoaderABC):
                         # Collects the converted annotations
                         for ann_raw in obj_ann[ann_type]:
 
-                            ann_raw = self._correct_annotation_name(ann_raw, used_names)
-                            used_names.add(ann_raw["name"])
+                            ann_raw = self._correct_annotation_name(ann_raw)
 
                             # Older versions store the URI attribute in the annotation attributes.
                             # This needs to be corrected if it is the case.
@@ -356,9 +353,7 @@ class LoaderRailLabelV2(LoaderABC):
                     f"Coordinate sytem {cs_uid} has no corresponding stream."
                 )
 
-    def _correct_annotation_name(
-        self, ann_raw: dict, used_names: set
-    ) -> t.Tuple[dict, t.List[str]]:
+    def _correct_annotation_name(self, ann_raw: dict) -> t.Tuple[dict, t.List[str]]:
 
         if "uid" not in ann_raw:
             try:
