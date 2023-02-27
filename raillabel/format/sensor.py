@@ -47,27 +47,24 @@ class Sensor:
     _VALID_SENSOR_TYPES = ["camera", "lidar", "radar", "gps_imu", "other"]
 
     @classmethod
-    def fromdict(self, uid: str, cs_raw: dict, stream_raw: dict) -> t.Tuple["Sensor", list]:
-        """Generate a Sensor object from a dictionary in the OpenLABEL format.
+    def fromdict(self, uid: str, cs_raw: dict, stream_raw: dict) -> "Sensor":
+        """Generate a Sensor object from a dictionary in the RailLabel format.
 
         Parameters
         ----------
         uid: str
             Unique identifier of the sensor.
         cs_raw: dict
-            OpenLABEL format dict containing the data about the coordinate system.
+            RailLabel format dict containing the data about the coordinate system.
         stream_raw: dict
-            OpenLABEL format dict containing the data about the stream.
+            RailLabel format dict containing the data about the stream.
 
         Returns
         -------
         sensor: raillabel.format.Sensor
             Converted Sensor object.
-        warnings: list of str
-            List of non-critical errors, that have occurred during the conversion.
         """
 
-        warnings = []
         sensor = Sensor(uid)
 
         if "pose_wrt_parent" in cs_raw:
@@ -109,10 +106,10 @@ class Sensor:
         if "description" in stream_raw:
             sensor.type = stream_raw["description"]
 
-        return sensor, warnings
+        return sensor
 
     def asdict(self) -> dict:
-        """Export self as a dict compatible with the OpenLABEL schema.
+        """Export self as a dict compatible with the RailLabel schema.
 
         Returns
         -------
