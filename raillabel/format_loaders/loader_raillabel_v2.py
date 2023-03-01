@@ -111,12 +111,20 @@ class LoaderRailLabelV2(LoaderABC):
             If True, the Loader class is suitable for the data.
         """
 
-        return (
-            "openlabel" in data
-            and "metadata" in data["openlabel"]
-            and "schema_version" in data["openlabel"]["metadata"]
-            and data["openlabel"]["metadata"]["subschema_version"].startswith("2.")
-        )
+        if "subschema_version" in data["openlabel"]["metadata"]:
+            return (
+                "openlabel" in data
+                and "metadata" in data["openlabel"]
+                and "schema_version" in data["openlabel"]["metadata"]
+                and data["openlabel"]["metadata"]["subschema_version"].startswith("2.")
+            )
+
+        else:
+            return (
+                "openlabel" in data
+                and "metadata" in data["openlabel"]
+                and "schema_version" in data["openlabel"]["metadata"]
+            )
 
     # === Sub-functions for better readibility --- #
 
