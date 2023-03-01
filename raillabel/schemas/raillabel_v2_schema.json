@@ -611,7 +611,7 @@
                     "type": "string"
                 },
                 "uri": {
-                    "description": "A string encoding the ROS-topic of the stream.",
+                    "description": "A string encoding the subdirectory containing the sensor files.",
                     "type": "string"
                 }
             },

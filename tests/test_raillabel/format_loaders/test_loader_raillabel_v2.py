@@ -45,7 +45,7 @@ def test_load_sensors(openlabel_v1_short_data, loader):
     assert "rgb_middle" in scene.sensors
     assert scene.sensors["rgb_middle"].uid == "rgb_middle"
     assert scene.sensors["rgb_middle"].type == "camera"
-    assert scene.sensors["rgb_middle"].rostopic == "/S1206063/image"
+    assert scene.sensors["rgb_middle"].uri == "/S1206063/image"
     assert scene.sensors["rgb_middle"].intrinsics.camera_matrix == (
         0.48,
         0,
@@ -77,7 +77,7 @@ def test_load_sensors(openlabel_v1_short_data, loader):
     assert "ir_middle" in scene.sensors
     assert scene.sensors["ir_middle"].uid == "ir_middle"
     assert scene.sensors["ir_middle"].type == "camera"
-    assert scene.sensors["ir_middle"].rostopic == "/A0001781/image"
+    assert scene.sensors["ir_middle"].uri == "/A0001781/image"
     assert scene.sensors["ir_middle"].intrinsics.camera_matrix == (
         0.47,
         0,
@@ -109,7 +109,7 @@ def test_load_sensors(openlabel_v1_short_data, loader):
     assert "lidar" in scene.sensors
     assert scene.sensors["lidar"].uid == "lidar"
     assert scene.sensors["lidar"].type == "lidar"
-    assert scene.sensors["lidar"].rostopic == "/lidar_merged"
+    assert scene.sensors["lidar"].uri == "/lidar_merged"
     assert scene.sensors["lidar"].extrinsics.pos == raillabel.format.Point3d(0, 0, 0)
     assert scene.sensors["lidar"].extrinsics.quat == raillabel.format.Quaternion(0, 0, 0, 1)
 

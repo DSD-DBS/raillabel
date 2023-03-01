@@ -2,6 +2,7 @@
 # SPDX-License-Identifier: Apache-2.0
 
 import typing as t
+import warnings
 from dataclasses import dataclass
 
 from .intrinsics_pinhole import IntrinsicsPinhole
@@ -31,8 +32,8 @@ class Sensor:
     type: str-enum
         A string encoding the type of the sensor. The only valid values are 'camera', 'lidar',
         'radar', 'gps_imu' or 'other'.
-    rostopic: str, optional
-        Name of the topic of the stream in ROS. Default is None.
+    uri: str, optional
+        Name of the subdirectory containing the sensor files. Default is None.
     description: str, optional
         Description of the sensor. Default is None.
     """
@@ -41,10 +42,19 @@ class Sensor:
     extrinsics: t.Optional[Transform] = None
     intrinsics: t.Optional[IntrinsicsPinhole] = None
     type: str = None
-    rostopic: t.Optional[str] = None
+    uri: t.Optional[str] = None
     description: t.Optional[str] = None
 
     _VALID_SENSOR_TYPES = ["camera", "lidar", "radar", "gps_imu", "other"]
+
+    @property
+    def rostopic(self):
+        """Return deprecated field containing the rostopic."""
+        warnings.warn(
+            f"rostopic is a deprecated field and will be removed soon. Use sensor.uri instead.",
+            category=DeprecationWarning,
+        )
+        return self.uri
 
     @classmethod
     def fromdict(self, uid: str, cs_raw: dict, stream_raw: dict) -> "Sensor":
@@ -101,7 +111,7 @@ class Sensor:
             sensor.type = stream_raw["type"]
 
         if "uri" in stream_raw:
-            sensor.rostopic = stream_raw["uri"]
+            sensor.uri = stream_raw["uri"]
 
         if "description" in stream_raw:
             sensor.type = stream_raw["description"]
@@ -143,8 +153,8 @@ class Sensor:
 
             stream_repr["type"] = str(self.type)
 
-        if self.rostopic is not None:
-            stream_repr["uri"] = str(self.rostopic)
+        if self.uri is not None:
+            stream_repr["uri"] = str(self.uri)
 
         if self.description is not None:
             stream_repr["description"] = str(self.description)
