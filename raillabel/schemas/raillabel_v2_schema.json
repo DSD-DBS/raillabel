@@ -183,6 +183,22 @@
         "element_data_pointer": {
             "description": "This item contains pointers to element data of elements, indexed by \"name\", and containing information about the element data type, for example, bounding box, cuboid, and the frame intervals in which this element_data exists within an element. That means, these pointers can be used to explore element data dynamic information within the JSON content.",
             "properties": {
+                "attribute_pointers": {
+                    "description": "This is a JSON object which contains pointers to the attributes of the element data pointed by this pointer. The attributes pointer keys shall be the \"name\" of the attribute of the element data this pointer points to.",
+                    "patternProperties": {
+                        "^": {
+                            "description": "The attribute pointer values are strings which define the type of the attribute.",
+                            "enum": [
+                                "num",
+                                "text",
+                                "boolean",
+                                "vec"
+                            ],
+                            "type": "string"
+                        }
+                    },
+                    "type": "object"
+                },
                 "frame_intervals": {
                     "description": "List of frame intervals of the element data pointed by this pointer.",
                     "items": {
@@ -204,6 +220,7 @@
                 }
             },
             "required": [
+                "attribute_pointers",
                 "frame_intervals"
             ],
             "additionalProperties": false

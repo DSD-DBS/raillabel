@@ -163,7 +163,8 @@ class Scene:
                                     "frame_start": frame.uid,
                                     "frame_end": frame.uid,
                                 }
-                            ]
+                            ],
+                            "attribute_pointers": {},
                         }
 
                     else:
@@ -186,6 +187,24 @@ class Scene:
                                     "frame_end": frame.uid,
                                 }
                             )
+
+                    for attr_name, attr_value in annotation.attributes.items():
+
+                        if type(attr_value) == str:
+                            attr_type = "text"
+
+                        elif type(attr_value) in [float, int]:
+                            attr_type = "num"
+
+                        elif type(attr_value) == bool:
+                            attr_type = "boolean"
+
+                        elif type(attr_value) in [list, tuple]:
+                            attr_type = "vec"
+
+                        object_frame_intervals[object_id]["object_data_pointers"][annotation.name][
+                            "attribute_pointers"
+                        ][attr_name] = attr_type
 
         # Adds the frame_intervals to the dict
         dict_repr["openlabel"]["frame_intervals"] = frame_intervals

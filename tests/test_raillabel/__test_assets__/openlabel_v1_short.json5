@@ -155,7 +155,17 @@
                                 "frame_start": 0,
                                 "frame_end": 0
                             }
-                        ]
+                        ],
+                        "attribute_pointers": {
+                            "test_text_attr0": "text",
+                            "test_text_attr1": "text",
+                            "test_num_attr0": "num",
+                            "test_num_attr1": "num",
+                            "test_bool_attr0": "boolean",
+                            "test_vec_attr0": "vec",
+                            "test_vec_attr1": "vec",
+                            "test_vec_attr2": "vec"
+                        }
                     },
                     "ir_middle__person": {
                         "frame_intervals": [
@@ -163,7 +173,10 @@
                                 "frame_start": 0,
                                 "frame_end": 0
                             }
-                        ]
+                        ],
+                        "attribute_pointers": {
+                            "test_bool_attr0": "boolean"
+                        }
                     },
                     "lidar__person": {
                         "frame_intervals": [
@@ -171,7 +184,17 @@
                                 "frame_start": 0,
                                 "frame_end": 0
                             }
-                        ]
+                        ],
+                        "attribute_pointers": {
+                            "test_text_attr0": "text",
+                            "test_text_attr1": "text",
+                            "test_num_attr0": "num",
+                            "test_num_attr1": "num",
+                            "test_bool_attr0": "boolean",
+                            "test_vec_attr0": "vec",
+                            "test_vec_attr1": "vec",
+                            "test_vec_attr2": "vec"
+                        }
                     }
                 }
             },
@@ -191,7 +214,17 @@
                                 "frame_start": 1,
                                 "frame_end": 1
                             }
-                        ]
+                        ],
+                        "attribute_pointers": {
+                            "test_text_attr0": "text",
+                            "test_text_attr1": "text",
+                            "test_num_attr0": "num",
+                            "test_num_attr1": "num",
+                            "test_bool_attr0": "boolean",
+                            "test_vec_attr0": "vec",
+                            "test_vec_attr1": "vec",
+                            "test_vec_attr2": "vec"
+                        }
                     },
                     "ir_middle__person": {
                         "frame_intervals": [
@@ -199,7 +232,10 @@
                                 "frame_start": 1,
                                 "frame_end": 1
                             }
-                        ]
+                        ],
+                        "attribute_pointers": {
+                            "test_bool_attr0": "boolean"
+                        }
                     }
                 }
             },
@@ -219,7 +255,17 @@
                                 "frame_start": 0,
                                 "frame_end": 1
                             }
-                        ]
+                        ],
+                        "attribute_pointers": {
+                            "test_text_attr0": "text",
+                            "test_text_attr1": "text",
+                            "test_num_attr0": "num",
+                            "test_num_attr1": "num",
+                            "test_bool_attr0": "boolean",
+                            "test_vec_attr0": "vec",
+                            "test_vec_attr1": "vec",
+                            "test_vec_attr2": "vec"
+                        }
                     }
                 }
             }
