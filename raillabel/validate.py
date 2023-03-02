@@ -7,6 +7,7 @@ import typing as t
 from pathlib import Path
 
 import jsonschema
+import fastjsonschema
 
 from . import exceptions
 
@@ -78,11 +79,17 @@ def validate(data: dict, schema_path: str = "raillabel_v2") -> t.Tuple[bool, t.L
         raise FileNotFoundError(f"The schema file could not be found in {schema_path}") from e
 
     # Validates the data
-    validator = jsonschema.Draft7Validator(schema=schema)
-
     schema_errors = []
-    for error in validator.iter_errors(data):
-        schema_errors.append("$" + error.json_path[1:] + ": " + str(error.message))
+
+    try:
+        # Use fastjsonschema since its faster (duh), and use jsonschema as a fallback if we find
+        # an error to maintain jsonschemas way of reporting all errors
+        fastjsonschema.validate(schema, data)
+    except fastjsonschema.JsonSchemaException as _:
+        validator = jsonschema.Draft7Validator(schema=schema)
+
+        for error in validator.iter_errors(data):
+            schema_errors.append("$" + error.json_path[1:] + ": " + str(error.message))
 
     is_data_valid = len(schema_errors) == 0
 
