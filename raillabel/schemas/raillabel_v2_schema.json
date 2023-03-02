@@ -463,6 +463,13 @@
                 "coordinate_systems": {
                     "$ref": "#/definitions/coordinate_systems"
                 },
+                "frame_intervals": {
+                    "description": "This is an array of frame intervals.",
+                    "item": {
+                        "$ref": "#/definitions/frame_interval"
+                    },
+                    "type": "array"
+                },
                 "frames": {
                     "additionalProperties": false,
                     "description": "This is the JSON object of frames that contain the dynamic, timewise, annotations. Keys are strings containing numerical frame identifiers, which are denoted as master frame numbers.",

@@ -1077,6 +1077,12 @@
                     }
                 }
             }
-        }
+        },
+        "frame_intervals": [
+            {
+                "frame_start": 0,
+                "frame_end": 1
+            }
+        ]
     }
 }
