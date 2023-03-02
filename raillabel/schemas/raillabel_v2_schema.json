@@ -221,7 +221,8 @@
             },
             "required": [
                 "attribute_pointers",
-                "frame_intervals"
+                "frame_intervals",
+                "type"
             ],
             "additionalProperties": false
         },

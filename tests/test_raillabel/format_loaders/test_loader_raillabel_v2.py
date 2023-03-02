@@ -223,7 +223,7 @@ def test_load_frame0_bboxs(openlabel_v1_short_data, loader):
         .object_data["b40ba3ad-0327-46ff-9c28-2506cfd6d934"]
         .bboxs["78f0ad89-2750-4a30-9d66-44c9da73a714"]
         .name
-        == "rgb_middle__person"
+        == "rgb_middle__bbox__person"
     )
     assert (
         scene.frames[0]
@@ -295,7 +295,7 @@ def test_load_frame0_bboxs(openlabel_v1_short_data, loader):
         .object_data["b40ba3ad-0327-46ff-9c28-2506cfd6d934"]
         .bboxs["68b4e02c-40c8-4de0-89ad-bc00ed05a043"]
         .name
-        == "ir_middle__person"
+        == "ir_middle__bbox__person"
     )
     assert (
         scene.frames[0]
@@ -364,7 +364,7 @@ def test_load_frame0_poly2ds(openlabel_v1_short_data, loader):
         .object_data["b40ba3ad-0327-46ff-9c28-2506cfd6d934"]
         .poly2ds["bebfbae4-61a2-4758-993c-efa846b050a5"]
         .name
-        == "rgb_middle__person"
+        == "rgb_middle__poly2d__person"
     )
     assert (
         scene.frames[0]
@@ -437,7 +437,7 @@ def test_load_frame0_poly2ds(openlabel_v1_short_data, loader):
         .object_data["b40ba3ad-0327-46ff-9c28-2506cfd6d934"]
         .poly2ds["3f63201c-fb33-4487-aff6-ae0aa5fa976c"]
         .name
-        == "ir_middle__person"
+        == "ir_middle__poly2d__person"
     )
     assert (
         scene.frames[0]
@@ -513,7 +513,7 @@ def test_load_frame0_cuboids(openlabel_v1_short_data, loader):
         .object_data["b40ba3ad-0327-46ff-9c28-2506cfd6d934"]
         .cuboids["dc2be700-8ee4-45c4-9256-920b5d55c917"]
         .name
-        == "lidar__person"
+        == "lidar__cuboid__person"
     )
     assert (
         scene.frames[0]
@@ -627,7 +627,7 @@ def test_load_frame0_cuboids(openlabel_v1_short_data, loader):
         .object_data["b40ba3ad-0327-46ff-9c28-2506cfd6d934"]
         .cuboids["450ceb81-9778-4e63-bf89-42f3ed9f6747"]
         .name
-        == "lidar__person"
+        == "lidar__cuboid__person"
     )
     assert (
         scene.frames[0]
@@ -738,7 +738,7 @@ def test_load_frame0_seg3ds(openlabel_v1_short_data, loader):
         .object_data["b40ba3ad-0327-46ff-9c28-2506cfd6d934"]
         .seg3ds["c1087f1d-7271-4dee-83ad-519a4e3b78a8"]
         .name
-        == "lidar__person"
+        == "lidar__vec__person"
     )
     assert scene.frames[0].object_data["b40ba3ad-0327-46ff-9c28-2506cfd6d934"].seg3ds[
         "c1087f1d-7271-4dee-83ad-519a4e3b78a8"
@@ -785,7 +785,7 @@ def test_load_frame0_seg3ds(openlabel_v1_short_data, loader):
         .object_data["b40ba3ad-0327-46ff-9c28-2506cfd6d934"]
         .seg3ds["50be7fe3-1f43-47ca-b65a-930e6cfacfeb"]
         .name
-        == "lidar__person"
+        == "lidar__vec__person"
     )
     assert scene.frames[0].object_data["b40ba3ad-0327-46ff-9c28-2506cfd6d934"].seg3ds[
         "50be7fe3-1f43-47ca-b65a-930e6cfacfeb"
@@ -829,7 +829,7 @@ def test_load_frame0_poly3ds(openlabel_v1_short_data, loader):
         .object_data["22dedd49-6dcb-413b-87ef-00ccfb532e98"]
         .poly3ds["14f58fb0-add7-4ed9-85b3-74615986d854"]
         .name
-        == "lidar__train"
+        == "lidar__poly3d__train"
     )
     assert (
         scene.frames[0]
@@ -937,7 +937,7 @@ def test_load_frame1_bboxs(openlabel_v1_short_data, loader):
         .object_data["6fe55546-0dd7-4e40-b6b4-bb7ea3445772"]
         .bboxs["6ba42cbc-484e-4b8d-a022-b23c2bb6643c"]
         .name
-        == "rgb_middle__person"
+        == "rgb_middle__bbox__person"
     )
     assert (
         scene.frames[1]
@@ -1009,7 +1009,7 @@ def test_load_frame1_bboxs(openlabel_v1_short_data, loader):
         .object_data["6fe55546-0dd7-4e40-b6b4-bb7ea3445772"]
         .bboxs["5f28fa18-8f2a-4a40-a0b6-c0bbedc00f2e"]
         .name
-        == "ir_middle__person"
+        == "ir_middle__bbox__person"
     )
     assert (
         scene.frames[1]
@@ -1078,7 +1078,7 @@ def test_load_frame1_poly2ds(openlabel_v1_short_data, loader):
         .object_data["6fe55546-0dd7-4e40-b6b4-bb7ea3445772"]
         .poly2ds["e2503c5d-9fe4-4666-b510-ef644c5a766b"]
         .name
-        == "rgb_middle__person"
+        == "rgb_middle__poly2d__person"
     )
     assert (
         scene.frames[1]
@@ -1157,7 +1157,7 @@ def test_load_frame1_cuboids(openlabel_v1_short_data, loader):
         .object_data["22dedd49-6dcb-413b-87ef-00ccfb532e98"]
         .cuboids["536ac83a-32c8-4fce-8499-ef32716c64a6"]
         .name
-        == "lidar__train"
+        == "lidar__cuboid__train"
     )
     assert (
         scene.frames[1]
@@ -1271,7 +1271,7 @@ def test_load_frame1_cuboids(openlabel_v1_short_data, loader):
         .object_data["22dedd49-6dcb-413b-87ef-00ccfb532e98"]
         .cuboids["e53bd5e3-980a-4fa7-a0f9-5a2e59ba663c"]
         .name
-        == "lidar__train"
+        == "lidar__cuboid__train"
     )
     assert (
         scene.frames[1]
@@ -1382,7 +1382,7 @@ def test_load_frame1_seg3ds(openlabel_v1_short_data, loader):
         .object_data["22dedd49-6dcb-413b-87ef-00ccfb532e98"]
         .seg3ds["550df2c3-0e66-483e-bcc6-f3013b7e581b"]
         .name
-        == "lidar__train"
+        == "lidar__vec__train"
     )
     assert scene.frames[1].object_data["22dedd49-6dcb-413b-87ef-00ccfb532e98"].seg3ds[
         "550df2c3-0e66-483e-bcc6-f3013b7e581b"
@@ -1429,7 +1429,7 @@ def test_load_frame1_seg3ds(openlabel_v1_short_data, loader):
         .object_data["22dedd49-6dcb-413b-87ef-00ccfb532e98"]
         .seg3ds["12b21c52-06ea-4269-9805-e7167e7a74ed"]
         .name
-        == "lidar__train"
+        == "lidar__vec__train"
     )
     assert scene.frames[1].object_data["22dedd49-6dcb-413b-87ef-00ccfb532e98"].seg3ds[
         "12b21c52-06ea-4269-9805-e7167e7a74ed"

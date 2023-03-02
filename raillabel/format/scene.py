@@ -158,6 +158,7 @@ class Scene:
                         object_frame_intervals[object_id]["object_data_pointers"][
                             annotation.name
                         ] = {
+                            "type": annotation.name.split("__")[1],
                             "frame_intervals": [
                                 {
                                     "frame_start": frame.uid,
