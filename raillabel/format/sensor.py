@@ -51,7 +51,7 @@ class Sensor:
     def rostopic(self):
         """Return deprecated field containing the rostopic."""
         warnings.warn(
-            f"rostopic is a deprecated field and will be removed soon. Use sensor.uri instead.",
+            "rostopic is a deprecated field and will be removed soon. Use sensor.uri instead.",
             category=DeprecationWarning,
         )
         return self.uri
