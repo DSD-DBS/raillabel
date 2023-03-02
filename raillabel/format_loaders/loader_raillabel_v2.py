@@ -134,10 +134,15 @@ class LoaderRailLabelV2(LoaderABC):
         for uid, frame in data["frames"].items():
 
             # frame.uid and frame.timestamp
-            self.scene.frames[int(uid)] = format.Frame(
-                uid=int(uid),
-                timestamp=decimal.Decimal(frame["frame_properties"]["timestamp"]),
-            )
+            self.scene.frames[int(uid)] = format.Frame(uid=int(uid))
+
+            if "frame_properties" not in frame:
+                frame["frame_properties"] = {}
+
+            if "timestamp" in frame["frame_properties"]:
+                self.scene.frames[int(uid)].timestamp = decimal.Decimal(
+                    frame["frame_properties"]["timestamp"]
+                )
 
             # frame.sensors
             if "streams" in frame["frame_properties"]:
