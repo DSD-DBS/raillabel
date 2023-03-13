@@ -6,8 +6,8 @@ import os
 import typing as t
 from pathlib import Path
 
-import jsonschema
 import fastjsonschema
+import jsonschema
 
 from . import exceptions
 

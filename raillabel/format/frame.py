@@ -19,7 +19,7 @@ class Frame:
     ----------
     uid: int
         Number of the frame withing the annotation file. Must be unique.
-    timestamp: decimal.Decimal
+    timestamp: decimal.Decimal, optional
         Timestamp containing the Unix epoch time of the frame with up to nanosecond precision.
     sensors: dict of raillabel.format.SensorReference, optional
         References to the sensors with frame specific information like timestamp and uri.
@@ -39,7 +39,7 @@ class Frame:
     """
 
     uid: int
-    timestamp: decimal.Decimal = None
+    timestamp: t.Optional[decimal.Decimal] = None
     sensors: t.Dict[str, SensorReference] = field(default_factory=dict)
     data: t.Dict[str, Num] = field(default_factory=dict)
     object_data: t.Dict[uuid.UUID, ObjectData] = field(default_factory=dict)

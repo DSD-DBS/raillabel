@@ -48,6 +48,32 @@ def test_save_json(openlabel_v1_short_data):
     assert saved_and_loaded_data == openlabel_v1_short_data
 
 
+def test_frame_intervals():
+    data = {
+        "openlabel": {
+            "metadata": {"schema_version": "1.0.0"},
+            "frames": {
+                "0": {},
+                "1": {},
+                "2": {},
+                "5": {},
+                "7": {},
+                "8": {},
+            },
+        }
+    }
+
+    scene = raillabel.format_loaders.LoaderRailLabelV2().load(data)
+    dict_repr = scene.asdict()["openlabel"]
+
+    assert "frame_intervals" in dict_repr
+    assert dict_repr["frame_intervals"] == [
+        {"frame_start": 0, "frame_end": 2},
+        {"frame_start": 5, "frame_end": 5},
+        {"frame_start": 7, "frame_end": 8},
+    ]
+
+
 # Executes the test if the file is called
 if __name__ == "__main__":
     os.system("clear")

@@ -111,12 +111,20 @@ class LoaderRailLabelV2(LoaderABC):
             If True, the Loader class is suitable for the data.
         """
 
-        return (
-            "openlabel" in data
-            and "metadata" in data["openlabel"]
-            and "schema_version" in data["openlabel"]["metadata"]
-            and data["openlabel"]["metadata"]["subschema_version"].startswith("2.")
-        )
+        if "subschema_version" in data["openlabel"]["metadata"]:
+            return (
+                "openlabel" in data
+                and "metadata" in data["openlabel"]
+                and "schema_version" in data["openlabel"]["metadata"]
+                and data["openlabel"]["metadata"]["subschema_version"].startswith("2.")
+            )
+
+        else:
+            return (
+                "openlabel" in data
+                and "metadata" in data["openlabel"]
+                and "schema_version" in data["openlabel"]["metadata"]
+            )
 
     # === Sub-functions for better readibility --- #
 
@@ -126,10 +134,15 @@ class LoaderRailLabelV2(LoaderABC):
         for uid, frame in data["frames"].items():
 
             # frame.uid and frame.timestamp
-            self.scene.frames[int(uid)] = format.Frame(
-                uid=int(uid),
-                timestamp=decimal.Decimal(frame["frame_properties"]["timestamp"]),
-            )
+            self.scene.frames[int(uid)] = format.Frame(uid=int(uid))
+
+            if "frame_properties" not in frame:
+                frame["frame_properties"] = {}
+
+            if "timestamp" in frame["frame_properties"]:
+                self.scene.frames[int(uid)].timestamp = decimal.Decimal(
+                    frame["frame_properties"]["timestamp"]
+                )
 
             # frame.sensors
             if "streams" in frame["frame_properties"]:
@@ -248,7 +261,7 @@ class LoaderRailLabelV2(LoaderABC):
                         # Collects the converted annotations
                         for ann_raw in obj_ann[ann_type]:
 
-                            ann_raw = self._correct_annotation_name(ann_raw)
+                            ann_raw = self._correct_annotation_name(ann_raw, ann_type, obj_uid)
 
                             # Older versions store the URI attribute in the annotation attributes.
                             # This needs to be corrected if it is the case.
@@ -353,17 +366,18 @@ class LoaderRailLabelV2(LoaderABC):
                     f"Coordinate sytem {cs_uid} has no corresponding stream."
                 )
 
-    def _correct_annotation_name(self, ann_raw: dict) -> t.Tuple[dict, t.List[str]]:
+    def _correct_annotation_name(
+        self, ann_raw: dict, ann_type: str, obj_uid: str
+    ) -> t.Tuple[dict, t.List[str]]:
 
         if "uid" not in ann_raw:
             try:
                 ann_raw["uid"] = str(uuid.UUID(ann_raw["name"]))
             except ValueError:
                 ann_raw["uid"] = str(uuid.uuid4())
-            else:
-                ann_raw["name"] = "general"
 
-        if ann_raw["name"] == "general" and "coordinate_system" in ann_raw:
-            ann_raw["name"] = ann_raw["coordinate_system"]
+        ann_raw[
+            "name"
+        ] = f"{ann_raw['coordinate_system']}__{ann_type}__{self.scene.objects[obj_uid].type}"
 
         return ann_raw
