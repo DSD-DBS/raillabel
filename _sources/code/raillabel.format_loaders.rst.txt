@@ -1,0 +1,21 @@
+raillabel.format\_loaders package
+=================================
+
+Submodules
+----------
+
+raillabel.format\_loaders.loader\_raillabel\_v2 module
+------------------------------------------------------
+
+.. automodule:: raillabel.format_loaders.loader_raillabel_v2
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Module contents
+---------------
+
+.. automodule:: raillabel.format_loaders
+   :members:
+   :undoc-members:
+   :show-inheritance:

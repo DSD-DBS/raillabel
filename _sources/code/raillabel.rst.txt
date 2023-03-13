@@ -1,0 +1,62 @@
+raillabel package
+=================
+
+Subpackages
+-----------
+
+.. toctree::
+   :maxdepth: 4
+
+   raillabel.format
+   raillabel.format_loaders
+
+Submodules
+----------
+
+raillabel.exceptions module
+---------------------------
+
+.. automodule:: raillabel.exceptions
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+raillabel.filter module
+-----------------------
+
+.. automodule:: raillabel.filter
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+raillabel.load module
+---------------------
+
+.. automodule:: raillabel.load
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+raillabel.save module
+---------------------
+
+.. automodule:: raillabel.save
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+raillabel.validate module
+-------------------------
+
+.. automodule:: raillabel.validate
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Module contents
+---------------
+
+.. automodule:: raillabel
+   :members:
+   :undoc-members:
+   :show-inheritance:
