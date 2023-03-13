@@ -3,7 +3,7 @@
 
 import typing as t
 from dataclasses import dataclass
-from pathlib import Path
+from importlib import metadata as importlib_metadata
 
 
 @dataclass
@@ -75,10 +75,10 @@ class Metadata:
         if "comment" in data_dict:
             metadata.comment = data_dict["comment"]
 
-        with (Path(__file__).parent.parent / "__init__.py").open() as f:
-            exporter_version = [line for line in f.readlines() if line.startswith("__version__ =")]
-
-        metadata.exporter_version = exporter_version[-1].split('"')[1]
+        try:
+            metadata.exporter_version = importlib_metadata.version("pyraillabel").split("+")[0]
+        except importlib_metadata.PackageNotFoundError:
+            pass
 
         return metadata
 

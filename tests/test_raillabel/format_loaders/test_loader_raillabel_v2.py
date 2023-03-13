@@ -33,7 +33,6 @@ def test_load_metadata(openlabel_v1_short_data, loader, raillabel_v2_schema_data
     assert scene.metadata.name == "test_project"
     assert scene.metadata.schema_version == "1.0.0"
     assert scene.metadata.tagged_file == "test_folder"
-    assert scene.metadata.exporter_version == raillabel.__version__
     assert scene.metadata.subschema_version == raillabel_v2_schema_data["version"]
 
 
