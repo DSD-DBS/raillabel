@@ -45,6 +45,10 @@ def test_save_json(openlabel_v1_short_data):
         with (Path(temp_dir) / "test_save_file.json").open() as f:
             saved_and_loaded_data = json.load(f)
 
+    # Removes the exporter version from the generated file as these are hard to test for
+    if "exporter_version" in saved_and_loaded_data["openlabel"]["metadata"]:
+        del saved_and_loaded_data["openlabel"]["metadata"]["exporter_version"]
+
     assert saved_and_loaded_data == openlabel_v1_short_data
 
 
