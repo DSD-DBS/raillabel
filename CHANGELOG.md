@@ -35,3 +35,6 @@ Release
 - raillabel.Scene.filter() has been removed. Use raillabel.filter() instead
 - Fields "coordinate_system" and "frame_intervals" have been removed from the raillabel.format.Object class
 - stream and coordinate system have been combined into a single sensor type
+
+## 2.0.1
+- Changed name of PyPI package from 'raillabel' to 'pyraillabel' due to name collision
