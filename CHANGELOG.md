@@ -38,3 +38,6 @@ Release
 
 ## 2.0.1
 - Changed name of PyPI package from 'raillabel' to 'pyraillabel' due to name collision
+
+## 2.0.2
+- Changed name of PyPI package back to 'raillabel' because the problematic package has been removed
