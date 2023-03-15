@@ -21,7 +21,7 @@ Read the [full documentation on Github pages](https://dsd-dbs.github.io/raillabe
 You can install the latest released version directly from PyPI.
 
 ```zsh
-pip install pyraillabel
+pip install raillabel
 ```
 
 To set up a development environment, clone the project and install it into a
