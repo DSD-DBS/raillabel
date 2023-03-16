@@ -52,7 +52,7 @@ class SensorReference:
         if "stream_sync" in data_dict["stream_properties"]:
             data_dict["stream_properties"]["sync"] = data_dict["stream_properties"]["stream_sync"]
             warnings.append(
-                f"Deprecated field 'stream_sync' identified. Please update file with raillabel.save()."
+                "Deprecated field 'stream_sync' identified. Please update file with raillabel.save()."
             )
 
         sensor_reference = SensorReference(
