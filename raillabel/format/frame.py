@@ -108,32 +108,18 @@ class Frame:
         if "timestamp" in data_dict["frame_properties"]:
             frame.timestamp = decimal.Decimal(data_dict["frame_properties"]["timestamp"])
 
-        # frame.sensors
-        for sensor_uid, sensor in data_dict["frame_properties"]["streams"].items():
-
-            # Older version store the stream timestamp under stream_sync. This adressed here.
-            if "stream_sync" in sensor["stream_properties"]:
-                sensor["stream_properties"]["sync"] = sensor["stream_properties"]["stream_sync"]
-
-                warning_message = f"Deprecated field 'stream_sync' in frame {uid}. Please update file with raillabel.save()."
-                if warning_message not in warnings:
-                    warnings.append(warning_message)
-
-            try:
-                frame.sensors[sensor_uid] = SensorReference(
-                    sensor=sensors[sensor_uid],
-                    timestamp=decimal.Decimal(sensor["stream_properties"]["sync"]["timestamp"]),
-                )
-
-            except KeyError:
+        for sensor_id, sensor_dict in data_dict["frame_properties"]["streams"].items():
+            if sensor_id not in sensors:
                 warnings.append(
-                    f"{sensor_uid} does not exist as a stream, but is referenced in the "
+                    f"{sensor_id} does not exist as a stream, but is referenced in the "
                     + f"sync of frame {uid}."
                 )
+                continue
 
-            else:
-                if "uri" in sensor:
-                    frame.sensors[sensor_uid].uri = sensor["uri"]
+            frame.sensors[sensor_id], w = SensorReference.fromdict(
+                data_dict=sensor_dict, sensor=sensors[sensor_id]
+            )
+            warnings.extend(w)
 
         # frame.data
         for ann_type in data_dict["frame_properties"]["frame_data"]:
