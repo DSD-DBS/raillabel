@@ -1,10 +1,8 @@
 # Copyright DB Netz AG and contributors
 # SPDX-License-Identifier: Apache-2.0
 
-import decimal
 import json
 import typing as t
-import uuid
 from pathlib import Path
 
 from .. import exceptions, format
