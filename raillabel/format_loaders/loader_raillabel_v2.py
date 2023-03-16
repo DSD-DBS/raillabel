@@ -3,14 +3,15 @@
 
 import json
 import typing as t
-from pathlib import Path
-from inspect import isclass
-from pkgutil import iter_modules
 from importlib import import_module
+from inspect import isclass
+from pathlib import Path
+from pkgutil import iter_modules
 
 from .. import exceptions, format
-from ._loader_abc import LoaderABC
 from ..format._annotation import _Annotation
+from ._loader_abc import LoaderABC
+
 
 class LoaderRailLabelV2(LoaderABC):
     """Loader class for the OpenLabel v1 annotation format.
@@ -92,7 +93,7 @@ class LoaderRailLabelV2(LoaderABC):
                 data_dict=data["frames"][frame_id],
                 objects=self.scene.objects,
                 sensors=self.scene.sensors,
-                annotation_classes=annotation_classes
+                annotation_classes=annotation_classes,
             )
             self.warnings.extend(w)
 
@@ -197,7 +198,7 @@ class LoaderRailLabelV2(LoaderABC):
                 )
 
     def _fetch_annotation_classes(self) -> dict:
-        
+
         annotation_classes = {}
 
         package_dir = str(Path(__file__).resolve().parent.parent / "format")
@@ -207,7 +208,11 @@ class LoaderRailLabelV2(LoaderABC):
             for attribute_name in dir(module):
                 attribute = getattr(module, attribute_name)
 
-                if isclass(attribute) and issubclass(attribute, _Annotation) and attribute != _Annotation:
+                if (
+                    isclass(attribute)
+                    and issubclass(attribute, _Annotation)
+                    and attribute != _Annotation
+                ):
                     annotation_classes[attribute.OPENLABEL_ID] = attribute
-        
+
         return annotation_classes

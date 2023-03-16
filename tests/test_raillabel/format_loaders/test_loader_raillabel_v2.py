@@ -1454,7 +1454,9 @@ def test_load_uri_vcd_incompatible(
     # They are set equal here.
     for frame_id in scene_ground_truth.frames:
         for frame_data in scene_ground_truth.frames[frame_id].data:
-            scene.frames[frame_id].data[frame_data].uid = scene_ground_truth.frames[frame_id].data[frame_data].uid
+            scene.frames[frame_id].data[frame_data].uid = (
+                scene_ground_truth.frames[frame_id].data[frame_data].uid
+            )
 
     assert scene == scene_ground_truth
 

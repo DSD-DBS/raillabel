@@ -20,7 +20,7 @@ class _Annotation(ABC):
     @abstractproperty
     def _REQ_FIELDS(self) -> t.List[str]:
         raise NotImplementedError
-    
+
     @property
     @abstractproperty
     def OPENLABEL_ID(self) -> t.List[str]:

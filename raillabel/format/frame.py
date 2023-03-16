@@ -60,7 +60,12 @@ class Frame:
 
     @classmethod
     def fromdict(
-        cls, uid: str, data_dict: dict, objects: t.Dict[str, Object], sensors: t.Dict[str, Sensor], annotation_classes: dict
+        cls,
+        uid: str,
+        data_dict: dict,
+        objects: t.Dict[str, Object],
+        sensors: t.Dict[str, Sensor],
+        annotation_classes: dict,
     ):
         """Generate a Frame object from a dictionary in the RailLabel format.
 
@@ -111,42 +116,41 @@ class Frame:
             if ann_type not in annotation_classes:
                 warnings.append(
                     f"Annotation type {ann_type} (frame {uid}, frame data) is "
-                    + "currently not supported. Supported annotation types: " + 
-                    str(list(annotation_classes.keys()))
+                    + "currently not supported. Supported annotation types: "
+                    + str(list(annotation_classes.keys()))
                 )
                 continue
 
             for ann_raw in data_dict["frame_properties"]["frame_data"][ann_type]:
-            
+
                 if "uid" not in ann_raw:
                     ann_raw["uid"] = uuid.uuid4()
-                    
+
                 frame.data[ann_raw["name"]], w = annotation_classes[ann_type].fromdict(
-                    ann_raw,
-                    sensors
+                    ann_raw, sensors
                 )
                 warnings.extend(w)
 
         for obj_id, obj_ann in data_dict["objects"].items():
-            
+
             if obj_id not in objects:
                 warnings.append(
                     f"{obj_id} does not exist as an object, but is referenced in the object"
                     + f" annotation of frame {uid}."
                 )
                 continue
-            
+
             frame.object_data[obj_id], sensor_uris, w = ObjectData.fromdict(
                 uid=obj_id,
                 data_dict=obj_ann["object_data"],
                 objects=objects,
                 sensors=sensors,
-                annotation_classes=annotation_classes
+                annotation_classes=annotation_classes,
             )
-            
+
             for sensor_id in sensor_uris:
                 frame.sensors[sensor_id].uri = sensor_uris[sensor_id]
-            
+
             warnings.extend(w)
 
         return frame, warnings

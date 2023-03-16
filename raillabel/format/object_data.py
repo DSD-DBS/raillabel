@@ -2,8 +2,8 @@
 # SPDX-License-Identifier: Apache-2.0
 
 import typing as t
-from dataclasses import dataclass, field
 import uuid
+from dataclasses import dataclass, field
 
 from ._annotation import _Annotation
 from .bbox import Bbox
@@ -13,6 +13,7 @@ from .poly2d import Poly2d
 from .poly3d import Poly3d
 from .seg3d import Seg3d
 from .sensor import Sensor
+
 
 @dataclass
 class ObjectData:
@@ -69,9 +70,15 @@ class ObjectData:
 
     @classmethod
     def fromdict(
-        cls, uid: str, data_dict: dict, objects: t.Dict[str, Object], sensors: t.Dict[str, Sensor], annotation_classes: dict
+        cls,
+        uid: str,
+        data_dict: dict,
+        objects: t.Dict[str, Object],
+        sensors: t.Dict[str, Sensor],
+        annotation_classes: dict,
     ):
-        """Generate an ObjectData object from a dictionary in the RailLabel format.
+        """Generate an ObjectData object from a dictionary in the RailLabel
+        format.
 
         Parameters
         ----------
@@ -95,47 +102,46 @@ class ObjectData:
         warnings: list of str
             List of warnings, that occurred during execution.
         """
-        
+
         warnings = []
         sensor_uris = {}
-        
+
         object_data = ObjectData(object=objects[uid])
-        
+
         for ann_type in data_dict:
-            
+
             if ann_type not in annotation_classes:
                 warnings.append(
-                    f"Annotation type {ann_type} is currently not supported. Supported " + 
-                    "annotation types: " + str(list(annotation_classes.keys()))
+                    f"Annotation type {ann_type} is currently not supported. Supported "
+                    + "annotation types: "
+                    + str(list(annotation_classes.keys()))
                 )
                 continue
-            
+
             for ann_raw in data_dict[ann_type]:
 
-                ann_raw = cls._fix_deprecated_annotation_name(
-                    ann_raw, ann_type, objects[uid].type
-                )
-                
+                ann_raw = cls._fix_deprecated_annotation_name(ann_raw, ann_type, objects[uid].type)
+
                 if "attributes" in ann_raw and "text" in ann_raw["attributes"]:
                     for i, attr in enumerate(ann_raw["attributes"]["text"]):
                         if attr["name"] == "uri":
                             sensor_uris[ann_raw["coordinate_system"]] = attr["val"]
                             del ann_raw["attributes"]["text"][i]
                             break
-                        
+
                 if ann_raw["uid"] in object_data.annotations:
                     warnings.append(
                         f"Annotation '{ann_raw['uid']}' is contained more than one "
-                        + f"time. A new UID is beeing assigned."
+                        + "time. A new UID is beeing assigned."
                     )
                     ann_raw["uid"] = str(uuid.uuid4())
-                    
+
                 object_data.annotations[ann_raw["uid"]], w = annotation_classes[ann_type].fromdict(
                     ann_raw,
                     sensors,
                 )
                 warnings.extend(w)
-        
+
         return object_data, sensor_uris, warnings
 
     def asdict(self) -> dict:
@@ -187,16 +193,14 @@ class ObjectData:
         return dict_repr
 
     @classmethod
-    def _fix_deprecated_annotation_name(
-        cls, ann_raw: dict, ann_type: str, obj_type: str
-    ) -> dict:
+    def _fix_deprecated_annotation_name(cls, ann_raw: dict, ann_type: str, obj_type: str) -> dict:
 
         if "uid" not in ann_raw:
             try:
                 ann_raw["uid"] = str(uuid.UUID(ann_raw["name"]))
             except ValueError:
                 ann_raw["uid"] = str(uuid.uuid4())
-                
+
         ann_raw["name"] = f"{ann_raw['coordinate_system']}__{ann_type}__{obj_type}"
 
         return ann_raw
