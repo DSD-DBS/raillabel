@@ -38,6 +38,7 @@ class Cuboid(_Annotation):
     quat: Quaternion = None
     size: Size3d = None
 
+    OPENLABEL_ID = "cuboid"
     _REQ_FIELDS = ["pos", "size", "quat"]
 
     @classmethod

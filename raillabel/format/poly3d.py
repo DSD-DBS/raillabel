@@ -33,6 +33,7 @@ class Poly3d(_Annotation):
     points: t.List[Point3d] = None
     closed: bool = None
 
+    OPENLABEL_ID = "poly3d"
     _REQ_FIELDS = ["points", "closed"]
 
     @classmethod

@@ -33,6 +33,7 @@ class Bbox(_Annotation):
     pos: Point2d = None
     size: Size2d = None
 
+    OPENLABEL_ID = "bbox"
     _REQ_FIELDS = ["pos", "size"]
 
     @classmethod

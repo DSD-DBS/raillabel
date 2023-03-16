@@ -27,6 +27,7 @@ class Seg3d(_Annotation):
 
     point_ids: t.List[int] = None
 
+    OPENLABEL_ID = "vec"
     _REQ_FIELDS = ["point_ids"]
 
     @classmethod

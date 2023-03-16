@@ -76,7 +76,7 @@ class Metadata:
             metadata.comment = data_dict["comment"]
 
         try:
-            metadata.exporter_version = importlib_metadata.version("pyraillabel").split("+")[0]
+            metadata.exporter_version = importlib_metadata.version("raillabel").split("+")[0]
         except importlib_metadata.PackageNotFoundError:
             pass
 

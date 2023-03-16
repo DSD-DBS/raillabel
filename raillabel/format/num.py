@@ -28,6 +28,7 @@ class Num(_Annotation):
 
     val: t.Union[int, float] = None
 
+    OPENLABEL_ID = "num"
     _REQ_FIELDS = ["val"]
 
     @classmethod
