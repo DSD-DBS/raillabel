@@ -127,7 +127,7 @@ class Frame:
             # Raises a warnings, if the annotation type is not supported
             if ann_type not in self._OPENLABEL_CLASS_MAPPING:
                 warnings.append(
-                    f"Annotation type {ann_type} (frame {uid}, object {obj_uid}) is "
+                    f"Annotation type {ann_type} (frame {uid}, frame data) is "
                     + "currently not supported."
                 )
                 continue
@@ -269,7 +269,8 @@ class Frame:
 
         return dict_repr
 
-    def _prepare_data(data_dict: dict) -> dict:
+    @classmethod
+    def _prepare_data(cls, data_dict: dict) -> dict:
         """Add optional fields to dict to simplify interaction.
 
         Parameters
@@ -297,8 +298,9 @@ class Frame:
 
         return data_dict
 
+    @classmethod
     def _correct_annotation_name(
-        ann_raw: dict, ann_type: str, obj_type: str
+        cls, ann_raw: dict, ann_type: str, obj_type: str
     ) -> t.Tuple[dict, t.List[str]]:
 
         if "uid" not in ann_raw:
