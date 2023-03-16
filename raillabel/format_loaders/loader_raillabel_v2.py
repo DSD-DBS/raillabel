@@ -123,7 +123,7 @@ class LoaderRailLabelV2(LoaderABC):
             )
 
     def _prepare_data(self, data: dict) -> dict:
-        """Add optional fields to dict and simplify interaction.
+        """Add optional fields to dict to simplify interaction.
 
         Parameters
         ----------
