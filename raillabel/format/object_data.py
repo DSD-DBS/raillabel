@@ -77,8 +77,7 @@ class ObjectData:
         sensors: t.Dict[str, Sensor],
         annotation_classes: dict,
     ):
-        """Generate an ObjectData object from a dictionary in the RailLabel
-        format.
+        """Generate an ObjectData from a dictionary in the RailLabel format.
 
         Parameters
         ----------
@@ -91,14 +90,17 @@ class ObjectData:
         sensors: dict
             Dictionary of all sensors in the scene.
         annotation_classes: dict
-            Dictionary conaining all of the annotation classes as values with the OpenLABEL identifiers as keys.
+            Dictionary conaining all of the annotation classes as values 
+            with the OpenLABEL identifiers as keys.
 
         Returns
         -------
         object_data: raillabel.format.ObjectData
             Converted ObjectData object.
         sensor_uris: dict
-            Dictionary containing the sensors with the sensor URI. Old file versions contain the file URIs in the annotation attributes. This is corrected by handing the URIs back to the frame.
+            Dictionary containing the sensors with the sensor URI. Old file 
+            versions contain the file URIs in the annotation attributes. 
+            This is corrected by handing the URIs back to the frame.
         warnings: list of str
             List of warnings, that occurred during execution.
         """
