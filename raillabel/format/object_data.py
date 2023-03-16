@@ -90,7 +90,7 @@ class ObjectData:
         sensors: dict
             Dictionary of all sensors in the scene.
         annotation_classes: dict
-            Dictionary conaining all of the annotation classes as values 
+            Dictionary conaining all of the annotation classes as values
             with the OpenLABEL identifiers as keys.
 
         Returns
@@ -98,8 +98,8 @@ class ObjectData:
         object_data: raillabel.format.ObjectData
             Converted ObjectData object.
         sensor_uris: dict
-            Dictionary containing the sensors with the sensor URI. Old file 
-            versions contain the file URIs in the annotation attributes. 
+            Dictionary containing the sensors with the sensor URI. Old file
+            versions contain the file URIs in the annotation attributes.
             This is corrected by handing the URIs back to the frame.
         warnings: list of str
             List of warnings, that occurred during execution.
