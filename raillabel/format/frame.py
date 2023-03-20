@@ -66,7 +66,7 @@ class Frame:
         objects: t.Dict[str, Object],
         sensors: t.Dict[str, Sensor],
         annotation_classes: dict,
-    ):
+    ) -> t.Tuple["Frame", list[str]]:
         """Generate a Frame object from a dictionary in the RailLabel format.
 
         Parameters

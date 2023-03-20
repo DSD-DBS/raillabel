@@ -46,7 +46,7 @@ class _Annotation(ABC):
 
     @classmethod
     @abstractmethod
-    def fromdict(self, data_dict: t.Dict, sensors: t.Dict) -> t.Tuple[t.Dict, list]:
+    def fromdict(self, data_dict: t.Dict, sensors: t.Dict) -> t.Tuple[t.Type["_Annotation"], list]:
         """Generate a Bbox object from a dictionary in the OpenLABEL format.
 
         Parameters
@@ -58,7 +58,7 @@ class _Annotation(ABC):
 
         Returns
         -------
-        annotation: Bbox
+        annotation:
             Converted annotation.
         warnings: list of str
             List of non-critical errors, that have occurred during the conversion.

@@ -46,7 +46,7 @@ class Cuboid(_Annotation):
         self,
         data_dict: dict,
         sensors: dict,
-    ) -> t.Tuple["Cuboid", list]:
+    ) -> t.Tuple["Cuboid", list[str]]:
         """Generate a Cuboid object from a dictionary in the OpenLABEL format.
 
         Parameters

@@ -49,7 +49,7 @@ class Poly2d(_Annotation):
         self,
         data_dict: dict,
         sensors: dict,
-    ) -> t.Tuple["Poly2d", list]:
+    ) -> t.Tuple["Poly2d", list[str]]:
         """Generate a Bbox object from a dictionary in the OpenLABEL format.
 
         Parameters

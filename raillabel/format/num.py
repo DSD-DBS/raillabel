@@ -32,7 +32,7 @@ class Num(_Annotation):
     _REQ_FIELDS = ["val"]
 
     @classmethod
-    def fromdict(self, data_dict: dict, sensors: dict) -> t.Tuple[dict, list]:
+    def fromdict(self, data_dict: dict, sensors: dict) -> t.Tuple[dict, list[str]]:
         """Generate a Bbox object from a dictionary in the OpenLABEL format.
 
         Parameters
