@@ -12,7 +12,7 @@ from .save import save
 from .validate import validate
 
 try:
-    __version__ = metadata.version("pyraillabel")
+    __version__ = metadata.version("raillabel")
 except metadata.PackageNotFoundError:
     __version__ = "0.0.0+unknown"
 del metadata

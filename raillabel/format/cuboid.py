@@ -38,6 +38,7 @@ class Cuboid(_Annotation):
     quat: Quaternion = None
     size: Size3d = None
 
+    OPENLABEL_ID = "cuboid"
     _REQ_FIELDS = ["pos", "size", "quat"]
 
     @classmethod
@@ -45,7 +46,7 @@ class Cuboid(_Annotation):
         self,
         data_dict: dict,
         sensors: dict,
-    ) -> t.Tuple["Cuboid", list]:
+    ) -> t.Tuple["Cuboid", t.List[str]]:
         """Generate a Cuboid object from a dictionary in the OpenLABEL format.
 
         Parameters

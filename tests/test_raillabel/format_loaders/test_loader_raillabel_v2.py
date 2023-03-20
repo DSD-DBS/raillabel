@@ -173,12 +173,10 @@ def test_load_frame0_metadata(openlabel_v1_short_data, loader):
     assert len(scene.frames[0].data) == 2
     assert "test_frame_data0" in scene.frames[0].data
     assert scene.frames[0].data["test_frame_data0"].uid == "a06fe567-29c7-475b-92a4-fbca64e671a7"
-    assert scene.frames[0].data["a06fe567-29c7-475b-92a4-fbca64e671a7"].name == "test_frame_data0"
     assert scene.frames[0].data["test_frame_data0"].val == 53.1
     assert scene.frames[0].data["test_frame_data0"].sensor == scene.sensors["rgb_middle"]
     assert "test_frame_data1" in scene.frames[0].data
     assert scene.frames[0].data["test_frame_data1"].uid == "4bb95df7-a051-48a9-b77e-72f27ca43f64"
-    assert scene.frames[0].data["4bb95df7-a051-48a9-b77e-72f27ca43f64"].name == "test_frame_data1"
     assert scene.frames[0].data["test_frame_data1"].val == 10
     assert scene.frames[0].data["test_frame_data1"].sensor == scene.sensors["lidar"]
 
@@ -887,12 +885,10 @@ def test_load_frame1_metadata(openlabel_v1_short_data, loader):
     assert len(scene.frames[1].data) == 2
     assert "test_frame_data0" in scene.frames[1].data
     assert scene.frames[1].data["test_frame_data0"].uid == "558697df-61f5-41b0-b112-3d6fcbd7d6c9"
-    assert scene.frames[1].data["558697df-61f5-41b0-b112-3d6fcbd7d6c9"].name == "test_frame_data0"
     assert scene.frames[1].data["test_frame_data0"].val == 53
     assert scene.frames[1].data["test_frame_data0"].sensor == scene.sensors["rgb_middle"]
     assert "test_frame_data1" in scene.frames[1].data
     assert scene.frames[1].data["test_frame_data1"].uid == "843e07a0-aac5-4f62-8200-1468dbd3055d"
-    assert scene.frames[1].data["843e07a0-aac5-4f62-8200-1468dbd3055d"].name == "test_frame_data1"
     assert scene.frames[1].data["test_frame_data1"].val == 10.1
     assert scene.frames[1].data["test_frame_data1"].sensor == scene.sensors["lidar"]
 
@@ -1458,17 +1454,9 @@ def test_load_uri_vcd_incompatible(
     # They are set equal here.
     for frame_id in scene_ground_truth.frames:
         for frame_data in scene_ground_truth.frames[frame_id].data:
-            for other_frame_data in list(scene.frames[frame_id].data):
-                if (
-                    scene.frames[frame_id].data[other_frame_data].name
-                    == scene_ground_truth.frames[frame_id].data[frame_data].name
-                ):
-                    scene.frames[frame_id].data[frame_data] = scene.frames[frame_id].data[
-                        other_frame_data
-                    ]
-                    del scene.frames[frame_id].data[other_frame_data]
-                    scene.frames[frame_id].data[frame_data].uid = frame_data
-                    break
+            scene.frames[frame_id].data[frame_data].uid = (
+                scene_ground_truth.frames[frame_id].data[frame_data].uid
+            )
 
     assert scene == scene_ground_truth
 

@@ -33,10 +33,11 @@ class Bbox(_Annotation):
     pos: Point2d = None
     size: Size2d = None
 
+    OPENLABEL_ID = "bbox"
     _REQ_FIELDS = ["pos", "size"]
 
     @classmethod
-    def fromdict(self, data_dict: dict, sensors: dict) -> t.Tuple["Bbox", list]:
+    def fromdict(self, data_dict: dict, sensors: dict) -> t.Tuple["Bbox", t.List[str]]:
         """Generate a Bbox object from a dictionary in the OpenLABEL format.
 
         Parameters
