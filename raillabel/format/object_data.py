@@ -76,7 +76,7 @@ class ObjectData:
         objects: t.Dict[str, Object],
         sensors: t.Dict[str, Sensor],
         annotation_classes: dict,
-    ) -> t.Tuple["ObjectData", dict, list[str]]:
+    ) -> t.Tuple["ObjectData", dict, t.List[str]]:
         """Generate an ObjectData from a dictionary in the RailLabel format.
 
         Parameters

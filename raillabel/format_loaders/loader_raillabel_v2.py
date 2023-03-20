@@ -20,7 +20,7 @@ class LoaderRailLabelV2(LoaderABC):
     ----------
     scene: raillabel.Scene
         Loaded raillabel.Scene with the data.
-    warnings: list[str]
+    warnings: t.List[str]
         List of warning strings, that have been found during the execution of load().
     """
 

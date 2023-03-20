@@ -29,7 +29,7 @@ class SensorReference:
     uri: t.Optional[str] = None
 
     @classmethod
-    def fromdict(cls, data_dict: dict, sensor: Sensor) -> t.Tuple["SensorReference", list[str]]:
+    def fromdict(cls, data_dict: dict, sensor: Sensor) -> t.Tuple["SensorReference", t.List[str]]:
         """Generate a SensorReference object from a dictionary.
 
         Parameters
