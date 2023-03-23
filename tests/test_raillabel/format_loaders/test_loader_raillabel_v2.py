@@ -30,6 +30,8 @@ def test_supports_false(openlabel_v1_short_data, loader):
 def test_load_metadata(openlabel_v1_short_data, loader, raillabel_v2_schema_data):
     scene = loader.load(openlabel_v1_short_data, validate=False)
 
+    assert scene.metadata.annotator == "test_annotator"
+    assert scene.metadata.comment == "test_comment"
     assert scene.metadata.name == "test_project"
     assert scene.metadata.schema_version == "1.0.0"
     assert scene.metadata.tagged_file == "test_folder"

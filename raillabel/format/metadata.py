@@ -63,6 +63,9 @@ class Metadata:
         if subschema_version is not None:
             metadata.subschema_version = subschema_version
 
+        if "annotator" in data_dict:
+            metadata.annotator = data_dict["annotator"]
+
         if "file_version" in data_dict:
             metadata.file_version = data_dict["file_version"]
 

@@ -1,9 +1,10 @@
 {
     "openlabel": {
         "metadata": {
-            "name": "test_project",
-            "comment": "test_comment",
+            "annotator": "test_annotator",
             "schema_version": "1.0.0",
+            "comment": "test_comment",
+            "name": "test_project",
             "subschema_version": "2.0.0",
             "tagged_file": "test_folder"
         },
