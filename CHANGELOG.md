@@ -41,3 +41,6 @@ Release
 
 ## 2.0.2
 - Changed name of PyPI package back to 'raillabel' because the problematic package has been removed
+
+## 2.0.3
+- Fixed bug related to saving the annotator field in the metadata
