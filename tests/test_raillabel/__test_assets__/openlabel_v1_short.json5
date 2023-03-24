@@ -1,6 +1,7 @@
 {
     "openlabel": {
         "metadata": {
+            "annotator": "test_annotator",
             "schema_version": "1.0.0",
             "comment": "test_comment",
             "name": "test_project",
