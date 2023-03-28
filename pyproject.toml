@@ -58,6 +58,7 @@ test = [
 [tool.black]
 line-length = 100
 target-version = ["py38"]
+force-exclude = "tests/"
 
 [tool.docformatter]
 wrap-descriptions = 72
