@@ -79,9 +79,12 @@ class Metadata:
             metadata.comment = data_dict["comment"]
 
         try:
-            metadata.exporter_version = importlib_metadata.version("raillabel").split("+")[0]
+            exporter_version = importlib_metadata.version("raillabel")
         except importlib_metadata.PackageNotFoundError:
             pass
+        else:
+            version_number_length = len(exporter_version) - len(exporter_version.split(".")[-1])
+            metadata.exporter_version = exporter_version[: version_number_length - 1]
 
         return metadata
 
