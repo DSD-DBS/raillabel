@@ -30,91 +30,48 @@ def test_supports_false(openlabel_v1_short_data, loader):
 def test_load_metadata(openlabel_v1_short_data, loader, raillabel_v2_schema_data):
     scene = loader.load(openlabel_v1_short_data, validate=False)
 
-    openlabel_v1_short_data = openlabel_v1_short_data["openlabel"]
+    ground_truth = openlabel_v1_short_data["openlabel"]
 
-    assert scene.metadata.annotator == openlabel_v1_short_data["metadata"]["annotator"]
-    assert scene.metadata.comment == openlabel_v1_short_data["metadata"]["comment"]
-    assert scene.metadata.name == openlabel_v1_short_data["metadata"]["name"]
-    assert scene.metadata.schema_version == openlabel_v1_short_data["metadata"]["schema_version"]
-    assert scene.metadata.tagged_file == openlabel_v1_short_data["metadata"]["tagged_file"]
+    assert scene.metadata.annotator == ground_truth["metadata"]["annotator"]
+    assert scene.metadata.comment == ground_truth["metadata"]["comment"]
+    assert scene.metadata.name == ground_truth["metadata"]["name"]
+    assert scene.metadata.schema_version == ground_truth["metadata"]["schema_version"]
+    assert scene.metadata.tagged_file == ground_truth["metadata"]["tagged_file"]
     assert scene.metadata.subschema_version == raillabel_v2_schema_data["version"]
 
 
 def test_load_sensors(openlabel_v1_short_data, loader):
     scene = loader.load(openlabel_v1_short_data, validate=False)
 
-    assert len(scene.sensors) == 3
+    ground_truth = openlabel_v1_short_data["openlabel"]
 
-    assert "rgb_middle" in scene.sensors
-    assert scene.sensors["rgb_middle"].uid == "rgb_middle"
-    assert scene.sensors["rgb_middle"].type == "camera"
-    assert scene.sensors["rgb_middle"].uri == "/S1206063/image"
-    assert scene.sensors["rgb_middle"].intrinsics.camera_matrix == (
-        0.48,
-        0,
-        0.81,
-        0,
-        0,
-        0.16,
-        0.83,
-        0,
-        0,
-        0,
-        1,
-        0,
-    )
-    assert scene.sensors["rgb_middle"].intrinsics.distortion == (
-        0.49,
-        0.69,
-        0.31,
-        0.81,
-        0.99,
-    )
-    assert scene.sensors["rgb_middle"].intrinsics.width_px == 2464
-    assert scene.sensors["rgb_middle"].intrinsics.height_px == 1600
-    assert scene.sensors["rgb_middle"].extrinsics.pos == raillabel.format.Point3d(0, 1, 2)
-    assert scene.sensors["rgb_middle"].extrinsics.quat == raillabel.format.Quaternion(
-        0.97518507, -0.18529384, -0.05469746, -0.10811315
-    )
+    assert len(scene.sensors) == len(ground_truth["streams"])
+    for sensor_id, sensor in scene.sensors.items():
 
-    assert "ir_middle" in scene.sensors
-    assert scene.sensors["ir_middle"].uid == "ir_middle"
-    assert scene.sensors["ir_middle"].type == "camera"
-    assert scene.sensors["ir_middle"].uri == "/A0001781/image"
-    assert scene.sensors["ir_middle"].intrinsics.camera_matrix == (
-        0.47,
-        0,
-        0.85,
-        0,
-        0,
-        0.15,
-        0.23,
-        0,
-        0,
-        0,
-        1,
-        0,
-    )
-    assert scene.sensors["ir_middle"].intrinsics.distortion == (
-        0.19,
-        0.66,
-        0.31,
-        0.21,
-        0.99,
-    )
-    assert scene.sensors["ir_middle"].intrinsics.width_px == 640
-    assert scene.sensors["ir_middle"].intrinsics.height_px == 480
-    assert scene.sensors["ir_middle"].extrinsics.pos == raillabel.format.Point3d(0, 2, 1)
-    assert scene.sensors["ir_middle"].extrinsics.quat == raillabel.format.Quaternion(
-        -0.64984101, -0.72563166, 0.18784818, -0.12600959
-    )
+        assert sensor_id in ground_truth["streams"]
+        assert sensor.uid == sensor_id
+        assert sensor.type == ground_truth["streams"][sensor_id]["type"]
+        assert sensor.uri == ground_truth["streams"][sensor_id]["uri"]
 
-    assert "lidar" in scene.sensors
-    assert scene.sensors["lidar"].uid == "lidar"
-    assert scene.sensors["lidar"].type == "lidar"
-    assert scene.sensors["lidar"].uri == "/lidar_merged"
-    assert scene.sensors["lidar"].extrinsics.pos == raillabel.format.Point3d(0, 0, 0)
-    assert scene.sensors["lidar"].extrinsics.quat == raillabel.format.Quaternion(0, 0, 0, 1)
+        assert [
+            sensor.extrinsics.pos.x,
+            sensor.extrinsics.pos.y,
+            sensor.extrinsics.pos.z,
+        ] == ground_truth["coordinate_systems"][sensor_id]["pose_wrt_parent"]["translation"]
+        assert [
+            sensor.extrinsics.quat.x,
+            sensor.extrinsics.quat.y,
+            sensor.extrinsics.quat.z,
+            sensor.extrinsics.quat.w,
+        ] == ground_truth["coordinate_systems"][sensor_id]["pose_wrt_parent"]["quaternion"]
+
+        if sensor.type != "camera":
+            continue
+
+        assert list(sensor.intrinsics.camera_matrix) == ground_truth["streams"][sensor_id]["stream_properties"]["intrinsics_pinhole"]["camera_matrix"]
+        assert list(sensor.intrinsics.distortion) == ground_truth["streams"][sensor_id]["stream_properties"]["intrinsics_pinhole"]["distortion_coeffs"]
+        assert sensor.intrinsics.width_px == ground_truth["streams"][sensor_id]["stream_properties"]["intrinsics_pinhole"]["width_px"]
+        assert sensor.intrinsics.height_px == ground_truth["streams"][sensor_id]["stream_properties"]["intrinsics_pinhole"]["height_px"]
 
 
 def test_load_objects(openlabel_v1_short_data, loader):
