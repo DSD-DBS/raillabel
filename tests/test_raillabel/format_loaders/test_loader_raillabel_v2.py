@@ -1562,6 +1562,21 @@ def test_warnings_wrong_annotation_cs(openlabel_v1_short_data, loader):
     assert "non_existent_sensor" in loader.warnings[0]
 
 
+def test_identify_of_references(openlabel_v1_short_data, loader):
+    scene = loader.load(openlabel_v1_short_data, validate=False)
+
+    for frame in scene.frames.values():
+
+        for sensor_reference in frame.sensors.values():
+            assert sensor_reference.sensor is scene.sensors[sensor_reference.sensor.uid]
+
+        for frame_data in frame.data.values():
+            assert frame_data.sensor is scene.sensors[frame_data.sensor.uid]
+
+        for annotation in frame.annotations.values():
+            assert annotation.sensor is scene.sensors[annotation.sensor.uid]
+
+
 # Executes the test if the file is called
 if __name__ == "__main__":
     os.system("clear")
