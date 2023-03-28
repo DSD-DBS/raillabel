@@ -84,7 +84,7 @@ class Metadata:
             pass
         else:
             version_number_length = len(exporter_version) - len(exporter_version.split(".")[-1])
-            metadata.exporter_version = exporter_version[:version_number_length-1]
+            metadata.exporter_version = exporter_version[: version_number_length - 1]
 
         return metadata
 
