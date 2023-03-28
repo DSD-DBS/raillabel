@@ -44,3 +44,6 @@ Release
 
 ## 2.0.3
 - Fixed bug related to saving the annotator field in the metadata
+
+## 2.0.4
+- Fixed bug related to the package version
