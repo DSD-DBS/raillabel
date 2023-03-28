@@ -20,7 +20,7 @@ class LoaderABC(ABC):
     ----------
     scene: raillabel.Scene
         Loaded raillabel.Scene with the data.
-    warnings: list[str]
+    warnings: t.List[str]
         List of warning strings, that have been found during the execution of load().
     SCHEMA_PATH: Path
         Absolute path to the JSON schema.

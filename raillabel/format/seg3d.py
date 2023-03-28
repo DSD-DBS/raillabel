@@ -27,6 +27,7 @@ class Seg3d(_Annotation):
 
     point_ids: t.List[int] = None
 
+    OPENLABEL_ID = "vec"
     _REQ_FIELDS = ["point_ids"]
 
     @classmethod
@@ -34,7 +35,7 @@ class Seg3d(_Annotation):
         self,
         data_dict: dict,
         sensors: dict,
-    ) -> t.Tuple["Seg3d", list]:
+    ) -> t.Tuple["Seg3d", t.List[str]]:
         """Generate a Bbox object from a dictionary in the OpenLABEL format.
 
         Parameters

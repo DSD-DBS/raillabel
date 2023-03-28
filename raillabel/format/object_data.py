@@ -2,6 +2,7 @@
 # SPDX-License-Identifier: Apache-2.0
 
 import typing as t
+import uuid
 from dataclasses import dataclass, field
 
 from ._annotation import _Annotation
@@ -11,6 +12,7 @@ from .object import Object
 from .poly2d import Poly2d
 from .poly3d import Poly3d
 from .seg3d import Seg3d
+from .sensor import Sensor
 
 
 @dataclass
@@ -66,6 +68,84 @@ class ObjectData:
         """Return dictionary of all 3d segmentations."""
         return {k: v for k, v in self.annotations.items() if isinstance(v, Seg3d)}
 
+    @classmethod
+    def fromdict(
+        cls,
+        uid: str,
+        data_dict: dict,
+        objects: t.Dict[str, Object],
+        sensors: t.Dict[str, Sensor],
+        annotation_classes: dict,
+    ) -> t.Tuple["ObjectData", dict, t.List[str]]:
+        """Generate an ObjectData from a dictionary in the RailLabel format.
+
+        Parameters
+        ----------
+        uid: str
+            Unique identifier of the object.
+        data_dict: dict
+            Dict representation of the ObjectData.
+        objects: dict
+            Dictionary of all objects in the scene.
+        sensors: dict
+            Dictionary of all sensors in the scene.
+        annotation_classes: dict
+            Dictionary conaining all of the annotation classes as values
+            with the OpenLABEL identifiers as keys.
+
+        Returns
+        -------
+        object_data: raillabel.format.ObjectData
+            Converted ObjectData object.
+        sensor_uris: dict
+            Dictionary containing the sensors with the sensor URI. Old file
+            versions contain the file URIs in the annotation attributes.
+            This is corrected by handing the URIs back to the frame.
+        warnings: list of str
+            List of warnings, that occurred during execution.
+        """
+
+        warnings = []
+        sensor_uris = {}
+
+        object_data = ObjectData(object=objects[uid])
+
+        for ann_type in data_dict:
+
+            if ann_type not in annotation_classes:
+                warnings.append(
+                    f"Annotation type {ann_type} is currently not supported. Supported "
+                    + "annotation types: "
+                    + str(list(annotation_classes.keys()))
+                )
+                continue
+
+            for ann_raw in data_dict[ann_type]:
+
+                ann_raw = cls._fix_deprecated_annotation_name(ann_raw, ann_type, objects[uid].type)
+
+                if "attributes" in ann_raw and "text" in ann_raw["attributes"]:
+                    for i, attr in enumerate(ann_raw["attributes"]["text"]):
+                        if attr["name"] == "uri":
+                            sensor_uris[ann_raw["coordinate_system"]] = attr["val"]
+                            del ann_raw["attributes"]["text"][i]
+                            break
+
+                if ann_raw["uid"] in object_data.annotations:
+                    warnings.append(
+                        f"Annotation '{ann_raw['uid']}' is contained more than one "
+                        + "time. A new UID is beeing assigned."
+                    )
+                    ann_raw["uid"] = str(uuid.uuid4())
+
+                object_data.annotations[ann_raw["uid"]], w = annotation_classes[ann_type].fromdict(
+                    ann_raw,
+                    sensors,
+                )
+                warnings.extend(w)
+
+        return object_data, sensor_uris, warnings
+
     def asdict(self) -> dict:
         """Export self as a dict compatible with the OpenLABEL schema.
 
@@ -114,32 +194,15 @@ class ObjectData:
 
         return dict_repr
 
+    @classmethod
+    def _fix_deprecated_annotation_name(cls, ann_raw: dict, ann_type: str, obj_type: str) -> dict:
 
-class AnnotationContainer(dict):
-    """Advanced version of a dictionary.
-
-    When an element is referenced, it is first searched by its key and
-    then by the elements name property. Enables searching by the
-    annotation uid and the annotation name.
-    """
-
-    @property
-    def switched_keys(self):
-        """Return the dictionary with the keys switched out to the names."""
-        return {v.name: v for v in super().values()}
-
-    def __getitem__(self, __key: str) -> object:
-        """Return the item either from the uid or the name."""
-        try:
-            return super().__getitem__(__key)
-        except KeyError as e:
+        if "uid" not in ann_raw:
             try:
-                return self.switched_keys[__key]
-            except KeyError as e1:
-                raise e from e1
+                ann_raw["uid"] = str(uuid.UUID(ann_raw["name"]))
+            except ValueError:
+                ann_raw["uid"] = str(uuid.uuid4())
 
-    def __contains__(self, __o: object) -> bool:
-        """Return true if the object is in the dict."""
-        if super().__contains__(__o):
-            return True
-        return self.switched_keys.__contains__(__o)
+        ann_raw["name"] = f"{ann_raw['coordinate_system']}__{ann_type}__{obj_type}"
+
+        return ann_raw
