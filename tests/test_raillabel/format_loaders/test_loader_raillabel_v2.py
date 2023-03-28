@@ -88,27 +88,44 @@ def test_load_objects(openlabel_v1_short_data, loader):
         assert object.type == ground_truth["objects"][object_id]["type"]
 
 
-def test_load_frame0_metadata(openlabel_v1_short_data, loader):
+def test_load_frames_completeness(openlabel_v1_short_data, loader):
     scene = loader.load(openlabel_v1_short_data, validate=False)
 
-    assert 0 in scene.frames
-    assert scene.frames[0].timestamp == decimal.Decimal("1632321743.134149")
+    ground_truth = openlabel_v1_short_data["openlabel"]
 
-    assert len(scene.frames[0].sensors) == 3
-    assert "rgb_middle" in scene.frames[0].sensors
-    assert scene.frames[0].sensors["rgb_middle"].sensor == scene.sensors["rgb_middle"]
-    assert scene.frames[0].sensors["rgb_middle"].timestamp == decimal.Decimal(
-        "1632321743.100000072"
-    )
-    assert scene.frames[0].sensors["rgb_middle"].uri == "rgb_test0.png"
-    assert "ir_middle" in scene.frames[0].sensors
-    assert scene.frames[0].sensors["ir_middle"].sensor == scene.sensors["ir_middle"]
-    assert scene.frames[0].sensors["ir_middle"].timestamp == decimal.Decimal("1632321743.106000004")
-    assert scene.frames[0].sensors["ir_middle"].uri == "ir_test0.png"
-    assert "lidar" in scene.frames[0].sensors
-    assert scene.frames[0].sensors["lidar"].sensor == scene.sensors["lidar"]
-    assert scene.frames[0].sensors["lidar"].timestamp == decimal.Decimal("1632321743.134149")
-    assert scene.frames[0].sensors["lidar"].uri == "lidar_test0.pcd"
+    assert len(scene.frames) == len(ground_truth["frames"])
+    for frame_id, frame in scene.frames.items():
+
+        assert str(frame_id) in ground_truth["frames"]
+        assert frame.uid == frame_id
+
+
+def test_load_frame_timestamps(openlabel_v1_short_data, loader):
+    scene = loader.load(openlabel_v1_short_data, validate=False)
+
+    ground_truth = openlabel_v1_short_data["openlabel"]
+
+    for frame_id, frame in scene.frames.items():
+        assert str(frame.timestamp) == ground_truth["frames"][str(frame_id)]["frame_properties"]["timestamp"]
+
+
+def test_load_frame_sensors(openlabel_v1_short_data, loader):
+    scene = loader.load(openlabel_v1_short_data, validate=False)
+
+    ground_truth = openlabel_v1_short_data["openlabel"]
+
+    for frame_id, frame in scene.frames.items():
+
+        assert len(frame.sensors) == len(ground_truth["frames"][str(frame_id)]["frame_properties"]["streams"])
+        for sensor_id, sensor in frame.sensors.items():
+
+            assert sensor_id in ground_truth["frames"][str(frame_id)]["frame_properties"]["streams"]
+            assert str(sensor.timestamp) == ground_truth["frames"][str(frame_id)]["frame_properties"]["streams"][sensor_id]["stream_properties"]["sync"]["timestamp"]
+            assert str(sensor.uri) == ground_truth["frames"][str(frame_id)]["frame_properties"]["streams"][sensor_id]["uri"]
+
+
+def test_load_frame0_metadata(openlabel_v1_short_data, loader):
+    scene = loader.load(openlabel_v1_short_data, validate=False)
 
     assert len(scene.frames[0].data) == 2
     assert "test_frame_data0" in scene.frames[0].data
@@ -804,23 +821,6 @@ def test_load_frame0_poly3ds(openlabel_v1_short_data, loader):
 
 def test_load_frame1_metadata(openlabel_v1_short_data, loader):
     scene = loader.load(openlabel_v1_short_data, validate=False)
-
-    assert 1 in scene.frames
-    assert scene.frames[1].timestamp == decimal.Decimal("1632321743.233263")
-
-    assert len(scene.frames[1].sensors) == 3
-    assert "rgb_middle" in scene.frames[1].sensors
-    assert scene.frames[1].sensors["rgb_middle"].sensor == scene.sensors["rgb_middle"]
-    assert scene.frames[1].sensors["rgb_middle"].timestamp == decimal.Decimal("1632321743.2")
-    assert scene.frames[1].sensors["rgb_middle"].uri == "rgb_test1.png"
-    assert "ir_middle" in scene.frames[1].sensors
-    assert scene.frames[1].sensors["ir_middle"].sensor == scene.sensors["ir_middle"]
-    assert scene.frames[1].sensors["ir_middle"].timestamp == decimal.Decimal("1632321743.208000004")
-    assert scene.frames[1].sensors["ir_middle"].uri == "ir_test1.png"
-    assert "lidar" in scene.frames[1].sensors
-    assert scene.frames[1].sensors["lidar"].sensor == scene.sensors["lidar"]
-    assert scene.frames[1].sensors["lidar"].timestamp == decimal.Decimal("1632321743.233263")
-    assert scene.frames[1].sensors["lidar"].uri == "lidar_test1.pcd"
 
     assert len(scene.frames[1].data) == 2
     assert "test_frame_data0" in scene.frames[1].data
