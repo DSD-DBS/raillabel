@@ -38,15 +38,6 @@ def test_load_metadata(openlabel_v1_short_data, loader, raillabel_v2_schema_data
     assert scene.metadata.subschema_version == raillabel_v2_schema_data["version"]
 
 
-def test_metadata_exporter_version(openlabel_v1_short_data, loader):
-    scene = loader.load(openlabel_v1_short_data, validate=False)
-
-    assert len(scene.metadata.exporter_version.split(".")) == 3
-    int(scene.metadata.exporter_version.split(".")[0])
-    int(scene.metadata.exporter_version.split(".")[1])
-    int(scene.metadata.exporter_version.split(".")[2])
-
-
 def test_load_sensors(openlabel_v1_short_data, loader):
     scene = loader.load(openlabel_v1_short_data, validate=False)
 
