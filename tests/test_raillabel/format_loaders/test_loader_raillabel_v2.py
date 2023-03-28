@@ -75,38 +75,17 @@ def test_load_sensors(openlabel_v1_short_data, loader):
 
 
 def test_load_objects(openlabel_v1_short_data, loader):
-    # Removes the object data pointers from the example file so that it needs to be generated from the data
-    for object in openlabel_v1_short_data["openlabel"]["objects"].values():
-        del object["frame_intervals"]
-        del object["object_data_pointers"]
-
     scene = loader.load(openlabel_v1_short_data, validate=False)
 
-    assert len(scene.objects) == 3
+    ground_truth = openlabel_v1_short_data["openlabel"]
 
-    assert "b40ba3ad-0327-46ff-9c28-2506cfd6d934" in scene.objects
-    assert (
-        scene.objects["b40ba3ad-0327-46ff-9c28-2506cfd6d934"].uid
-        == "b40ba3ad-0327-46ff-9c28-2506cfd6d934"
-    )
-    assert scene.objects["b40ba3ad-0327-46ff-9c28-2506cfd6d934"].name == "person_0000"
-    assert scene.objects["b40ba3ad-0327-46ff-9c28-2506cfd6d934"].type == "person"
+    assert len(scene.objects) == len(ground_truth["objects"])
+    for object_id, object in scene.objects.items():
 
-    assert "6fe55546-0dd7-4e40-b6b4-bb7ea3445772" in scene.objects
-    assert (
-        scene.objects["6fe55546-0dd7-4e40-b6b4-bb7ea3445772"].uid
-        == "6fe55546-0dd7-4e40-b6b4-bb7ea3445772"
-    )
-    assert scene.objects["6fe55546-0dd7-4e40-b6b4-bb7ea3445772"].name == "person_0001"
-    assert scene.objects["6fe55546-0dd7-4e40-b6b4-bb7ea3445772"].type == "person"
-
-    assert "22dedd49-6dcb-413b-87ef-00ccfb532e98" in scene.objects
-    assert (
-        scene.objects["22dedd49-6dcb-413b-87ef-00ccfb532e98"].uid
-        == "22dedd49-6dcb-413b-87ef-00ccfb532e98"
-    )
-    assert scene.objects["22dedd49-6dcb-413b-87ef-00ccfb532e98"].name == "train_0000"
-    assert scene.objects["22dedd49-6dcb-413b-87ef-00ccfb532e98"].type == "train"
+        assert object_id in ground_truth["objects"]
+        assert object.uid == object_id
+        assert object.name == ground_truth["objects"][object_id]["name"]
+        assert object.type == ground_truth["objects"][object_id]["type"]
 
 
 def test_load_frame0_metadata(openlabel_v1_short_data, loader):
