@@ -1,12 +1,14 @@
 # Copyright DB Netz AG and contributors
 # SPDX-License-Identifier: Apache-2.0
 
-import typing as t
 import json
+import sys
+import typing as t
+from pathlib import Path
+
 import json5
 import pytest
-from pathlib import Path
-import sys
+
 sys.path.insert(1, str(Path(__file__).parent.parent))
 
 import raillabel
@@ -141,7 +143,6 @@ def openlabel_v1_vcd_incompatible_data(request):
 
 @pytest.fixture
 def annotation_compare_methods() -> t.Dict[str, t.Callable]:
-
     methods = {}
 
     def compare_bbox(annotation: raillabel.format.Bbox, ground_truth: dict) -> bool:
