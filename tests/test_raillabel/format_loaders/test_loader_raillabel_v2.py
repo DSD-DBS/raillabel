@@ -1,7 +1,6 @@
 # Copyright DB Netz AG and contributors
 # SPDX-License-Identifier: Apache-2.0
 
-import decimal
 import os
 import sys
 from pathlib import Path
