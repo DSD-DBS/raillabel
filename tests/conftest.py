@@ -1,11 +1,15 @@
 # Copyright DB Netz AG and contributors
 # SPDX-License-Identifier: Apache-2.0
 
+import typing as t
 import json
-from pathlib import Path
-
 import json5
 import pytest
+from pathlib import Path
+import sys
+sys.path.insert(1, str(Path(__file__).parent.parent))
+
+import raillabel
 
 # Variables
 raillabel_v2_schema_path_var = (
@@ -134,3 +138,33 @@ def openlabel_v1_vcd_incompatible_data(request):
             )
 
     return openlabel_v1_vcd_incompatible_data
+
+@pytest.fixture
+def annotation_compare_methods() -> t.Dict[str, t.Callable]:
+
+    methods = {}
+
+    def compare_num(annotation: raillabel.format.Num, ground_truth_annotation: dict) -> bool:
+
+        assert type(annotation) == raillabel.format.Num
+        assert annotation.uid == ground_truth_annotation["uid"]
+        assert annotation.name == ground_truth_annotation["name"]
+        assert annotation.val == ground_truth_annotation["val"]
+
+        if "coordinate_system" in ground_truth_annotation:
+            assert annotation.sensor.uid == ground_truth_annotation["coordinate_system"]
+
+        if "attributes" in ground_truth_annotation:
+
+            accumulative_attributes = []
+            for attr_type in ground_truth_annotation["attributes"].values():
+                accumulative_attributes.extend(attr_type)
+
+            assert len(annotation.attributes) == len(accumulative_attributes)
+            for attribute in accumulative_attributes:
+                assert attribute["name"] in annotation.attributes
+                assert annotation.attributes[attribute["name"]] == attribute["val"]
+
+    methods["num"] = compare_num
+
+    return methods

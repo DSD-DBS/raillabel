@@ -124,30 +124,22 @@ def test_load_frame_sensors(openlabel_v1_short_data, loader):
             assert str(sensor.uri) == ground_truth["frames"][str(frame_id)]["frame_properties"]["streams"][sensor_id]["uri"]
 
 
-def test_load_frame0_metadata(openlabel_v1_short_data, loader):
+def test_load_frame_data(openlabel_v1_short_data, loader, annotation_compare_methods):
     scene = loader.load(openlabel_v1_short_data, validate=False)
 
-    assert len(scene.frames[0].data) == 2
-    assert "test_frame_data0" in scene.frames[0].data
-    assert scene.frames[0].data["test_frame_data0"].uid == "a06fe567-29c7-475b-92a4-fbca64e671a7"
-    assert scene.frames[0].data["test_frame_data0"].val == 53.1
-    assert scene.frames[0].data["test_frame_data0"].sensor == scene.sensors["rgb_middle"]
-    assert "test_frame_data1" in scene.frames[0].data
-    assert scene.frames[0].data["test_frame_data1"].uid == "4bb95df7-a051-48a9-b77e-72f27ca43f64"
-    assert scene.frames[0].data["test_frame_data1"].val == 10
-    assert scene.frames[0].data["test_frame_data1"].sensor == scene.sensors["lidar"]
+    ground_truth = openlabel_v1_short_data["openlabel"]
 
-    assert len(scene.frames[0].object_data) == 2
-    assert "b40ba3ad-0327-46ff-9c28-2506cfd6d934" in scene.frames[0].object_data
-    assert (
-        scene.frames[0].object_data["b40ba3ad-0327-46ff-9c28-2506cfd6d934"].object
-        == scene.objects["b40ba3ad-0327-46ff-9c28-2506cfd6d934"]
-    )
-    assert "22dedd49-6dcb-413b-87ef-00ccfb532e98" in scene.frames[0].object_data
-    assert (
-        scene.frames[0].object_data["22dedd49-6dcb-413b-87ef-00ccfb532e98"].object
-        == scene.objects["22dedd49-6dcb-413b-87ef-00ccfb532e98"]
-    )
+    for frame_id, frame in scene.frames.items():
+
+        accumulative_frame_data = []
+        for frame_data_type in ground_truth["frames"][str(frame_id)]["frame_properties"]["frame_data"].values():
+            accumulative_frame_data.extend(frame_data_type)
+
+        assert len(frame.data) == len(accumulative_frame_data)
+
+        for frame_data_type, frame_data in ground_truth["frames"][str(frame_id)]["frame_properties"]["frame_data"].items():
+            for annotation in frame_data:
+                annotation_compare_methods[frame_data_type](frame.data[annotation["name"]], annotation)
 
 
 def test_load_frame0_bboxs(openlabel_v1_short_data, loader):
@@ -816,32 +808,6 @@ def test_load_frame0_poly3ds(openlabel_v1_short_data, loader):
         .poly3ds["14f58fb0-add7-4ed9-85b3-74615986d854"]
         .sensor
         == scene.sensors["lidar"]
-    )
-
-
-def test_load_frame1_metadata(openlabel_v1_short_data, loader):
-    scene = loader.load(openlabel_v1_short_data, validate=False)
-
-    assert len(scene.frames[1].data) == 2
-    assert "test_frame_data0" in scene.frames[1].data
-    assert scene.frames[1].data["test_frame_data0"].uid == "558697df-61f5-41b0-b112-3d6fcbd7d6c9"
-    assert scene.frames[1].data["test_frame_data0"].val == 53
-    assert scene.frames[1].data["test_frame_data0"].sensor == scene.sensors["rgb_middle"]
-    assert "test_frame_data1" in scene.frames[1].data
-    assert scene.frames[1].data["test_frame_data1"].uid == "843e07a0-aac5-4f62-8200-1468dbd3055d"
-    assert scene.frames[1].data["test_frame_data1"].val == 10.1
-    assert scene.frames[1].data["test_frame_data1"].sensor == scene.sensors["lidar"]
-
-    assert len(scene.frames[1].object_data) == 2
-    assert "6fe55546-0dd7-4e40-b6b4-bb7ea3445772" in scene.frames[1].object_data
-    assert (
-        scene.frames[1].object_data["6fe55546-0dd7-4e40-b6b4-bb7ea3445772"].object
-        == scene.objects["6fe55546-0dd7-4e40-b6b4-bb7ea3445772"]
-    )
-    assert "22dedd49-6dcb-413b-87ef-00ccfb532e98" in scene.frames[1].object_data
-    assert (
-        scene.frames[1].object_data["22dedd49-6dcb-413b-87ef-00ccfb532e98"].object
-        == scene.objects["22dedd49-6dcb-413b-87ef-00ccfb532e98"]
     )
 
 

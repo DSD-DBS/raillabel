@@ -410,7 +410,60 @@
                                 "uid": "a06fe567-29c7-475b-92a4-fbca64e671a7",
                                 "name": "test_frame_data0",
                                 "val": 53.1,
-                                "coordinate_system": "rgb_middle"
+                                "coordinate_system": "rgb_middle",
+                                "attributes": {
+                                    "text": [
+                                        {
+                                            "name": "test_text_attr0",
+                                            "val": "test_text_attr0_val"
+                                        },
+                                        {
+                                            "name": "test_text_attr1",
+                                            "val": "test_text_attr1_val"
+                                        }
+                                    ],
+                                    "num": [
+                                        {
+                                            "name": "test_num_attr0",
+                                            "val": 0
+                                        },
+                                        {
+                                            "name": "test_num_attr1",
+                                            "val": 1
+                                        }
+                                    ],
+                                    "boolean": [
+                                        {
+                                            "name": "test_bool_attr0",
+                                            "val": true
+                                        }
+                                    ],
+                                    "vec": [
+                                        {
+                                            "name": "test_vec_attr0",
+                                            "val": [
+                                                "0",
+                                                "1"
+                                            ]
+                                        },
+                                        {
+                                            "name": "test_vec_attr1",
+                                            "val": [
+                                                0,
+                                                1,
+                                                2
+                                            ]
+                                        },
+                                        {
+                                            "name": "test_vec_attr2",
+                                            "val": [
+                                                "a",
+                                                "b",
+                                                "c"
+                                            ]
+                                        }
+                                    ]
+                                }
                             },
                             {
                                 "uid": "4bb95df7-a051-48a9-b77e-72f27ca43f64",
