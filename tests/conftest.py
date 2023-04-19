@@ -240,8 +240,8 @@ def annotation_compare_methods() -> t.Dict[str, t.Callable]:
         assert annotation.name == ground_truth["name"]
 
         for i in range(0, len(ground_truth["val"]), 2):
-            assert annotation.points[int(i / 2)].x == ground_truth["val"][i]
-            assert annotation.points[int(i / 2)].y == ground_truth["val"][i + 1]
+            assert annotation.points[i // 2].x == ground_truth["val"][i]
+            assert annotation.points[i // 2].y == ground_truth["val"][i + 1]
 
         if "closed" in ground_truth:
             assert annotation.closed == ground_truth["closed"]
