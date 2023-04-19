@@ -177,16 +177,20 @@ def annotation_compare_methods() -> t.Dict[str, t.Callable]:
         assert type(annotation) == raillabel.format.Cuboid
         assert annotation.uid == ground_truth["uid"]
         assert annotation.name == ground_truth["name"]
-        assert annotation.pos.x == ground_truth["val"][0]
-        assert annotation.pos.y == ground_truth["val"][1]
-        assert annotation.pos.z == ground_truth["val"][2]
-        assert annotation.quat.x == ground_truth["val"][3]
-        assert annotation.quat.y == ground_truth["val"][4]
-        assert annotation.quat.z == ground_truth["val"][5]
-        assert annotation.quat.w == ground_truth["val"][6]
-        assert annotation.size.x == ground_truth["val"][7]
-        assert annotation.size.y == ground_truth["val"][8]
-        assert annotation.size.z == ground_truth["val"][9]
+
+        cuboid_val = [
+            annotation.pos.x,
+            annotation.pos.y,
+            annotation.pos.z,
+            annotation.quat.x,
+            annotation.quat.y,
+            annotation.quat.z,
+            annotation.quat.w,
+            annotation.size.x,
+            annotation.size.y,
+            annotation.size.z,
+        ]
+        assert cuboid_val == ground_truth["val"]
 
         if "coordinate_system" in ground_truth:
             assert annotation.sensor.uid == ground_truth["coordinate_system"]
