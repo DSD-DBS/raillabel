@@ -15,10 +15,10 @@ sys.path.insert(1, str(Path(__file__).parent.parent.parent))
 import raillabel
 
 
-def test_save_scene(openlabel_v1_short_path):
+def test_save_scene(json_paths):
     with tempfile.TemporaryDirectory("w") as temp_dir:
 
-        scene_orig = raillabel.load(openlabel_v1_short_path, False, False)
+        scene_orig = raillabel.load(json_paths["openlabel_v1_short"], False, False)
 
         raillabel.save(scene_orig, Path(temp_dir) / "test_save_file.json")
         scene_saved = raillabel.load(Path(temp_dir) / "test_save_file.json", False, False)
@@ -26,10 +26,10 @@ def test_save_scene(openlabel_v1_short_path):
     assert scene_orig == scene_saved
 
 
-def test_save_json(openlabel_v1_short_data):
+def test_save_json(json_data):
     with tempfile.TemporaryDirectory("w") as temp_dir:
 
-        stripped_input_data = deepcopy(openlabel_v1_short_data)
+        stripped_input_data = deepcopy(json_data["openlabel_v1_short"])
 
         # Removes the object data pointers from the example file so that it needs to be generated from the data
         for object in stripped_input_data["openlabel"]["objects"].values():
@@ -49,7 +49,7 @@ def test_save_json(openlabel_v1_short_data):
     if "exporter_version" in saved_and_loaded_data["openlabel"]["metadata"]:
         del saved_and_loaded_data["openlabel"]["metadata"]["exporter_version"]
 
-    assert saved_and_loaded_data == openlabel_v1_short_data
+    assert saved_and_loaded_data == json_data["openlabel_v1_short"]
 
 
 def test_frame_intervals():

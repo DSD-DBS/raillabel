@@ -17,32 +17,33 @@ def loader():
     return raillabel.format_loaders.LoaderRailLabelV2()
 
 
-def test_supports_true(openlabel_v1_short_data, loader):
-    assert loader.supports(openlabel_v1_short_data)
+def test_supports_true(json_data, loader):
+    assert loader.supports(json_data["openlabel_v1_short"])
 
 
-def test_supports_false(openlabel_v1_short_data, loader):
-    openlabel_v1_short_data["openlabel"]["metadata"]["subschema_version"] = "3.0.0"
-    assert not loader.supports(openlabel_v1_short_data)
+def test_supports_false(json_data, loader):
+    data = json_data["openlabel_v1_short"]
+    data["openlabel"]["metadata"]["subschema_version"] = "3.0.0"
+    assert not loader.supports(data)
 
 
-def test_load_metadata(openlabel_v1_short_data, loader, raillabel_v2_schema_data):
-    scene = loader.load(openlabel_v1_short_data, validate=False)
+def test_load_metadata(json_data, loader):
+    scene = loader.load(json_data["openlabel_v1_short"], validate=False)
 
-    ground_truth = openlabel_v1_short_data["openlabel"]
+    ground_truth = json_data["openlabel_v1_short"]["openlabel"]
 
     assert scene.metadata.annotator == ground_truth["metadata"]["annotator"]
     assert scene.metadata.comment == ground_truth["metadata"]["comment"]
     assert scene.metadata.name == ground_truth["metadata"]["name"]
     assert scene.metadata.schema_version == ground_truth["metadata"]["schema_version"]
     assert scene.metadata.tagged_file == ground_truth["metadata"]["tagged_file"]
-    assert scene.metadata.subschema_version == raillabel_v2_schema_data["version"]
+    assert scene.metadata.subschema_version == json_data["raillabel_v2_schema"]["version"]
 
 
-def test_load_sensors(openlabel_v1_short_data, loader):
-    scene = loader.load(openlabel_v1_short_data, validate=False)
+def test_load_sensors(json_data, loader):
+    scene = loader.load(json_data["openlabel_v1_short"], validate=False)
 
-    ground_truth = openlabel_v1_short_data["openlabel"]
+    ground_truth = json_data["openlabel_v1_short"]["openlabel"]
 
     assert len(scene.sensors) == len(ground_truth["streams"])
     for sensor_id, sensor in scene.sensors.items():
@@ -73,10 +74,10 @@ def test_load_sensors(openlabel_v1_short_data, loader):
         assert sensor.intrinsics.height_px == ground_truth["streams"][sensor_id]["stream_properties"]["intrinsics_pinhole"]["height_px"]
 
 
-def test_load_objects(openlabel_v1_short_data, loader):
-    scene = loader.load(openlabel_v1_short_data, validate=False)
+def test_load_objects(json_data, loader):
+    scene = loader.load(json_data["openlabel_v1_short"], validate=False)
 
-    ground_truth = openlabel_v1_short_data["openlabel"]
+    ground_truth = json_data["openlabel_v1_short"]["openlabel"]
 
     assert len(scene.objects) == len(ground_truth["objects"])
     for object_id, object in scene.objects.items():
@@ -87,10 +88,10 @@ def test_load_objects(openlabel_v1_short_data, loader):
         assert object.type == ground_truth["objects"][object_id]["type"]
 
 
-def test_load_frames_completeness(openlabel_v1_short_data, loader):
-    scene = loader.load(openlabel_v1_short_data, validate=False)
+def test_load_frames_completeness(json_data, loader):
+    scene = loader.load(json_data["openlabel_v1_short"], validate=False)
 
-    ground_truth = openlabel_v1_short_data["openlabel"]
+    ground_truth = json_data["openlabel_v1_short"]["openlabel"]
 
     assert len(scene.frames) == len(ground_truth["frames"])
     for frame_id, frame in scene.frames.items():
@@ -99,19 +100,19 @@ def test_load_frames_completeness(openlabel_v1_short_data, loader):
         assert frame.uid == frame_id
 
 
-def test_load_frame_timestamps(openlabel_v1_short_data, loader):
-    scene = loader.load(openlabel_v1_short_data, validate=False)
+def test_load_frame_timestamps(json_data, loader):
+    scene = loader.load(json_data["openlabel_v1_short"], validate=False)
 
-    ground_truth = openlabel_v1_short_data["openlabel"]
+    ground_truth = json_data["openlabel_v1_short"]["openlabel"]
 
     for frame_id, frame in scene.frames.items():
         assert str(frame.timestamp) == ground_truth["frames"][str(frame_id)]["frame_properties"]["timestamp"]
 
 
-def test_load_frame_sensors(openlabel_v1_short_data, loader):
-    scene = loader.load(openlabel_v1_short_data, validate=False)
+def test_load_frame_sensors(json_data, loader):
+    scene = loader.load(json_data["openlabel_v1_short"], validate=False)
 
-    ground_truth = openlabel_v1_short_data["openlabel"]
+    ground_truth = json_data["openlabel_v1_short"]["openlabel"]
 
     for frame_id, frame in scene.frames.items():
 
@@ -123,10 +124,10 @@ def test_load_frame_sensors(openlabel_v1_short_data, loader):
             assert str(sensor.uri) == ground_truth["frames"][str(frame_id)]["frame_properties"]["streams"][sensor_id]["uri"]
 
 
-def test_load_frame_data(openlabel_v1_short_data, loader, annotation_compare_methods):
-    scene = loader.load(openlabel_v1_short_data, validate=False)
+def test_load_frame_data(json_data, loader, annotation_compare_methods):
+    scene = loader.load(json_data["openlabel_v1_short"], validate=False)
 
-    ground_truth = openlabel_v1_short_data["openlabel"]
+    ground_truth = json_data["openlabel_v1_short"]["openlabel"]
 
     for frame_id, frame in scene.frames.items():
 
@@ -141,10 +142,10 @@ def test_load_frame_data(openlabel_v1_short_data, loader, annotation_compare_met
                 annotation_compare_methods[frame_data_type](frame.data[annotation["name"]], annotation)
 
 
-def test_load_frame_annotations(openlabel_v1_short_data, loader, annotation_compare_methods):
-    scene = loader.load(openlabel_v1_short_data, validate=False)
+def test_load_frame_annotations(json_data, loader, annotation_compare_methods):
+    scene = loader.load(json_data["openlabel_v1_short"], validate=False)
 
-    ground_truth = openlabel_v1_short_data["openlabel"]
+    ground_truth = json_data["openlabel_v1_short"]["openlabel"]
 
     for frame_id, frame in scene.frames.items():
 
@@ -166,13 +167,16 @@ def test_load_frame_annotations(openlabel_v1_short_data, loader, annotation_comp
 
 
 def test_load_uri_vcd_incompatible(
-    openlabel_v1_short_data, openlabel_v1_vcd_incompatible_data, loader
+    json_data, loader
 ):
     """Tests, whether an older annotation file, which is not usable for the VCD
     library is converted into a compatible one."""
 
-    scene_ground_truth = loader.load(openlabel_v1_short_data, validate=False)
-    scene = loader.load(openlabel_v1_vcd_incompatible_data, validate=False)
+    scene_ground_truth = loader.load(json_data["openlabel_v1_short"], validate=False)
+    scene = loader.load(
+        json_data["openlabel_v1_vcd_incompatible"],
+        validate=False
+    )
 
     # The UUIDs of the frame data have been generated and therefore do not match the ground truth.
     # They are set equal here.
@@ -186,28 +190,36 @@ def test_load_uri_vcd_incompatible(
 
 
 # Tests the warnings and errors
-def test_no_warnings(openlabel_v1_short_data, loader):
-    loader.load(openlabel_v1_short_data, validate=False)
+def test_no_warnings(json_data, loader):
+    loader.load(json_data["openlabel_v1_short"], validate=False)
     assert len(loader.warnings) == 0
 
 
-def test_stream_with_no_coordinate_system(openlabel_v1_short_data, loader):
-    del openlabel_v1_short_data["openlabel"]["coordinate_systems"]["ir_middle"]
-    del openlabel_v1_short_data["openlabel"]["coordinate_systems"]["base"]["children"][
-        openlabel_v1_short_data["openlabel"]["coordinate_systems"]["base"]["children"].index(
+def test_stream_with_no_coordinate_system(json_data, loader):
+    data = json_data["openlabel_v1_short"]
+
+    del data["openlabel"]["coordinate_systems"]["ir_middle"]
+    del data["openlabel"]["coordinate_systems"]["base"]["children"][
+        data["openlabel"]["coordinate_systems"]["base"]["children"].index(
             "ir_middle"
         )
     ]
     with pytest.raises(raillabel.exceptions.MissingCoordinateSystemError):
-        loader.load(openlabel_v1_short_data)
+        loader.load(data)
 
 
-def test_warnings_sync(openlabel_v1_short_data, loader):
-    openlabel_v1_short_data["openlabel"]["frames"]["0"]["frame_properties"]["streams"][
-        "non_existing_stream"
-    ] = {"stream_properties": {"sync": {"timestamp": "1632321743.100000072"}}}
+def test_warnings_sync(json_data, loader):
+    data = json_data["openlabel_v1_short"]
 
-    loader.load(openlabel_v1_short_data, validate=False)
+    data["openlabel"]["frames"]["0"]["frame_properties"]["streams"]["non_existing_stream"] = {
+        "stream_properties": {
+            "sync": {
+                "timestamp": "1632321743.100000072"
+            }
+        }
+    }
+
+    loader.load(data, validate=False)
     assert len(loader.warnings) == 1
 
     # Tests for keywords in the warning that can help the user identify the source
@@ -217,10 +229,12 @@ def test_warnings_sync(openlabel_v1_short_data, loader):
     assert "non_existing_stream" in loader.warnings[0]
 
 
-def test_warnings_stream_sync_field(openlabel_v1_short_data, loader):
-    openlabel_v1_short_data["openlabel"]["frames"]["0"]["frame_properties"]["streams"][
+def test_warnings_stream_sync_field(json_data, loader):
+    data = json_data["openlabel_v1_short"]
+
+    data["openlabel"]["frames"]["0"]["frame_properties"]["streams"][
         "rgb_middle"
-    ]["stream_properties"]["stream_sync"] = openlabel_v1_short_data["openlabel"]["frames"]["0"][
+    ]["stream_properties"]["stream_sync"] = data["openlabel"]["frames"]["0"][
         "frame_properties"
     ][
         "streams"
@@ -231,11 +245,11 @@ def test_warnings_stream_sync_field(openlabel_v1_short_data, loader):
     ][
         "sync"
     ]
-    del openlabel_v1_short_data["openlabel"]["frames"]["0"]["frame_properties"]["streams"][
+    del data["openlabel"]["frames"]["0"]["frame_properties"]["streams"][
         "rgb_middle"
     ]["stream_properties"]["sync"]
 
-    loader.load(openlabel_v1_short_data, validate=False)
+    loader.load(data, validate=False)
     assert len(loader.warnings) == 1
 
     # Tests for keywords in the warning that can help the user identify the source
@@ -244,12 +258,14 @@ def test_warnings_stream_sync_field(openlabel_v1_short_data, loader):
     assert "save()" in loader.warnings[0]
 
 
-def test_warnings_ann_object(openlabel_v1_short_data, loader):
-    openlabel_v1_short_data["openlabel"]["frames"]["0"]["objects"][
+def test_warnings_ann_object(json_data, loader):
+    data = json_data["openlabel_v1_short"]
+
+    data["openlabel"]["frames"]["0"]["objects"][
         "affeaffe-0327-46ff-9c28-2506cfd6d934"
     ] = {"object_data": {}}
 
-    loader.load(openlabel_v1_short_data, validate=False)
+    loader.load(data, validate=False)
     assert len(loader.warnings) == 1
 
     assert not "affeaffe-0327-46ff-9c28-2506cfd6d934" in loader.scene.frames[0].object_data
@@ -261,12 +277,14 @@ def test_warnings_ann_object(openlabel_v1_short_data, loader):
     assert "affeaffe-0327-46ff-9c28-2506cfd6d934" in loader.warnings[0]
 
 
-def test_warnings_wrong_annotation_cs(openlabel_v1_short_data, loader):
-    openlabel_v1_short_data["openlabel"]["frames"]["0"]["objects"][
+def test_warnings_wrong_annotation_cs(json_data, loader):
+    data = json_data["openlabel_v1_short"]
+
+    data["openlabel"]["frames"]["0"]["objects"][
         "b40ba3ad-0327-46ff-9c28-2506cfd6d934"
     ]["object_data"]["bbox"][0]["coordinate_system"] = "non_existent_sensor"
 
-    loader.load(openlabel_v1_short_data, validate=False)
+    loader.load(data, validate=False)
     assert len(loader.warnings) == 1
 
     assert (
@@ -284,8 +302,10 @@ def test_warnings_wrong_annotation_cs(openlabel_v1_short_data, loader):
     assert "non_existent_sensor" in loader.warnings[0]
 
 
-def test_identify_of_references(openlabel_v1_short_data, loader):
-    scene = loader.load(openlabel_v1_short_data, validate=False)
+def test_identify_of_references(json_data, loader):
+    data = json_data["openlabel_v1_short"]
+
+    scene = loader.load(data, validate=False)
 
     for frame in scene.frames.values():
 
