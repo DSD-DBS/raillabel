@@ -322,7 +322,7 @@
                                                 "function": {
                                                     "type": "string",
                                                     "enum": [
-                                                        "passanger",
+                                                        "passenger",
                                                         "worker",
                                                         "security",
                                                         "staff",
@@ -615,11 +615,7 @@
                                                     "type": "boolean"
                                                 },
                                                 "type": {
-                                                    "type": "string",
-                                                    "enum": [
-                                                        "solid",
-                                                        "structured"
-                                                    ]
+                                                    "type": "string"
                                                 },
                                                 "state": {
                                                     "type": "string",
