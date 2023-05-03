@@ -114,7 +114,7 @@ class ObjectData:
         for ann_type in data_dict:
 
             if ann_type not in annotation_classes:
-                logger.warn(
+                logger.warning(
                     f"Annotation type {ann_type} is currently not supported. Supported "
                     + "annotation types: "
                     + str(list(annotation_classes.keys()))
