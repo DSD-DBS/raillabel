@@ -1,6 +1,7 @@
 # Copyright DB Netz AG and contributors
 # SPDX-License-Identifier: Apache-2.0
 
+import logging
 import typing as t
 import uuid
 from dataclasses import dataclass, field
@@ -76,7 +77,7 @@ class ObjectData:
         objects: t.Dict[str, Object],
         sensors: t.Dict[str, Sensor],
         annotation_classes: dict,
-    ) -> t.Tuple["ObjectData", dict, t.List[str]]:
+    ) -> "ObjectData":
         """Generate an ObjectData from a dictionary in the RailLabel format.
 
         Parameters
@@ -105,7 +106,7 @@ class ObjectData:
             List of warnings, that occurred during execution.
         """
 
-        warnings = []
+        logger = logging.getLogger("loader_warnings")
         sensor_uris = {}
 
         object_data = ObjectData(object=objects[uid])
@@ -113,7 +114,7 @@ class ObjectData:
         for ann_type in data_dict:
 
             if ann_type not in annotation_classes:
-                warnings.append(
+                logger.warn(
                     f"Annotation type {ann_type} is currently not supported. Supported "
                     + "annotation types: "
                     + str(list(annotation_classes.keys()))
@@ -132,19 +133,18 @@ class ObjectData:
                             break
 
                 if ann_raw["uid"] in object_data.annotations:
-                    warnings.append(
+                    logger.warning(
                         f"Annotation '{ann_raw['uid']}' is contained more than one "
                         + "time. A new UID is beeing assigned."
                     )
                     ann_raw["uid"] = str(uuid.uuid4())
 
-                object_data.annotations[ann_raw["uid"]], w = annotation_classes[ann_type].fromdict(
+                object_data.annotations[ann_raw["uid"]] = annotation_classes[ann_type].fromdict(
                     ann_raw,
                     sensors,
                 )
-                warnings.extend(w)
 
-        return object_data, sensor_uris, warnings
+        return object_data, sensor_uris
 
     def asdict(self) -> dict:
         """Export self as a dict compatible with the OpenLABEL schema.

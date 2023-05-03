@@ -2,6 +2,7 @@
 # SPDX-License-Identifier: Apache-2.0
 
 import decimal
+import logging
 import typing as t
 from dataclasses import dataclass
 
@@ -29,7 +30,7 @@ class SensorReference:
     uri: t.Optional[str] = None
 
     @classmethod
-    def fromdict(cls, data_dict: dict, sensor: Sensor) -> t.Tuple["SensorReference", t.List[str]]:
+    def fromdict(cls, data_dict: dict, sensor: Sensor) -> "SensorReference":
         """Generate a SensorReference object from a dictionary.
 
         Parameters
@@ -43,15 +44,13 @@ class SensorReference:
         -------
         sensor_reference: raillabel.format.SensorReference
             Converted SensorReference object.
-        warnings: list of str
-            List of warnings, that occurred during execution.
         """
 
-        warnings = []
+        logger = logging.getLogger("loader_warnings")
 
         if "stream_sync" in data_dict["stream_properties"]:
             data_dict["stream_properties"]["sync"] = data_dict["stream_properties"]["stream_sync"]
-            warnings.append(
+            logger.warning(
                 "Deprecated field 'stream_sync' identified. Please update file with raillabel.save()."
             )
 
@@ -63,7 +62,7 @@ class SensorReference:
         if "uri" in data_dict:
             sensor_reference.uri = data_dict["uri"]
 
-        return sensor_reference, warnings
+        return sensor_reference
 
     def asdict(self) -> dict:
         """Export self as a dict compatible with the OpenLABEL schema.

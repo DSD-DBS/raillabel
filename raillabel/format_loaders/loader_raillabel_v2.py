@@ -2,9 +2,11 @@
 # SPDX-License-Identifier: Apache-2.0
 
 import json
+import logging
 import typing as t
 from importlib import import_module
 from inspect import isclass
+from io import StringIO
 from pathlib import Path
 from pkgutil import iter_modules
 
@@ -59,7 +61,7 @@ class LoaderRailLabelV2(LoaderABC):
             if validate is True and the data does not validate against the schema.
         """
 
-        self.warnings = []
+        self._set_up_logger()
 
         if validate:
             self.validate(data)
@@ -88,14 +90,16 @@ class LoaderRailLabelV2(LoaderABC):
 
         annotation_classes = self._fetch_annotation_classes()
         for frame_id in data["frames"]:
-            self.scene.frames[int(frame_id)], w = format.Frame.fromdict(
+            self.scene.frames[int(frame_id)] = format.Frame.fromdict(
                 uid=frame_id,
                 data_dict=data["frames"][frame_id],
                 objects=self.scene.objects,
                 sensors=self.scene.sensors,
                 annotation_classes=annotation_classes,
             )
-            self.warnings.extend(w)
+
+        self.warnings = self._get_warnings()
+        self._clear_log_handler()
 
         return self.scene
 
@@ -127,6 +131,23 @@ class LoaderRailLabelV2(LoaderABC):
                 and "metadata" in data["openlabel"]
                 and "schema_version" in data["openlabel"]["metadata"]
             )
+
+    def _set_up_logger(self) -> t.Tuple[StringIO, logging.StreamHandler]:
+        """Set up the warnings logger.
+
+        Returns
+        -------
+        StringIO
+            stream containing the warnings.
+        """
+
+        logger = logging.getLogger("loader_warnings")
+        warnings_stream = StringIO()
+        handler = logging.StreamHandler(warnings_stream)
+        handler.setLevel(logging.WARNING)
+        logger.addHandler(handler)
+
+        return warnings_stream
 
     def _prepare_data(self, data: dict) -> dict:
         """Add optional fields to dict to simplify interaction.
@@ -216,3 +237,26 @@ class LoaderRailLabelV2(LoaderABC):
                     annotation_classes[attribute.OPENLABEL_ID] = attribute
 
         return annotation_classes
+
+    def _get_warnings(self) -> t.List[str]:
+        """Fetch warnings from logger as list.
+
+        Returns
+        -------
+        list of str
+            List of warnings.
+        """
+
+        logger = logging.getLogger("loader_warnings")
+        stream = logger.handlers[-1].stream
+        stream.seek(0)
+
+        warnings_list = stream.getvalue().split("\n")
+
+        if len(warnings_list) > 0:
+            warnings_list = warnings_list[:-1]
+
+        return warnings_list
+
+    def _clear_log_handler(self):
+        logging.getLogger("loader_warnings").handlers = []

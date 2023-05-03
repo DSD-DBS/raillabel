@@ -1,6 +1,7 @@
 # Copyright DB Netz AG and contributors
 # SPDX-License-Identifier: Apache-2.0
 
+import logging
 import typing as t
 from dataclasses import dataclass
 
@@ -35,8 +36,8 @@ class Seg3d(_Annotation):
         self,
         data_dict: dict,
         sensors: dict,
-    ) -> t.Tuple["Seg3d", t.List[str]]:
-        """Generate a Bbox object from a dictionary in the OpenLABEL format.
+    ) -> "Seg3d":
+        """Generate a Seg3d object from a dictionary in the OpenLABEL format.
 
         Parameters
         ----------
@@ -49,11 +50,9 @@ class Seg3d(_Annotation):
         -------
         annotation: Bbox
             Converted annotation.
-        warnings: list of str
-            List of non-critical errors, that have occurred during the conversion.
         """
 
-        warnings = []  # list of warnings, that have occurred during the parsing
+        logger = logging.getLogger("loader_warnings")
 
         # Creates the annotation with all mandatory properties
         annotation = Seg3d(
@@ -68,7 +67,7 @@ class Seg3d(_Annotation):
                 annotation.sensor = sensors[data_dict["coordinate_system"]]
 
             except KeyError:
-                warnings.append(
+                logger.warning(
                     f"{data_dict['coordinate_system']} does not exist as a coordinate system, "
                     + f"but is referenced for the annotation {data_dict['uid']}."
                 )
@@ -79,7 +78,7 @@ class Seg3d(_Annotation):
                 a["name"]: a["val"] for l in data_dict["attributes"].values() for a in l
             }
 
-        return annotation, warnings
+        return annotation
 
     def asdict(self) -> dict:
         """Export self as a dict compatible with the OpenLABEL schema.

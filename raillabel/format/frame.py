@@ -2,6 +2,7 @@
 # SPDX-License-Identifier: Apache-2.0
 
 import decimal
+import logging
 import typing as t
 import uuid
 from dataclasses import dataclass, field
@@ -66,7 +67,7 @@ class Frame:
         objects: t.Dict[str, Object],
         sensors: t.Dict[str, Sensor],
         annotation_classes: dict,
-    ) -> t.Tuple["Frame", t.List[str]]:
+    ) -> "Frame":
         """Generate a Frame object from a dictionary in the RailLabel format.
 
         Parameters
@@ -86,35 +87,33 @@ class Frame:
         -------
         frame: raillabel.format.Frame
             Converted Frame object.
-        warnings: list of str
-            List of warnings, that occurred during execution.
         """
+
+        logger = logging.getLogger("loader_warnings")
 
         data_dict = cls._prepare_data(data_dict)
 
         frame = Frame(int(uid))
-        warnings = []
 
         if "timestamp" in data_dict["frame_properties"]:
             frame.timestamp = decimal.Decimal(data_dict["frame_properties"]["timestamp"])
 
         for sensor_id, sensor_dict in data_dict["frame_properties"]["streams"].items():
             if sensor_id not in sensors:
-                warnings.append(
+                logger.warning(
                     f"{sensor_id} does not exist as a stream, but is referenced in the "
                     + f"sync of frame {uid}."
                 )
                 continue
 
-            frame.sensors[sensor_id], w = SensorReference.fromdict(
+            frame.sensors[sensor_id] = SensorReference.fromdict(
                 data_dict=sensor_dict, sensor=sensors[sensor_id]
             )
-            warnings.extend(w)
 
         for ann_type in data_dict["frame_properties"]["frame_data"]:
 
             if ann_type not in annotation_classes:
-                warnings.append(
+                logger.warning(
                     f"Annotation type {ann_type} (frame {uid}, frame data) is "
                     + "currently not supported. Supported annotation types: "
                     + str(list(annotation_classes.keys()))
@@ -126,21 +125,20 @@ class Frame:
                 if "uid" not in ann_raw:
                     ann_raw["uid"] = uuid.uuid4()
 
-                frame.data[ann_raw["name"]], w = annotation_classes[ann_type].fromdict(
+                frame.data[ann_raw["name"]] = annotation_classes[ann_type].fromdict(
                     ann_raw, sensors
                 )
-                warnings.extend(w)
 
         for obj_id, obj_ann in data_dict["objects"].items():
 
             if obj_id not in objects:
-                warnings.append(
+                logger.warning(
                     f"{obj_id} does not exist as an object, but is referenced in the object"
                     + f" annotation of frame {uid}."
                 )
                 continue
 
-            frame.object_data[obj_id], sensor_uris, w = ObjectData.fromdict(
+            frame.object_data[obj_id], sensor_uris = ObjectData.fromdict(
                 uid=obj_id,
                 data_dict=obj_ann["object_data"],
                 objects=objects,
@@ -151,9 +149,7 @@ class Frame:
             for sensor_id in sensor_uris:
                 frame.sensors[sensor_id].uri = sensor_uris[sensor_id]
 
-            warnings.extend(w)
-
-        return frame, warnings
+        return frame
 
     def asdict(self) -> dict:
         """Export self as a dict compatible with the OpenLABEL schema.
