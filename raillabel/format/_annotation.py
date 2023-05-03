@@ -1,6 +1,7 @@
 # Copyright DB Netz AG and contributors
 # SPDX-License-Identifier: Apache-2.0
 
+import logging
 import typing as t
 from abc import ABC, abstractmethod, abstractproperty
 from dataclasses import dataclass, field
@@ -115,6 +116,35 @@ class _Annotation(ABC):
                 dict_repr["attributes"][attr_type].append({"name": attr_name, "val": attr_value})
 
         return dict_repr
+
+    def _coordinate_system_fromdict(data_dict: dict, sensors: dict) -> t.Optional[Sensor]:
+
+        logger = logging.getLogger("loader_warnings")
+
+        is_coordinate_system_in_data = (
+            "coordinate_system" in data_dict and data_dict["coordinate_system"] != ""
+        )
+
+        if not is_coordinate_system_in_data:
+            return None
+
+        if data_dict["coordinate_system"] not in sensors:
+            logger.warning(
+                f"{data_dict['coordinate_system']} does not exist as a coordinate system, "
+                + f"but is referenced for the annotation {data_dict['uid']}."
+            )
+            return None
+
+        return sensors[data_dict["coordinate_system"]]
+
+    def _attributes_fromdict(
+        data_dict: dict,
+    ) -> t.Union[t.Dict[str, t.Union[int, float, bool, str, list]], list]:
+
+        if "attributes" not in data_dict:
+            return {}
+
+        return {a["name"]: a["val"] for l in data_dict["attributes"].values() for a in l}
 
     # === Special Methods ====================================================
 

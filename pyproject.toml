@@ -124,6 +124,7 @@ disable = [
   "no-else-continue",
   "no-else-raise",
   "no-else-return",
+  "no-self-argument",
   "protected-access",
   "redefined-builtin",
   "too-few-public-methods",

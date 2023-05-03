@@ -1,7 +1,6 @@
 # Copyright DB Netz AG and contributors
 # SPDX-License-Identifier: Apache-2.0
 
-import logging
 from dataclasses import dataclass
 
 from ._annotation import _Annotation
@@ -62,10 +61,7 @@ class Cuboid(_Annotation):
             Converted annotation.
         """
 
-        logger = logging.getLogger("loader_warnings")
-
-        # Creates the annotation with all mandatory properties
-        annotation = Cuboid(
+        return Cuboid(
             uid=str(data_dict["uid"]),
             name=str(data_dict["name"]),
             pos=Point3d(
@@ -84,26 +80,9 @@ class Cuboid(_Annotation):
                 y=data_dict["val"][8],
                 z=data_dict["val"][9],
             ),
+            sensor=self._coordinate_system_fromdict(data_dict, sensors),
+            attributes=self._attributes_fromdict(data_dict),
         )
-
-        # Adds the optional properties
-        if "coordinate_system" in data_dict and data_dict["coordinate_system"] != "":
-            try:
-                annotation.sensor = sensors[data_dict["coordinate_system"]]
-
-            except KeyError:
-                logger.warning(
-                    f"{data_dict['coordinate_system']} does not exist as a coordinate system, "
-                    + f"but is referenced for the annotation {data_dict['uid']}."
-                )
-
-        # Adds the attributes
-        if "attributes" in data_dict:
-            annotation.attributes = {
-                a["name"]: a["val"] for l in data_dict["attributes"].values() for a in l
-            }
-
-        return annotation
 
     def asdict(self) -> dict:
         """Export self as a dict compatible with the OpenLABEL schema.

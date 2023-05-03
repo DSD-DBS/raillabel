@@ -1,7 +1,6 @@
 # Copyright DB Netz AG and contributors
 # SPDX-License-Identifier: Apache-2.0
 
-import logging
 import typing as t
 from dataclasses import dataclass
 
@@ -54,45 +53,18 @@ class Poly3d(_Annotation):
 
         Returns
         -------
-        annotation: Bbox
+        annotation: Poly3d
             Converted annotation.
         """
 
-        logger = logging.getLogger("loader_warnings")
-
-        # Parses the points
-        points = []
-        for i in range(0, len(data_dict["val"]), 3):
-            points.append(
-                Point3d(x=data_dict["val"][i], y=data_dict["val"][i + 1], z=data_dict["val"][i + 2])
-            )
-
-        # Creates the annotation with all mandatory properties
-        annotation = Poly3d(
+        return Poly3d(
             uid=str(data_dict["uid"]),
             name=str(data_dict["name"]),
             closed=data_dict["closed"],
-            points=points,
+            points=self._points_fromdict(data_dict),
+            sensor=self._coordinate_system_fromdict(data_dict, sensors),
+            attributes=self._attributes_fromdict(data_dict),
         )
-
-        # Adds the optional properties
-        if "coordinate_system" in data_dict and data_dict["coordinate_system"] != "":
-            try:
-                annotation.sensor = sensors[data_dict["coordinate_system"]]
-
-            except KeyError:
-                logger.warning(
-                    f"{data_dict['coordinate_system']} does not exist as a coordinate system, "
-                    + f"but is referenced for the annotation {data_dict['uid']}."
-                )
-
-        # Adds the attributes
-        if "attributes" in data_dict:
-            annotation.attributes = {
-                a["name"]: a["val"] for l in data_dict["attributes"].values() for a in l
-            }
-
-        return annotation
 
     def asdict(self) -> dict:
         """Export self as a dict compatible with the OpenLABEL schema.
@@ -118,3 +90,11 @@ class Poly3d(_Annotation):
         dict_repr.update(self._annotation_optional_fields_asdict())
 
         return dict_repr
+
+    def _points_fromdict(data_dict: dict) -> t.List[Point3d]:
+        points = []
+        for i in range(0, len(data_dict["val"]), 3):
+            points.append(
+                Point3d(x=data_dict["val"][i], y=data_dict["val"][i + 1], z=data_dict["val"][i + 2])
+            )
+        return points
