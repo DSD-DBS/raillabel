@@ -60,58 +60,65 @@
                         "type": "array",
                         "items": {
                             "type": "number"
-                        }
+                        },
+                        "minItems": 3,
+                        "maxItems": 3
                     },
                     "rotation_quaternion": {
                         "type": "array",
                         "items": {
                             "type": "number"
-                        }
+                        },
+                        "minItems": 4,
+                        "maxItems": 4
                     },
                     "rotation_matrix": {
                         "type": "array",
                         "items": {
                             "type": "number"
-                        }
+                        },
+                        "minItems": 9,
+                        "maxItems": 9
                     },
                     "angle_axis_rotation": {
                         "type": "array",
                         "items": {
                             "type": "number"
-                        }
+                        },
+                        "minItems": 3,
+                        "maxItems": 3
                     },
                     "homogeneous_transform": {
                         "type": "array",
                         "items": {
                             "type": "number"
-                        }
+                        },
+                        "minItems": 16,
+                        "maxItems": 16
                     },
                     "measured_position": {
                         "type": "array",
                         "items": {
                             "type": "integer"
-                        }
+                        },
+                        "minItems": 3,
+                        "maxItems": 3
                     },
                     "camera_matrix": {
                         "type": "array",
                         "items": {
                             "type": "number"
-                        }
+                        },
+                        "minItems": 9,
+                        "maxItems": 9
                     },
                     "dist_coeffs": {
                         "type": "array",
                         "items": {
                             "type": "number"
-                        }
-                    },
-                    "homogeneous transform": {
-                        "type": "array",
-                        "items": {
-                            "type": "number"
-                        }
-                    },
-                    "rotation_around_z_in_degrees": {
-                        "type": "number"
+                        },
+                        "minItems": 5,
+                        "maxItems": 5
                     }
                 },
                 "required": [
