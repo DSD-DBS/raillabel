@@ -47,7 +47,7 @@ class _Annotation(ABC):
 
     @classmethod
     @abstractmethod
-    def fromdict(self, data_dict: t.Dict, sensors: t.Dict) -> t.Tuple[t.Type["_Annotation"], list]:
+    def fromdict(self, data_dict: t.Dict, sensors: t.Dict) -> t.Type["_Annotation"]:
         """Generate a Bbox object from a dictionary in the OpenLABEL format.
 
         Parameters
@@ -61,8 +61,6 @@ class _Annotation(ABC):
         -------
         annotation:
             Converted annotation.
-        warnings: list of str
-            List of non-critical errors, that have occurred during the conversion.
         """
         raise NotImplementedError
 
@@ -139,7 +137,7 @@ class _Annotation(ABC):
 
     def _attributes_fromdict(
         data_dict: dict,
-    ) -> t.Union[t.Dict[str, t.Union[int, float, bool, str, list]], list]:
+    ) -> t.Dict[str, t.Union[int, float, bool, str, list]]:
 
         if "attributes" not in data_dict:
             return {}
