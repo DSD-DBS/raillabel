@@ -89,6 +89,8 @@ class Frame:
             Converted Frame object.
         """
 
+        data_dict = cls._prepare_data(data_dict)
+
         frame = Frame(
             uid=int(uid),
             timestamp=cls._timestamp_fromdict(data_dict),
@@ -140,10 +142,36 @@ class Frame:
 
         return dict_repr
 
-    def _timestamp_fromdict(data_dict: dict) -> t.Optional[decimal.Decimal]:
+    @classmethod
+    def _prepare_data(cls, data_dict: dict) -> dict:
+        """Add optional fields to dict to simplify interaction.
+
+        Parameters
+        ----------
+        data_dict : dict
+            JSON data.
+
+        Returns
+        -------
+        dict
+            Enhanced JSON data.
+        """
 
         if "frame_properties" not in data_dict:
-            return None
+            data_dict["frame_properties"] = {}
+
+        if "streams" not in data_dict["frame_properties"]:
+            data_dict["frame_properties"]["streams"] = {}
+
+        if "frame_data" not in data_dict["frame_properties"]:
+            data_dict["frame_properties"]["frame_data"] = {}
+
+        if "objects" not in data_dict:
+            data_dict["objects"] = {}
+
+        return data_dict
+
+    def _timestamp_fromdict(data_dict: dict) -> t.Optional[decimal.Decimal]:
 
         if "timestamp" not in data_dict["frame_properties"]:
             return None
@@ -153,12 +181,6 @@ class Frame:
     def _sensors_fromdict(
         data_dict: dict, frame_uid: int, scene_sensors: t.Dict[str, Sensor]
     ) -> t.Dict[str, SensorReference]:
-
-        if "frame_properties" not in data_dict:
-            return {}
-
-        if "streams" not in data_dict["frame_properties"]:
-            return {}
 
         sensors = {}
 
@@ -179,12 +201,6 @@ class Frame:
     def _frame_data_fromdict(
         data_dict: dict, frame_id: int, annotation_classes: dict, sensors: t.Dict[str, Sensor]
     ) -> t.Dict[str, Num]:
-
-        if "frame_properties" not in data_dict:
-            return {}
-
-        if "frame_data" not in data_dict["frame_properties"]:
-            return {}
 
         frame_data = {}
 
@@ -216,12 +232,6 @@ class Frame:
         sensors: t.Dict[str, Sensor],
         annotation_classes: dict,
     ) -> t.Dict[uuid.UUID, ObjectData]:
-
-        if "frame_properties" not in data_dict:
-            return {}
-
-        if "objects" not in data_dict["frame_properties"]:
-            return {}
 
         object_data = {}
 
