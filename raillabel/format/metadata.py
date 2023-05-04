@@ -58,35 +58,16 @@ class Metadata:
             List of non-critical errors, that have occurred during the conversion.
         """
 
-        metadata = Metadata(schema_version=data_dict["schema_version"])
-
-        if subschema_version is not None:
-            metadata.subschema_version = subschema_version
-
-        if "annotator" in data_dict:
-            metadata.annotator = data_dict["annotator"]
-
-        if "file_version" in data_dict:
-            metadata.file_version = data_dict["file_version"]
-
-        if "name" in data_dict:
-            metadata.name = data_dict["name"]
-
-        if "tagged_file" in data_dict:
-            metadata.tagged_file = data_dict["tagged_file"]
-
-        if "comment" in data_dict:
-            metadata.comment = data_dict["comment"]
-
-        try:
-            exporter_version = importlib_metadata.version("raillabel")
-        except importlib_metadata.PackageNotFoundError:
-            pass
-        else:
-            version_number_length = len(exporter_version) - len(exporter_version.split(".")[-1])
-            metadata.exporter_version = exporter_version[: version_number_length - 1]
-
-        return metadata
+        return Metadata(
+            schema_version=data_dict["schema_version"],
+            subschema_version=subschema_version,
+            annotator=data_dict.get("annotator"),
+            file_version=data_dict.get("file_version"),
+            name=data_dict.get("name"),
+            tagged_file=data_dict.get("tagged_file"),
+            comment=data_dict.get("comment"),
+            exporter_version=cls._collect_exporter_version(),
+        )
 
     def asdict(self) -> dict:
         """Export self as a dict compatible with the OpenLABEL schema.
@@ -126,3 +107,13 @@ class Metadata:
             dict_repr["tagged_file"] = str(self.tagged_file)
 
         return dict_repr
+
+    def _collect_exporter_version() -> t.Optional[str]:
+
+        try:
+            exporter_version = importlib_metadata.version("raillabel")
+        except importlib_metadata.PackageNotFoundError:
+            return None
+
+        version_number_length = len(exporter_version) - len(exporter_version.split(".")[-1])
+        return exporter_version[: version_number_length - 1]
