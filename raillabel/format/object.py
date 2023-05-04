@@ -25,7 +25,7 @@ class Object:
 
     @classmethod
     def fromdict(cls, data_dict: dict, object_uid: str) -> "Object":
-        """Generate an Object from a dictionary in the OpenLABEL format.
+        """Generate an Object from a dictionary in the RailLabel format.
 
         Parameters
         ----------

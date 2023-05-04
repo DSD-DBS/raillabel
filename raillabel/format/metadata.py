@@ -41,7 +41,7 @@ class Metadata:
 
     @classmethod
     def fromdict(cls, data_dict: dict, subschema_version: t.Optional[str] = None) -> "Metadata":
-        """Generate a Metadata from a dictionary in the OpenLABEL format.
+        """Generate a Metadata from a dictionary in the RailLabel format.
 
         Parameters
         ----------

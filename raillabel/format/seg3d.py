@@ -36,7 +36,7 @@ class Seg3d(_Annotation):
         data_dict: dict,
         sensors: dict,
     ) -> "Seg3d":
-        """Generate a Seg3d object from a dictionary in the OpenLABEL format.
+        """Generate a Seg3d object from a dictionary in the RailLabel format.
 
         Parameters
         ----------

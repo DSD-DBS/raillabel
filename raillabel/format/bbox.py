@@ -37,7 +37,7 @@ class Bbox(_Annotation):
 
     @classmethod
     def fromdict(self, data_dict: dict, sensors: dict) -> "Bbox":
-        """Generate a Bbox object from a dictionary in the OpenLABEL format.
+        """Generate a Bbox object from a dictionary in the RailLabel format.
 
         Parameters
         ----------

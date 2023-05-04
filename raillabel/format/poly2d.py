@@ -50,7 +50,7 @@ class Poly2d(_Annotation):
         data_dict: dict,
         sensors: dict,
     ) -> "Poly2d":
-        """Generate a Poly2d object from a dictionary in the OpenLABEL format.
+        """Generate a Poly2d object from a dictionary in the RailLabel format.
 
         Parameters
         ----------

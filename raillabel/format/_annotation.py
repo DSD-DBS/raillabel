@@ -31,37 +31,11 @@ class _Annotation(ABC):
 
     @abstractmethod
     def asdict(self) -> t.Dict:
-        """Export self as a dict compatible with the OpenLABEL schema.
-
-        Returns
-        -------
-        dict_repr: dict
-            Dict representation of this class instance.
-
-        Raises
-        ------
-        ValueError
-            if an attribute can not be converted to the type required by the OpenLabel schema.
-        """
         raise NotImplementedError
 
     @classmethod
     @abstractmethod
     def fromdict(self, data_dict: t.Dict, sensors: t.Dict) -> t.Type["_Annotation"]:
-        """Generate a Bbox object from a dictionary in the OpenLABEL format.
-
-        Parameters
-        ----------
-        data_dict: dict
-            OpenLABEL format dictionary containing the data for the annotation.
-        sensors: dict
-            Dictionary containing all sensors for the scene.
-
-        Returns
-        -------
-        annotation:
-            Converted annotation.
-        """
         raise NotImplementedError
 
     # === Private Methods ====================================================

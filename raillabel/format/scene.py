@@ -83,7 +83,7 @@ class Scene:
         Parameters
         ----------
         dict_repr : dict
-            Dictionary in the OpenLABEL format, that should be enhanced.
+            Dictionary in the RailLabel format, that should be enhanced.
 
         Returns
         -------
