@@ -29,7 +29,7 @@ class Sensor:
         system origin. Default is None.
     intrinsics: raillabel.format.SensorCalibration, optional
         The intrinsic calibration of the sensor. Default is None.
-    type: str-enum
+    type: str-enum, optional
         A string encoding the type of the sensor. The only valid values are 'camera', 'lidar',
         'radar', 'gps_imu' or 'other'.
     uri: str, optional
@@ -41,7 +41,7 @@ class Sensor:
     uid: str
     extrinsics: t.Optional[Transform] = None
     intrinsics: t.Optional[IntrinsicsPinhole] = None
-    type: str = None
+    type: t.Optional[str] = None
     uri: t.Optional[str] = None
     description: t.Optional[str] = None
 
