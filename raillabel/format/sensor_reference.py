@@ -6,6 +6,7 @@ import logging
 import typing as t
 from dataclasses import dataclass
 
+from .._util._warning import _warning
 from .sensor import Sensor
 
 
@@ -46,11 +47,9 @@ class SensorReference:
             Converted SensorReference object.
         """
 
-        logger = logging.getLogger("loader_warnings")
-
         if "stream_sync" in data_dict["stream_properties"]:
             data_dict["stream_properties"]["sync"] = data_dict["stream_properties"]["stream_sync"]
-            logger.warning(
+            _warning(
                 "Deprecated field 'stream_sync' identified. Please update file with raillabel.save()."
             )
 

@@ -1,11 +1,11 @@
 # Copyright DB Netz AG and contributors
 # SPDX-License-Identifier: Apache-2.0
 
-import logging
 import typing as t
 import uuid
 from dataclasses import dataclass, field
 
+from .._util._warning import _warning
 from ._annotation import _Annotation
 from .bbox import Bbox
 from .cuboid import Cuboid
@@ -100,14 +100,12 @@ class ObjectData:
             Converted ObjectData object.
         """
 
-        logger = logging.getLogger("loader_warnings")
-
         object_data = ObjectData(object=objects[uid])
 
         for ann_type in data_dict:
 
             if ann_type not in annotation_classes:
-                logger.warning(
+                _warning(
                     f"Annotation type {ann_type} is currently not supported. Supported "
                     + "annotation types: "
                     + str(list(annotation_classes.keys()))
@@ -119,7 +117,7 @@ class ObjectData:
                 ann_raw = cls._fix_deprecated_annotation_name(ann_raw, ann_type, objects[uid].type)
 
                 if ann_raw["uid"] in object_data.annotations:
-                    logger.warning(
+                    _warning(
                         f"Annotation '{ann_raw['uid']}' is contained more than one "
                         + "time. A new UID is beeing assigned."
                     )

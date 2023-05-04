@@ -2,11 +2,11 @@
 # SPDX-License-Identifier: Apache-2.0
 
 import decimal
-import logging
 import typing as t
 import uuid
 from dataclasses import dataclass, field
 
+from .._util._warning import _warning
 from .num import Num
 from .object import Object
 from .object_data import ObjectData
@@ -182,13 +182,11 @@ class Frame:
         data_dict: dict, frame_uid: int, scene_sensors: t.Dict[str, Sensor]
     ) -> t.Dict[str, SensorReference]:
 
-        logger = logging.getLogger("loader_warnings")
-
         sensors = {}
 
         for sensor_id, sensor_dict in data_dict["frame_properties"]["streams"].items():
             if sensor_id not in scene_sensors:
-                logger.warning(
+                _warning(
                     f"{sensor_id} does not exist as a stream, but is referenced in the "
                     + f"sync of frame {frame_uid}."
                 )
@@ -204,14 +202,12 @@ class Frame:
         data_dict: dict, frame_id: int, annotation_classes: dict, sensors: t.Dict[str, Sensor]
     ) -> t.Dict[str, Num]:
 
-        logger = logging.getLogger("loader_warnings")
-
         frame_data = {}
 
         for ann_type in data_dict["frame_properties"]["frame_data"]:
 
             if ann_type not in annotation_classes:
-                logger.warning(
+                _warning(
                     f"Annotation type {ann_type} (frame {frame_id}, frame data) is "
                     + "currently not supported. Supported annotation types: "
                     + str(list(annotation_classes.keys()))
@@ -237,14 +233,12 @@ class Frame:
         annotation_classes: dict,
     ) -> t.Dict[uuid.UUID, ObjectData]:
 
-        logger = logging.getLogger("loader_warnings")
-
         object_data = {}
 
         for obj_id, obj_ann in data_dict["objects"].items():
 
             if obj_id not in objects:
-                logger.warning(
+                _warning(
                     f"{obj_id} does not exist as an object, but is referenced in the object"
                     + f" annotation of frame {frame_id}."
                 )
@@ -262,15 +256,13 @@ class Frame:
 
     def _fix_sensor_uri_attribute(frame: "Frame") -> "Frame":
 
-        logger = logging.getLogger("loader_warnings")
-
         for ann_id, ann in list(frame.annotations.items()):
             for attr_name, attr_val in ann.attributes.items():
 
                 if attr_name != "uri":
                     continue
 
-                logger.warning(
+                _warning(
                     f"Deprecated attribute 'uri' detected in annotation {ann_id}. The error has"
                     + " been fixed. Please update the file via 'raillabel.save()'."
                 )

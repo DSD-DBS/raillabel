@@ -1,11 +1,11 @@
 # Copyright DB Netz AG and contributors
 # SPDX-License-Identifier: Apache-2.0
 
-import logging
 import typing as t
 from abc import ABC, abstractmethod, abstractproperty
 from dataclasses import dataclass, field
 
+from .._util._warning import _warning
 from .sensor import Sensor
 
 
@@ -117,8 +117,6 @@ class _Annotation(ABC):
 
     def _coordinate_system_fromdict(data_dict: dict, sensors: dict) -> t.Optional[Sensor]:
 
-        logger = logging.getLogger("loader_warnings")
-
         is_coordinate_system_in_data = (
             "coordinate_system" in data_dict and data_dict["coordinate_system"] != ""
         )
@@ -127,7 +125,7 @@ class _Annotation(ABC):
             return None
 
         if data_dict["coordinate_system"] not in sensors:
-            logger.warning(
+            _warning(
                 f"{data_dict['coordinate_system']} does not exist as a coordinate system, "
                 + f"but is referenced for the annotation {data_dict['uid']}."
             )
