@@ -58,7 +58,7 @@ class Sensor:
 
     @classmethod
     def fromdict(self, uid: str, cs_raw: dict, stream_raw: dict) -> "Sensor":
-        """Generate a Sensor object from a dictionary in the RailLabel format.
+        """Generate a Sensor object from a dict.
 
         Parameters
         ----------
@@ -96,15 +96,8 @@ class Sensor:
             "stream_properties" in stream_raw
             and "intrinsics_pinhole" in stream_raw["stream_properties"]
         ):
-            sensor.intrinsics = IntrinsicsPinhole(
-                camera_matrix=tuple(
-                    stream_raw["stream_properties"]["intrinsics_pinhole"]["camera_matrix"]
-                ),
-                distortion=tuple(
-                    stream_raw["stream_properties"]["intrinsics_pinhole"]["distortion_coeffs"]
-                ),
-                width_px=stream_raw["stream_properties"]["intrinsics_pinhole"]["width_px"],
-                height_px=stream_raw["stream_properties"]["intrinsics_pinhole"]["height_px"],
+            sensor.intrinsics = IntrinsicsPinhole.fromdict(
+                stream_raw["stream_properties"]["intrinsics_pinhole"]
             )
 
         if "type" in stream_raw:
