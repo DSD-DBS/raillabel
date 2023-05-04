@@ -2,7 +2,6 @@
 # SPDX-License-Identifier: Apache-2.0
 
 import decimal
-import logging
 import typing as t
 from dataclasses import dataclass
 
