@@ -1,10 +1,15 @@
 # Copyright DB Netz AG and contributors
 # SPDX-License-Identifier: Apache-2.0
 
+import json
 import typing as t
+from importlib import import_module
+from inspect import isclass
 from pathlib import Path
+from pkgutil import iter_modules
 
-from .. import _understand_ai_t4_format as uai_format
+from .. import exceptions, format
+from ..format._annotation import _Annotation
 from ._loader_abc import LoaderABC
 
 
@@ -19,12 +24,12 @@ class LoaderUnderstandAiT4(LoaderABC):
         List of warning strings, that have been found during the execution of load().
     """
 
-    scene: uai_format.Scene
+    scene: format.Scene
     warnings: t.List[str]
 
     SCHEMA_PATH: Path = Path(__file__).parent.parent / "schemas" / "understand_ai_t4_schema.json"
 
-    def load(self, data: dict, validate: bool = True) -> uai_format.Scene:
+    def load(self, data: dict, validate: bool = True) -> format.Scene:
         """Load the data into a UAIScene and return it.
 
         Parameters
