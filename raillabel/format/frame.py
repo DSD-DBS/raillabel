@@ -89,65 +89,19 @@ class Frame:
             Converted Frame object.
         """
 
-        logger = logging.getLogger("loader_warnings")
-
         data_dict = cls._prepare_data(data_dict)
 
-        frame = Frame(int(uid))
+        frame = Frame(
+            uid=int(uid),
+            timestamp=cls._timestamp_fromdict(data_dict),
+            sensors=cls._sensors_fromdict(data_dict, int(uid), sensors),
+            data=cls._frame_data_fromdict(data_dict, int(uid), annotation_classes, sensors),
+            object_data=cls._objects_fromdict(
+                data_dict, int(uid), objects, sensors, annotation_classes
+            ),
+        )
 
-        if "timestamp" in data_dict["frame_properties"]:
-            frame.timestamp = decimal.Decimal(data_dict["frame_properties"]["timestamp"])
-
-        for sensor_id, sensor_dict in data_dict["frame_properties"]["streams"].items():
-            if sensor_id not in sensors:
-                logger.warning(
-                    f"{sensor_id} does not exist as a stream, but is referenced in the "
-                    + f"sync of frame {uid}."
-                )
-                continue
-
-            frame.sensors[sensor_id] = SensorReference.fromdict(
-                data_dict=sensor_dict, sensor=sensors[sensor_id]
-            )
-
-        for ann_type in data_dict["frame_properties"]["frame_data"]:
-
-            if ann_type not in annotation_classes:
-                logger.warning(
-                    f"Annotation type {ann_type} (frame {uid}, frame data) is "
-                    + "currently not supported. Supported annotation types: "
-                    + str(list(annotation_classes.keys()))
-                )
-                continue
-
-            for ann_raw in data_dict["frame_properties"]["frame_data"][ann_type]:
-
-                if "uid" not in ann_raw:
-                    ann_raw["uid"] = uuid.uuid4()
-
-                frame.data[ann_raw["name"]] = annotation_classes[ann_type].fromdict(
-                    ann_raw, sensors
-                )
-
-        for obj_id, obj_ann in data_dict["objects"].items():
-
-            if obj_id not in objects:
-                logger.warning(
-                    f"{obj_id} does not exist as an object, but is referenced in the object"
-                    + f" annotation of frame {uid}."
-                )
-                continue
-
-            frame.object_data[obj_id], sensor_uris = ObjectData.fromdict(
-                uid=obj_id,
-                data_dict=obj_ann["object_data"],
-                objects=objects,
-                sensors=sensors,
-                annotation_classes=annotation_classes,
-            )
-
-            for sensor_id in sensor_uris:
-                frame.sensors[sensor_id].uri = sensor_uris[sensor_id]
+        frame = cls._fix_sensor_uri_attribute(frame)
 
         return frame
 
@@ -216,6 +170,111 @@ class Frame:
             data_dict["objects"] = {}
 
         return data_dict
+
+    def _timestamp_fromdict(data_dict: dict) -> t.Optional[decimal.Decimal]:
+
+        if "timestamp" not in data_dict["frame_properties"]:
+            return None
+
+        return decimal.Decimal(data_dict["frame_properties"]["timestamp"])
+
+    def _sensors_fromdict(
+        data_dict: dict, frame_uid: int, scene_sensors: t.Dict[str, Sensor]
+    ) -> t.Dict[str, SensorReference]:
+
+        logger = logging.getLogger("loader_warnings")
+
+        sensors = {}
+
+        for sensor_id, sensor_dict in data_dict["frame_properties"]["streams"].items():
+            if sensor_id not in scene_sensors:
+                logger.warning(
+                    f"{sensor_id} does not exist as a stream, but is referenced in the "
+                    + f"sync of frame {frame_uid}."
+                )
+                continue
+
+            sensors[sensor_id] = SensorReference.fromdict(
+                data_dict=sensor_dict, sensor=scene_sensors[sensor_id]
+            )
+
+        return sensors
+
+    def _frame_data_fromdict(
+        data_dict: dict, frame_id: int, annotation_classes: dict, sensors: t.Dict[str, Sensor]
+    ) -> t.Dict[str, Num]:
+
+        logger = logging.getLogger("loader_warnings")
+
+        frame_data = {}
+
+        for ann_type in data_dict["frame_properties"]["frame_data"]:
+
+            if ann_type not in annotation_classes:
+                logger.warning(
+                    f"Annotation type {ann_type} (frame {frame_id}, frame data) is "
+                    + "currently not supported. Supported annotation types: "
+                    + str(list(annotation_classes.keys()))
+                )
+                continue
+
+            for ann_raw in data_dict["frame_properties"]["frame_data"][ann_type]:
+
+                if "uid" not in ann_raw:
+                    ann_raw["uid"] = uuid.uuid4()
+
+                frame_data[ann_raw["name"]] = annotation_classes[ann_type].fromdict(
+                    ann_raw, sensors
+                )
+
+        return frame_data
+
+    def _objects_fromdict(
+        data_dict: dict,
+        frame_id: int,
+        objects: t.Dict[str, Object],
+        sensors: t.Dict[str, Sensor],
+        annotation_classes: dict,
+    ) -> t.Dict[uuid.UUID, ObjectData]:
+
+        logger = logging.getLogger("loader_warnings")
+
+        object_data = {}
+
+        for obj_id, obj_ann in data_dict["objects"].items():
+
+            if obj_id not in objects:
+                logger.warning(
+                    f"{obj_id} does not exist as an object, but is referenced in the object"
+                    + f" annotation of frame {frame_id}."
+                )
+                continue
+
+            object_data[obj_id] = ObjectData.fromdict(
+                uid=obj_id,
+                data_dict=obj_ann["object_data"],
+                objects=objects,
+                sensors=sensors,
+                annotation_classes=annotation_classes,
+            )
+
+        return object_data
+
+    def _fix_sensor_uri_attribute(frame: "Frame") -> "Frame":
+
+        logger = logging.getLogger("loader_warnings")
+
+        for ann_id, ann in list(frame.annotations.items()):
+            for attr_name, attr_val in ann.attributes.items():
+
+                if attr_name != "uri":
+                    continue
+
+                frame.sensors[ann.sensor.uid].uri = attr_val
+                del frame.annotations[ann_id].attributes[attr_name]
+                break
+
+        return frame
 
     def __eq__(self, other) -> bool:
         """Handel equal comparisons."""

@@ -98,16 +98,9 @@ class ObjectData:
         -------
         object_data: raillabel.format.ObjectData
             Converted ObjectData object.
-        sensor_uris: dict
-            Dictionary containing the sensors with the sensor URI. Old file
-            versions contain the file URIs in the annotation attributes.
-            This is corrected by handing the URIs back to the frame.
-        warnings: list of str
-            List of warnings, that occurred during execution.
         """
 
         logger = logging.getLogger("loader_warnings")
-        sensor_uris = {}
 
         object_data = ObjectData(object=objects[uid])
 
@@ -125,13 +118,6 @@ class ObjectData:
 
                 ann_raw = cls._fix_deprecated_annotation_name(ann_raw, ann_type, objects[uid].type)
 
-                if "attributes" in ann_raw and "text" in ann_raw["attributes"]:
-                    for i, attr in enumerate(ann_raw["attributes"]["text"]):
-                        if attr["name"] == "uri":
-                            sensor_uris[ann_raw["coordinate_system"]] = attr["val"]
-                            del ann_raw["attributes"]["text"][i]
-                            break
-
                 if ann_raw["uid"] in object_data.annotations:
                     logger.warning(
                         f"Annotation '{ann_raw['uid']}' is contained more than one "
@@ -144,7 +130,7 @@ class ObjectData:
                     sensors,
                 )
 
-        return object_data, sensor_uris
+        return object_data
 
     def asdict(self) -> dict:
         """Export self as a dict compatible with the OpenLABEL schema.
