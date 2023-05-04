@@ -108,7 +108,8 @@ class Metadata:
 
         return dict_repr
 
-    def _collect_exporter_version() -> t.Optional[str]:
+    @classmethod
+    def _collect_exporter_version(cls) -> t.Optional[str]:
 
         try:
             exporter_version = importlib_metadata.version("raillabel")
