@@ -13,7 +13,7 @@ import raillabel
 import raillabel._understand_ai_t4_format as uai_format
 
 
-def test_fromdict():
+def test_fromdict_valid():
     metadata = uai_format.Metadata.fromdict({
         "clip_id": "db_3_2021-09-22-14-28-01_2021-09-22-14-44-03",
         "external_clip_id": "2021-09-22-14-28-01_2021-09-22-14-44-03",
