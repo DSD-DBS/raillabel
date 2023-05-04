@@ -195,6 +195,19 @@ def test_no_warnings(json_data, loader):
     assert len(loader.warnings) == 0
 
 
+def test_warning_uri_attribute(
+    json_data, loader
+):
+
+    loader.load(
+        json_data["openlabel_v1_vcd_incompatible"],
+        validate=False
+    )
+
+    assert "attribute" in loader.warnings[0]
+    assert "uri" in loader.warnings[0]
+
+
 def test_stream_with_no_coordinate_system(json_data, loader):
     data = json_data["openlabel_v1_short"]
 

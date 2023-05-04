@@ -270,6 +270,11 @@ class Frame:
                 if attr_name != "uri":
                     continue
 
+                logger.warning(
+                    f"Deprecated attribute 'uri' detected in annotation {ann_id}. The error has"
+                    + " been fixed. Please update the file via 'raillabel.save()'."
+                )
+
                 frame.sensors[ann.sensor.uid].uri = attr_val
                 del frame.annotations[ann_id].attributes[attr_name]
                 break
