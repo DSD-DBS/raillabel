@@ -25,12 +25,12 @@ class Object:
 
     @classmethod
     def fromdict(cls, data_dict: dict, object_uid: str) -> "Object":
-        """Generate an Object from a dictionary in the RailLabel format.
+        """Generate a Object from a dict.
 
         Parameters
         ----------
         data_dict: dict
-            OpenLABEL format dictionary containing the data.
+            RailLabel format snippet containing the relevant data.
         object_uid: str
             Unique identifier of the object.
 

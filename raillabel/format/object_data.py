@@ -78,14 +78,14 @@ class ObjectData:
         sensors: t.Dict[str, Sensor],
         annotation_classes: dict,
     ) -> "ObjectData":
-        """Generate an ObjectData from a dictionary in the RailLabel format.
+        """Generate a ObjectData object from a dict.
 
         Parameters
         ----------
         uid: str
             Unique identifier of the object.
         data_dict: dict
-            Dict representation of the ObjectData.
+            RailLabel format snippet containing the relevant data.
         objects: dict
             Dictionary of all objects in the scene.
         sensors: dict

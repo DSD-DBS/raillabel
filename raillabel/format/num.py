@@ -33,12 +33,12 @@ class Num(_Annotation):
 
     @classmethod
     def fromdict(self, data_dict: dict, sensors: dict) -> "Num":
-        """Generate a Num object from a dictionary in the RailLabel format.
+        """Generate a Num object from a dict.
 
         Parameters
         ----------
         data_dict: dict
-            OpenLABEL format dictionary containing the data for the annotation.
+            RailLabel format snippet containing the relevant data.
         sensors: dict
             Dictionary containing all sensors for the scene.
 

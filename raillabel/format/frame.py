@@ -68,14 +68,14 @@ class Frame:
         sensors: t.Dict[str, Sensor],
         annotation_classes: dict,
     ) -> "Frame":
-        """Generate a Frame object from a dictionary in the RailLabel format.
+        """Generate a Frame object from a dict.
 
         Parameters
         ----------
         uid: str
             Unique identifier of the frame.
         data_dict: dict
-            Dict representation of the frame.
+            RailLabel format snippet containing the relevant data.
         objects: dict
             Dictionary of all objects in the scene.
         sensors: dict

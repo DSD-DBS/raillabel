@@ -31,12 +31,12 @@ class SensorReference:
 
     @classmethod
     def fromdict(cls, data_dict: dict, sensor: Sensor) -> "SensorReference":
-        """Generate a SensorReference object from a dictionary.
+        """Generate a SensorReference object from a dict.
 
         Parameters
         ----------
         data_dict: dict
-            Dict representation of the frame.
+            RailLabel format snippet containing the relevant data.
         sensor: raillabel.format.Sensor
             Sensor corresponding to this SensorReference.
 
