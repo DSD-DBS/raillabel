@@ -140,35 +140,6 @@ class Frame:
 
         return dict_repr
 
-    @classmethod
-    def _prepare_data(cls, data_dict: dict) -> dict:
-        """Add optional fields to dict to simplify interaction.
-
-        Parameters
-        ----------
-        data_dict : dict
-            JSON data.
-
-        Returns
-        -------
-        dict
-            Enhanced JSON data.
-        """
-
-        if "frame_properties" not in data_dict:
-            data_dict["frame_properties"] = {}
-
-        if "streams" not in data_dict["frame_properties"]:
-            data_dict["frame_properties"]["streams"] = {}
-
-        if "frame_data" not in data_dict["frame_properties"]:
-            data_dict["frame_properties"]["frame_data"] = {}
-
-        if "objects" not in data_dict:
-            data_dict["objects"] = {}
-
-        return data_dict
-
     def _timestamp_fromdict(data_dict: dict) -> t.Optional[decimal.Decimal]:
 
         if "frame_properties" not in data_dict or "timestamp" not in data_dict["frame_properties"]:
