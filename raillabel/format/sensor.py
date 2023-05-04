@@ -57,16 +57,16 @@ class Sensor:
         return self.uri
 
     @classmethod
-    def fromdict(self, uid: str, cs_raw: dict, stream_raw: dict) -> "Sensor":
+    def fromdict(cls, uid: str, cs_data_dict: dict, stream_data_dict: dict) -> "Sensor":
         """Generate a Sensor object from a dict.
 
         Parameters
         ----------
         uid: str
             Unique identifier of the sensor.
-        cs_raw: dict
+        cs_data_dict: dict
             RailLabel format dict containing the data about the coordinate system.
-        stream_raw: dict
+        stream_data_dict: dict
             RailLabel format dict containing the data about the stream.
 
         Returns
@@ -75,41 +75,14 @@ class Sensor:
             Converted Sensor object.
         """
 
-        sensor = Sensor(uid)
-
-        if "pose_wrt_parent" in cs_raw:
-            sensor.extrinsics = Transform(
-                pos=Point3d(
-                    x=cs_raw["pose_wrt_parent"]["translation"][0],
-                    y=cs_raw["pose_wrt_parent"]["translation"][1],
-                    z=cs_raw["pose_wrt_parent"]["translation"][2],
-                ),
-                quat=Quaternion(
-                    x=cs_raw["pose_wrt_parent"]["quaternion"][0],
-                    y=cs_raw["pose_wrt_parent"]["quaternion"][1],
-                    z=cs_raw["pose_wrt_parent"]["quaternion"][2],
-                    w=cs_raw["pose_wrt_parent"]["quaternion"][3],
-                ),
-            )
-
-        if (
-            "stream_properties" in stream_raw
-            and "intrinsics_pinhole" in stream_raw["stream_properties"]
-        ):
-            sensor.intrinsics = IntrinsicsPinhole.fromdict(
-                stream_raw["stream_properties"]["intrinsics_pinhole"]
-            )
-
-        if "type" in stream_raw:
-            sensor.type = stream_raw["type"]
-
-        if "uri" in stream_raw:
-            sensor.uri = stream_raw["uri"]
-
-        if "description" in stream_raw:
-            sensor.type = stream_raw["description"]
-
-        return sensor
+        return Sensor(
+            uid=uid,
+            extrinsics=cls._extrinsics_fromdict(cs_data_dict),
+            intrinsics=cls._intrinsics_fromdict(stream_data_dict),
+            type=stream_data_dict.get("type"),
+            uri=stream_data_dict.get("uri"),
+            description=stream_data_dict.get("description"),
+        )
 
     def asdict(self) -> dict:
         """Export self as a dict compatible with the RailLabel schema.
@@ -156,3 +129,32 @@ class Sensor:
             stream_repr["stream_properties"] = {"intrinsics_pinhole": self.intrinsics.asdict()}
 
         return stream_repr
+
+    def _extrinsics_fromdict(data_dict) -> t.Optional[Transform]:
+
+        if "pose_wrt_parent" not in data_dict:
+            return None
+
+        return Transform(
+            pos=Point3d(
+                x=data_dict["pose_wrt_parent"]["translation"][0],
+                y=data_dict["pose_wrt_parent"]["translation"][1],
+                z=data_dict["pose_wrt_parent"]["translation"][2],
+            ),
+            quat=Quaternion(
+                x=data_dict["pose_wrt_parent"]["quaternion"][0],
+                y=data_dict["pose_wrt_parent"]["quaternion"][1],
+                z=data_dict["pose_wrt_parent"]["quaternion"][2],
+                w=data_dict["pose_wrt_parent"]["quaternion"][3],
+            ),
+        )
+
+    def _intrinsics_fromdict(data_dict) -> t.Optional[IntrinsicsPinhole]:
+
+        if (
+            "stream_properties" not in data_dict
+            or "intrinsics_pinhole" not in data_dict["stream_properties"]
+        ):
+            return None
+
+        return IntrinsicsPinhole.fromdict(data_dict["stream_properties"]["intrinsics_pinhole"])
