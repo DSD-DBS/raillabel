@@ -89,8 +89,6 @@ class Frame:
             Converted Frame object.
         """
 
-        data_dict = cls._prepare_data(data_dict)
-
         frame = Frame(
             uid=int(uid),
             timestamp=cls._timestamp_fromdict(data_dict),
@@ -173,7 +171,7 @@ class Frame:
 
     def _timestamp_fromdict(data_dict: dict) -> t.Optional[decimal.Decimal]:
 
-        if "timestamp" not in data_dict["frame_properties"]:
+        if "frame_properties" not in data_dict or "timestamp" not in data_dict["frame_properties"]:
             return None
 
         return decimal.Decimal(data_dict["frame_properties"]["timestamp"])
@@ -181,6 +179,9 @@ class Frame:
     def _sensors_fromdict(
         data_dict: dict, frame_uid: int, scene_sensors: t.Dict[str, Sensor]
     ) -> t.Dict[str, SensorReference]:
+
+        if "frame_properties" not in data_dict or "streams" not in data_dict["frame_properties"]:
+            return {}
 
         sensors = {}
 
@@ -201,6 +202,9 @@ class Frame:
     def _frame_data_fromdict(
         data_dict: dict, frame_id: int, annotation_classes: dict, sensors: t.Dict[str, Sensor]
     ) -> t.Dict[str, Num]:
+
+        if "frame_properties" not in data_dict or "frame_data" not in data_dict["frame_properties"]:
+            return {}
 
         frame_data = {}
 
@@ -232,6 +236,9 @@ class Frame:
         sensors: t.Dict[str, Sensor],
         annotation_classes: dict,
     ) -> t.Dict[uuid.UUID, ObjectData]:
+
+        if "objects" not in data_dict:
+            return {}
 
         object_data = {}
 
