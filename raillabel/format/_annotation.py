@@ -5,6 +5,7 @@ import typing as t
 from abc import ABC, abstractmethod, abstractproperty
 from dataclasses import dataclass, field
 
+from .._util._warning import _warning
 from .sensor import Sensor
 
 
@@ -46,7 +47,7 @@ class _Annotation(ABC):
 
     @classmethod
     @abstractmethod
-    def fromdict(self, data_dict: t.Dict, sensors: t.Dict) -> t.Tuple[t.Type["_Annotation"], list]:
+    def fromdict(self, data_dict: t.Dict, sensors: t.Dict) -> t.Type["_Annotation"]:
         """Generate a Bbox object from a dictionary in the OpenLABEL format.
 
         Parameters
@@ -60,8 +61,6 @@ class _Annotation(ABC):
         -------
         annotation:
             Converted annotation.
-        warnings: list of str
-            List of non-critical errors, that have occurred during the conversion.
         """
         raise NotImplementedError
 
@@ -115,6 +114,33 @@ class _Annotation(ABC):
                 dict_repr["attributes"][attr_type].append({"name": attr_name, "val": attr_value})
 
         return dict_repr
+
+    def _coordinate_system_fromdict(data_dict: dict, sensors: dict) -> t.Optional[Sensor]:
+
+        is_coordinate_system_in_data = (
+            "coordinate_system" in data_dict and data_dict["coordinate_system"] != ""
+        )
+
+        if not is_coordinate_system_in_data:
+            return None
+
+        if data_dict["coordinate_system"] not in sensors:
+            _warning(
+                f"{data_dict['coordinate_system']} does not exist as a coordinate system, "
+                + f"but is referenced for the annotation {data_dict['uid']}."
+            )
+            return None
+
+        return sensors[data_dict["coordinate_system"]]
+
+    def _attributes_fromdict(
+        data_dict: dict,
+    ) -> t.Dict[str, t.Union[int, float, bool, str, list]]:
+
+        if "attributes" not in data_dict:
+            return {}
+
+        return {a["name"]: a["val"] for l in data_dict["attributes"].values() for a in l}
 
     # === Special Methods ====================================================
 

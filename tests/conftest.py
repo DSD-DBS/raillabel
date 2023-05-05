@@ -1,6 +1,7 @@
 # Copyright DB Netz AG and contributors
 # SPDX-License-Identifier: Apache-2.0
 
+import glob
 import json
 import sys
 import typing as t
@@ -13,133 +14,59 @@ sys.path.insert(1, str(Path(__file__).parent.parent))
 
 import raillabel
 
-# Variables
-raillabel_v2_schema_path_var = (
-    Path(__file__).parent.parent / "raillabel" / "schemas" / "raillabel_v2_schema.json"
-)
-metaschema_path_var = (
-    Path(__file__).parent / "test_raillabel" / "__test_assets__" / "metaschema.json"
-)
-openlabel_v1_schema_path_var = (
-    Path(__file__).parent / "test_raillabel" / "__test_assets__" / "openlabel_v1_schema.json"
-)
-openlabel_v1_short_path_var = (
-    Path(__file__).parent / "test_raillabel" / "__test_assets__" / "openlabel_v1_short.json"
-)
-openlabel_v1_vcd_incompatible_path_var = (
-    Path(__file__).parent
-    / "test_raillabel"
-    / "__test_assets__"
-    / "openlabel_v1_vcd_incompatible.json"
-)
-
+json_data_directories = [
+    Path(__file__).parent / "test_raillabel" / "__test_assets__",
+    Path(__file__).parent.parent / "raillabel" / "schemas"
+]
 
 @pytest.fixture(scope="session", autouse=True)
 def compile_uncommented_test_file():
     """Compiles the main test file from json5 to json."""
 
-    uncommented_example_file_path = Path(str(openlabel_v1_short_path_var) + "5")
+    json5_file_path = json_data_directories[0] / "openlabel_v1_short.json5"
 
-    with uncommented_example_file_path.open() as f:
+    with json5_file_path.open() as f:
         data = json5.load(f)
 
-    with openlabel_v1_short_path_var.open("w") as f:
+    with open(str(json5_file_path)[:-1], "w") as f:
         json.dump(data, f, indent=4)
 
-
-# Raillabel v2 schema
 @pytest.fixture
-def raillabel_v2_schema_path():
-    return raillabel_v2_schema_path_var
+def json_paths(request) -> t.Dict[str, Path]:
+    json_paths = _fetch_json_paths_from_cache(request)
 
+    if json_paths is None:
+        json_paths = {p.stem: p for p in _collect_json_paths()}
 
-@pytest.fixture
-def raillabel_v2_schema_data(request):
-    raillabel_v2_schema_data = request.config.cache.get("raillabel_v2_schema_data", None)
+    return json_paths
 
-    if raillabel_v2_schema_data is None:
-        with raillabel_v2_schema_path_var.open() as raillabel_v2_short_file:
-            raillabel_v2_schema_data = json.load(raillabel_v2_short_file)
-            request.config.cache.set("raillabel_v2_schema_data", raillabel_v2_schema_data)
+def _fetch_json_paths_from_cache(request) -> t.Optional[t.Dict[str, Path]]:
+    return request.config.cache.get("json_paths", None)
 
-    return raillabel_v2_schema_data
+def _collect_json_paths() -> t.List[Path]:
+    json_paths = []
 
+    for dir in json_data_directories:
+        json_paths.extend([Path(p) for p in glob.glob(str(dir) + "/**.json")])
 
-# JSON metaschema
-@pytest.fixture
-def metaschema_path():
-    return metaschema_path_var
-
+    return json_paths
 
 @pytest.fixture
-def metaschema_data(request):
-    metaschema_data = request.config.cache.get("metaschema_data", None)
+def json_data(request) -> t.Dict[str, dict]:
+    json_data = _fetch_json_data_from_cache(request)
 
-    if metaschema_data is None:
-        with metaschema_path_var.open() as metashort_file:
-            metaschema_data = json.load(metashort_file)
-            request.config.cache.set("metaschema_data", metaschema_data)
+    if json_data is None:
+        json_data = {p.stem: _load_json_data(p) for p in _collect_json_paths()}
 
-    return metaschema_data
+    return json_data
 
+def _fetch_json_data_from_cache(request) -> t.Optional[t.Dict[str, Path]]:
+    return request.config.cache.get("json_data", None)
 
-# JSON openlabel_v1_schema
-@pytest.fixture
-def openlabel_v1_schema_path():
-    return openlabel_v1_schema_path_var
-
-
-@pytest.fixture
-def openlabel_v1_schema_data(request):
-    openlabel_v1_schema_data = request.config.cache.get("openlabel_v1_schema_data", None)
-
-    if openlabel_v1_schema_data is None:
-        with openlabel_v1_schema_path_var.open() as openlabel_v1_short_file:
-            openlabel_v1_schema_data = json.load(openlabel_v1_short_file)
-            request.config.cache.set("openlabel_v1_schema_data", openlabel_v1_schema_data)
-
-    return openlabel_v1_schema_data
-
-
-# OpenLabel v1 short data
-@pytest.fixture
-def openlabel_v1_short_path():
-    return openlabel_v1_short_path_var
-
-
-@pytest.fixture
-def openlabel_v1_short_data(request):
-    openlabel_v1_short_data = request.config.cache.get("openlabel_v1_short_data", None)
-
-    if openlabel_v1_short_data is None:
-        with openlabel_v1_short_path_var.open() as openlabel_v1_short_file:
-            openlabel_v1_short_data = json5.load(openlabel_v1_short_file)
-            request.config.cache.set("openlabel_v1_short_data", openlabel_v1_short_data)
-
-    return openlabel_v1_short_data
-
-
-# OpenLabel v1 short vcd incompatible
-@pytest.fixture
-def openlabel_v1_vcd_incompatible_path():
-    return openlabel_v1_vcd_incompatible_path_var
-
-
-@pytest.fixture
-def openlabel_v1_vcd_incompatible_data(request):
-    openlabel_v1_vcd_incompatible_data = request.config.cache.get(
-        "openlabel_v1_vcd_incompatible_data", None
-    )
-
-    if openlabel_v1_vcd_incompatible_data is None:
-        with openlabel_v1_vcd_incompatible_path_var.open() as openlabel_v1_vcd_incompatible_file:
-            openlabel_v1_vcd_incompatible_data = json.load(openlabel_v1_vcd_incompatible_file)
-            request.config.cache.set(
-                "openlabel_v1_vcd_incompatible_data",
-                openlabel_v1_vcd_incompatible_data,
-            )
-
-    return openlabel_v1_vcd_incompatible_data
+def _load_json_data(path: Path) -> dict:
+    with path.open() as f:
+        json_data = json.load(f)
+    return json_data
 
 @pytest.fixture
 def annotation_compare_methods() -> t.Dict[str, t.Callable]:

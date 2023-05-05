@@ -6,6 +6,7 @@ import typing as t
 import uuid
 from dataclasses import dataclass, field
 
+from .._util._warning import _warning
 from .num import Num
 from .object import Object
 from .object_data import ObjectData
@@ -66,7 +67,7 @@ class Frame:
         objects: t.Dict[str, Object],
         sensors: t.Dict[str, Sensor],
         annotation_classes: dict,
-    ) -> t.Tuple["Frame", t.List[str]]:
+    ) -> "Frame":
         """Generate a Frame object from a dictionary in the RailLabel format.
 
         Parameters
@@ -86,74 +87,23 @@ class Frame:
         -------
         frame: raillabel.format.Frame
             Converted Frame object.
-        warnings: list of str
-            List of warnings, that occurred during execution.
         """
 
         data_dict = cls._prepare_data(data_dict)
 
-        frame = Frame(int(uid))
-        warnings = []
+        frame = Frame(
+            uid=int(uid),
+            timestamp=cls._timestamp_fromdict(data_dict),
+            sensors=cls._sensors_fromdict(data_dict, int(uid), sensors),
+            data=cls._frame_data_fromdict(data_dict, int(uid), annotation_classes, sensors),
+            object_data=cls._objects_fromdict(
+                data_dict, int(uid), objects, sensors, annotation_classes
+            ),
+        )
 
-        if "timestamp" in data_dict["frame_properties"]:
-            frame.timestamp = decimal.Decimal(data_dict["frame_properties"]["timestamp"])
+        frame = cls._fix_sensor_uri_attribute(frame)
 
-        for sensor_id, sensor_dict in data_dict["frame_properties"]["streams"].items():
-            if sensor_id not in sensors:
-                warnings.append(
-                    f"{sensor_id} does not exist as a stream, but is referenced in the "
-                    + f"sync of frame {uid}."
-                )
-                continue
-
-            frame.sensors[sensor_id], w = SensorReference.fromdict(
-                data_dict=sensor_dict, sensor=sensors[sensor_id]
-            )
-            warnings.extend(w)
-
-        for ann_type in data_dict["frame_properties"]["frame_data"]:
-
-            if ann_type not in annotation_classes:
-                warnings.append(
-                    f"Annotation type {ann_type} (frame {uid}, frame data) is "
-                    + "currently not supported. Supported annotation types: "
-                    + str(list(annotation_classes.keys()))
-                )
-                continue
-
-            for ann_raw in data_dict["frame_properties"]["frame_data"][ann_type]:
-
-                if "uid" not in ann_raw:
-                    ann_raw["uid"] = uuid.uuid4()
-
-                frame.data[ann_raw["name"]], w = annotation_classes[ann_type].fromdict(
-                    ann_raw, sensors
-                )
-                warnings.extend(w)
-
-        for obj_id, obj_ann in data_dict["objects"].items():
-
-            if obj_id not in objects:
-                warnings.append(
-                    f"{obj_id} does not exist as an object, but is referenced in the object"
-                    + f" annotation of frame {uid}."
-                )
-                continue
-
-            frame.object_data[obj_id], sensor_uris, w = ObjectData.fromdict(
-                uid=obj_id,
-                data_dict=obj_ann["object_data"],
-                objects=objects,
-                sensors=sensors,
-                annotation_classes=annotation_classes,
-            )
-
-            for sensor_id in sensor_uris:
-                frame.sensors[sensor_id].uri = sensor_uris[sensor_id]
-
-            warnings.extend(w)
-
-        return frame, warnings
+        return frame
 
     def asdict(self) -> dict:
         """Export self as a dict compatible with the OpenLABEL schema.
@@ -220,6 +170,108 @@ class Frame:
             data_dict["objects"] = {}
 
         return data_dict
+
+    def _timestamp_fromdict(data_dict: dict) -> t.Optional[decimal.Decimal]:
+
+        if "timestamp" not in data_dict["frame_properties"]:
+            return None
+
+        return decimal.Decimal(data_dict["frame_properties"]["timestamp"])
+
+    def _sensors_fromdict(
+        data_dict: dict, frame_uid: int, scene_sensors: t.Dict[str, Sensor]
+    ) -> t.Dict[str, SensorReference]:
+
+        sensors = {}
+
+        for sensor_id, sensor_dict in data_dict["frame_properties"]["streams"].items():
+            if sensor_id not in scene_sensors:
+                _warning(
+                    f"{sensor_id} does not exist as a stream, but is referenced in the "
+                    + f"sync of frame {frame_uid}."
+                )
+                continue
+
+            sensors[sensor_id] = SensorReference.fromdict(
+                data_dict=sensor_dict, sensor=scene_sensors[sensor_id]
+            )
+
+        return sensors
+
+    def _frame_data_fromdict(
+        data_dict: dict, frame_id: int, annotation_classes: dict, sensors: t.Dict[str, Sensor]
+    ) -> t.Dict[str, Num]:
+
+        frame_data = {}
+
+        for ann_type in data_dict["frame_properties"]["frame_data"]:
+
+            if ann_type not in annotation_classes:
+                _warning(
+                    f"Annotation type {ann_type} (frame {frame_id}, frame data) is "
+                    + "currently not supported. Supported annotation types: "
+                    + str(list(annotation_classes.keys()))
+                )
+                continue
+
+            for ann_raw in data_dict["frame_properties"]["frame_data"][ann_type]:
+
+                if "uid" not in ann_raw:
+                    ann_raw["uid"] = uuid.uuid4()
+
+                frame_data[ann_raw["name"]] = annotation_classes[ann_type].fromdict(
+                    ann_raw, sensors
+                )
+
+        return frame_data
+
+    def _objects_fromdict(
+        data_dict: dict,
+        frame_id: int,
+        objects: t.Dict[str, Object],
+        sensors: t.Dict[str, Sensor],
+        annotation_classes: dict,
+    ) -> t.Dict[uuid.UUID, ObjectData]:
+
+        object_data = {}
+
+        for obj_id, obj_ann in data_dict["objects"].items():
+
+            if obj_id not in objects:
+                _warning(
+                    f"{obj_id} does not exist as an object, but is referenced in the object"
+                    + f" annotation of frame {frame_id}."
+                )
+                continue
+
+            object_data[obj_id] = ObjectData.fromdict(
+                uid=obj_id,
+                data_dict=obj_ann["object_data"],
+                objects=objects,
+                sensors=sensors,
+                annotation_classes=annotation_classes,
+            )
+
+        return object_data
+
+    def _fix_sensor_uri_attribute(frame: "Frame") -> "Frame":
+
+        for ann_id, ann in list(frame.annotations.items()):
+            for attr_name, attr_val in ann.attributes.items():
+
+                if attr_name != "uri":
+                    continue
+
+                _warning(
+                    f"Deprecated attribute 'uri' detected in annotation {ann_id}. The error has"
+                    + " been fixed. Please update the file via 'raillabel.save()'."
+                )
+
+                frame.sensors[ann.sensor.uid].uri = attr_val
+                del frame.annotations[ann_id].attributes[attr_name]
+                break
+
+        return frame
 
     def __eq__(self, other) -> bool:
         """Handel equal comparisons."""

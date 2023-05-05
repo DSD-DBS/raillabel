@@ -5,6 +5,7 @@ import typing as t
 import uuid
 from dataclasses import dataclass, field
 
+from .._util._warning import _warning
 from ._annotation import _Annotation
 from .bbox import Bbox
 from .cuboid import Cuboid
@@ -76,7 +77,7 @@ class ObjectData:
         objects: t.Dict[str, Object],
         sensors: t.Dict[str, Sensor],
         annotation_classes: dict,
-    ) -> t.Tuple["ObjectData", dict, t.List[str]]:
+    ) -> "ObjectData":
         """Generate an ObjectData from a dictionary in the RailLabel format.
 
         Parameters
@@ -97,23 +98,14 @@ class ObjectData:
         -------
         object_data: raillabel.format.ObjectData
             Converted ObjectData object.
-        sensor_uris: dict
-            Dictionary containing the sensors with the sensor URI. Old file
-            versions contain the file URIs in the annotation attributes.
-            This is corrected by handing the URIs back to the frame.
-        warnings: list of str
-            List of warnings, that occurred during execution.
         """
-
-        warnings = []
-        sensor_uris = {}
 
         object_data = ObjectData(object=objects[uid])
 
         for ann_type in data_dict:
 
             if ann_type not in annotation_classes:
-                warnings.append(
+                _warning(
                     f"Annotation type {ann_type} is currently not supported. Supported "
                     + "annotation types: "
                     + str(list(annotation_classes.keys()))
@@ -124,27 +116,19 @@ class ObjectData:
 
                 ann_raw = cls._fix_deprecated_annotation_name(ann_raw, ann_type, objects[uid].type)
 
-                if "attributes" in ann_raw and "text" in ann_raw["attributes"]:
-                    for i, attr in enumerate(ann_raw["attributes"]["text"]):
-                        if attr["name"] == "uri":
-                            sensor_uris[ann_raw["coordinate_system"]] = attr["val"]
-                            del ann_raw["attributes"]["text"][i]
-                            break
-
                 if ann_raw["uid"] in object_data.annotations:
-                    warnings.append(
+                    _warning(
                         f"Annotation '{ann_raw['uid']}' is contained more than one "
                         + "time. A new UID is beeing assigned."
                     )
                     ann_raw["uid"] = str(uuid.uuid4())
 
-                object_data.annotations[ann_raw["uid"]], w = annotation_classes[ann_type].fromdict(
+                object_data.annotations[ann_raw["uid"]] = annotation_classes[ann_type].fromdict(
                     ann_raw,
                     sensors,
                 )
-                warnings.extend(w)
 
-        return object_data, sensor_uris, warnings
+        return object_data
 
     def asdict(self) -> dict:
         """Export self as a dict compatible with the OpenLABEL schema.
