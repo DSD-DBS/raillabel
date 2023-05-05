@@ -47,3 +47,6 @@ Release
 
 ## 2.0.4
 - Fixed bug related to the package version
+
+# 2.1.0
+- Added IntrinsicsRadar to the devkit and the json-schema

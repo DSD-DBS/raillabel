@@ -12,6 +12,23 @@ sys.path.insert(1, str(Path(__file__).parent.parent.parent))
 import raillabel
 
 
+def delete_sensor_from_data(data: dict, sensor_id: str) -> dict:
+    del data["openlabel"]["streams"][sensor_id]
+    del data["openlabel"]["coordinate_systems"][sensor_id]
+    del data["openlabel"]["coordinate_systems"]["base"]["children"][
+        data["openlabel"]["coordinate_systems"]["base"]["children"].index(
+            sensor_id
+        )
+    ]
+
+    for frame_id in data["openlabel"]["frames"]:
+        if sensor_id not in data["openlabel"]["frames"][frame_id]["frame_properties"]["streams"]:
+            continue
+
+        del data["openlabel"]["frames"][frame_id]["frame_properties"]["streams"][sensor_id]
+
+    return data
+
 @pytest.fixture
 def loader():
     return raillabel.format_loaders.LoaderRailLabelV2()
@@ -42,6 +59,7 @@ def test_filter_frames(json_paths, json_data, loader):
     # Deletes the excluded data
     del data["openlabel"]["frames"]["1"]
     del data["openlabel"]["objects"]["6fe55546-0dd7-4e40-b6b4-bb7ea3445772"]
+    data = delete_sensor_from_data(data, "radar")
 
     # Loads the ground truth filtered data
     scene_filtered_ground_truth = loader.load(data)
@@ -64,6 +82,7 @@ def test_filter_start(json_paths, json_data, loader):
     # Deletes the excluded data
     del data["openlabel"]["frames"]["0"]
     del data["openlabel"]["objects"]["b40ba3ad-0327-46ff-9c28-2506cfd6d934"]
+    data = delete_sensor_from_data(data, "radar")
 
     # Loads the ground truth filtered data
     scene_filtered_ground_truth = loader.load(data)
@@ -86,6 +105,7 @@ def test_filter_end(json_paths, json_data, loader):
     # Deletes the excluded data
     del data["openlabel"]["frames"]["1"]
     del data["openlabel"]["objects"]["6fe55546-0dd7-4e40-b6b4-bb7ea3445772"]
+    data = delete_sensor_from_data(data, "radar")
 
     # Loads the ground truth filtered data
     scene_filtered_ground_truth = loader.load(data)
@@ -113,6 +133,7 @@ def test_filter_object_ids(json_paths, json_data, loader):
     del data["openlabel"]["frames"]["1"]["objects"][
         "22dedd49-6dcb-413b-87ef-00ccfb532e98"
     ]
+    data = delete_sensor_from_data(data, "radar")
 
     # Loads the ground truth filtered data
     scene_filtered_ground_truth = loader.load(data)
@@ -148,6 +169,7 @@ def test_filter_object_types(json_paths, json_data, loader):
     del data["openlabel"]["frames"]["1"]["objects"][
         "22dedd49-6dcb-413b-87ef-00ccfb532e98"
     ]
+    data = delete_sensor_from_data(data, "radar")
 
     # Loads the ground truth filtered data
     scene_filtered_ground_truth = loader.load(data)
@@ -175,6 +197,7 @@ def test_filter_annotation_ids(json_paths, json_data, loader):
     del data["openlabel"]["frames"]["1"]["objects"][
         "22dedd49-6dcb-413b-87ef-00ccfb532e98"
     ]
+    data = delete_sensor_from_data(data, "radar")
 
     # Loads the ground truth filtered data
     scene_filtered_ground_truth = loader.load(data)
@@ -235,6 +258,7 @@ def test_filter_annotation_types(json_paths, json_data, loader):
     del data["openlabel"]["frames"]["1"]["objects"][
         "22dedd49-6dcb-413b-87ef-00ccfb532e98"
     ]
+    data = delete_sensor_from_data(data, "radar")
 
     # Loads the ground truth filtered data
     scene_filtered_ground_truth = loader.load(data)
@@ -258,16 +282,8 @@ def test_filter_sensors(json_paths, json_data, loader):
     # Deletes the excluded data
     del data["openlabel"]["objects"]["22dedd49-6dcb-413b-87ef-00ccfb532e98"]
 
-    del data["openlabel"]["streams"]["lidar"]
-    del data["openlabel"]["frames"]["0"]["frame_properties"]["streams"]["lidar"]
-    del data["openlabel"]["frames"]["1"]["frame_properties"]["streams"]["lidar"]
-
-    del data["openlabel"]["coordinate_systems"]["lidar"]
-    del data["openlabel"]["coordinate_systems"]["base"]["children"][
-        data["openlabel"]["coordinate_systems"]["base"]["children"].index(
-            "lidar"
-        )
-    ]
+    data = delete_sensor_from_data(data, "lidar")
+    data = delete_sensor_from_data(data, "radar")
 
     del data["openlabel"]["frames"]["0"]["frame_properties"]["frame_data"][
         "num"
@@ -335,20 +351,8 @@ def test_filter_include_attribute_ids(json_paths, json_data, loader):
         "22dedd49-6dcb-413b-87ef-00ccfb532e98"
     ]["object_data"]["vec"][1]
 
-    del data["openlabel"]["streams"]["ir_middle"]
-    del data["openlabel"]["frames"]["0"]["frame_properties"]["streams"][
-        "ir_middle"
-    ]
-    del data["openlabel"]["frames"]["1"]["frame_properties"]["streams"][
-        "ir_middle"
-    ]
-
-    del data["openlabel"]["coordinate_systems"]["ir_middle"]
-    del data["openlabel"]["coordinate_systems"]["base"]["children"][
-        data["openlabel"]["coordinate_systems"]["base"]["children"].index(
-            "ir_middle"
-        )
-    ]
+    data = delete_sensor_from_data(data, "ir_middle")
+    data = delete_sensor_from_data(data, "radar")
 
     # Loads the ground truth filtered data
     scene_filtered_ground_truth = loader.load(data)
@@ -391,6 +395,7 @@ def test_filter_exclude_attribute_ids(json_paths, json_data, loader):
     del data["openlabel"]["frames"]["1"]["objects"][
         "22dedd49-6dcb-413b-87ef-00ccfb532e98"
     ]["object_data"]["vec"][0]
+    data = delete_sensor_from_data(data, "radar")
 
     # Loads the ground truth filtered data
     scene_filtered_ground_truth = loader.load(data)
@@ -410,6 +415,7 @@ def test_filter_exclude_attribute_values(json_paths, json_data, loader):
     del data["openlabel"]["frames"]["0"]["objects"][
         "b40ba3ad-0327-46ff-9c28-2506cfd6d934"
     ]["object_data"]["poly2d"][0]
+    data = delete_sensor_from_data(data, "radar")
 
     # Loads the ground truth filtered data
     scene_filtered_ground_truth = loader.load(data)
