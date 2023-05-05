@@ -74,6 +74,17 @@
             "lidar": {
                 "type": "lidar",
                 "uri": "/lidar_merged"
+            },
+            "radar": {
+                "type": "radar",
+                "uri": "/talker1/Nvt/Cartesian",
+                "stream_properties": {
+                    "intrinsics_radar": {
+                        "resolution_px_per_m": 2.856,
+                        "width_px": 2856,
+                        "height_px": 1428
+                    }
+                }
             }
         },
         "coordinate_systems": {
@@ -118,6 +129,23 @@
                         -0.64984101,
                         -0.72563166,
                         0.18784818,
+                        -0.12600959
+                    ]
+                }
+            },
+            "radar": {
+                "type": "sensor",
+                "parent": "base",
+                "pose_wrt_parent": {
+                    "translation": [
+                        2,
+                        0,
+                        1
+                    ],
+                    "quaternion": [
+                        -0.64984101,
+                        0.18784818,
+                        -0.72563166,
                         -0.12600959
                     ]
                 }

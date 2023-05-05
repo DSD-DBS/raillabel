@@ -7,6 +7,7 @@ from dataclasses import dataclass
 from enum import Enum
 
 from .intrinsics_pinhole import IntrinsicsPinhole
+from .intrinsics_radar import IntrinsicsRadar
 from .point3d import Point3d
 from .quaternion import Quaternion
 from .transform import Transform
@@ -28,7 +29,7 @@ class Sensor:
     extrinsics: raillabel.format.Transform, optional
         The external calibration of the sensor defined by the 3D transform to the coordinate
         system origin. Default is None.
-    intrinsics: raillabel.format.SensorCalibration, optional
+    intrinsics: raillabel.format.IntrinsicsPinhole or raillabel.format.IntrinsicsRadar, optional
         The intrinsic calibration of the sensor. Default is None.
     type: raillabel.format.SensorType, optional
         A string encoding the type of the sensor. The only valid values are 'camera', 'lidar',
@@ -41,7 +42,7 @@ class Sensor:
 
     uid: str
     extrinsics: t.Optional[Transform] = None
-    intrinsics: t.Optional[IntrinsicsPinhole] = None
+    intrinsics: t.Optional[t.Union[IntrinsicsPinhole, IntrinsicsRadar]] = None
     type: t.Optional["SensorType"] = None
     uri: t.Optional[str] = None
     description: t.Optional[str] = None
@@ -77,7 +78,9 @@ class Sensor:
         return Sensor(
             uid=uid,
             extrinsics=cls._extrinsics_fromdict(cs_data_dict),
-            intrinsics=cls._intrinsics_fromdict(stream_data_dict),
+            intrinsics=cls._intrinsics_fromdict(
+                stream_data_dict, cls._type_fromdict(stream_data_dict)
+            ),
             type=cls._type_fromdict(stream_data_dict),
             uri=stream_data_dict.get("uri"),
             description=stream_data_dict.get("description"),
@@ -119,8 +122,11 @@ class Sensor:
         if self.description is not None:
             stream_repr["description"] = str(self.description)
 
-        if self.intrinsics is not None:
+        if isinstance(self.intrinsics, IntrinsicsPinhole):
             stream_repr["stream_properties"] = {"intrinsics_pinhole": self.intrinsics.asdict()}
+
+        elif isinstance(self.intrinsics, IntrinsicsRadar):
+            stream_repr["stream_properties"] = {"intrinsics_radar": self.intrinsics.asdict()}
 
         return stream_repr
 
@@ -143,15 +149,26 @@ class Sensor:
             ),
         )
 
-    def _intrinsics_fromdict(data_dict) -> t.Optional[IntrinsicsPinhole]:
+    def _intrinsics_fromdict(
+        data_dict, sensor_type: t.Optional["SensorType"]
+    ) -> t.Optional[IntrinsicsPinhole]:
 
-        if (
-            "stream_properties" not in data_dict
-            or "intrinsics_pinhole" not in data_dict["stream_properties"]
-        ):
+        if "stream_properties" not in data_dict:
             return None
 
-        return IntrinsicsPinhole.fromdict(data_dict["stream_properties"]["intrinsics_pinhole"])
+        if sensor_type == SensorType.CAMERA:
+
+            if "intrinsics_pinhole" in data_dict["stream_properties"]:
+                return IntrinsicsPinhole.fromdict(
+                    data_dict["stream_properties"]["intrinsics_pinhole"]
+                )
+
+        elif sensor_type == SensorType.RADAR:
+
+            if "intrinsics_radar" in data_dict["stream_properties"]:
+                return IntrinsicsRadar.fromdict(data_dict["stream_properties"]["intrinsics_radar"])
+
+        return None
 
     def _type_fromdict(data_dict) -> t.Optional["SensorType"]:
 
