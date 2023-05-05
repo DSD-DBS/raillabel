@@ -7,6 +7,7 @@ from .cuboid import Cuboid
 from .frame import Frame
 from .frame_interval import FrameInterval
 from .intrinsics_pinhole import IntrinsicsPinhole
+from .intrinsics_radar import IntrinsicsRadar
 from .metadata import Metadata
 from .num import Num
 from .object import Object

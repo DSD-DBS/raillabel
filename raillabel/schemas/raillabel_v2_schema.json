@@ -645,7 +645,6 @@
         "stream_properties": {
             "additionalProperties": false,
             "description": "Additional properties of the stream.",
-            "type": "object",
             "properties": {
                 "intrinsics_pinhole": {
                     "additionalProperties": false,
@@ -680,6 +679,27 @@
                     "required": [
                         "camera_matrix",
                         "distortion_coeffs",
+                        "height_px",
+                        "width_px"
+                    ]
+                },
+                "intrinsics_radar": {
+                    "additionalProperties": false,
+                    "description": "This JSON object defines an instance of the intrinsic parameters of a radar.",
+                    "properties": {
+                        "resolution_px_per_m": {
+                            "type": "number"
+                        },
+                        "height_px": {
+                            "type": "integer"
+                        },
+                        "width_px": {
+                            "type": "integer"
+                        }
+                    },
+                    "type": "object",
+                    "required": [
+                        "resolution_px_per_m",
                         "height_px",
                         "width_px"
                     ]
