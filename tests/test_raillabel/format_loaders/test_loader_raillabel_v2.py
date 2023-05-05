@@ -50,7 +50,7 @@ def test_load_sensors(json_data, loader):
 
         assert sensor_id in ground_truth["streams"]
         assert sensor.uid == sensor_id
-        assert sensor.type == ground_truth["streams"][sensor_id]["type"]
+        assert sensor.type.value == ground_truth["streams"][sensor_id]["type"]
         assert sensor.uri == ground_truth["streams"][sensor_id]["uri"]
 
         assert [
@@ -65,7 +65,7 @@ def test_load_sensors(json_data, loader):
             sensor.extrinsics.quat.w,
         ] == ground_truth["coordinate_systems"][sensor_id]["pose_wrt_parent"]["quaternion"]
 
-        if sensor.type != "camera":
+        if sensor.type.value != "camera":
             continue
 
         assert list(sensor.intrinsics.camera_matrix) == ground_truth["streams"][sensor_id]["stream_properties"]["intrinsics_pinhole"]["camera_matrix"]

@@ -30,6 +30,28 @@ class IntrinsicsPinhole:
     width_px: int
     height_px: int
 
+    @classmethod
+    def fromdict(self, data_dict: dict) -> "IntrinsicsPinhole":
+        """Generate a IntrinsicsPinhole object from a dict.
+
+        Parameters
+        ----------
+        data_dict: dict
+            RailLabel format snippet containing the relevant data.
+
+        Returns
+        -------
+        raillabel.format.IntrinsicsPinhole
+            Converted IntrinsicsPinhole object.
+        """
+
+        return IntrinsicsPinhole(
+            camera_matrix=data_dict["camera_matrix"],
+            distortion=data_dict["distortion_coeffs"],
+            width_px=data_dict["width_px"],
+            height_px=data_dict["height_px"],
+        )
+
     def asdict(self) -> dict:
         """Export self as a dict compatible with the OpenLABEL schema.
 

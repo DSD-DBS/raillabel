@@ -46,12 +46,12 @@ class Cuboid(_Annotation):
         data_dict: dict,
         sensors: dict,
     ) -> "Cuboid":
-        """Generate a Cuboid object from a dictionary in the OpenLABEL format.
+        """Generate a Cuboid object from a dict.
 
         Parameters
         ----------
         data_dict: dict
-            OpenLABEL format dictionary containing the data for the annotation.
+            RailLabel format snippet containing the relevant data.
         sensors: dict
             Dictionary containing all sensors for the scene.
 

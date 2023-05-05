@@ -31,12 +31,12 @@ class SensorReference:
 
     @classmethod
     def fromdict(cls, data_dict: dict, sensor: Sensor) -> "SensorReference":
-        """Generate a SensorReference object from a dictionary.
+        """Generate a SensorReference object from a dict.
 
         Parameters
         ----------
         data_dict: dict
-            Dict representation of the frame.
+            RailLabel format snippet containing the relevant data.
         sensor: raillabel.format.Sensor
             Sensor corresponding to this SensorReference.
 
@@ -46,21 +46,11 @@ class SensorReference:
             Converted SensorReference object.
         """
 
-        if "stream_sync" in data_dict["stream_properties"]:
-            data_dict["stream_properties"]["sync"] = data_dict["stream_properties"]["stream_sync"]
-            _warning(
-                "Deprecated field 'stream_sync' identified. Please update file with raillabel.save()."
-            )
-
-        sensor_reference = SensorReference(
+        return SensorReference(
             sensor=sensor,
-            timestamp=decimal.Decimal(data_dict["stream_properties"]["sync"]["timestamp"]),
+            timestamp=cls._timestamp_fromdict(data_dict["stream_properties"]),
+            uri=data_dict.get("uri"),
         )
-
-        if "uri" in data_dict:
-            sensor_reference.uri = data_dict["uri"]
-
-        return sensor_reference
 
     def asdict(self) -> dict:
         """Export self as a dict compatible with the OpenLABEL schema.
@@ -82,3 +72,13 @@ class SensorReference:
             dict_repr["uri"] = self.uri
 
         return dict_repr
+
+    def _timestamp_fromdict(data_dict: dict) -> decimal.Decimal:
+
+        if "stream_sync" in data_dict:
+            _warning(
+                "Deprecated field 'stream_sync' identified. Please update file with raillabel.save()."
+            )
+            return decimal.Decimal(data_dict["stream_sync"]["timestamp"])
+
+        return decimal.Decimal(data_dict["sync"]["timestamp"])

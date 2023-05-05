@@ -79,8 +79,8 @@ class LoaderRailLabelV2(LoaderABC):
         for stream_id in data["streams"]:
             self.scene.sensors[stream_id] = format.Sensor.fromdict(
                 uid=stream_id,
-                cs_raw=data["coordinate_systems"][stream_id],
-                stream_raw=data["streams"][stream_id],
+                cs_data_dict=data["coordinate_systems"][stream_id],
+                stream_data_dict=data["streams"][stream_id],
             )
 
         for object_id in data["objects"]:

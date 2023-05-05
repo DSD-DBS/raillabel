@@ -18,7 +18,7 @@ from .poly3d import Poly3d
 from .quaternion import Quaternion
 from .scene import Scene
 from .seg3d import Seg3d
-from .sensor import Sensor
+from .sensor import Sensor, SensorType
 from .sensor_reference import SensorReference
 from .size2d import Size2d
 from .size3d import Size3d

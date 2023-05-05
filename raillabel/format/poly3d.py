@@ -42,12 +42,12 @@ class Poly3d(_Annotation):
         data_dict: dict,
         sensors: dict,
     ) -> "Poly3d":
-        """Generate a Poly3d object from a dictionary in the OpenLABEL format.
+        """Generate a Poly3d object from a dict.
 
         Parameters
         ----------
         data_dict: dict
-            OpenLABEL format dictionary containing the data for the annotation.
+            RailLabel format snippet containing the relevant data.
         sensors: dict
             Dictionary containing all sensors for the scene.
 

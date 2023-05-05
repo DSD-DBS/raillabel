@@ -4,6 +4,7 @@
 import typing as t
 import warnings
 from dataclasses import dataclass
+from enum import Enum
 
 from .intrinsics_pinhole import IntrinsicsPinhole
 from .point3d import Point3d
@@ -29,9 +30,9 @@ class Sensor:
         system origin. Default is None.
     intrinsics: raillabel.format.SensorCalibration, optional
         The intrinsic calibration of the sensor. Default is None.
-    type: str-enum
+    type: raillabel.format.SensorType, optional
         A string encoding the type of the sensor. The only valid values are 'camera', 'lidar',
-        'radar', 'gps_imu' or 'other'.
+        'radar', 'gps_imu' or 'other'. Default is None.
     uri: str, optional
         Name of the subdirectory containing the sensor files. Default is None.
     description: str, optional
@@ -41,11 +42,9 @@ class Sensor:
     uid: str
     extrinsics: t.Optional[Transform] = None
     intrinsics: t.Optional[IntrinsicsPinhole] = None
-    type: str = None
+    type: t.Optional["SensorType"] = None
     uri: t.Optional[str] = None
     description: t.Optional[str] = None
-
-    _VALID_SENSOR_TYPES = ["camera", "lidar", "radar", "gps_imu", "other"]
 
     @property
     def rostopic(self):
@@ -57,16 +56,16 @@ class Sensor:
         return self.uri
 
     @classmethod
-    def fromdict(self, uid: str, cs_raw: dict, stream_raw: dict) -> "Sensor":
-        """Generate a Sensor object from a dictionary in the RailLabel format.
+    def fromdict(cls, uid: str, cs_data_dict: dict, stream_data_dict: dict) -> "Sensor":
+        """Generate a Sensor object from a dict.
 
         Parameters
         ----------
         uid: str
             Unique identifier of the sensor.
-        cs_raw: dict
+        cs_data_dict: dict
             RailLabel format dict containing the data about the coordinate system.
-        stream_raw: dict
+        stream_data_dict: dict
             RailLabel format dict containing the data about the stream.
 
         Returns
@@ -75,48 +74,14 @@ class Sensor:
             Converted Sensor object.
         """
 
-        sensor = Sensor(uid)
-
-        if "pose_wrt_parent" in cs_raw:
-            sensor.extrinsics = Transform(
-                pos=Point3d(
-                    x=cs_raw["pose_wrt_parent"]["translation"][0],
-                    y=cs_raw["pose_wrt_parent"]["translation"][1],
-                    z=cs_raw["pose_wrt_parent"]["translation"][2],
-                ),
-                quat=Quaternion(
-                    x=cs_raw["pose_wrt_parent"]["quaternion"][0],
-                    y=cs_raw["pose_wrt_parent"]["quaternion"][1],
-                    z=cs_raw["pose_wrt_parent"]["quaternion"][2],
-                    w=cs_raw["pose_wrt_parent"]["quaternion"][3],
-                ),
-            )
-
-        if (
-            "stream_properties" in stream_raw
-            and "intrinsics_pinhole" in stream_raw["stream_properties"]
-        ):
-            sensor.intrinsics = IntrinsicsPinhole(
-                camera_matrix=tuple(
-                    stream_raw["stream_properties"]["intrinsics_pinhole"]["camera_matrix"]
-                ),
-                distortion=tuple(
-                    stream_raw["stream_properties"]["intrinsics_pinhole"]["distortion_coeffs"]
-                ),
-                width_px=stream_raw["stream_properties"]["intrinsics_pinhole"]["width_px"],
-                height_px=stream_raw["stream_properties"]["intrinsics_pinhole"]["height_px"],
-            )
-
-        if "type" in stream_raw:
-            sensor.type = stream_raw["type"]
-
-        if "uri" in stream_raw:
-            sensor.uri = stream_raw["uri"]
-
-        if "description" in stream_raw:
-            sensor.type = stream_raw["description"]
-
-        return sensor
+        return Sensor(
+            uid=uid,
+            extrinsics=cls._extrinsics_fromdict(cs_data_dict),
+            intrinsics=cls._intrinsics_fromdict(stream_data_dict),
+            type=cls._type_fromdict(stream_data_dict),
+            uri=stream_data_dict.get("uri"),
+            description=stream_data_dict.get("description"),
+        )
 
     def asdict(self) -> dict:
         """Export self as a dict compatible with the RailLabel schema.
@@ -146,12 +111,7 @@ class Sensor:
         stream_repr = {}
 
         if self.type is not None:
-            if self.type not in self._VALID_SENSOR_TYPES:
-                raise ValueError(
-                    f"Sensor.type must be one of {self._VALID_SENSOR_TYPES}, not {self.type}."
-                )
-
-            stream_repr["type"] = str(self.type)
+            stream_repr["type"] = str(self.type.value)
 
         if self.uri is not None:
             stream_repr["uri"] = str(self.uri)
@@ -163,3 +123,49 @@ class Sensor:
             stream_repr["stream_properties"] = {"intrinsics_pinhole": self.intrinsics.asdict()}
 
         return stream_repr
+
+    def _extrinsics_fromdict(data_dict) -> t.Optional[Transform]:
+
+        if "pose_wrt_parent" not in data_dict:
+            return None
+
+        return Transform(
+            pos=Point3d(
+                x=data_dict["pose_wrt_parent"]["translation"][0],
+                y=data_dict["pose_wrt_parent"]["translation"][1],
+                z=data_dict["pose_wrt_parent"]["translation"][2],
+            ),
+            quat=Quaternion(
+                x=data_dict["pose_wrt_parent"]["quaternion"][0],
+                y=data_dict["pose_wrt_parent"]["quaternion"][1],
+                z=data_dict["pose_wrt_parent"]["quaternion"][2],
+                w=data_dict["pose_wrt_parent"]["quaternion"][3],
+            ),
+        )
+
+    def _intrinsics_fromdict(data_dict) -> t.Optional[IntrinsicsPinhole]:
+
+        if (
+            "stream_properties" not in data_dict
+            or "intrinsics_pinhole" not in data_dict["stream_properties"]
+        ):
+            return None
+
+        return IntrinsicsPinhole.fromdict(data_dict["stream_properties"]["intrinsics_pinhole"])
+
+    def _type_fromdict(data_dict) -> t.Optional["SensorType"]:
+
+        if "type" not in data_dict:
+            return None
+
+        return SensorType(data_dict["type"])
+
+
+class SensorType(Enum):
+    """Enumeration representing all possible sensor types."""
+
+    CAMERA = "camera"
+    LIDAR = "lidar"
+    RADAR = "radar"
+    GPS_IMU = "gps_imu"
+    OTHER = "other"
