@@ -7,5 +7,3 @@ from dataclasses import dataclass
 @dataclass
 class Scene:
     """The root Understand.Ai class, which contains all data."""
-
-    pass
