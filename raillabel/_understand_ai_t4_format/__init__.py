@@ -4,3 +4,4 @@
 from .coordinate_system import CoordinateSystem
 from .metadata import Metadata
 from .scene import Scene
+from .sensor_reference import SensorReference
