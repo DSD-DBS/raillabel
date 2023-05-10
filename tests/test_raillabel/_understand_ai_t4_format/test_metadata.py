@@ -9,7 +9,6 @@ import pytest
 
 sys.path.insert(1, str(Path(__file__).parent.parent.parent.parent))
 
-import raillabel
 import raillabel._understand_ai_t4_format as uai_format
 
 
