@@ -1,15 +1,10 @@
 # Copyright DB Netz AG and contributors
 # SPDX-License-Identifier: Apache-2.0
 
-import json
 import typing as t
-from importlib import import_module
-from inspect import isclass
 from pathlib import Path
-from pkgutil import iter_modules
 
-from .. import exceptions, format
-from ..format._annotation import _Annotation
+from .. import format
 from ._loader_abc import LoaderABC
 
 
