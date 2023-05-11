@@ -18,11 +18,11 @@ def test_fromdict():
         "y": -3.7850908693727328,
         "z": 6.671744016124283
     }
-    size = uai_format.Point3d.fromdict(input_data)
+    point = uai_format.Point3d.fromdict(input_data)
 
-    assert size.x == float(input_data["x"])
-    assert size.y == float(input_data["y"])
-    assert size.z == float(input_data["z"])
+    assert point.x == float(input_data["x"])
+    assert point.y == float(input_data["y"])
+    assert point.z == float(input_data["z"])
 
 # Executes the test if the file is called
 if __name__ == "__main__":
