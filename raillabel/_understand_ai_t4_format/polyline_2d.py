@@ -26,6 +26,7 @@ class Polyline2d(_Annotation):
     sensor: raillabel._understand_ai_t4_format.SensorReference
         Information about the sensor this annotation is labeled in.
     points: list[tuple[float, float]]
+        2d points belonging to the polyline.
     """
 
     points: t.List[t.Tuple[float, float]]
