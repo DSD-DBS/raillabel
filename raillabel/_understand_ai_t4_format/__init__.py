@@ -6,6 +6,7 @@ from .bounding_box_3d import BoundingBox3d
 from .coordinate_system import CoordinateSystem
 from .metadata import Metadata
 from .point_3d import Point3d
+from .polyline_2d import Polyline2d
 from .quaternion import Quaternion
 from .scene import Scene
 from .sensor_reference import SensorReference
