@@ -6,3 +6,4 @@ from .coordinate_system import CoordinateSystem
 from .metadata import Metadata
 from .scene import Scene
 from .sensor_reference import SensorReference
+from .size_3d import Size3d
