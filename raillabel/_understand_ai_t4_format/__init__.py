@@ -10,5 +10,6 @@ from .polygon_2d import Polygon2d
 from .polyline_2d import Polyline2d
 from .quaternion import Quaternion
 from .scene import Scene
+from .segmentation_3d import Segmentation3d
 from .sensor_reference import SensorReference
 from .size_3d import Size3d
