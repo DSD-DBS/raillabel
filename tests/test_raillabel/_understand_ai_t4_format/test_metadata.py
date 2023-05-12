@@ -12,26 +12,18 @@ sys.path.insert(1, str(Path(__file__).parent.parent.parent.parent))
 import raillabel._understand_ai_t4_format as uai_format
 
 
-def test_fromdict():
-    metadata = uai_format.Metadata.fromdict({
-        "clip_id": "db_3_2021-09-22-14-28-01_2021-09-22-14-44-03",
-        "external_clip_id": "2021-09-22-14-28-01_2021-09-22-14-44-03",
-        "project_id": "trains_4",
-        "export_time": "2023-04-20 01:38 UTC",
-        "exporter_version": "1.0.0",
-        "coordinate_system_3d": "FLU",
-        "coordinate_system_reference": "SENSOR",
-        "folder_name": "2021-09-22-14-28-01_2021-09-22-14-44-03"
-    })
+def test_fromdict(json_data):
+    input_data = json_data["_understand_ai_t4_format/metadata"]
+    metadata = uai_format.Metadata.fromdict(input_data)
 
-    assert metadata.clip_id == "db_3_2021-09-22-14-28-01_2021-09-22-14-44-03"
-    assert metadata.external_clip_id == "2021-09-22-14-28-01_2021-09-22-14-44-03"
-    assert metadata.project_id == "trains_4"
-    assert metadata.export_time == "2023-04-20 01:38 UTC"
-    assert metadata.exporter_version == "1.0.0"
-    assert metadata.coordinate_system_3d == "FLU"
-    assert metadata.coordinate_system_reference == "SENSOR"
-    assert metadata.folder_name == "2021-09-22-14-28-01_2021-09-22-14-44-03"
+    assert metadata.clip_id == input_data["clip_id"]
+    assert metadata.external_clip_id == input_data["external_clip_id"]
+    assert metadata.project_id == input_data["project_id"]
+    assert metadata.export_time == input_data["export_time"]
+    assert metadata.exporter_version == input_data["exporter_version"]
+    assert metadata.coordinate_system_3d == input_data["coordinate_system_3d"]
+    assert metadata.coordinate_system_reference == input_data["coordinate_system_reference"]
+    assert metadata.folder_name == input_data["folder_name"]
 
 
 # Executes the test if the file is called
