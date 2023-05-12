@@ -13,29 +13,9 @@ sys.path.insert(1, str(Path(__file__).parent.parent.parent.parent))
 import raillabel._understand_ai_t4_format as uai_format
 
 
-def test_fromdict():
-    input_data = {
-        "id": "2f2a1d7f-56d1-435c-a3ec-d6b8fdaaa965",
-        "objectId": "48c988bd-76f1-423f-b46d-7e7acb859f31",
-        "className": "test_class",
-        "geometry": {
-            "xMin": 1,
-            "yMin": 2,
-            "xMax": 3,
-            "yMax": 4
-        },
-        "attributes": {
-            "isDummy": False,
-            "carries": "nothing",
-            "connectedTo": [],
-            "pose": "upright",
-        },
-        "sensor": {
-            "type": "ir_middle",
-            "uri": "A0001781_image/000_1632321843.100464760.png",
-            "timestamp": "1632321843.100464760"
-        }
-    }
+def test_fromdict(json_data):
+    input_data = json_data["_understand_ai_t4_format/bounding_box_2d"]
+    input_data["sensor"] = json_data["_understand_ai_t4_format/sensor_reference_camera"]
     bounding_box = uai_format.BoundingBox2d.fromdict(input_data)
 
     assert bounding_box.id == UUID(input_data["id"])

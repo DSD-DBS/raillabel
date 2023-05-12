@@ -1,0 +1,18 @@
+{
+    "id": "2f2a1d7f-56d1-435c-a3ec-d6b8fdaaa965",
+    "objectId": "48c988bd-76f1-423f-b46d-7e7acb859f31",
+    "className": "test_class",
+    "geometry": {
+        "xMin": 1,
+        "yMin": 2,
+        "xMax": 3,
+        "yMax": 4
+    },
+    "attributes": {
+        "isDummy": false,
+        "carries": "nothing",
+        "connectedTo": [],
+        "pose": "upright"
+    },
+    "sensor": null
+}
