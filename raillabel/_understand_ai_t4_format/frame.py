@@ -4,7 +4,6 @@
 import typing as t
 from dataclasses import dataclass
 from decimal import Decimal
-from uuid import UUID
 
 from .bounding_box_2d import BoundingBox2d
 from .bounding_box_3d import BoundingBox3d
