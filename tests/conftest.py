@@ -47,7 +47,7 @@ def _collect_json_paths() -> t.List[Path]:
     json_paths = []
 
     for dir in json_data_directories:
-        json_paths.extend([Path(p) for p in glob.glob(str(dir) + "/**.json")])
+        json_paths.extend([Path(p) for p in glob.glob(str(dir) + "/**/**.json", recursive=True)])
 
     return json_paths
 
