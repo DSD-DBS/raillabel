@@ -13,43 +13,9 @@ sys.path.insert(1, str(Path(__file__).parent.parent.parent.parent))
 import raillabel._understand_ai_t4_format as uai_format
 
 
-def test_fromdict():
-    input_data = {
-        "id": "0f90cffa-2b6b-4e09-8fc2-527769a94e0a",
-        "objectId": "58e7edd8-a7ee-4775-a837-e6dd375e8150",
-        "className": "2D_signal_pole",
-        "geometry": {
-            "points": [
-                [
-                    127.71153737657284,
-                    -0.3861000079676791
-                ],
-                [
-                    127.4762636010818,
-                    328.04436391207815
-                ],
-                [
-                    115.77703250958459,
-                    334.4789410124016
-                ],
-                [
-                    115.01063176442402,
-                    411.0810690770479
-                ]
-            ]
-        },
-        "attributes": {
-            "structure": "structured",
-            "isTruncatedTop": True,
-            "isTruncatedBottom": False,
-            "occlusion": "0-25%"
-        },
-        "sensor": {
-            "type": "ir_left",
-            "uri": "A0001780_image/000_1632321843.100464380.png",
-            "timestamp": "1632321843.100464380"
-        }
-    }
+def test_fromdict(json_data):
+    input_data = json_data["_understand_ai_t4_format/polygon_2d"]
+    input_data["sensor"] = json_data["_understand_ai_t4_format/sensor_reference_camera"]
     polygon = uai_format.Polygon2d.fromdict(input_data)
 
     assert polygon.id == UUID(input_data["id"])

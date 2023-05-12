@@ -1,0 +1,32 @@
+{
+    "id": "0f90cffa-2b6b-4e09-8fc2-527769a94e0a",
+    "objectId": "58e7edd8-a7ee-4775-a837-e6dd375e8150",
+    "className": "2D_signal_pole",
+    "geometry": {
+        "points": [
+            [
+                127.71153737657284,
+                -0.3861000079676791
+            ],
+            [
+                127.4762636010818,
+                328.04436391207815
+            ],
+            [
+                115.77703250958459,
+                334.4789410124016
+            ],
+            [
+                115.01063176442402,
+                411.0810690770479
+            ]
+        ]
+    },
+    "attributes": {
+        "structure": "structured",
+        "isTruncatedTop": true,
+        "isTruncatedBottom": false,
+        "occlusion": "0-25%"
+    },
+    "sensor": null
+}
