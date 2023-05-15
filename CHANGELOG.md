@@ -51,3 +51,4 @@ Release
 
 # Unreleased
 - Raillabel schema is now more restrictive regarding intrinsic calibration
+- Support for understand.ai t4 format
