@@ -48,7 +48,7 @@ class Scene:
         )
 
     @classmethod
-    def _coordinate_systems_fromdict(cls, data_dict: list[dict]) -> t.Dict[str, CoordinateSystem]:
+    def _coordinate_systems_fromdict(cls, data_dict: t.List[dict]) -> t.Dict[str, CoordinateSystem]:
         coordinate_systems = {}
         for cs in data_dict:
             coordinate_systems[cs["coordinate_system_id"]] = CoordinateSystem.fromdict(cs)
