@@ -56,7 +56,7 @@ class Scene:
         return coordinate_systems
 
     @classmethod
-    def _frames_fromdict(cls, data_dict: list[dict]) -> t.Dict[str, Frame]:
+    def _frames_fromdict(cls, data_dict: t.List[dict]) -> t.Dict[str, Frame]:
         frames = {}
         for frame in data_dict:
             frames[frame["frameId"]] = Frame.fromdict(frame)
