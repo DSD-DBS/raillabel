@@ -25,17 +25,16 @@ def test_to_raillabel(json_data):
     sensor_reference = uai_format.SensorReference.fromdict(
         json_data["_understand_ai_t4_format/sensor_reference_camera"]
     )
-    output_data = sensor_reference.to_raillabel()
+    sensor_id, output_data = sensor_reference.to_raillabel()
 
+    assert sensor_id == sensor_reference.type
     assert output_data == {
-        sensor_reference.type: {
-            "stream_properties": {
-                "sync": {
-                    "timestamp": str(sensor_reference.timestamp)
-                }
-            },
-            "uri": sensor_reference.uri
-        }
+        "stream_properties": {
+            "sync": {
+                "timestamp": str(sensor_reference.timestamp)
+            }
+        },
+        "uri": sensor_reference.uri
     }
 
 
