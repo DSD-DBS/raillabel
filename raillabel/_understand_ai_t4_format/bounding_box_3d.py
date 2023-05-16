@@ -65,3 +65,17 @@ class BoundingBox3d(_Annotation):
             attributes=data_dict["attributes"],
             sensor=SensorReference.fromdict(data_dict["sensor"]),
         )
+
+    def _val_to_raillabel(self) -> list:
+        return [
+            float(self.center.x),
+            float(self.center.y),
+            float(self.center.z),
+            float(self.quaternion.x),
+            float(self.quaternion.y),
+            float(self.quaternion.z),
+            float(self.quaternion.w),
+            float(self.size.width),
+            float(self.size.length),
+            float(self.size.height),
+        ]
