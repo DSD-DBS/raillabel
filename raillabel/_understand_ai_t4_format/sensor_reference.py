@@ -41,3 +41,19 @@ class SensorReference:
         return SensorReference(
             type=data_dict["type"], uri=data_dict["uri"], timestamp=Decimal(data_dict["timestamp"])
         )
+
+    def to_raillabel(self) -> dict:
+        """Convert to a raillabel compatible dict.
+
+        Returns
+        -------
+        dict
+            Dictionary valid for the raillabel schema.
+        """
+
+        return {
+            self.type: {
+                "stream_properties": {"sync": {"timestamp": str(self.timestamp)}},
+                "uri": self.uri,
+            }
+        }
