@@ -28,7 +28,7 @@ class _Annotation(ABC):
 
         Returns
         -------
-        bounding_box: dict
+        annotation: dict
             Dictionary valid for the raillabel schema.
         object_id: str
             Friendly identifier of the object this sensor belongs to.
