@@ -23,7 +23,7 @@ class _Annotation(ABC):
     def fromdict(cls, data_dict: t.Dict) -> t.Type["_Annotation"]:
         raise NotImplementedError
 
-    def to_raillabel(self) -> t.Tuple[dict, str, dict]:
+    def to_raillabel(self) -> t.Tuple[dict, str, str, dict]:
         """Convert to a raillabel compatible dict.
 
         Returns
@@ -32,6 +32,8 @@ class _Annotation(ABC):
             Dictionary valid for the raillabel schema.
         object_id: str
             Friendly identifier of the object this sensor belongs to.
+        class_name: str
+            Friendly identifier of the class the annotated object belongs to.
         sensor_reference: dict
             Dictionary of the sensor reference.
         """
@@ -40,10 +42,11 @@ class _Annotation(ABC):
             {
                 "name": str(self.id),
                 "val": self._val_to_raillabel(),
-                "coordinate_system": self.sensor.type,
+                "coordinate_system": self.sensor.type,  # TODO: translate
                 "attributes": self._attributes_to_raillabel(),
             },
             str(self.object_id),
+            self.class_name,  # TODO: translate
             self.sensor.to_raillabel()[1],
         )
 
