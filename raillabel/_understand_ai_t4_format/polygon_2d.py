@@ -54,3 +54,27 @@ class Polygon2d(_Annotation):
             sensor=SensorReference.fromdict(data_dict["sensor"]),
             points=[(p[0], p[1]) for p in data_dict["geometry"]["points"]],
         )
+
+    def to_raillabel(self) -> t.Tuple[dict, str, str, dict]:
+        """Convert to a raillabel compatible dict.
+
+        Returns
+        -------
+        annotation: dict
+            Dictionary valid for the raillabel schema.
+        object_id: str
+            Friendly identifier of the object this sensor belongs to.
+        class_name: str
+            Friendly identifier of the class the annotated object belongs to.
+        sensor_reference: dict
+            Dictionary of the sensor reference.
+        """
+
+        polygon = super().to_raillabel()
+        polygon[0]["closed"] = True
+        polygon[0]["mode"] = "MODE_POLY2D_ABSOLUTE"
+
+        return polygon
+
+    def _val_to_raillabel(self) -> list[float]:
+        return [coordinate for point in self.points for coordinate in point]
