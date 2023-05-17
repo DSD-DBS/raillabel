@@ -1,7 +1,9 @@
 # Copyright DB Netz AG and contributors
 # SPDX-License-Identifier: Apache-2.0
 
+import json
 from dataclasses import dataclass
+from pathlib import Path
 
 
 @dataclass
@@ -60,3 +62,32 @@ class Metadata:
             coordinate_system_reference=data_dict["coordinate_system_reference"],
             folder_name=data_dict["folder_name"],
         )
+
+    def to_raillabel(self) -> dict:
+        """Convert to a raillabel compatible dict.
+
+        Returns
+        -------
+        sensor_id: str
+            Friendly identifier of the sensor.
+        sensor_reference: dict
+            Dictionary valid for the raillabel schema.
+        """
+
+        return {
+            "name": self.external_clip_id,
+            "schema_version": "1.0.0",
+            "subschema_version": self._get_subschema_version(),
+            "tagged_file": self.folder_name,
+            "annotator": "understandAI GmbH",
+        }
+
+    def _get_subschema_version(self) -> str:
+        RAILLABEL_SCHEMA_PATH = (
+            Path(__file__).parent.parent / "schemas" / "raillabel_v2_schema.json"
+        )
+
+        with RAILLABEL_SCHEMA_PATH.open() as schema_file:
+            subschema_version = json.load(schema_file)["version"]
+
+        return subschema_version
