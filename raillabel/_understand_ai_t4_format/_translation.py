@@ -50,4 +50,6 @@ def _load_translation():
         TRANSLATION = json.load(translation_file)
 
 
+TRANSLATION = {}
+
 _load_translation()
