@@ -6,7 +6,7 @@ from dataclasses import dataclass
 from decimal import Decimal
 
 from ._annotation import _Annotation
-from ._translation import translate_sensor_id
+from ._translation import translate_class_id, translate_sensor_id
 from .bounding_box_2d import BoundingBox2d
 from .bounding_box_3d import BoundingBox3d
 from .polygon_2d import Polygon2d
@@ -35,6 +35,49 @@ class Frame:
     polygon_2ds: t.Dict[str, Polygon2d]
     polyline_2ds: t.Dict[str, Polyline2d]
     segmentation_3ds: t.Dict[str, Segmentation3d]
+
+    @property
+    def annotations(self) -> dict:
+        """Return all annotations of this frame in one dict."""
+        return {
+            **self.bounding_box_2ds,
+            **self.bounding_box_3ds,
+            **self.polygon_2ds,
+            **self.polyline_2ds,
+            **self.segmentation_3ds,
+        }
+
+    @property
+    def translated_objects(self) -> dict:
+        """Return all objects in this frame and translate them.
+
+        Returns
+        -------
+        dict
+            Dictionary containing all objects. Keys are the object IDs and values are the
+            translated class names.
+        """
+        return {
+            str(a.object_id): translate_class_id(a.class_name) for a in self.annotations.values()
+        }
+
+    @property
+    def translated_sensors(self) -> dict:
+        """Return all sensors in this frame and translate them.
+
+        Returns
+        -------
+        dict
+            Dictionary containing all objects. Keys are the translated sensor IDs and values are
+            the SensorReference objects.
+        """
+        sensors_list = []
+
+        for annotation in list(self.annotations.values()):
+            sensors_list.append(annotation.sensor)
+            sensors_list[-1].type = translate_sensor_id(sensors_list[-1].type)
+
+        return {sensor.type: sensor for sensor in sensors_list}
 
     @classmethod
     def fromdict(cls, data_dict: dict) -> "Frame":
@@ -81,23 +124,43 @@ class Frame:
         -------
         Frame
             Converted frame.
-        list[str]
-            List of sensor ids contained in the frame.
-        dict[str, str]
-            Dictionary with one item per object in the frame. Keys are the object UUIDs, the
-            values are the class names.
         """
-        return (
-            {
-                "frame_properties": self._frame_properties_to_raillabel(),
-                "objects": self._objects_to_raillabel(),
-            },
-            list(self._contained_sensors().keys()),
-            list(self._contained_objects().keys()),
-        )
+        return {
+            "frame_properties": self._frame_properties_to_raillabel(),
+            "objects": self._objects_to_raillabel(),
+        }
 
     @classmethod
     def _annotation_fromdict(
         cls, data_dict: dict, annotation_class: t.Type[_Annotation]
     ) -> t.Dict[str, BoundingBox2d]:
         return {ann["id"]: annotation_class.fromdict(ann) for ann in data_dict}
+
+    def _frame_properties_to_raillabel(self) -> dict:
+
+        streams_dict = {}
+        for stream_id, stream in self.translated_sensors.items():
+            streams_dict[stream_id] = {
+                "stream_properties": {"sync": {"timestamp": str(stream.timestamp)}},
+                "uri": stream.uri,
+            }
+
+        return {"timestamp": str(self.timestamp), "streams": streams_dict}
+
+    def _objects_to_raillabel(self) -> dict:
+        object_data = {}
+
+        for annotation in self.annotations.values():
+
+            object_id = str(annotation.object_id)
+
+            if object_id not in object_data:
+                object_data[object_id] = {
+                    "object_data": {"bbox": [], "cuboid": [], "poly2d": [], "vec": []}
+                }
+
+            object_data[object_id]["object_data"][annotation.OPENLABEL_ID].append(
+                annotation.to_raillabel()[0]
+            )
+
+        return object_data
