@@ -35,7 +35,7 @@ def test_to_raillabel(json_data):
 
     assert output_data == ground_truth
     assert object_id == input_data["objectId"]
-    assert class_name == input_data["className"]  # TODO: test for translation
+    assert class_name == "catenary_pole"
     assert sensor_ref == segmentation_3d.sensor.to_raillabel()[1]
 
 

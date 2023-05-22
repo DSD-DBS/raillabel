@@ -38,7 +38,7 @@ def test_to_raillabel(json_data):
     assert output_data["val"] == ground_truth["val"]
     assert output_data["attributes"] == ground_truth["attributes"]
     assert object_id == input_data["objectId"]
-    assert class_name == input_data["className"]  # TODO: test for translation
+    assert class_name == input_data["className"]
     assert sensor_ref == bounding_box.sensor.to_raillabel()[1]
 
 

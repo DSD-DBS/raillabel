@@ -6,7 +6,7 @@ from abc import ABC, abstractmethod
 from dataclasses import dataclass
 from uuid import UUID
 
-from ._translation import translate_sensor_id
+from ._translation import translate_class_id, translate_sensor_id
 from .sensor_reference import SensorReference
 
 
@@ -47,7 +47,7 @@ class _Annotation(ABC):
                 "attributes": self._attributes_to_raillabel(),
             },
             str(self.object_id),
-            self.class_name,  # TODO: translate
+            translate_class_id(self.class_name),
             self.sensor.to_raillabel()[1],
         )
 

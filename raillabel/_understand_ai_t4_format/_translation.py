@@ -21,6 +21,22 @@ def translate_sensor_id(original_sensor_id: str) -> str:
     return TRANSLATION["streams"].get(original_sensor_id, original_sensor_id)
 
 
+def translate_class_id(original_class_id: str) -> str:
+    """Translate deprecated class ids to the correct ones.
+
+    Parameters
+    ----------
+    original_class_id : str
+        Original id of the class.
+
+    Returns
+    -------
+    str
+        Translated id or original_class_id, if no translation could be found.
+    """
+    return TRANSLATION["classes"].get(original_class_id, original_class_id)
+
+
 def _load_translation():
     """Load the translation file when the module is imported.
 
