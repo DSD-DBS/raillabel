@@ -40,6 +40,8 @@ class BoundingBox2d(_Annotation):
     x_max: float
     y_max: float
 
+    OPENLABEL_ID = "bbox"
+
     @classmethod
     def fromdict(cls, data_dict: t.Dict) -> "BoundingBox2d":
         """Generate a BoundingBox2d from a dictionary in the UAI format.

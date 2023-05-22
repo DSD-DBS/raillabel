@@ -31,6 +31,8 @@ class Polygon2d(_Annotation):
 
     points: t.List[t.Tuple[float, float]]
 
+    OPENLABEL_ID = "poly2d"
+
     @classmethod
     def fromdict(cls, data_dict: t.Dict) -> "Polygon2d":
         """Generate a Polygon2d from a dictionary in the UAI format.

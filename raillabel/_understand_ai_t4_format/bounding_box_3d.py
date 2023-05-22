@@ -41,6 +41,8 @@ class BoundingBox3d(_Annotation):
     size: Size3d
     quaternion: Quaternion
 
+    OPENLABEL_ID = "cuboid"
+
     @classmethod
     def fromdict(cls, data_dict: t.Dict) -> "BoundingBox3d":
         """Generate a BoundingBox3d from a dictionary in the UAI format.

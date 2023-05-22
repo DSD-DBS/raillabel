@@ -31,6 +31,8 @@ class Polyline2d(_Annotation):
 
     points: t.List[t.Tuple[float, float]]
 
+    OPENLABEL_ID = "poly2d"
+
     @classmethod
     def fromdict(cls, data_dict: t.Dict) -> "Polyline2d":
         """Generate a Polyline2d from a dictionary in the UAI format.

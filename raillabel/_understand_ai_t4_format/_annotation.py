@@ -2,7 +2,7 @@
 # SPDX-License-Identifier: Apache-2.0
 
 import typing as t
-from abc import ABC, abstractmethod
+from abc import ABC, abstractmethod, abstractproperty
 from dataclasses import dataclass
 from uuid import UUID
 
@@ -19,6 +19,11 @@ class _Annotation(ABC):
     attributes: dict
     sensor: SensorReference
 
+    @property
+    @abstractproperty
+    def OPENLABEL_ID(self) -> t.List[str]:
+        raise NotImplementedError
+
     @classmethod
     @abstractmethod
     def fromdict(cls, data_dict: t.Dict) -> t.Type["_Annotation"]:
@@ -32,7 +37,7 @@ class _Annotation(ABC):
         annotation: dict
             Dictionary valid for the raillabel schema.
         object_id: str
-            Friendly identifier of the object this sensor belongs to.
+            Friendly identifier of the object this annotation belongs to.
         class_name: str
             Friendly identifier of the class the annotated object belongs to.
         sensor_reference: dict
