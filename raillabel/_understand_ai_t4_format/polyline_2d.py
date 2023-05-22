@@ -76,5 +76,5 @@ class Polyline2d(_Annotation):
 
         return polyline
 
-    def _val_to_raillabel(self) -> list[float]:
+    def _val_to_raillabel(self) -> t.List[float]:
         return [coordinate for point in self.points for coordinate in point]
