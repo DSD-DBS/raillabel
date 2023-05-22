@@ -58,3 +58,6 @@ class Segmentation3d(_Annotation):
             associated_points=data_dict["geometry"]["associatedPoints"],
             number_of_points=data_dict["geometry"]["numberOfPointsInBox"],
         )
+
+    def _val_to_raillabel(self) -> list:
+        return self.associated_points
