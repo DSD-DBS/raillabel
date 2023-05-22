@@ -1,0 +1,5 @@
+{
+    "type": "lidar",
+    "uri": "/lidar_merged",
+    "stream_properties": null
+}
