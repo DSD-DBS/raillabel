@@ -68,10 +68,8 @@ class Metadata:
 
         Returns
         -------
-        sensor_id: str
-            Friendly identifier of the sensor.
-        sensor_reference: dict
-            Dictionary valid for the raillabel schema.
+        metadata: dict
+            Converted metadata.
         """
 
         return {
