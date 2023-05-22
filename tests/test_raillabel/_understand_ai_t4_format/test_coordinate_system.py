@@ -44,6 +44,15 @@ def test_fromdict_lidar(json_data):
     assert coordinate_system.camera_matrix == None
     assert coordinate_system.dist_coeffs == None
 
+def test_to_raillabel_camera(json_data):
+    input_data = json_data["_understand_ai_t4_format/coordinate_system_camera"]
+    coordinate_system = uai_format.CoordinateSystem.fromdict(input_data)
+    output_cs, output_stream = coordinate_system.to_raillabel()
+    ground_truth_cs = json_data["_understand_ai_t4_format/coordinate_system_camera_cs_raillabel"]
+    ground_truth_stream = json_data["_understand_ai_t4_format/coordinate_system_camera_stream_raillabel"]
+
+    assert output_cs == ground_truth_cs
+    assert output_stream == ground_truth_stream
 
 # Executes the test if the file is called
 if __name__ == "__main__":

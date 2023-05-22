@@ -2,6 +2,7 @@
 # SPDX-License-Identifier: Apache-2.0
 
 import json
+import typing as t
 from pathlib import Path
 
 
@@ -35,6 +36,39 @@ def translate_class_id(original_class_id: str) -> str:
         Translated id or original_class_id, if no translation could be found.
     """
     return TRANSLATION["classes"].get(original_class_id, original_class_id)
+
+
+def fetch_sensor_type(sensor_id: str) -> str:
+    """Fetch sensor type from translation file.
+
+    Parameters
+    ----------
+    sensor_id : str
+        Id of the sensor.
+
+    Returns
+    -------
+    str
+        Sensor type or 'other' if sensor_id not found in translation.json.
+    """
+    return TRANSLATION["stream_types"].get(sensor_id, "other")
+
+
+def fetch_sensor_resolutions(sensor_id: str) -> dict:
+    """Fetch sensor resolution from translation file.
+
+    Parameters
+    ----------
+    sensor_id : str
+        Id of the sensor.
+
+    Returns
+    -------
+    dict
+        Dictionary containing the resolution information. Key 'x' contains the width in pixels,
+        key 'y' contains the height in pixels.
+    """
+    return TRANSLATION["stream_resolutions"].get(sensor_id, {"x": None, "y": None})
 
 
 def _load_translation():

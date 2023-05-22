@@ -4,6 +4,8 @@
 import typing as t
 from dataclasses import dataclass
 
+from ._translation import fetch_sensor_resolutions, fetch_sensor_type, translate_sensor_id
+
 
 @dataclass
 class CoordinateSystem:
@@ -46,6 +48,11 @@ class CoordinateSystem:
     camera_matrix: t.Optional[t.List[float]]
     dist_coeffs: t.Optional[t.List[float]]
 
+    @property
+    def translated_uid(self) -> str:
+        """Return uid translated to raillabel."""
+        return translate_sensor_id(self.uid)
+
     @classmethod
     def fromdict(cls, data_dict: dict) -> "CoordinateSystem":
         """Generate a CoordinateSystem from a dictionary in the UAI format.
@@ -74,3 +81,46 @@ class CoordinateSystem:
             camera_matrix=data_dict.get("camera_matrix"),
             dist_coeffs=data_dict.get("dist_coeffs"),
         )
+
+    def to_raillabel(self) -> t.Tuple[dict, dict]:
+        """Convert to a raillabel compatible dict.
+
+        Returns
+        -------
+        coordinate_system_dict: str
+            Dictionary of the raillabel coordinate system.
+        stream_dict: dict
+            Dictionary of the raillabel stream.
+        """
+        return (
+            {
+                "type": "sensor",
+                "parent": "base",
+                "pose_wrt_parent": {
+                    "translation": self.position,
+                    "quaternion": self.rotation_quaternion,
+                },
+            },
+            {
+                "type": fetch_sensor_type(self.translated_uid),
+                "uri": self.topic,
+                "stream_properties": self._stream_properties_to_raillabel(
+                    fetch_sensor_type(self.translated_uid)
+                ),
+            },
+        )
+
+    def _stream_properties_to_raillabel(self, type: str) -> t.Optional[dict]:
+
+        if type == "camera":
+            return {
+                "intrinsics_pinhole": {
+                    "camera_matrix": self.camera_matrix,
+                    "distortion_coeffs": self.dist_coeffs,
+                    "width_px": fetch_sensor_resolutions(self.translated_uid)["x"],
+                    "height_px": fetch_sensor_resolutions(self.translated_uid)["y"],
+                }
+            }
+
+        else:
+            return None
