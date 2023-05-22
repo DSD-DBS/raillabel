@@ -66,9 +66,12 @@ def fetch_sensor_resolutions(sensor_id: str) -> dict:
     -------
     dict
         Dictionary containing the resolution information. Key 'x' contains the width in pixels,
-        key 'y' contains the height in pixels.
+        key 'y' contains the height in pixels. If the sensor is a radar, 'resolution_px_per_m' is
+        also included.
     """
-    return TRANSLATION["stream_resolutions"].get(sensor_id, {"x": None, "y": None})
+    return TRANSLATION["stream_resolutions"].get(
+        sensor_id, {"x": None, "y": None, "resolution_px_per_m": None}
+    )
 
 
 def _load_translation():

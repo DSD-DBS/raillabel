@@ -122,5 +122,16 @@ class CoordinateSystem:
                 }
             }
 
+        elif type == "radar":
+            return {
+                "intrinsics_radar": {
+                    "resolution_px_per_m": fetch_sensor_resolutions(self.translated_uid)[
+                        "resolution_px_per_m"
+                    ],
+                    "width_px": fetch_sensor_resolutions(self.translated_uid)["x"],
+                    "height_px": fetch_sensor_resolutions(self.translated_uid)["y"],
+                }
+            }
+
         else:
             return None

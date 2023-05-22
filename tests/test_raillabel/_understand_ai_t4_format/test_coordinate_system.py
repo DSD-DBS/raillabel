@@ -62,6 +62,14 @@ def test_to_raillabel_lidar(json_data):
 
     assert output_stream == ground_truth_stream
 
+def test_to_raillabel_radar(json_data):
+    input_data = json_data["_understand_ai_t4_format/coordinate_system_radar"]
+    coordinate_system = uai_format.CoordinateSystem.fromdict(input_data)
+    _, output_stream = coordinate_system.to_raillabel()
+    ground_truth_stream = json_data["_understand_ai_t4_format/coordinate_system_radar_stream_raillabel"]
+
+    assert output_stream == ground_truth_stream
+
 # Executes the test if the file is called
 if __name__ == "__main__":
     os.system("clear")
