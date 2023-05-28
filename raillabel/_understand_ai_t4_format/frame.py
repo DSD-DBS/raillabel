@@ -133,7 +133,7 @@ class Frame:
     @classmethod
     def _annotation_fromdict(
         cls, data_dict: dict, annotation_class: t.Type[_Annotation]
-    ) -> t.Dict[str, BoundingBox2d]:
+    ) -> t.Dict[str, t.Type[_Annotation]]:
         return {ann["id"]: annotation_class.fromdict(ann) for ann in data_dict}
 
     def _frame_properties_to_raillabel(self) -> dict:
@@ -142,7 +142,7 @@ class Frame:
         for stream_id, stream in self.translated_sensors.items():
             streams_dict[stream_id] = {
                 "stream_properties": {"sync": {"timestamp": str(stream.timestamp)}},
-                "uri": stream.uri,
+                "uri": stream.uri.split("/")[-1],
             }
 
         return {"timestamp": str(self.timestamp), "streams": streams_dict}
