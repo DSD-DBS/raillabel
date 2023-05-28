@@ -115,7 +115,7 @@ class CoordinateSystem:
         if type == "camera":
             return {
                 "intrinsics_pinhole": {
-                    "camera_matrix": self.camera_matrix,
+                    "camera_matrix": self._convert_camera_matrix(self.camera_matrix[:]),
                     "distortion_coeffs": self.dist_coeffs,
                     "width_px": fetch_sensor_resolutions(self.translated_uid)["x"],
                     "height_px": fetch_sensor_resolutions(self.translated_uid)["y"],
@@ -135,3 +135,11 @@ class CoordinateSystem:
 
         else:
             return None
+
+    def _convert_camera_matrix(self, camera_matrix: list) -> list:
+
+        camera_matrix.insert(9, 0)
+        camera_matrix.insert(6, 0)
+        camera_matrix.insert(3, 0)
+
+        return camera_matrix
