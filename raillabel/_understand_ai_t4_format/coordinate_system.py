@@ -87,7 +87,7 @@ class CoordinateSystem:
 
         Returns
         -------
-        coordinate_system_dict: str
+        coordinate_system_dict: dict
             Dictionary of the raillabel coordinate system.
         stream_dict: dict
             Dictionary of the raillabel stream.

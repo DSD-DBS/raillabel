@@ -63,12 +63,12 @@ class Frame:
 
     @property
     def translated_sensors(self) -> dict:
-        """Return all sensors in this frame and translate them.
+        """Return all sensors in this frame and translates them.
 
         Returns
         -------
         dict
-            Dictionary containing all objects. Keys are the translated sensor IDs and values are
+            Dictionary containing all sensors. Keys are the translated sensor IDs and values are
             the SensorReference objects.
         """
         sensors_list = []
