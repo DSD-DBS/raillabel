@@ -41,9 +41,9 @@ class Frame:
         """Return all annotations of this frame in one dict."""
         return {
             **self.bounding_box_2ds,
-            **self.bounding_box_3ds,
-            **self.polygon_2ds,
             **self.polyline_2ds,
+            **self.polygon_2ds,
+            **self.bounding_box_3ds,
             **self.segmentation_3ds,
         }
 
@@ -156,7 +156,7 @@ class Frame:
 
             if object_id not in object_data:
                 object_data[object_id] = {
-                    "object_data": {"bbox": [], "cuboid": [], "poly2d": [], "vec": []}
+                    "object_data": {"bbox": [], "poly2d": [], "cuboid": [], "vec": []}
                 }
 
             object_data[object_id]["object_data"][annotation.OPENLABEL_ID].append(
