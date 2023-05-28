@@ -65,11 +65,11 @@ class _Annotation(ABC):
             if type(attr_value) == str:
                 attr_type = "text"
 
-            elif type(attr_value) in [float, int]:
-                attr_type = "num"
-
             elif type(attr_value) == bool:
                 attr_type = "boolean"
+
+            elif type(attr_value) in [float, int]:
+                attr_type = "num"
 
             elif type(attr_value) in [list, tuple]:
                 attr_type = "vec"
