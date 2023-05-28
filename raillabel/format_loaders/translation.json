@@ -106,6 +106,7 @@
         "ir_middle": "ir_middle",
         "ir_right": "ir_right",
         "LIDAR": "lidar",
+        "lidar_merged": "lidar",
         "imu": "gps_imu",
         "radar": "radar",
 
