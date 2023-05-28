@@ -92,23 +92,28 @@ class CoordinateSystem:
         stream_dict: dict
             Dictionary of the raillabel stream.
         """
-        return (
-            {
-                "type": "sensor",
-                "parent": "base",
-                "pose_wrt_parent": {
-                    "translation": self.position,
-                    "quaternion": self.rotation_quaternion,
-                },
+
+        stream_dict = {
+            "type": "sensor",
+            "parent": "base",
+            "pose_wrt_parent": {
+                "translation": self.position,
+                "quaternion": self.rotation_quaternion,
             },
-            {
-                "type": fetch_sensor_type(self.translated_uid),
-                "uri": self.topic,
-                "stream_properties": self._stream_properties_to_raillabel(
-                    fetch_sensor_type(self.translated_uid)
-                ),
-            },
-        )
+        }
+
+        coordinate_system_dict = {
+            "type": fetch_sensor_type(self.translated_uid),
+            "uri": self.topic,
+            "stream_properties": self._stream_properties_to_raillabel(
+                fetch_sensor_type(self.translated_uid)
+            ),
+        }
+
+        if coordinate_system_dict["stream_properties"] is None:
+            del coordinate_system_dict["stream_properties"]
+
+        return stream_dict, coordinate_system_dict
 
     def _stream_properties_to_raillabel(self, type: str) -> t.Optional[dict]:
 
