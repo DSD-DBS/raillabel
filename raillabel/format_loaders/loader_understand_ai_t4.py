@@ -6,6 +6,7 @@ from pathlib import Path
 
 from .. import _understand_ai_t4_format as uai_format
 from ._loader_abc import LoaderABC
+from .loader_raillabel_v2 import LoaderRailLabelV2
 
 
 class LoaderUnderstandAiT4(LoaderABC):
@@ -41,7 +42,15 @@ class LoaderUnderstandAiT4(LoaderABC):
         scene: raillabel._understand_ai_t4_format.UAIScene
             The loaded scene with the data.
         """
-        raise NotImplementedError
+
+        if validate:
+            self.validate(data)
+
+        data_converted_to_raillabel = uai_format.Scene.fromdict(data).to_raillabel()
+
+        raillabel_scene = LoaderRailLabelV2().load(data_converted_to_raillabel, validate=False)
+
+        return raillabel_scene
 
     def supports(self, data: dict) -> bool:
         """Determine if the loader is suitable for the data (lightweight).
