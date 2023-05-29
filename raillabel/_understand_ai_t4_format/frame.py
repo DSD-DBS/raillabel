@@ -155,9 +155,10 @@ class Frame:
             object_id = str(annotation.object_id)
 
             if object_id not in object_data:
-                object_data[object_id] = {
-                    "object_data": {"bbox": [], "poly2d": [], "cuboid": [], "vec": []}
-                }
+                object_data[object_id] = {"object_data": {}}
+
+            if annotation.OPENLABEL_ID not in object_data[object_id]["object_data"]:
+                object_data[object_id]["object_data"][annotation.OPENLABEL_ID] = []
 
             object_data[object_id]["object_data"][annotation.OPENLABEL_ID].append(
                 annotation.to_raillabel()[0]
