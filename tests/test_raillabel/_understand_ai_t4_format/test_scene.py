@@ -105,14 +105,6 @@ def test_to_raillabel(json_data):
     ground_truth["openlabel"]["metadata"] = None
     output_data["openlabel"]["metadata"] = None
 
-    #t#
-    import json
-    with open("/Users/tobiasklockau/repo/raillabel/playground/scene.json", "w") as f:
-        json.dump(output_data, f, indent=4)
-    with open("/Users/tobiasklockau/repo/raillabel/playground/scene_ground_truth.json", "w") as f:
-        json.dump(ground_truth, f, indent=4)
-    #t#
-
     assert output_data == ground_truth
 
 
