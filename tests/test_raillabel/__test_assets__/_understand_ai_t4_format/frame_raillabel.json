@@ -8,7 +8,7 @@
                         "timestamp": "1632321843.100464760"
                     }
                 },
-                "uri": "A0001781_image/000_1632321843.100464760.png"
+                "uri": "000_1632321843.100464760.png"
             },
             "lidar": {
                 "stream_properties": {
@@ -16,7 +16,7 @@
                         "timestamp": "1632321880.132833000"
                     }
                 },
-                "uri": "lidar_merged/000_1632321880.132833000.pcd"
+                "uri": "000_1632321880.132833000.pcd"
             }
         }
     },
@@ -24,32 +24,21 @@
         "48c988bd-76f1-423f-b46d-7e7acb859f31": {
             "object_data": {
                 "bbox": [],
-                "cuboid": [],
-                "poly2d": [],
-                "vec": []
+                "cuboid": []
             }
         },
         "58e7edd8-a7ee-4775-a837-e6dd375e8150": {
             "object_data": {
-                "bbox": [],
-                "cuboid": [],
-                "poly2d": [],
-                "vec": []
+                "poly2d": []
             }
         },
         "4d8eca35-6c1d-4159-8062-21c2f2c051df": {
             "object_data": {
-                "bbox": [],
-                "cuboid": [],
-                "poly2d": [],
-                "vec": []
+                "poly2d": []
             }
         },
         "05a7e7a7-91e1-49ef-a172-780f2461f013": {
             "object_data": {
-                "bbox": [],
-                "cuboid": [],
-                "poly2d": [],
                 "vec": []
             }
         }
