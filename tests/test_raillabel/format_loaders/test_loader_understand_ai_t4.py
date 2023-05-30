@@ -36,14 +36,6 @@ def test_load(json_data, loader):
 
     scene.metadata = scene_ground_truth.metadata
 
-    #t#
-    import json
-    with open("/Users/tobiasklockau/repo/raillabel/playground/scene.json", "w") as f:
-        json.dump(scene.asdict(), f, indent=4)
-    with open("/Users/tobiasklockau/repo/raillabel/playground/scene_ground_truth.json", "w") as f:
-        json.dump(scene_ground_truth.asdict(), f, indent=4)
-    #t#
-
     assert scene.asdict() == scene_ground_truth.asdict()
 
 def remove_non_parsed_fields(raillabel_data: dict) -> dict:
