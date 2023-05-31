@@ -4,6 +4,7 @@
 import decimal
 import typing as t
 import uuid
+import warnings
 from dataclasses import dataclass, field
 
 from .._util._warning import _warning
@@ -21,15 +22,16 @@ class Frame:
     Parameters
     ----------
     uid: int
-        Number of the frame withing the annotation file. Must be unique.
+        Number of the frame within the annotation file. Must be unique.
     timestamp: decimal.Decimal, optional
         Timestamp containing the Unix epoch time of the frame with up to nanosecond precision.
     sensors: dict of raillabel.format.SensorReference, optional
         References to the sensors with frame specific information like timestamp and uri.
         Default is {}.
-    data: dict, optional
-        Dictionary containing data directly connected to the frame and not to anny object.
-        Dictionary keys are the ID-strings of the variable the data belongs to. Default is {}.
+    frame_data: dict, optional
+        Dictionary containing data directly connected to the frame and not to any object, like
+        gps/imu data. Dictionary keys are the ID-strings of the variable the data belongs to.
+        Default is {}.
     object_data: dict of raillabel.format.ObjectData, optional
         Dictionary containing the annotations per object. Dictionary keys are the object uids.
         Default is {}.
@@ -37,27 +39,40 @@ class Frame:
     Read-Only Attributes
     --------------------
     annotations: dict
-        Dictionary containing all annotations of this frame, regardless of object or annotation
-        type. Dictionary keys are annotation UIDs.
+        Consolidation of all annotations in the object_data. Only use this field if you don't need
+        object tracking information. Dictionary keys are annotation UIDs.
     """
 
     uid: int
     timestamp: t.Optional[decimal.Decimal] = None
     sensors: t.Dict[str, SensorReference] = field(default_factory=dict)
-    data: t.Dict[str, Num] = field(default_factory=dict)
+    frame_data: t.Dict[str, Num] = field(default_factory=dict)
     object_data: t.Dict[uuid.UUID, ObjectData] = field(default_factory=dict)
 
     @property
     def annotations(self) -> t.Dict[uuid.UUID, t.Any]:
         """Return dict containing all annotations of this frame.
 
-        Dictionary keys are annotation UIDs.
+        Only use this field if you don't need object tracking
+        information. Dictionary keys are annotation UIDs.
         """
         annotations = {}
         for object in self.object_data.values():
             annotations.update(object.annotations)
 
         return annotations
+
+    @property
+    def data(self) -> t.Dict[str, Num]:
+        """Return frame data under alias.
+
+        Will be deprecated soon.
+        """
+        warnings.warn(
+            "data is a deprecated field and will be removed soon. Use Frame.frame_data instead.",
+            category=DeprecationWarning,
+        )
+        return self.frame_data
 
     @classmethod
     def fromdict(
@@ -93,7 +108,7 @@ class Frame:
             uid=int(uid),
             timestamp=cls._timestamp_fromdict(data_dict),
             sensors=cls._sensors_fromdict(data_dict, int(uid), sensors),
-            data=cls._frame_data_fromdict(data_dict, int(uid), annotation_classes, sensors),
+            frame_data=cls._frame_data_fromdict(data_dict, int(uid), annotation_classes, sensors),
             object_data=cls._objects_fromdict(
                 data_dict, int(uid), objects, sensors, annotation_classes
             ),
@@ -130,9 +145,9 @@ class Frame:
                 str(k): v.asdict() for k, v in self.sensors.items()
             }
 
-        if self.data != {}:
+        if self.frame_data != {}:
             dict_repr["frame_properties"]["frame_data"] = {
-                "num": [v.asdict() for v in self.data.values()]
+                "num": [v.asdict() for v in self.frame_data.values()]
             }
 
         if self.object_data != {}:

@@ -17,7 +17,7 @@ The annotations of a scene can be filtered by many criteria. This functionality 
 
     scene_with_only_trains = raillabel.filter(
         scene,
-        include_classes='train'
+        include_object_types=['train']
     )
     scene_without_bboxs = raillabel.filter(
         scene,
@@ -27,7 +27,7 @@ The annotations of a scene can be filtered by many criteria. This functionality 
         scene,
         start_timestamp=decimal.Decimal('1587349200.004200000'),
         exclude_frames=[4, 2],
-        include_classes='train',
+        include_object_types=['train'],
         include_attributes={
             'color': 'red'
         }
@@ -39,12 +39,12 @@ The annotations of a scene can be filtered by many criteria. This functionality 
         }                    # regardless of color value.
     )
 
-Most filter categories have an include and exclude parameter (i.e ``include_classes`` and ``exclude_classes``). When include is set, all annotations, that meet the criterium are *included* into the filtered scene. Excluded parameters are *excluded* from the scene. These two parameters are mutually exclusive and can not both be set.
+Most filter categories have an include and exclude parameter (i.e ``include_object_types`` and ``exclude_object_types``). When include is set, all annotations, that meet the criterium are *included* into the filtered scene. Excluded parameters are *excluded* from the scene. These two parameters are mutually exclusive and can not both be set.
 
 .. code-block:: python
 
     invalid_scene = raillabel.filter(
         scene,
-        include_classes='person',  # Will raise a ValueError due
-        exclude_classes='train'    # to mutual exclusivity.
+        include_object_types=['person'],  # Will raise a ValueError due
+        exclude_object_types=['train']    # to mutual exclusivity.
     )

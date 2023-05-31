@@ -118,13 +118,13 @@ def filter(scene: format.Scene, **kwargs) -> format.Scene:
             del filtered_scene.frames[frame_id]
             continue
 
-        for frame_data_id, frame_data in frame.data.items():
+        for frame_data_id, frame_data in frame.frame_data.items():
 
             if _passes_filters(frame_data, frame_data_filters):
                 used_sensors.add(frame_data.sensor.uid)
 
             else:
-                del filtered_scene.frames[frame_id].data[frame_data_id]
+                del filtered_scene.frames[frame_id].frame_data[frame_data_id]
 
         for object_id, object_data in frame.object_data.items():
 
