@@ -21,6 +21,23 @@ def test_fromdict(json_data):
     assert sensor_reference.uri == input_data["uri"]
     assert sensor_reference.timestamp == Decimal(input_data["timestamp"])
 
+def test_to_raillabel(json_data):
+    sensor_reference = uai_format.SensorReference.fromdict(
+        json_data["_understand_ai_t4_format/sensor_reference_camera"]
+    )
+    sensor_id, output_data = sensor_reference.to_raillabel()
+
+    assert sensor_id == sensor_reference.type
+    assert output_data == {
+        "stream_properties": {
+            "sync": {
+                "timestamp": str(sensor_reference.timestamp)
+            }
+        },
+        "uri": sensor_reference.uri
+    }
+
+
 # Executes the test if the file is called
 if __name__ == "__main__":
     os.system("clear")

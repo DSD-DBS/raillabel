@@ -34,6 +34,8 @@ class Segmentation3d(_Annotation):
     associated_points: t.List[int]
     number_of_points: int
 
+    OPENLABEL_ID = "vec"
+
     @classmethod
     def fromdict(cls, data_dict: t.Dict) -> "Segmentation3d":
         """Generate a Segmentation3d from a dictionary in the UAI format.
@@ -58,3 +60,6 @@ class Segmentation3d(_Annotation):
             associated_points=data_dict["geometry"]["associatedPoints"],
             number_of_points=data_dict["geometry"]["numberOfPointsInBox"],
         )
+
+    def _val_to_raillabel(self) -> list:
+        return self.associated_points

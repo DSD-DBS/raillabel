@@ -25,6 +25,13 @@ def test_fromdict(json_data):
     assert metadata.coordinate_system_reference == input_data["coordinate_system_reference"]
     assert metadata.folder_name == input_data["folder_name"]
 
+def test_to_raillabel(json_data):
+    input_data = json_data["_understand_ai_t4_format/metadata"]
+    output_data = uai_format.Metadata.fromdict(input_data).to_raillabel()
+    ground_truth = json_data["_understand_ai_t4_format/metadata_raillabel"]
+    ground_truth["subschema_version"] = json_data["raillabel_v2_schema"]["version"]
+
+    assert output_data == ground_truth
 
 # Executes the test if the file is called
 if __name__ == "__main__":

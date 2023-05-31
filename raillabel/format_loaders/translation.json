@@ -106,6 +106,7 @@
         "ir_middle": "ir_middle",
         "ir_right": "ir_right",
         "LIDAR": "lidar",
+        "lidar_merged": "lidar",
         "imu": "gps_imu",
         "radar": "radar",
 
@@ -178,6 +179,7 @@
         "rgb_right": {"x": 2464,"y": 1600},
         "ir_left": {"x": 640,"y": 480},
         "ir_middle": {"x": 640,"y": 480},
-        "ir_right": {"x": 640,"y": 480}
+        "ir_right": {"x": 640,"y": 480},
+        "radar": {"resolution_px_per_m": 2.856, "x": 2856, "y": 1428}
     }
 }

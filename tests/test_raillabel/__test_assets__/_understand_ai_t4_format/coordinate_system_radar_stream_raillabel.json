@@ -1,0 +1,11 @@
+{
+    "type": "radar",
+    "uri": "/talker1/Nvt/Cartesian",
+    "stream_properties": {
+        "intrinsics_radar": {
+            "resolution_px_per_m": 2.856,
+            "width_px": 2856,
+            "height_px": 1428
+        }
+    }
+}

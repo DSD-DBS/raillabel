@@ -1,5 +1,5 @@
 {
-    "coordinate_system_id": "lidar_merged",
+    "coordinate_system_id": "LIDAR",
     "topic": "/lidar_merged",
     "frame_id": "lidar_merged",
     "position": [

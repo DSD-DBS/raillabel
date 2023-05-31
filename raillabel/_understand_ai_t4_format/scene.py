@@ -47,6 +47,24 @@ class Scene:
             frames=cls._frames_fromdict(data_dict["frames"]),
         )
 
+    def to_raillabel(self) -> t.Tuple[dict, dict]:
+        """Convert to a raillabel compatible dict.
+
+        Returns
+        -------
+        dict:
+            Dictionary of the raillabel scene.
+        """
+        return {
+            "openlabel": {
+                "metadata": self.metadata.to_raillabel(),
+                "streams": self._streams_to_raillabel(),
+                "coordinate_systems": self._coordinate_systems_to_raillabel(),
+                "objects": self._objects_to_raillabel(),
+                "frames": {str(frame.id): frame.to_raillabel() for frame in self.frames.values()},
+            }
+        }
+
     @classmethod
     def _coordinate_systems_fromdict(cls, data_dict: t.List[dict]) -> t.Dict[str, CoordinateSystem]:
         coordinate_systems = {}
@@ -62,3 +80,45 @@ class Scene:
             frames[frame["frameId"]] = Frame.fromdict(frame)
 
         return frames
+
+    def _streams_to_raillabel(self) -> dict:
+        return {cs.translated_uid: cs.to_raillabel()[1] for cs in self.coordinate_systems.values()}
+
+    def _coordinate_systems_to_raillabel(self) -> dict:
+        coordinate_systems = {
+            cs.translated_uid: cs.to_raillabel()[0] for cs in self.coordinate_systems.values()
+        }
+
+        coordinate_systems["base"] = {
+            "type": "local",
+            "parent": "",
+            "children": list(coordinate_systems.keys()),
+        }
+
+        return coordinate_systems
+
+    def _objects_to_raillabel(self) -> dict:
+
+        object_dicts = self._collect_all_translated_objects()
+
+        object_name_counter = {}
+        objects = {}
+        for object_id, object_class in object_dicts.items():
+
+            if object_class not in object_name_counter:
+                object_name_counter[object_class] = 0
+
+            objects[object_id] = {
+                "name": f"{object_class}_{str(object_name_counter[object_class]).rjust(4, '0')}",
+                "type": object_class,
+            }
+            object_name_counter[object_class] += 1
+
+        return objects
+
+    def _collect_all_translated_objects(self) -> dict:
+        object_dicts = {}
+        for frame in self.frames.values():
+            object_dicts.update(frame.translated_objects)
+
+        return object_dicts

@@ -40,6 +40,8 @@ class BoundingBox2d(_Annotation):
     x_max: float
     y_max: float
 
+    OPENLABEL_ID = "bbox"
+
     @classmethod
     def fromdict(cls, data_dict: t.Dict) -> "BoundingBox2d":
         """Generate a BoundingBox2d from a dictionary in the UAI format.
@@ -66,3 +68,11 @@ class BoundingBox2d(_Annotation):
             attributes=data_dict["attributes"],
             sensor=SensorReference.fromdict(data_dict["sensor"]),
         )
+
+    def _val_to_raillabel(self) -> list:
+        return [
+            (self.x_max + self.x_min) / 2,
+            (self.y_max + self.y_min) / 2,
+            abs(self.x_max - self.x_min),
+            abs(self.y_max - self.y_min),
+        ]

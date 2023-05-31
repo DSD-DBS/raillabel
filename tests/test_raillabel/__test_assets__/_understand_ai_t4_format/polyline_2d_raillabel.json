@@ -1,0 +1,32 @@
+{
+    "name": "7f2b99b7-61e4-4f9f-96e9-d3e9f583d7c2",
+    "closed": false,
+    "val": [
+        493.20616179847406,
+        479.9728191806302,
+        542.6546426503735,
+        431.74800354374366,
+        589.9350150621058,
+        385.51547643522207,
+        639.9702598289472,
+        335.8846553104306
+    ],
+    "coordinate_system": "ir_middle",
+    "mode": "MODE_POLY2D_ABSOLUTE",
+    "attributes": {
+        "text": [
+            {
+                "name": "trackId",
+                "val": "left_first_track"
+            },
+            {
+                "name": "railSide",
+                "val": "rightRail"
+            },
+            {
+                "name": "occlusion",
+                "val": "0-25%"
+            }
+        ]
+    }
+}

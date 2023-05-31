@@ -1,0 +1,823 @@
+{
+    "metadata": {
+        "clip_id": "db_3_2021-09-22-14-28-01_2021-09-22-14-44-03",
+        "external_clip_id": "2021-09-22-14-28-01_2021-09-22-14-44-03",
+        "project_id": "trains_4",
+        "export_time": "2023-04-20 01:38 UTC",
+        "exporter_version": "1.0.0",
+        "coordinate_system_3d": "FLU",
+        "coordinate_system_reference": "SENSOR",
+        "folder_name": "2021-09-22-14-28-01_2021-09-22-14-44-03"
+    },
+    "coordinateSystems": [
+        {
+            "coordinate_system_id": "rgb_middle_rect",
+            "topic": "/S1206063/image",
+            "frame_id": "S1206063",
+            "position": [
+                0,
+                1,
+                2
+            ],
+            "rotation_quaternion": [
+                0.97518507,
+                -0.18529384,
+                -0.05469746,
+                -0.10811315
+            ],
+            "rotation_matrix": [
+                0.9253488,
+                -0.3732186,
+                -0.0666149,
+                -0.3495646,
+                -0.9079555,
+                0.2311309,
+                -0.1467457,
+                -0.1905905,
+                -0.9706395
+            ],
+            "angle_axis_rotation": [
+                0.9809347,
+                -0.1863863,
+                -0.05502
+            ],
+            "homogeneous_transform": [
+                0.9999680667369587,
+                -0.005432933661727504,
+                -0.005860779656024867,
+                0.06694577073389593,
+                0.005410226430795589,
+                0.9999778242364062,
+                -0.003883360064516633,
+                -0.0009111521949818156,
+                0.005881747726375861,
+                0.003851527911158113,
+                0.9999752850828029,
+                2.054322280217477,
+                0,
+                0,
+                0,
+                1
+            ],
+            "measured_position": [
+                0,
+                0,
+                0
+            ],
+            "camera_matrix": [
+                0.48,
+                0,
+                0.81,
+                0,
+                0.16,
+                0.83,
+                0,
+                0,
+                1
+            ],
+            "dist_coeffs": [
+                0.49,
+                0.69,
+                0.31,
+                0.81,
+                0.99
+            ]
+        },
+        {
+            "coordinate_system_id": "ir_middle",
+            "topic": "/A0001781/image",
+            "frame_id": "A0001781",
+            "position": [
+                0,
+                2,
+                1
+            ],
+            "rotation_quaternion": [
+                -0.64984101,
+                -0.72563166,
+                0.18784818,
+                -0.12600959
+            ],
+            "rotation_matrix": [
+                -0.1236565,
+                0.9904318,
+                -0.0612698,
+                0.8957491,
+                0.0848394,
+                -0.4363896,
+                -0.427016,
+                -0.1088448,
+                -0.8976693
+            ],
+            "angle_axis_rotation": [
+                -0.6550625,
+                -0.7314621,
+                0.1893575
+            ],
+            "homogeneous_transform": [
+                0.998808097970439,
+                -0.003596303890419965,
+                0.04867699689794021,
+                0.09334241552161804,
+                0.0039172823670546,
+                0.9999712003585413,
+                -0.006500257868352383,
+                0.2252408177142321,
+                -0.04865221811522157,
+                0.006683191739435895,
+                0.9987934203931477,
+                3.517100000000001,
+                0,
+                0,
+                0,
+                1
+            ],
+            "measured_position": [
+                0,
+                0,
+                0
+            ],
+            "camera_matrix": [
+                0.47,
+                0,
+                0.85,
+                0,
+                0.15,
+                0.23,
+                0,
+                0,
+                1
+            ],
+            "dist_coeffs": [
+                0.19,
+                0.66,
+                0.31,
+                0.21,
+                0.99
+            ]
+        },
+        {
+            "coordinate_system_id": "lidar_merged",
+            "topic": "/lidar_merged",
+            "frame_id": "lidar_merged",
+            "position": [
+                0,
+                0,
+                0
+            ],
+            "rotation_quaternion": [
+                0,
+                0,
+                0,
+                1
+            ],
+            "rotation_matrix": [
+                1,
+                0,
+                0,
+                0,
+                1,
+                0,
+                0,
+                0,
+                1
+            ],
+            "angle_axis_rotation": [
+                0,
+                0,
+                0
+            ],
+            "homogeneous_transform": [
+                1,
+                0,
+                0,
+                0,
+                0,
+                1,
+                0,
+                0,
+                0,
+                0,
+                1,
+                0,
+                0,
+                0,
+                0,
+                1
+            ]
+        },
+        {
+            "coordinate_system_id": "radar",
+            "rotation_around_z_in_degrees": 1.22869,
+            "topic": "/talker1/Nvt/Cartesian",
+            "frame_id": "navtech",
+            "position": [
+                2,
+                0,
+                1
+            ],
+            "rotation_quaternion": [
+                -0.64984101,
+                0.18784818,
+                -0.72563166,
+                -0.12600959
+            ],
+            "rotation_matrix": [ -0.1236565, -0.4270160,  0.8957491,
+            -0.0612698, -0.8976693, -0.4363896,
+             0.9904318, -0.1088448,  0.0848394 ],
+            "angle_axis_rotation": [
+                -0.6550625, 0.1893575, -0.7314621
+            ],
+            "homogeneous_transform": [
+                0.9997700727912402,
+                -0.02144298372425017,
+                0,
+                -0.002940099322541904,
+                0.02144298372425017,
+                0.9997700727912402,
+                0,
+                0.3296990382394244,
+                0,
+                0,
+                1,
+                1.5638,
+                0,
+                0,
+                0,
+                1
+            ]
+        }
+    ],
+    "frames": [
+        {
+            "frameId": "000",
+            "timestamp": "1632321743.134149",
+            "annotations": {
+                "2D_BOUNDING_BOX": [
+                    {
+                        "id": "78f0ad89-2750-4a30-9d66-44c9da73a714",
+                        "objectId": "b40ba3ad-0327-46ff-9c28-2506cfd6d934",
+                        "className": "2D_person",
+                        "geometry": {
+                            "xMin": -1.0,
+                            "yMin": -0.5,
+                            "xMax": 1,
+                            "yMax": 2.5
+                        },
+                        "attributes": {
+                            "test_text_attr0": "test_text_attr0_val",
+                            "test_text_attr1": "test_text_attr1_val",
+                            "test_num_attr0": 0,
+                            "test_num_attr1": 1,
+                            "test_bool_attr0": true,
+                            "test_vec_attr0": [
+                                "0",
+                                "1"
+                            ],
+                            "test_vec_attr1": [
+                                0,
+                                1,
+                                2
+                            ],
+                            "test_vec_attr2": [
+                                "a",
+                                "b",
+                                "c"
+                            ]
+                        },
+                        "sensor": {
+                            "type": "rgb_middle_rect",
+                            "uri": "S1206063/rgb_test0.png",
+                            "timestamp": "1632321743.100000072"
+                        }
+                    },
+                    {
+                        "id": "68b4e02c-40c8-4de0-89ad-bc00ed05a043",
+                        "objectId": "b40ba3ad-0327-46ff-9c28-2506cfd6d934",
+                        "className": "2D_person",
+                        "geometry": {
+                            "xMin": 2.5,
+                            "yMin": 2.0,
+                            "xMax": 3.5,
+                            "yMax": 2.0
+                        },
+                        "attributes": {
+                            "test_bool_attr0": false
+                        },
+                        "sensor": {
+                            "type": "ir_middle",
+                            "timestamp": "1632321743.106000004",
+                            "uri": "A0001781/ir_test0.png"
+                        }
+                    }
+                ],
+                "2D_POLYLINE": [
+                    {
+                        "id": "bebfbae4-61a2-4758-993c-efa846b050a5",
+                        "objectId": "b40ba3ad-0327-46ff-9c28-2506cfd6d934",
+                        "className": "2D_person",
+                        "geometry": {
+                            "points": [
+                                [
+                                    1.0,
+                                    2.0
+                                ],
+                                [
+                                    3.0,
+                                    4.0
+                                ]
+                            ]
+                        },
+                        "attributes": {
+                            "test_text_attr0": "test_text_attr0_val",
+                            "test_text_attr1": "test_text_attr1_val",
+                            "test_num_attr0": 2,
+                            "test_num_attr1": 1,
+                            "test_bool_attr0": true,
+                            "test_vec_attr0": [
+                                "0",
+                                "1"
+                            ],
+                            "test_vec_attr1": [
+                                0,
+                                1,
+                                2
+                            ],
+                            "test_vec_attr2": [
+                                "a",
+                                "b",
+                                "c"
+                            ]
+                        },
+                        "sensor": {
+                            "type": "rgb_middle_rect",
+                            "uri": "S1206063/rgb_test0.png",
+                            "timestamp": "1632321743.100000072"
+                        }
+                    }
+                ],
+                "2D_POLYGON": [
+                    {
+                        "id": "3f63201c-fb33-4487-aff6-ae0aa5fa976c",
+                        "objectId": "b40ba3ad-0327-46ff-9c28-2506cfd6d934",
+                        "className": "2D_person",
+                        "geometry": {
+                            "points": [
+                                [
+                                    7.0,
+                                    6.0
+                                ],
+                                [
+                                    5.0,
+                                    4.0
+                                ],
+                                [
+                                    3.0,
+                                    2.0
+                                ],
+                                [
+                                    1.0,
+                                    0.0
+                                ]
+                            ]
+                        },
+                        "attributes": {
+                            "test_bool_attr0": false
+                        },
+                        "sensor": {
+                            "type": "ir_middle",
+                            "timestamp": "1632321743.106000004",
+                            "uri": "A0001781/ir_test0.png"
+                        }
+                    }
+                ],
+                "3D_BOUNDING_BOX": [
+                    {
+                        "id": "dc2be700-8ee4-45c4-9256-920b5d55c917",
+                        "objectId": "b40ba3ad-0327-46ff-9c28-2506cfd6d934",
+                        "className": "3D_person",
+                        "geometry": {
+                            "center": {
+                                "x": 0.49,
+                                "y": 0.04,
+                                "z": 0.73
+                            },
+                            "quaternion": {
+                                "x": 0.0,
+                                "y": 0.0,
+                                "z": 0.0,
+                                "w": 0.0
+                            },
+                            "size": {
+                                "width": 0.75,
+                                "length": 0.01,
+                                "height": 0.1
+                            }
+                        },
+                        "attributes": {
+                            "test_text_attr0": "test_text_attr0_val",
+                            "test_text_attr1": "test_text_attr1_val",
+                            "test_num_attr0": 0,
+                            "test_num_attr1": 1,
+                            "test_bool_attr0": true,
+                            "test_vec_attr0": [
+                                "0",
+                                "1"
+                            ],
+                            "test_vec_attr1": [
+                                0,
+                                1,
+                                2
+                            ],
+                            "test_vec_attr2": [
+                                "a",
+                                "b",
+                                "c"
+                            ]
+                        },
+                        "sensor": {
+                            "type": "lidar_merged",
+                            "timestamp": "1632321743.134149",
+                            "uri": "lidar_merged/lidar_test0.pcd"
+                        }
+                    },
+                    {
+                        "id": "450ceb81-9778-4e63-bf89-42f3ed9f6747",
+                        "objectId": "b40ba3ad-0327-46ff-9c28-2506cfd6d934",
+                        "className": "3D_person",
+                        "geometry": {
+                            "center": {
+                                "x": 0.0,
+                                "y": 1.0,
+                                "z": 2.0
+                            },
+                            "quaternion": {
+                                "x": 3.0,
+                                "y": 4.0,
+                                "z": 5.0,
+                                "w": 6.0
+                            },
+                            "size": {
+                                "width": 7.0,
+                                "length": 8.0,
+                                "height": 9.0
+                            }
+                        },
+                        "attributes": {
+                            "test_bool_attr0": false
+                        },
+                        "sensor": {
+                            "type": "lidar_merged",
+                            "timestamp": "1632321743.134149",
+                            "uri": "lidar_merged/lidar_test0.pcd"
+                        }
+                    }
+                ],
+                "3D_SEGMENTATION": [
+                    {
+                        "id": "c1087f1d-7271-4dee-83ad-519a4e3b78a8",
+                        "objectId": "b40ba3ad-0327-46ff-9c28-2506cfd6d934",
+                        "className": "3D_person",
+                        "geometry": {
+                            "associatedPoints": [
+                                0,
+                                1,
+                                2,
+                                3,
+                                4,
+                                5,
+                                6,
+                                7,
+                                8,
+                                9
+                            ],
+                            "numberOfPointsInBox": 10
+                        },
+                        "attributes": {
+                            "test_text_attr0": "test_text_attr0_val",
+                            "test_text_attr1": "test_text_attr1_val",
+                            "test_num_attr0": 0,
+                            "test_num_attr1": 1,
+                            "test_bool_attr0": true,
+                            "test_vec_attr0": [
+                                "0",
+                                "1"
+                            ],
+                            "test_vec_attr1": [
+                                0,
+                                1,
+                                2
+                            ],
+                            "test_vec_attr2": [
+                                "a",
+                                "b",
+                                "c"
+                            ]
+                        },
+                        "sensor": {
+                            "type": "lidar_merged",
+                            "timestamp": "1632321743.134149",
+                            "uri": "lidar_merged/lidar_test0.pcd"
+                        }
+                    },
+                    {
+                        "id": "50be7fe3-1f43-47ca-b65a-930e6cfacfeb",
+                        "objectId": "b40ba3ad-0327-46ff-9c28-2506cfd6d934",
+                        "className": "3D_person",
+                        "geometry": {
+                            "associatedPoints": [
+                                9,
+                                8,
+                                7,
+                                6,
+                                5,
+                                4,
+                                3,
+                                2,
+                                1,
+                                0
+                            ],
+                            "numberOfPointsInBox": 10
+                        },
+                        "attributes": {
+                            "test_bool_attr0": false
+                        },
+                        "sensor": {
+                            "type": "lidar_merged",
+                            "timestamp": "1632321743.134149",
+                            "uri": "lidar_merged/lidar_test0.pcd"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "frameId": "001",
+            "timestamp": "1632321743.233263",
+            "annotations": {
+                "2D_BOUNDING_BOX": [
+                    {
+                        "id": "6ba42cbc-484e-4b8d-a022-b23c2bb6643c",
+                        "objectId": "6fe55546-0dd7-4e40-b6b4-bb7ea3445772",
+                        "className": "2D_person",
+                        "geometry": {
+                            "xMin": -1.0,
+                            "yMin": -0.5,
+                            "xMax": 1,
+                            "yMax": 2.5
+                        },
+                        "attributes": {
+                            "test_text_attr0": "test_text_attr0_val",
+                            "test_text_attr1": "test_text_attr1_val",
+                            "test_num_attr0": 0,
+                            "test_num_attr1": 1,
+                            "test_bool_attr0": true,
+                            "test_vec_attr0": [
+                                "0",
+                                "1"
+                            ],
+                            "test_vec_attr1": [
+                                0,
+                                1,
+                                2
+                            ],
+                            "test_vec_attr2": [
+                                "a",
+                                "b",
+                                "c"
+                            ]
+                        },
+                        "sensor": {
+                            "type": "rgb_middle_rect",
+                            "uri": "S1206063/rgb_test1.png",
+                            "timestamp": "1632321743.2"
+                        }
+                    },
+                    {
+                        "id": "5f28fa18-8f2a-4a40-a0b6-c0bbedc00f2e",
+                        "objectId": "6fe55546-0dd7-4e40-b6b4-bb7ea3445772",
+                        "className": "2D_person",
+                        "geometry": {
+                            "xMin": 2.5,
+                            "yMin": 2.0,
+                            "xMax": 3.5,
+                            "yMax": 2.0
+                        },
+                        "attributes": {
+                            "test_bool_attr0": false
+                        },
+                        "sensor": {
+                            "type": "ir_middle",
+                            "timestamp": "1632321743.208000004",
+                            "uri": "A0001781/ir_test1.png"
+                        }
+                    }
+                ],
+                "2D_POLYLINE": [
+                    {
+                        "id": "e2503c5d-9fe4-4666-b510-ef644c5a766b",
+                        "objectId": "6fe55546-0dd7-4e40-b6b4-bb7ea3445772",
+                        "className": "2D_person",
+                        "geometry": {
+                            "points": [
+                                [
+                                    1.0,
+                                    2.0
+                                ],
+                                [
+                                    3.0,
+                                    4.0
+                                ]
+                            ]
+                        },
+                        "attributes": {
+                            "test_text_attr0": "test_text_attr0_val",
+                            "test_text_attr1": "test_text_attr1_val",
+                            "test_num_attr0": 0,
+                            "test_num_attr1": 1,
+                            "test_bool_attr0": true,
+                            "test_vec_attr0": [
+                                "0",
+                                "1"
+                            ],
+                            "test_vec_attr1": [
+                                0,
+                                1,
+                                2
+                            ],
+                            "test_vec_attr2": [
+                                "a",
+                                "b",
+                                "c"
+                            ]
+                        },
+                        "sensor": {
+                            "type": "rgb_middle_rect",
+                            "uri": "S1206063/rgb_test1.png",
+                            "timestamp": "1632321743.2"
+                        }
+                    }
+                ],
+                "2D_POLYGON": [],
+                "3D_BOUNDING_BOX": [
+                    {
+                        "id": "536ac83a-32c8-4fce-8499-ef32716c64a6",
+                        "objectId": "22dedd49-6dcb-413b-87ef-00ccfb532e98",
+                        "className": "3D_train",
+                        "geometry": {
+                            "center": {
+                                "x": 0.0,
+                                "y": 1.0,
+                                "z": 2.0
+                            },
+                            "quaternion": {
+                                "x": 3.0,
+                                "y": 4.0,
+                                "z": 5.0,
+                                "w": 6.0
+                            },
+                            "size": {
+                                "width": 7.0,
+                                "length": 8.0,
+                                "height": 9.0
+                            }
+                        },
+                        "attributes": {
+                            "test_text_attr0": "test_text_attr0_val",
+                            "test_text_attr1": "test_text_attr1_val",
+                            "test_num_attr0": 0,
+                            "test_num_attr1": 1,
+                            "test_bool_attr0": true,
+                            "test_vec_attr0": [
+                                "0",
+                                "1"
+                            ],
+                            "test_vec_attr1": [
+                                0,
+                                1,
+                                2
+                            ],
+                            "test_vec_attr2": [
+                                "a",
+                                "b",
+                                "c"
+                            ]
+                        },
+                        "sensor": {
+                            "type": "lidar_merged",
+                            "timestamp": "1632321743.233263",
+                            "uri": "lidar_merged/lidar_test1.pcd"
+                        }
+                    },
+                    {
+                        "id": "e53bd5e3-980a-4fa7-a0f9-5a2e59ba663c",
+                        "objectId": "22dedd49-6dcb-413b-87ef-00ccfb532e98",
+                        "className": "3D_train",
+                        "geometry": {
+                            "center": {
+                                "x": 0.0,
+                                "y": 1.0,
+                                "z": 2.0
+                            },
+                            "quaternion": {
+                                "x": 3.0,
+                                "y": 4.0,
+                                "z": 5.0,
+                                "w": 6.0
+                            },
+                            "size": {
+                                "width": 7.0,
+                                "length": 8.0,
+                                "height": 9.0
+                            }
+                        },
+                        "attributes": {
+                            "test_bool_attr0": false
+                        },
+                        "sensor": {
+                            "type": "lidar_merged",
+                            "timestamp": "1632321743.233263",
+                            "uri": "lidar_merged/lidar_test1.pcd"
+                        }
+                    }
+                ],
+                "3D_SEGMENTATION": [
+                    {
+                        "id": "550df2c3-0e66-483e-bcc6-f3013b7e581b",
+                        "objectId": "22dedd49-6dcb-413b-87ef-00ccfb532e98",
+                        "className": "3D_train",
+                        "geometry": {
+                            "associatedPoints": [
+                                0,
+                                1,
+                                2,
+                                3,
+                                4,
+                                5,
+                                6,
+                                7,
+                                8,
+                                9
+                            ],
+                            "numberOfPointsInBox": 10
+                        },
+                        "attributes": {
+                            "test_text_attr0": "test_text_attr0_val",
+                            "test_text_attr1": "test_text_attr1_val",
+                            "test_num_attr0": 0,
+                            "test_num_attr1": 1,
+                            "test_bool_attr0": true,
+                            "test_vec_attr0": [
+                                "0",
+                                "1"
+                            ],
+                            "test_vec_attr1": [
+                                0,
+                                1,
+                                2
+                            ],
+                            "test_vec_attr2": [
+                                "a",
+                                "b",
+                                "c"
+                            ]
+                        },
+                        "sensor": {
+                            "type": "lidar_merged",
+                            "timestamp": "1632321743.233263",
+                            "uri": "lidar_merged/lidar_test1.pcd"
+                        }
+                    },
+                    {
+                        "id": "12b21c52-06ea-4269-9805-e7167e7a74ed",
+                        "objectId": "22dedd49-6dcb-413b-87ef-00ccfb532e98",
+                        "className": "3D_train",
+                        "geometry": {
+                            "associatedPoints": [
+                                9,
+                                8,
+                                7,
+                                6,
+                                5,
+                                4,
+                                3,
+                                2,
+                                1,
+                                0
+                            ],
+                            "numberOfPointsInBox": 10
+                        },
+                        "attributes": {
+                            "test_bool_attr0": false
+                        },
+                        "sensor": {
+                            "type": "lidar_merged",
+                            "timestamp": "1632321743.233263",
+                            "uri": "lidar_merged/lidar_test1.pcd"
+                        }
+                    }
+                ]
+            }
+        }
+    ]
+}

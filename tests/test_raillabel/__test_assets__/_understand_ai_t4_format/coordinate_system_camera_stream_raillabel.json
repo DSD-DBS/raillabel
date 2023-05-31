@@ -1,0 +1,31 @@
+{
+    "type": "camera",
+    "uri": "/A0001781/image",
+    "stream_properties": {
+        "intrinsics_pinhole": {
+            "camera_matrix": [
+                3535.294117647,
+                0,
+                319.5,
+                0,
+                0,
+                3535.294117647,
+                239.5,
+                0,
+                0,
+                0,
+                1,
+                0
+            ],
+            "distortion_coeffs": [
+                0,
+                0,
+                0,
+                0,
+                0
+            ],
+            "width_px": 640,
+            "height_px": 480
+        }
+    }
+}

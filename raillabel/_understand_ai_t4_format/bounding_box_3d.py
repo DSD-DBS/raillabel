@@ -25,7 +25,8 @@ class BoundingBox3d(_Annotation):
     class_name: str
         Name of the class this annotation belongs to.
     attributes: dict[str, str or list]
-        Key value pairs of attributes with the keys beeing the friendly identifier of the attribute and the value beeing the attribute value.
+        Key value pairs of attributes with the keys beeing the friendly identifier of the
+        attribute and the value beeing the attribute value.
     sensor: raillabel._understand_ai_t4_format.SensorReference
         Information about the sensor this annotation is labeled in.
     center: raillabel._understand_ai_t4_format.Point3d
@@ -39,6 +40,8 @@ class BoundingBox3d(_Annotation):
     center: Point3d
     size: Size3d
     quaternion: Quaternion
+
+    OPENLABEL_ID = "cuboid"
 
     @classmethod
     def fromdict(cls, data_dict: t.Dict) -> "BoundingBox3d":
@@ -65,3 +68,17 @@ class BoundingBox3d(_Annotation):
             attributes=data_dict["attributes"],
             sensor=SensorReference.fromdict(data_dict["sensor"]),
         )
+
+    def _val_to_raillabel(self) -> list:
+        return [
+            float(self.center.x),
+            float(self.center.y),
+            float(self.center.z),
+            float(self.quaternion.x),
+            float(self.quaternion.y),
+            float(self.quaternion.z),
+            float(self.quaternion.w),
+            float(self.size.width),
+            float(self.size.length),
+            float(self.size.height),
+        ]

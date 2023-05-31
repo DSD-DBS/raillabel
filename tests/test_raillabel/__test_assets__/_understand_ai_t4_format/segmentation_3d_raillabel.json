@@ -1,0 +1,19 @@
+{
+    "name": "13478f94-d556-4f64-a72b-47662e94988e",
+    "val": [
+        39814,
+        39815,
+        39816,
+        39817,
+        39818
+    ],
+    "coordinate_system": "lidar",
+    "attributes": {
+        "text": [
+            {
+                "name": "structure",
+                "val": "structured"
+            }
+        ]
+    }
+}
