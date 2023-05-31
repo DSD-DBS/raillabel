@@ -53,7 +53,8 @@ class Frame:
     def annotations(self) -> t.Dict[uuid.UUID, t.Any]:
         """Return dict containing all annotations of this frame.
 
-        Dictionary keys are annotation UIDs.
+        Only use this field if you don't need object tracking
+        information. Dictionary keys are annotation UIDs.
         """
         annotations = {}
         for object in self.object_data.values():
