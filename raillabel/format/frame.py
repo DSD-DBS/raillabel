@@ -22,7 +22,7 @@ class Frame:
     Parameters
     ----------
     uid: int
-        Number of the frame withing the annotation file. Must be unique.
+        Number of the frame within the annotation file. Must be unique.
     timestamp: decimal.Decimal, optional
         Timestamp containing the Unix epoch time of the frame with up to nanosecond precision.
     sensors: dict of raillabel.format.SensorReference, optional
@@ -39,8 +39,8 @@ class Frame:
     Read-Only Attributes
     --------------------
     annotations: dict
-        Dictionary containing all annotations of this frame, regardless of object or annotation
-        type. Dictionary keys are annotation UIDs.
+        Consolidation of all annotations in the object_data. Only use this field if you don't need
+        object tracking information. Dictionary keys are annotation UIDs.
     """
 
     uid: int
