@@ -1,0 +1,11 @@
+{
+    "frameId": "000",
+    "timestamp": "1632321880.132833000",
+    "annotations": {
+        "2D_BOUNDING_BOX": null,
+        "2D_POLYLINE": null,
+        "2D_POLYGON": null,
+        "3D_BOUNDING_BOX": null,
+        "3D_SEGMENTATION": null
+    }
+}

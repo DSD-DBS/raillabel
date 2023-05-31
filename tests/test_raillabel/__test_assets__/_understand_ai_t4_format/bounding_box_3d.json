@@ -1,0 +1,30 @@
+{
+    "id": "910399ec-da3e-4d7e-be42-ef8e53e38ca6",
+    "objectId": "48c988bd-76f1-423f-b46d-7e7acb859f31",
+    "className": "test_class",
+    "geometry": {
+        "size": {
+            "height": 12.887274595406309,
+            "width": 0.9726718154765793,
+            "length": 0.7487449536720978
+        },
+        "center": {
+            "x": 27.075067129430366,
+            "y": -3.7850908693727328,
+            "z": 6.671744016124283
+        },
+        "quaternion": {
+            "x": -7.710484478135359e-17,
+            "y": -7.978951661384013e-17,
+            "z": 0.7191010536652217,
+            "w": 0.6949055148849863
+        }
+    },
+    "attributes": {
+        "isDummy": false,
+        "carries": "nothing",
+        "connectedTo": [],
+        "pose": "upright"
+    },
+    "sensor": null
+}

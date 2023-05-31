@@ -1,0 +1,19 @@
+{
+    "id": "13478f94-d556-4f64-a72b-47662e94988e",
+    "objectId": "05a7e7a7-91e1-49ef-a172-780f2461f013",
+    "className": "3D_catenary_pole",
+    "geometry": {
+        "associatedPoints": [
+            39814,
+            39815,
+            39816,
+            39817,
+            39818
+        ],
+        "numberOfPointsInBox": 5
+    },
+    "attributes": {
+        "structure": "structured"
+    },
+    "sensor": null
+}
