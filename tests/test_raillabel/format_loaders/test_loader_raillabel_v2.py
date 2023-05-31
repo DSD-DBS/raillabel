@@ -135,11 +135,11 @@ def test_load_frame_data(json_data, loader, annotation_compare_methods):
         for frame_data_type in ground_truth["frames"][str(frame_id)]["frame_properties"]["frame_data"].values():
             accumulative_frame_data.extend(frame_data_type)
 
-        assert len(frame.data) == len(accumulative_frame_data)
+        assert len(frame.frame_data) == len(accumulative_frame_data)
 
         for frame_data_type, frame_data in ground_truth["frames"][str(frame_id)]["frame_properties"]["frame_data"].items():
             for annotation in frame_data:
-                annotation_compare_methods[frame_data_type](frame.data[annotation["name"]], annotation)
+                annotation_compare_methods[frame_data_type](frame.frame_data[annotation["name"]], annotation)
 
 
 def test_load_frame_annotations(json_data, loader, annotation_compare_methods):
@@ -181,9 +181,9 @@ def test_load_uri_vcd_incompatible(
     # The UUIDs of the frame data have been generated and therefore do not match the ground truth.
     # They are set equal here.
     for frame_id in scene_ground_truth.frames:
-        for frame_data in scene_ground_truth.frames[frame_id].data:
-            scene.frames[frame_id].data[frame_data].uid = (
-                scene_ground_truth.frames[frame_id].data[frame_data].uid
+        for frame_data in scene_ground_truth.frames[frame_id].frame_data:
+            scene.frames[frame_id].frame_data[frame_data].uid = (
+                scene_ground_truth.frames[frame_id].frame_data[frame_data].uid
             )
 
     assert scene == scene_ground_truth
@@ -325,7 +325,7 @@ def test_identify_of_references(json_data, loader):
         for sensor_reference in frame.sensors.values():
             assert sensor_reference.sensor is scene.sensors[sensor_reference.sensor.uid]
 
-        for frame_data in frame.data.values():
+        for frame_data in frame.frame_data.values():
             assert frame_data.sensor is scene.sensors[frame_data.sensor.uid]
 
         for annotation in frame.annotations.values():

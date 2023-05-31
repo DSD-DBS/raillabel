@@ -52,3 +52,4 @@ Release
 # Unreleased
 - Raillabel schema is now more restrictive regarding intrinsic calibration
 - Support for understand.ai t4 format
+- Renaming of raillabel.format.Frame.data to frame_data
