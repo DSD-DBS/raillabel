@@ -20,6 +20,11 @@ def test_sample_data_validation_subschema(json_data):
         json_data["understand_ai_t4_schema"]
     ) is None
 
+    assert jsonschema.validate(
+        json_data["understand_ai_t4_short"],
+        json_data["understand_ai_t4_schema"]
+    ) is None
+
 
 # Executes the test if the file is called
 if __name__ == "__main__":
