@@ -1087,13 +1087,335 @@
                                         "sensor"
                                     ]
                                 }
+                            },
+                            "3D_SEGMENTATION": {
+                                "type": "array",
+                                "items": {
+                                    "additionalProperties": true,
+                                    "type": "object",
+                                    "properties": {
+                                        "id": {
+                                            "type": "string"
+                                        },
+                                        "objectId": {
+                                            "type": "string"
+                                        },
+                                        "className": {
+                                            "type": "string"
+                                        },
+                                        "geometry": {
+                                            "additionalProperties": true,
+                                            "type": "object",
+                                            "properties": {
+                                                "associatedPoints": {
+                                                    "additionalProperties": true,
+                                                    "type": "array",
+                                                    "items": {
+                                                        "type": "integer"
+                                                    }
+                                                },
+                                                "numberOfPointsInBox": {
+                                                    "type": "integer"
+                                                }
+                                            },
+                                            "required": [
+                                                "associatedPoints",
+                                                "numberOfPointsInBox"
+                                            ]
+                                        },
+                                        "attributes": {
+                                            "additionalProperties": true,
+                                            "type": "object",
+                                            "properties": {
+                                                "trackId": {
+                                                    "type": "string"
+                                                },
+                                                "SignalConnectedToSignals": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "type": "string"
+                                                    }
+                                                },
+                                                "pose": {
+                                                    "type": "string"
+                                                },
+                                                "isDummy": {
+                                                    "type": "boolean"
+                                                },
+                                                "type_pram": {
+                                                    "type": "string",
+                                                    "enum": [
+                                                        "stroller",
+                                                        "buggy",
+                                                        "other"
+                                                    ]
+                                                },
+                                                "roadVehicleConnectedToRoadVehicle": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "type": "string"
+                                                    }
+                                                },
+                                                "SignalAttachement_Left": {
+                                                    "type": "boolean"
+                                                },
+                                                "belongsTo": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "type": "string"
+                                                    }
+                                                },
+                                                "isBottomVisible": {
+                                                    "type": "boolean"
+                                                },
+                                                "isTruncated": {
+                                                    "type": "boolean"
+                                                },
+                                                "SignalAttachement_Bottom": {
+                                                    "type": "boolean"
+                                                },
+                                                "occlusion": {
+                                                    "type": "string",
+                                                    "enum": [
+                                                        "0-25%",
+                                                        "25-50%",
+                                                        "50-75%",
+                                                        "75-100%",
+                                                        "100%"
+                                                    ]
+                                                },
+                                                "isEgoTrack": {
+                                                    "type": "boolean"
+                                                },
+                                                "state": {
+                                                    "type": "string",
+                                                    "enum": [
+                                                        "leftTrack",
+                                                        "onTrack",
+                                                        "rightTrack",
+                                                        "unknown"
+                                                    ]
+                                                },
+                                                "count": {
+                                                    "type": "string",
+                                                    "enum": [
+                                                        "<25",
+                                                        "25-50",
+                                                        "50-75",
+                                                        ">75"
+                                                    ]
+                                                },
+                                                "personConnectedToBicycle": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "type": "string"
+                                                    }
+                                                },
+                                                "trainConnectedToWagon": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "type": "string"
+                                                    }
+                                                },
+                                                "SignalAttachement_Top": {
+                                                    "type": "boolean"
+                                                },
+                                                "structure": {
+                                                    "type": "string"
+                                                },
+                                                "state_personal_item": {
+                                                    "type": "string",
+                                                    "enum": [
+                                                        "pulled",
+                                                        "carried",
+                                                        "alone"
+                                                    ]
+                                                },
+                                                "SignalAttachement_Right": {
+                                                    "type": "boolean"
+                                                },
+                                                "personConnectedToPerson": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "type": "string"
+                                                    }
+                                                },
+                                                "signalPoleConnectedToSignals": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "type": "string"
+                                                    }
+                                                },
+                                                "age": {
+                                                    "type": "string"
+                                                },
+                                                "aid": {
+                                                    "type": "string"
+                                                },
+                                                "function": {
+                                                    "type": "string"
+                                                },
+                                                "type_road_vehicle": {
+                                                    "type": "string",
+                                                    "enum": [
+                                                        "car",
+                                                        "van",
+                                                        "truck",
+                                                        "bus",
+                                                        "constructionVehicle",
+                                                        "trailer",
+                                                        "other"
+                                                    ]
+                                                },
+                                                "size": {
+                                                    "type": "string",
+                                                    "enum": [
+                                                        "small",
+                                                        "medium",
+                                                        "large"
+                                                    ]
+                                                },
+                                                "pramConnectedToPerson": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "type": "string"
+                                                    }
+                                                },
+                                                "type_wagon": {
+                                                    "type": "string",
+                                                    "enum": [
+                                                        "freight",
+                                                        "intercity",
+                                                        "regional",
+                                                        "construction",
+                                                        "other"
+                                                    ]
+                                                },
+                                                "type_signal": {
+                                                    "type": "string",
+                                                    "enum": [
+                                                        "light",
+                                                        "shapeDistantSignal",
+                                                        "shapeMainSignal"
+                                                    ]
+                                                },
+                                                "type_personal_item": {
+                                                    "type": "string",
+                                                    "enum": [
+                                                        "suitcase",
+                                                        "umbrella",
+                                                        "others"
+                                                    ]
+                                                },
+                                                "type": {
+                                                    "type": "string"
+                                                },
+                                                "endTrack": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "type": "string"
+                                                    }
+                                                },
+                                                "startTrack": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "type": "string"
+                                                    }
+                                                },
+                                                "onTrack": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "type": "string"
+                                                    }
+                                                },
+                                                "motorcycleConnectedToPerson": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "type": "string"
+                                                    }
+                                                },
+                                                "wheelchairConnectedToPerson": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "type": "string"
+                                                    }
+                                                },
+                                                "type_train": {
+                                                    "type": "string",
+                                                    "enum": [
+                                                        "commuter",
+                                                        "regional",
+                                                        "locomotive",
+                                                        "intercity",
+                                                        "construction",
+                                                        "other"
+                                                    ]
+                                                },
+                                                "state_pram": {
+                                                    "type": "string",
+                                                    "enum": [
+                                                        "carried",
+                                                        "pushed",
+                                                        "steady"
+                                                    ]
+                                                },
+                                                "state_bicycle": {
+                                                    "type": "string",
+                                                    "enum": [
+                                                        "carried",
+                                                        "pushed",
+                                                        "ridden",
+                                                        "motionless"
+                                                    ]
+                                                },
+                                                "size_animal": {
+                                                    "type": "string",
+                                                    "enum": [
+                                                        "small",
+                                                        "medium",
+                                                        "large"
+                                                    ]
+                                                }
+                                            }
+                                        },
+                                        "sensor": {
+                                            "additionalProperties": true,
+                                            "type": "object",
+                                            "properties": {
+                                                "type": {
+                                                    "type": "string"
+                                                },
+                                                "uri": {
+                                                    "type": "string"
+                                                },
+                                                "timestamp": {
+                                                    "type": "string"
+                                                }
+                                            },
+                                            "required": [
+                                                "timestamp",
+                                                "type",
+                                                "uri"
+                                            ]
+                                        }
+                                    },
+                                    "required": [
+                                        "attributes",
+                                        "className",
+                                        "geometry",
+                                        "id",
+                                        "objectId",
+                                        "sensor"
+                                    ]
+                                }
                             }
                         },
                         "required": [
                             "2D_BOUNDING_BOX",
                             "2D_POLYGON",
                             "2D_POLYLINE",
-                            "3D_BOUNDING_BOX"
+                            "3D_BOUNDING_BOX",
+                            "3D_SEGMENTATION"
                         ]
                     }
                 },
