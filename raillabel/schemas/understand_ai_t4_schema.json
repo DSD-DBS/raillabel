@@ -122,6 +122,9 @@
                         },
                         "minItems": 5,
                         "maxItems": 5
+                    },
+                    "rotation_around_z_in_degrees": {
+                        "type": "number"
                     }
                 },
                 "required": [
