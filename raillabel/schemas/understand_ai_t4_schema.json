@@ -6,6 +6,7 @@
         "2D_BOUNDING_BOX": {
             "type": "array",
             "items": {
+                "description": "tbd",
                 "additionalProperties": false,
                 "type": "object",
                 "properties": {
@@ -62,6 +63,7 @@
         "2D_POLYGON": {
             "type": "array",
             "items": {
+                "description": "tbd",
                 "additionalProperties": false,
                 "type": "object",
                 "properties": {
@@ -114,6 +116,7 @@
         "2D_POLYLINE": {
             "type": "array",
             "items": {
+                "description": "tbd",
                 "additionalProperties": false,
                 "type": "object",
                 "properties": {
@@ -166,6 +169,7 @@
         "3D_BOUNDING_BOX": {
             "type": "array",
             "items": {
+                "description": "tbd",
                 "additionalProperties": false,
                 "type": "object",
                 "properties": {
@@ -323,6 +327,7 @@
             }
         },
         "attributes": {
+            "description": "tbd",
             "additionalProperties": false,
             "type": "object",
             "patternProperties": {
@@ -354,6 +359,7 @@
             }
         },
         "coordinateSystems": {
+            "description": "tbd",
             "type": "array",
             "items": {
                 "additionalProperties": false,
@@ -363,12 +369,15 @@
                         "type": "string"
                     },
                     "topic": {
+                        "description": "tbd",
                         "type": "string"
                     },
                     "frame_id": {
+                        "description": "tbd",
                         "type": "string"
                     },
                     "position": {
+                        "description": "tbd",
                         "type": "array",
                         "items": {
                             "type": "number"
@@ -377,6 +386,7 @@
                         "maxItems": 3
                     },
                     "rotation_quaternion": {
+                        "description": "tbd",
                         "type": "array",
                         "items": {
                             "type": "number"
@@ -385,6 +395,7 @@
                         "maxItems": 4
                     },
                     "rotation_matrix": {
+                        "description": "tbd",
                         "type": "array",
                         "items": {
                             "type": "number"
@@ -393,6 +404,7 @@
                         "maxItems": 9
                     },
                     "angle_axis_rotation": {
+                        "description": "tbd",
                         "type": "array",
                         "items": {
                             "type": "number"
@@ -401,6 +413,7 @@
                         "maxItems": 3
                     },
                     "homogeneous_transform": {
+                        "description": "tbd",
                         "type": "array",
                         "items": {
                             "type": "number"
@@ -409,6 +422,7 @@
                         "maxItems": 16
                     },
                     "measured_position": {
+                        "description": "tbd",
                         "type": "array",
                         "items": {
                             "type": "integer"
@@ -417,6 +431,7 @@
                         "maxItems": 3
                     },
                     "camera_matrix": {
+                        "description": "tbd",
                         "type": "array",
                         "items": {
                             "type": "number"
@@ -425,6 +440,7 @@
                         "maxItems": 9
                     },
                     "dist_coeffs": {
+                        "description": "tbd",
                         "type": "array",
                         "items": {
                             "type": "number"
@@ -433,6 +449,7 @@
                         "maxItems": 5
                     },
                     "rotation_around_z_in_degrees": {
+                        "description": "tbd",
                         "type": "number"
                     }
                 },
@@ -450,6 +467,7 @@
         "frames": {
             "type": "array",
             "items": {
+                "description": "tbd",
                 "additionalProperties": false,
                 "type": "object",
                 "properties": {
@@ -460,6 +478,7 @@
                         "type": "string"
                     },
                     "annotations": {
+                        "description": "tbd",
                         "additionalProperties": false,
                         "type": "object",
                         "properties": {
@@ -500,12 +519,15 @@
             "type": "object",
             "properties": {
                 "clip_id": {
+                    "description": "tbd",
                     "type": "string"
                 },
                 "external_clip_id": {
+                    "description": "tbd",
                     "type": "string"
                 },
                 "project_id": {
+                    "description": "tbd",
                     "type": "string"
                 },
                 "export_time": {
@@ -516,12 +538,15 @@
                     "type": "string"
                 },
                 "coordinate_system_3d": {
+                    "description": "tbd",
                     "type": "string"
                 },
                 "coordinate_system_reference": {
+                    "description": "tbd",
                     "type": "string"
                 },
                 "folder_name": {
+                    "description": "tbd",
                     "type": "string"
                 }
             },
@@ -541,12 +566,15 @@
             "type": "object",
             "properties": {
                 "type": {
+                    "description": "tbd",
                     "type": "string"
                 },
                 "uri": {
+                    "description": "tbd",
                     "type": "string"
                 },
                 "timestamp": {
+                    "description": "tbd",
                     "type": "string"
                 }
             },
