@@ -59,6 +59,58 @@
                 ]
             }
         },
+        "2D_POLYGON": {
+            "type": "array",
+            "items": {
+                "additionalProperties": false,
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "string"
+                    },
+                    "objectId": {
+                        "type": "string"
+                    },
+                    "className": {
+                        "type": "string"
+                    },
+                    "geometry": {
+                        "additionalProperties": false,
+                        "type": "object",
+                        "properties": {
+                            "points": {
+                                "type": "array",
+                                "items": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "number"
+                                    },
+                                    "minItems": 2,
+                                    "maxItems": 2
+                                }
+                            }
+                        },
+                        "required": [
+                            "points"
+                        ]
+                    },
+                    "attributes": {
+                        "$ref": "#/definitions/attributes"
+                    },
+                    "sensor": {
+                        "$ref": "#/definitions/sensor"
+                    }
+                },
+                "required": [
+                    "attributes",
+                    "className",
+                    "geometry",
+                    "id",
+                    "objectId",
+                    "sensor"
+                ]
+            }
+        },
         "2D_POLYLINE": {
             "type": "array",
             "items": {
@@ -328,56 +380,7 @@
                                 "$ref": "#/definitions/2D_POLYLINE"
                             },
                             "2D_POLYGON": {
-                                "type": "array",
-                                "items": {
-                                    "additionalProperties": false,
-                                    "type": "object",
-                                    "properties": {
-                                        "id": {
-                                            "type": "string"
-                                        },
-                                        "objectId": {
-                                            "type": "string"
-                                        },
-                                        "className": {
-                                            "type": "string"
-                                        },
-                                        "geometry": {
-                                            "additionalProperties": false,
-                                            "type": "object",
-                                            "properties": {
-                                                "points": {
-                                                    "type": "array",
-                                                    "items": {
-                                                        "type": "array",
-                                                        "items": {
-                                                            "type": "number"
-                                                        },
-                                                        "minItems": 2,
-                                                        "maxItems": 2
-                                                    }
-                                                }
-                                            },
-                                            "required": [
-                                                "points"
-                                            ]
-                                        },
-                                        "attributes": {
-                                            "$ref": "#/definitions/attributes"
-                                        },
-                                        "sensor": {
-                                            "$ref": "#/definitions/sensor"
-                                        }
-                                    },
-                                    "required": [
-                                        "attributes",
-                                        "className",
-                                        "geometry",
-                                        "id",
-                                        "objectId",
-                                        "sensor"
-                                    ]
-                                }
+                                "$ref": "#/definitions/2D_POLYGON"
                             },
                             "3D_BOUNDING_BOX": {
                                 "type": "array",
