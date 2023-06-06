@@ -49,7 +49,7 @@ Release
 ## 2.1.0
 - Added IntrinsicsRadar to the devkit and the json-schema
 
-# Unreleased
+## 2.2.0
 - Raillabel schema is now more restrictive regarding intrinsic calibration
 - Support for understand.ai t4 format
 - Renaming of raillabel.format.Frame.data to frame_data
