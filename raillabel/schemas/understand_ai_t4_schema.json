@@ -447,6 +447,54 @@
                 ]
             }
         },
+        "frames": {
+            "type": "array",
+            "items": {
+                "additionalProperties": false,
+                "type": "object",
+                "properties": {
+                    "frameId": {
+                        "type": "string"
+                    },
+                    "timestamp": {
+                        "type": "string"
+                    },
+                    "annotations": {
+                        "additionalProperties": false,
+                        "type": "object",
+                        "properties": {
+                            "2D_BOUNDING_BOX": {
+                                "$ref": "#/definitions/2D_BOUNDING_BOX"
+                            },
+                            "2D_POLYLINE": {
+                                "$ref": "#/definitions/2D_POLYLINE"
+                            },
+                            "2D_POLYGON": {
+                                "$ref": "#/definitions/2D_POLYGON"
+                            },
+                            "3D_BOUNDING_BOX": {
+                                "$ref": "#/definitions/3D_BOUNDING_BOX"
+                            },
+                            "3D_SEGMENTATION": {
+                                "$ref": "#/definitions/3D_SEGMENTATION"
+                            }
+                        },
+                        "required": [
+                            "2D_BOUNDING_BOX",
+                            "2D_POLYGON",
+                            "2D_POLYLINE",
+                            "3D_BOUNDING_BOX",
+                            "3D_SEGMENTATION"
+                        ]
+                    }
+                },
+                "required": [
+                    "annotations",
+                    "frameId",
+                    "timestamp"
+                ]
+            }
+        },
         "metadata": {
             "additionalProperties": false,
             "type": "object",
@@ -517,52 +565,7 @@
             "$ref": "#/definitions/coordinateSystems"
         },
         "frames": {
-            "type": "array",
-            "items": {
-                "additionalProperties": false,
-                "type": "object",
-                "properties": {
-                    "frameId": {
-                        "type": "string"
-                    },
-                    "timestamp": {
-                        "type": "string"
-                    },
-                    "annotations": {
-                        "additionalProperties": false,
-                        "type": "object",
-                        "properties": {
-                            "2D_BOUNDING_BOX": {
-                                "$ref": "#/definitions/2D_BOUNDING_BOX"
-                            },
-                            "2D_POLYLINE": {
-                                "$ref": "#/definitions/2D_POLYLINE"
-                            },
-                            "2D_POLYGON": {
-                                "$ref": "#/definitions/2D_POLYGON"
-                            },
-                            "3D_BOUNDING_BOX": {
-                                "$ref": "#/definitions/3D_BOUNDING_BOX"
-                            },
-                            "3D_SEGMENTATION": {
-                                "$ref": "#/definitions/3D_SEGMENTATION"
-                            }
-                        },
-                        "required": [
-                            "2D_BOUNDING_BOX",
-                            "2D_POLYGON",
-                            "2D_POLYLINE",
-                            "3D_BOUNDING_BOX",
-                            "3D_SEGMENTATION"
-                        ]
-                    }
-                },
-                "required": [
-                    "annotations",
-                    "frameId",
-                    "timestamp"
-                ]
-            }
+            "$ref": "#/definitions/frames"
         }
     },
     "required": [
