@@ -270,6 +270,58 @@
                 ]
             }
         },
+        "3D_SEGMENTATION": {
+            "type": "array",
+            "items": {
+                "additionalProperties": false,
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "string"
+                    },
+                    "objectId": {
+                        "type": "string"
+                    },
+                    "className": {
+                        "type": "string"
+                    },
+                    "geometry": {
+                        "additionalProperties": false,
+                        "type": "object",
+                        "properties": {
+                            "associatedPoints": {
+                                "additionalProperties": false,
+                                "type": "array",
+                                "items": {
+                                    "type": "integer"
+                                }
+                            },
+                            "numberOfPointsInBox": {
+                                "type": "integer"
+                            }
+                        },
+                        "required": [
+                            "associatedPoints",
+                            "numberOfPointsInBox"
+                        ]
+                    },
+                    "attributes": {
+                        "$ref": "#/definitions/attributes"
+                    },
+                    "sensor": {
+                        "$ref": "#/definitions/sensor"
+                    }
+                },
+                "required": [
+                    "attributes",
+                    "className",
+                    "geometry",
+                    "id",
+                    "objectId",
+                    "sensor"
+                ]
+            }
+        },
         "attributes": {
             "additionalProperties": false,
             "type": "object",
@@ -493,56 +545,7 @@
                                 "$ref": "#/definitions/3D_BOUNDING_BOX"
                             },
                             "3D_SEGMENTATION": {
-                                "type": "array",
-                                "items": {
-                                    "additionalProperties": false,
-                                    "type": "object",
-                                    "properties": {
-                                        "id": {
-                                            "type": "string"
-                                        },
-                                        "objectId": {
-                                            "type": "string"
-                                        },
-                                        "className": {
-                                            "type": "string"
-                                        },
-                                        "geometry": {
-                                            "additionalProperties": false,
-                                            "type": "object",
-                                            "properties": {
-                                                "associatedPoints": {
-                                                    "additionalProperties": false,
-                                                    "type": "array",
-                                                    "items": {
-                                                        "type": "integer"
-                                                    }
-                                                },
-                                                "numberOfPointsInBox": {
-                                                    "type": "integer"
-                                                }
-                                            },
-                                            "required": [
-                                                "associatedPoints",
-                                                "numberOfPointsInBox"
-                                            ]
-                                        },
-                                        "attributes": {
-                                            "$ref": "#/definitions/attributes"
-                                        },
-                                        "sensor": {
-                                            "$ref": "#/definitions/sensor"
-                                        }
-                                    },
-                                    "required": [
-                                        "attributes",
-                                        "className",
-                                        "geometry",
-                                        "id",
-                                        "objectId",
-                                        "sensor"
-                                    ]
-                                }
+                                "$ref": "#/definitions/3D_SEGMENTATION"
                             }
                         },
                         "required": [
