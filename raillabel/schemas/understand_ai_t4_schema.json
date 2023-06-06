@@ -168,6 +168,26 @@
                 "folder_name",
                 "project_id"
             ]
+        },
+        "sensor": {
+            "additionalProperties": false,
+            "type": "object",
+            "properties": {
+                "type": {
+                    "type": "string"
+                },
+                "uri": {
+                    "type": "string"
+                },
+                "timestamp": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "timestamp",
+                "type",
+                "uri"
+            ]
         }
     },
     "properties": {
@@ -236,24 +256,7 @@
                                             "$ref": "#/definitions/attributes"
                                         },
                                         "sensor": {
-                                            "additionalProperties": false,
-                                            "type": "object",
-                                            "properties": {
-                                                "type": {
-                                                    "type": "string"
-                                                },
-                                                "uri": {
-                                                    "type": "string"
-                                                },
-                                                "timestamp": {
-                                                    "type": "string"
-                                                }
-                                            },
-                                            "required": [
-                                                "timestamp",
-                                                "type",
-                                                "uri"
-                                            ]
+                                            "$ref": "#/definitions/sensor"
                                         }
                                     },
                                     "required": [
@@ -305,24 +308,7 @@
                                             "$ref": "#/definitions/attributes"
                                         },
                                         "sensor": {
-                                            "additionalProperties": false,
-                                            "type": "object",
-                                            "properties": {
-                                                "type": {
-                                                    "type": "string"
-                                                },
-                                                "uri": {
-                                                    "type": "string"
-                                                },
-                                                "timestamp": {
-                                                    "type": "string"
-                                                }
-                                            },
-                                            "required": [
-                                                "timestamp",
-                                                "type",
-                                                "uri"
-                                            ]
+                                            "$ref": "#/definitions/sensor"
                                         }
                                     },
                                     "required": [
@@ -374,24 +360,7 @@
                                             "$ref": "#/definitions/attributes"
                                         },
                                         "sensor": {
-                                            "additionalProperties": false,
-                                            "type": "object",
-                                            "properties": {
-                                                "type": {
-                                                    "type": "string"
-                                                },
-                                                "uri": {
-                                                    "type": "string"
-                                                },
-                                                "timestamp": {
-                                                    "type": "string"
-                                                }
-                                            },
-                                            "required": [
-                                                "timestamp",
-                                                "type",
-                                                "uri"
-                                            ]
+                                            "$ref": "#/definitions/sensor"
                                         }
                                     },
                                     "required": [
@@ -498,24 +467,7 @@
                                             "$ref": "#/definitions/attributes"
                                         },
                                         "sensor": {
-                                            "additionalProperties": false,
-                                            "type": "object",
-                                            "properties": {
-                                                "type": {
-                                                    "type": "string"
-                                                },
-                                                "uri": {
-                                                    "type": "string"
-                                                },
-                                                "timestamp": {
-                                                    "type": "string"
-                                                }
-                                            },
-                                            "required": [
-                                                "timestamp",
-                                                "type",
-                                                "uri"
-                                            ]
+                                            "$ref": "#/definitions/sensor"
                                         }
                                     },
                                     "required": [
@@ -567,24 +519,7 @@
                                             "$ref": "#/definitions/attributes"
                                         },
                                         "sensor": {
-                                            "additionalProperties": false,
-                                            "type": "object",
-                                            "properties": {
-                                                "type": {
-                                                    "type": "string"
-                                                },
-                                                "uri": {
-                                                    "type": "string"
-                                                },
-                                                "timestamp": {
-                                                    "type": "string"
-                                                }
-                                            },
-                                            "required": [
-                                                "timestamp",
-                                                "type",
-                                                "uri"
-                                            ]
+                                            "$ref": "#/definitions/sensor"
                                         }
                                     },
                                     "required": [
