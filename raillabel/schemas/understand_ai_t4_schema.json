@@ -3,6 +3,37 @@
     "type": "object",
     "additionalProperties": false,
     "definitions": {
+        "attributes": {
+            "additionalProperties": false,
+            "type": "object",
+            "patternProperties": {
+                "^": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            }
+                        },
+                        {
+                            "type": "array",
+                            "items": {
+                                "type": "number"
+                            }
+                        }
+                    ]
+                }
+            }
+        },
         "coordinateSystems": {
             "type": "array",
             "items": {
@@ -202,35 +233,7 @@
                                             ]
                                         },
                                         "attributes": {
-                                            "additionalProperties": false,
-                                            "type": "object",
-                                            "patternProperties": {
-                                                "^": {
-                                                    "anyOf": [
-                                                        {
-                                                            "type": "string"
-                                                        },
-                                                        {
-                                                            "type": "number"
-                                                        },
-                                                        {
-                                                            "type": "boolean"
-                                                        },
-                                                        {
-                                                            "type": "array",
-                                                            "items": {
-                                                                "type": "string"
-                                                            }
-                                                        },
-                                                        {
-                                                            "type": "array",
-                                                            "items": {
-                                                                "type": "number"
-                                                            }
-                                                        }
-                                                    ]
-                                                }
-                                            }
+                                            "$ref": "#/definitions/attributes"
                                         },
                                         "sensor": {
                                             "additionalProperties": false,
@@ -299,35 +302,7 @@
                                             ]
                                         },
                                         "attributes": {
-                                            "additionalProperties": false,
-                                            "type": "object",
-                                            "patternProperties": {
-                                                "^": {
-                                                    "anyOf": [
-                                                        {
-                                                            "type": "string"
-                                                        },
-                                                        {
-                                                            "type": "number"
-                                                        },
-                                                        {
-                                                            "type": "boolean"
-                                                        },
-                                                        {
-                                                            "type": "array",
-                                                            "items": {
-                                                                "type": "string"
-                                                            }
-                                                        },
-                                                        {
-                                                            "type": "array",
-                                                            "items": {
-                                                                "type": "number"
-                                                            }
-                                                        }
-                                                    ]
-                                                }
-                                            }
+                                            "$ref": "#/definitions/attributes"
                                         },
                                         "sensor": {
                                             "additionalProperties": false,
@@ -396,35 +371,7 @@
                                             ]
                                         },
                                         "attributes": {
-                                            "additionalProperties": false,
-                                            "type": "object",
-                                            "patternProperties": {
-                                                "^": {
-                                                    "anyOf": [
-                                                        {
-                                                            "type": "string"
-                                                        },
-                                                        {
-                                                            "type": "number"
-                                                        },
-                                                        {
-                                                            "type": "boolean"
-                                                        },
-                                                        {
-                                                            "type": "array",
-                                                            "items": {
-                                                                "type": "string"
-                                                            }
-                                                        },
-                                                        {
-                                                            "type": "array",
-                                                            "items": {
-                                                                "type": "number"
-                                                            }
-                                                        }
-                                                    ]
-                                                }
-                                            }
+                                            "$ref": "#/definitions/attributes"
                                         },
                                         "sensor": {
                                             "additionalProperties": false,
@@ -548,35 +495,7 @@
                                             ]
                                         },
                                         "attributes": {
-                                            "additionalProperties": false,
-                                            "type": "object",
-                                            "patternProperties": {
-                                                "^": {
-                                                    "anyOf": [
-                                                        {
-                                                            "type": "string"
-                                                        },
-                                                        {
-                                                            "type": "number"
-                                                        },
-                                                        {
-                                                            "type": "boolean"
-                                                        },
-                                                        {
-                                                            "type": "array",
-                                                            "items": {
-                                                                "type": "string"
-                                                            }
-                                                        },
-                                                        {
-                                                            "type": "array",
-                                                            "items": {
-                                                                "type": "number"
-                                                            }
-                                                        }
-                                                    ]
-                                                }
-                                            }
+                                            "$ref": "#/definitions/attributes"
                                         },
                                         "sensor": {
                                             "additionalProperties": false,
@@ -645,35 +564,7 @@
                                             ]
                                         },
                                         "attributes": {
-                                            "additionalProperties": false,
-                                            "type": "object",
-                                            "patternProperties": {
-                                                "^": {
-                                                    "anyOf": [
-                                                        {
-                                                            "type": "string"
-                                                        },
-                                                        {
-                                                            "type": "number"
-                                                        },
-                                                        {
-                                                            "type": "boolean"
-                                                        },
-                                                        {
-                                                            "type": "array",
-                                                            "items": {
-                                                                "type": "string"
-                                                            }
-                                                        },
-                                                        {
-                                                            "type": "array",
-                                                            "items": {
-                                                                "type": "number"
-                                                            }
-                                                        }
-                                                    ]
-                                                }
-                                            }
+                                            "$ref": "#/definitions/attributes"
                                         },
                                         "sensor": {
                                             "additionalProperties": false,
