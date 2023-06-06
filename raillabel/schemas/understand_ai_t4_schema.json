@@ -3,6 +3,62 @@
     "type": "object",
     "additionalProperties": false,
     "definitions": {
+        "2D_BOUNDING_BOX": {
+            "type": "array",
+            "items": {
+                "additionalProperties": false,
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "string"
+                    },
+                    "objectId": {
+                        "type": "string"
+                    },
+                    "className": {
+                        "type": "string"
+                    },
+                    "geometry": {
+                        "additionalProperties": false,
+                        "type": "object",
+                        "properties": {
+                            "xMin": {
+                                "type": "number"
+                            },
+                            "yMin": {
+                                "type": "number"
+                            },
+                            "xMax": {
+                                "type": "number"
+                            },
+                            "yMax": {
+                                "type": "number"
+                            }
+                        },
+                        "required": [
+                            "xMax",
+                            "xMin",
+                            "yMax",
+                            "yMin"
+                        ]
+                    },
+                    "attributes": {
+                        "$ref": "#/definitions/attributes"
+                    },
+                    "sensor": {
+                        "$ref": "#/definitions/sensor"
+                    }
+                },
+                "required": [
+                    "attributes",
+                    "className",
+                    "geometry",
+                    "id",
+                    "objectId",
+                    "sensor"
+                ]
+            }
+        },
         "attributes": {
             "additionalProperties": false,
             "type": "object",
@@ -214,60 +270,7 @@
                         "type": "object",
                         "properties": {
                             "2D_BOUNDING_BOX": {
-                                "type": "array",
-                                "items": {
-                                    "additionalProperties": false,
-                                    "type": "object",
-                                    "properties": {
-                                        "id": {
-                                            "type": "string"
-                                        },
-                                        "objectId": {
-                                            "type": "string"
-                                        },
-                                        "className": {
-                                            "type": "string"
-                                        },
-                                        "geometry": {
-                                            "additionalProperties": false,
-                                            "type": "object",
-                                            "properties": {
-                                                "xMin": {
-                                                    "type": "number"
-                                                },
-                                                "yMin": {
-                                                    "type": "number"
-                                                },
-                                                "xMax": {
-                                                    "type": "number"
-                                                },
-                                                "yMax": {
-                                                    "type": "number"
-                                                }
-                                            },
-                                            "required": [
-                                                "xMax",
-                                                "xMin",
-                                                "yMax",
-                                                "yMin"
-                                            ]
-                                        },
-                                        "attributes": {
-                                            "$ref": "#/definitions/attributes"
-                                        },
-                                        "sensor": {
-                                            "$ref": "#/definitions/sensor"
-                                        }
-                                    },
-                                    "required": [
-                                        "attributes",
-                                        "className",
-                                        "geometry",
-                                        "id",
-                                        "objectId",
-                                        "sensor"
-                                    ]
-                                }
+                                "$ref": "#/definitions/2D_BOUNDING_BOX"
                             },
                             "2D_POLYLINE": {
                                 "type": "array",
