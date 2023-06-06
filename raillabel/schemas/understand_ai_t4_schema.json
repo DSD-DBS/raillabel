@@ -1,62 +1,383 @@
 {
     "$schema": "http://json-schema.org/draft-07/schema#",
     "type": "object",
-    "properties": {
-        "metadata": {
-            "type": "object",
-            "properties": {
-                "clip_id": {
-                    "type": "string"
-                },
-                "external_clip_id": {
-                    "type": "string"
-                },
-                "project_id": {
-                    "type": "string"
-                },
-                "export_time": {
-                    "type": "string",
-                    "pattern": "^\\d{4}-\\d{2}-\\d{2} \\d{2}:\\d{2} UTC$"
-                },
-                "exporter_version": {
-                    "type": "string"
-                },
-                "coordinate_system_3d": {
-                    "type": "string"
-                },
-                "coordinate_system_reference": {
-                    "type": "string"
-                },
-                "folder_name": {
-                    "type": "string"
-                }
-            },
-            "required": [
-                "clip_id",
-                "coordinate_system_3d",
-                "coordinate_system_reference",
-                "export_time",
-                "exporter_version",
-                "external_clip_id",
-                "folder_name",
-                "project_id"
-            ]
-        },
-        "coordinateSystems": {
+    "additionalProperties": false,
+    "definitions": {
+        "2D_BOUNDING_BOX": {
             "type": "array",
             "items": {
+                "description": "tbd",
+                "additionalProperties": false,
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "string"
+                    },
+                    "objectId": {
+                        "type": "string"
+                    },
+                    "className": {
+                        "type": "string"
+                    },
+                    "geometry": {
+                        "additionalProperties": false,
+                        "type": "object",
+                        "properties": {
+                            "xMin": {
+                                "type": "number"
+                            },
+                            "yMin": {
+                                "type": "number"
+                            },
+                            "xMax": {
+                                "type": "number"
+                            },
+                            "yMax": {
+                                "type": "number"
+                            }
+                        },
+                        "required": [
+                            "xMax",
+                            "xMin",
+                            "yMax",
+                            "yMin"
+                        ]
+                    },
+                    "attributes": {
+                        "$ref": "#/definitions/attributes"
+                    },
+                    "sensor": {
+                        "$ref": "#/definitions/sensor"
+                    }
+                },
+                "required": [
+                    "attributes",
+                    "className",
+                    "geometry",
+                    "id",
+                    "objectId",
+                    "sensor"
+                ]
+            }
+        },
+        "2D_POLYGON": {
+            "type": "array",
+            "items": {
+                "description": "tbd",
+                "additionalProperties": false,
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "string"
+                    },
+                    "objectId": {
+                        "type": "string"
+                    },
+                    "className": {
+                        "type": "string"
+                    },
+                    "geometry": {
+                        "additionalProperties": false,
+                        "type": "object",
+                        "properties": {
+                            "points": {
+                                "type": "array",
+                                "items": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "number"
+                                    },
+                                    "minItems": 2,
+                                    "maxItems": 2
+                                }
+                            }
+                        },
+                        "required": [
+                            "points"
+                        ]
+                    },
+                    "attributes": {
+                        "$ref": "#/definitions/attributes"
+                    },
+                    "sensor": {
+                        "$ref": "#/definitions/sensor"
+                    }
+                },
+                "required": [
+                    "attributes",
+                    "className",
+                    "geometry",
+                    "id",
+                    "objectId",
+                    "sensor"
+                ]
+            }
+        },
+        "2D_POLYLINE": {
+            "type": "array",
+            "items": {
+                "description": "tbd",
+                "additionalProperties": false,
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "string"
+                    },
+                    "objectId": {
+                        "type": "string"
+                    },
+                    "className": {
+                        "type": "string"
+                    },
+                    "geometry": {
+                        "additionalProperties": false,
+                        "type": "object",
+                        "properties": {
+                            "points": {
+                                "type": "array",
+                                "items": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "number"
+                                    },
+                                    "minItems": 2,
+                                    "maxItems": 2
+                                }
+                            }
+                        },
+                        "required": [
+                            "points"
+                        ]
+                    },
+                    "attributes": {
+                        "$ref": "#/definitions/attributes"
+                    },
+                    "sensor": {
+                        "$ref": "#/definitions/sensor"
+                    }
+                },
+                "required": [
+                    "attributes",
+                    "className",
+                    "geometry",
+                    "id",
+                    "objectId",
+                    "sensor"
+                ]
+            }
+        },
+        "3D_BOUNDING_BOX": {
+            "type": "array",
+            "items": {
+                "description": "tbd",
+                "additionalProperties": false,
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "string"
+                    },
+                    "objectId": {
+                        "type": "string"
+                    },
+                    "className": {
+                        "type": "string"
+                    },
+                    "geometry": {
+                        "additionalProperties": false,
+                        "type": "object",
+                        "properties": {
+                            "size": {
+                                "additionalProperties": false,
+                                "type": "object",
+                                "properties": {
+                                    "height": {
+                                        "type": "number"
+                                    },
+                                    "width": {
+                                        "type": "number"
+                                    },
+                                    "length": {
+                                        "type": "number"
+                                    }
+                                },
+                                "required": [
+                                    "height",
+                                    "length",
+                                    "width"
+                                ]
+                            },
+                            "center": {
+                                "additionalProperties": false,
+                                "type": "object",
+                                "properties": {
+                                    "x": {
+                                        "type": "number"
+                                    },
+                                    "y": {
+                                        "type": "number"
+                                    },
+                                    "z": {
+                                        "type": "number"
+                                    }
+                                },
+                                "required": [
+                                    "x",
+                                    "y",
+                                    "z"
+                                ]
+                            },
+                            "quaternion": {
+                                "additionalProperties": false,
+                                "type": "object",
+                                "properties": {
+                                    "x": {
+                                        "type": "number"
+                                    },
+                                    "y": {
+                                        "type": "number"
+                                    },
+                                    "z": {
+                                        "type": "number"
+                                    },
+                                    "w": {
+                                        "type": "number"
+                                    }
+                                },
+                                "required": [
+                                    "w",
+                                    "x",
+                                    "y",
+                                    "z"
+                                ]
+                            }
+                        },
+                        "required": [
+                            "center",
+                            "quaternion",
+                            "size"
+                        ]
+                    },
+                    "attributes": {
+                        "$ref": "#/definitions/attributes"
+                    },
+                    "sensor": {
+                        "$ref": "#/definitions/sensor"
+                    }
+                },
+                "required": [
+                    "attributes",
+                    "className",
+                    "geometry",
+                    "id",
+                    "objectId",
+                    "sensor"
+                ]
+            }
+        },
+        "3D_SEGMENTATION": {
+            "type": "array",
+            "items": {
+                "additionalProperties": false,
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "string"
+                    },
+                    "objectId": {
+                        "type": "string"
+                    },
+                    "className": {
+                        "type": "string"
+                    },
+                    "geometry": {
+                        "additionalProperties": false,
+                        "type": "object",
+                        "properties": {
+                            "associatedPoints": {
+                                "additionalProperties": false,
+                                "type": "array",
+                                "items": {
+                                    "type": "integer"
+                                }
+                            },
+                            "numberOfPointsInBox": {
+                                "type": "integer"
+                            }
+                        },
+                        "required": [
+                            "associatedPoints",
+                            "numberOfPointsInBox"
+                        ]
+                    },
+                    "attributes": {
+                        "$ref": "#/definitions/attributes"
+                    },
+                    "sensor": {
+                        "$ref": "#/definitions/sensor"
+                    }
+                },
+                "required": [
+                    "attributes",
+                    "className",
+                    "geometry",
+                    "id",
+                    "objectId",
+                    "sensor"
+                ]
+            }
+        },
+        "attributes": {
+            "description": "tbd",
+            "additionalProperties": false,
+            "type": "object",
+            "patternProperties": {
+                "^": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            }
+                        },
+                        {
+                            "type": "array",
+                            "items": {
+                                "type": "number"
+                            }
+                        }
+                    ]
+                }
+            }
+        },
+        "coordinateSystems": {
+            "description": "tbd",
+            "type": "array",
+            "items": {
+                "additionalProperties": false,
                 "type": "object",
                 "properties": {
                     "coordinate_system_id": {
                         "type": "string"
                     },
                     "topic": {
+                        "description": "tbd",
                         "type": "string"
                     },
                     "frame_id": {
+                        "description": "tbd",
                         "type": "string"
                     },
                     "position": {
+                        "description": "tbd",
                         "type": "array",
                         "items": {
                             "type": "number"
@@ -65,6 +386,7 @@
                         "maxItems": 3
                     },
                     "rotation_quaternion": {
+                        "description": "tbd",
                         "type": "array",
                         "items": {
                             "type": "number"
@@ -73,6 +395,7 @@
                         "maxItems": 4
                     },
                     "rotation_matrix": {
+                        "description": "tbd",
                         "type": "array",
                         "items": {
                             "type": "number"
@@ -81,6 +404,7 @@
                         "maxItems": 9
                     },
                     "angle_axis_rotation": {
+                        "description": "tbd",
                         "type": "array",
                         "items": {
                             "type": "number"
@@ -89,6 +413,7 @@
                         "maxItems": 3
                     },
                     "homogeneous_transform": {
+                        "description": "tbd",
                         "type": "array",
                         "items": {
                             "type": "number"
@@ -97,6 +422,7 @@
                         "maxItems": 16
                     },
                     "measured_position": {
+                        "description": "tbd",
                         "type": "array",
                         "items": {
                             "type": "integer"
@@ -105,6 +431,7 @@
                         "maxItems": 3
                     },
                     "camera_matrix": {
+                        "description": "tbd",
                         "type": "array",
                         "items": {
                             "type": "number"
@@ -113,12 +440,17 @@
                         "maxItems": 9
                     },
                     "dist_coeffs": {
+                        "description": "tbd",
                         "type": "array",
                         "items": {
                             "type": "number"
                         },
                         "minItems": 5,
                         "maxItems": 5
+                    },
+                    "rotation_around_z_in_degrees": {
+                        "description": "tbd",
+                        "type": "number"
                     }
                 },
                 "required": [
@@ -135,6 +467,8 @@
         "frames": {
             "type": "array",
             "items": {
+                "description": "tbd",
+                "additionalProperties": false,
                 "type": "object",
                 "properties": {
                     "frameId": {
@@ -144,929 +478,32 @@
                         "type": "string"
                     },
                     "annotations": {
+                        "description": "tbd",
+                        "additionalProperties": false,
                         "type": "object",
                         "properties": {
                             "2D_BOUNDING_BOX": {
-                                "type": "array",
-                                "items": {
-                                    "type": "object",
-                                    "properties": {
-                                        "id": {
-                                            "type": "string"
-                                        },
-                                        "objectId": {
-                                            "type": "string"
-                                        },
-                                        "className": {
-                                            "type": "string"
-                                        },
-                                        "geometry": {
-                                            "type": "object",
-                                            "properties": {
-                                                "xMin": {
-                                                    "type": "number"
-                                                },
-                                                "yMin": {
-                                                    "type": "number"
-                                                },
-                                                "xMax": {
-                                                    "type": "number"
-                                                },
-                                                "yMax": {
-                                                    "type": "number"
-                                                }
-                                            },
-                                            "required": [
-                                                "xMax",
-                                                "xMin",
-                                                "yMax",
-                                                "yMin"
-                                            ]
-                                        },
-                                        "attributes": {
-                                            "type": "object",
-                                            "properties": {
-                                                "SignalAttachement_Left": {
-                                                    "type": "boolean"
-                                                },
-                                                "SignalConnectedToSignals": {
-                                                    "type": "array",
-                                                    "items": {
-                                                        "type": "string"
-                                                    }
-                                                },
-                                                "pose": {
-                                                    "type": "string",
-                                                    "enum": [
-                                                        "upright",
-                                                        "sitting",
-                                                        "lying",
-                                                        "other"
-                                                    ]
-                                                },
-                                                "species": {
-                                                    "type": "string",
-                                                    "enum": [
-                                                        "dog",
-                                                        "deer",
-                                                        "fox",
-                                                        "rabbit",
-                                                        "wildBoar",
-                                                        "cow",
-                                                        "bird",
-                                                        "other animal"
-                                                    ]
-                                                },
-                                                "occlusion": {
-                                                    "type": "string",
-                                                    "enum": [
-                                                        "0-25%",
-                                                        "25-50%",
-                                                        "50-75%",
-                                                        "75-100%",
-                                                        "100%"
-                                                    ]
-                                                },
-                                                "isDistracted": {
-                                                    "type": "boolean"
-                                                },
-                                                "isTruncated": {
-                                                    "type": "boolean"
-                                                },
-                                                "isBottomVisible": {
-                                                    "type": "boolean"
-                                                },
-                                                "SignalAttachement_Bottom": {
-                                                    "type": "boolean"
-                                                },
-                                                "SignalAttachement_Top": {
-                                                    "type": "boolean"
-                                                },
-                                                "trainConnectedToWagon": {
-                                                    "type": "array",
-                                                    "items": {
-                                                        "type": "string"
-                                                    }
-                                                },
-                                                "state": {
-                                                    "type": "string",
-                                                    "enum": [
-                                                        "leftTrack",
-                                                        "onTrack",
-                                                        "rightTrack",
-                                                        "unknown"
-                                                    ]
-                                                },
-                                                "personConnectedToPerson": {
-                                                    "type": "array",
-                                                    "items": {
-                                                        "type": "string"
-                                                    }
-                                                },
-                                                "personalItemConnectedToPerson": {
-                                                    "type": "array",
-                                                    "items": {
-                                                        "type": "string"
-                                                    }
-                                                },
-                                                "carrying": {
-                                                    "type": "string",
-                                                    "enum": [
-                                                        "none",
-                                                        "backpack",
-                                                        "hat",
-                                                        "other"
-                                                    ]
-                                                },
-                                                "aid": {
-                                                    "type": "string",
-                                                    "enum": [
-                                                        "none",
-                                                        "whiteCane",
-                                                        "walkingAid",
-                                                        "other"
-                                                    ]
-                                                },
-                                                "state_personal_item": {
-                                                    "type": "string",
-                                                    "enum": [
-                                                        "pulled",
-                                                        "carried",
-                                                        "alone"
-                                                    ]
-                                                },
-                                                "type_personal_item": {
-                                                    "type": "string",
-                                                    "enum": [
-                                                        "suitcase",
-                                                        "umbrella",
-                                                        "others"
-                                                    ]
-                                                },
-                                                "SignalAttachement_Right": {
-                                                    "type": "boolean"
-                                                },
-                                                "trackId": {
-                                                    "type": "string"
-                                                },
-                                                "type_wagon": {
-                                                    "type": "string",
-                                                    "enum": [
-                                                        "freight",
-                                                        "intercity",
-                                                        "regional",
-                                                        "construction",
-                                                        "other"
-                                                    ]
-                                                },
-                                                "age": {
-                                                    "type": "string",
-                                                    "enum": [
-                                                        "child",
-                                                        "adult"
-                                                    ]
-                                                },
-                                                "function": {
-                                                    "type": "string",
-                                                    "enum": [
-                                                        "passenger",
-                                                        "worker",
-                                                        "security",
-                                                        "staff",
-                                                        "uniformed",
-                                                        "other",
-                                                        "unknown"
-                                                    ]
-                                                },
-                                                "type": {
-                                                    "type": "string",
-                                                    "enum": [
-                                                        "solid",
-                                                        "structured"
-                                                    ]
-                                                },
-                                                "type_signal": {
-                                                    "type": "string",
-                                                    "enum": [
-                                                        "light",
-                                                        "shapeDistantSignal",
-                                                        "shapeMainSignal"
-                                                    ]
-                                                },
-                                                "face": {
-                                                    "type": "string",
-                                                    "enum": [
-                                                        "front",
-                                                        "back",
-                                                        "unknown"
-                                                    ]
-                                                },
-                                                "size_animal": {
-                                                    "type": "string",
-                                                    "enum": [
-                                                        "small",
-                                                        "medium",
-                                                        "large"
-                                                    ]
-                                                },
-                                                "type_train": {
-                                                    "type": "string",
-                                                    "enum": [
-                                                        "commuter",
-                                                        "regional",
-                                                        "locomotive",
-                                                        "intercity",
-                                                        "construction",
-                                                        "other"
-                                                    ]
-                                                },
-                                                "connectedTo": {
-                                                    "type": "array",
-                                                    "items": {
-                                                        "type": "string"
-                                                    }
-                                                },
-                                                "isDummy": {
-                                                    "type": "boolean"
-                                                }
-                                            }
-                                        },
-                                        "sensor": {
-                                            "type": "object",
-                                            "properties": {
-                                                "type": {
-                                                    "type": "string"
-                                                },
-                                                "uri": {
-                                                    "type": "string"
-                                                },
-                                                "timestamp": {
-                                                    "type": "string"
-                                                }
-                                            },
-                                            "required": [
-                                                "timestamp",
-                                                "type",
-                                                "uri"
-                                            ]
-                                        }
-                                    },
-                                    "required": [
-                                        "attributes",
-                                        "className",
-                                        "geometry",
-                                        "id",
-                                        "objectId",
-                                        "sensor"
-                                    ]
-                                }
+                                "$ref": "#/definitions/2D_BOUNDING_BOX"
                             },
                             "2D_POLYLINE": {
-                                "type": "array",
-                                "items": {
-                                    "type": "object",
-                                    "properties": {
-                                        "id": {
-                                            "type": "string"
-                                        },
-                                        "objectId": {
-                                            "type": "string"
-                                        },
-                                        "className": {
-                                            "type": "string"
-                                        },
-                                        "geometry": {
-                                            "type": "object",
-                                            "properties": {
-                                                "points": {
-                                                    "type": "array",
-                                                    "items": {
-                                                        "type": "array",
-                                                        "items": {
-                                                            "type": "number"
-                                                        },
-                                                        "minItems": 2,
-                                                        "maxItems": 2
-                                                    }
-                                                }
-                                            },
-                                            "required": [
-                                                "points"
-                                            ]
-                                        },
-                                        "attributes": {
-                                            "type": "object",
-                                            "properties": {
-                                                "trackId": {
-                                                    "type": "string"
-                                                },
-                                                "railSide": {
-                                                    "type": "string",
-                                                    "enum": [
-                                                        "leftRail",
-                                                        "rightRail",
-                                                        "none"
-                                                    ]
-                                                },
-                                                "occlusion": {
-                                                    "type": "string",
-                                                    "enum": [
-                                                        "0-25%",
-                                                        "25-50%",
-                                                        "50-75%",
-                                                        "75-100%",
-                                                        "100%"
-                                                    ]
-                                                },
-                                                "isEgoTrack": {
-                                                    "type": "boolean"
-                                                },
-                                                "connectToSecondPolylineTrack": {
-                                                    "type": "array",
-                                                    "items": {
-                                                        "type": "string"
-                                                    }
-                                                },
-                                                "endTrack": {
-                                                    "type": "array",
-                                                    "items": {
-                                                        "type": "string"
-                                                    }
-                                                },
-                                                "startTrack": {
-                                                    "type": "array",
-                                                    "items": {
-                                                        "type": "string"
-                                                    }
-                                                },
-                                                "isTruncated": {
-                                                    "type": "boolean"
-                                                }
-                                            }
-                                        },
-                                        "sensor": {
-                                            "type": "object",
-                                            "properties": {
-                                                "type": {
-                                                    "type": "string"
-                                                },
-                                                "uri": {
-                                                    "type": "string"
-                                                },
-                                                "timestamp": {
-                                                    "type": "string"
-                                                }
-                                            },
-                                            "required": [
-                                                "timestamp",
-                                                "type",
-                                                "uri"
-                                            ]
-                                        }
-                                    },
-                                    "required": [
-                                        "attributes",
-                                        "className",
-                                        "geometry",
-                                        "id",
-                                        "objectId",
-                                        "sensor"
-                                    ]
-                                }
+                                "$ref": "#/definitions/2D_POLYLINE"
                             },
                             "2D_POLYGON": {
-                                "type": "array",
-                                "items": {
-                                    "type": "object",
-                                    "properties": {
-                                        "id": {
-                                            "type": "string"
-                                        },
-                                        "objectId": {
-                                            "type": "string"
-                                        },
-                                        "className": {
-                                            "type": "string"
-                                        },
-                                        "geometry": {
-                                            "type": "object",
-                                            "properties": {
-                                                "points": {
-                                                    "type": "array",
-                                                    "items": {
-                                                        "type": "array",
-                                                        "items": {
-                                                            "type": "number"
-                                                        },
-                                                        "minItems": 2,
-                                                        "maxItems": 2
-                                                    }
-                                                }
-                                            },
-                                            "required": [
-                                                "points"
-                                            ]
-                                        },
-                                        "attributes": {
-                                            "type": "object",
-                                            "properties": {
-                                                "trackId": {
-                                                    "type": "string"
-                                                },
-                                                "SignalConnectedToSignals": {
-                                                    "type": "array",
-                                                    "items": {
-                                                        "type": "string"
-                                                    }
-                                                },
-                                                "occlusion": {
-                                                    "type": "string",
-                                                    "enum": [
-                                                        "0-25%",
-                                                        "25-50%",
-                                                        "50-75%",
-                                                        "75-100%",
-                                                        "100%"
-                                                    ]
-                                                },
-                                                "isTruncated": {
-                                                    "type": "boolean"
-                                                },
-                                                "size": {
-                                                    "type": "string",
-                                                    "enum": [
-                                                        "small",
-                                                        "medium",
-                                                        "large"
-                                                    ]
-                                                },
-                                                "type_road_vehicle": {
-                                                    "type": "string",
-                                                    "enum": [
-                                                        "car",
-                                                        "van",
-                                                        "truck",
-                                                        "bus",
-                                                        "constructionVehicle",
-                                                        "trailer",
-                                                        "other"
-                                                    ]
-                                                },
-                                                "type_wagon": {
-                                                    "type": "string",
-                                                    "enum": [
-                                                        "freight",
-                                                        "intercity",
-                                                        "regional",
-                                                        "construction",
-                                                        "other"
-                                                    ]
-                                                },
-                                                "isBottomVisible": {
-                                                    "type": "boolean"
-                                                },
-                                                "type": {
-                                                    "type": "string"
-                                                },
-                                                "state": {
-                                                    "type": "string",
-                                                    "enum": [
-                                                        "leftTrack",
-                                                        "onTrack",
-                                                        "rightTrack",
-                                                        "unknown"
-                                                    ]
-                                                },
-                                                "type_train": {
-                                                    "type": "string",
-                                                    "enum": [
-                                                        "commuter",
-                                                        "regional",
-                                                        "locomotive",
-                                                        "intercity",
-                                                        "construction",
-                                                        "other"
-                                                    ]
-                                                },
-                                                "trainConnectedToWagon": {
-                                                    "type": "array",
-                                                    "items": {
-                                                        "type": "string"
-                                                    }
-                                                },
-                                                "roadVehicleConnectedToRoadVehicle": {
-                                                    "type": "array",
-                                                    "items": {
-                                                        "type": "string"
-                                                    }
-                                                }
-                                            }
-                                        },
-                                        "sensor": {
-                                            "type": "object",
-                                            "properties": {
-                                                "type": {
-                                                    "type": "string"
-                                                },
-                                                "uri": {
-                                                    "type": "string"
-                                                },
-                                                "timestamp": {
-                                                    "type": "string"
-                                                }
-                                            },
-                                            "required": [
-                                                "timestamp",
-                                                "type",
-                                                "uri"
-                                            ]
-                                        }
-                                    },
-                                    "required": [
-                                        "attributes",
-                                        "className",
-                                        "geometry",
-                                        "id",
-                                        "objectId",
-                                        "sensor"
-                                    ]
-                                }
+                                "$ref": "#/definitions/2D_POLYGON"
                             },
                             "3D_BOUNDING_BOX": {
-                                "type": "array",
-                                "items": {
-                                    "type": "object",
-                                    "properties": {
-                                        "id": {
-                                            "type": "string"
-                                        },
-                                        "objectId": {
-                                            "type": "string"
-                                        },
-                                        "className": {
-                                            "type": "string"
-                                        },
-                                        "geometry": {
-                                            "type": "object",
-                                            "properties": {
-                                                "size": {
-                                                    "type": "object",
-                                                    "properties": {
-                                                        "height": {
-                                                            "type": "number"
-                                                        },
-                                                        "width": {
-                                                            "type": "number"
-                                                        },
-                                                        "length": {
-                                                            "type": "number"
-                                                        }
-                                                    },
-                                                    "required": [
-                                                        "height",
-                                                        "length",
-                                                        "width"
-                                                    ]
-                                                },
-                                                "center": {
-                                                    "type": "object",
-                                                    "properties": {
-                                                        "x": {
-                                                            "type": "number"
-                                                        },
-                                                        "y": {
-                                                            "type": "number"
-                                                        },
-                                                        "z": {
-                                                            "type": "number"
-                                                        }
-                                                    },
-                                                    "required": [
-                                                        "x",
-                                                        "y",
-                                                        "z"
-                                                    ]
-                                                },
-                                                "quaternion": {
-                                                    "type": "object",
-                                                    "properties": {
-                                                        "x": {
-                                                            "type": "number"
-                                                        },
-                                                        "y": {
-                                                            "type": "number"
-                                                        },
-                                                        "z": {
-                                                            "type": "number"
-                                                        },
-                                                        "w": {
-                                                            "type": "number"
-                                                        }
-                                                    },
-                                                    "required": [
-                                                        "w",
-                                                        "x",
-                                                        "y",
-                                                        "z"
-                                                    ]
-                                                }
-                                            },
-                                            "required": [
-                                                "center",
-                                                "quaternion",
-                                                "size"
-                                            ]
-                                        },
-                                        "attributes": {
-                                            "type": "object",
-                                            "properties": {
-                                                "trackId": {
-                                                    "type": "string"
-                                                },
-                                                "SignalConnectedToSignals": {
-                                                    "type": "array",
-                                                    "items": {
-                                                        "type": "string"
-                                                    }
-                                                },
-                                                "pose": {
-                                                    "type": "string"
-                                                },
-                                                "isDummy": {
-                                                    "type": "boolean"
-                                                },
-                                                "type_pram": {
-                                                    "type": "string",
-                                                    "enum": [
-                                                        "stroller",
-                                                        "buggy",
-                                                        "other"
-                                                    ]
-                                                },
-                                                "roadVehicleConnectedToRoadVehicle": {
-                                                    "type": "array",
-                                                    "items": {
-                                                        "type": "string"
-                                                    }
-                                                },
-                                                "SignalAttachement_Left": {
-                                                    "type": "boolean"
-                                                },
-                                                "belongsTo": {
-                                                    "type": "array",
-                                                    "items": {
-                                                        "type": "string"
-                                                    }
-                                                },
-                                                "isBottomVisible": {
-                                                    "type": "boolean"
-                                                },
-                                                "isTruncated": {
-                                                    "type": "boolean"
-                                                },
-                                                "SignalAttachement_Bottom": {
-                                                    "type": "boolean"
-                                                },
-                                                "occlusion": {
-                                                    "type": "string",
-                                                    "enum": [
-                                                        "0-25%",
-                                                        "25-50%",
-                                                        "50-75%",
-                                                        "75-100%",
-                                                        "100%"
-                                                    ]
-                                                },
-                                                "isEgoTrack": {
-                                                    "type": "boolean"
-                                                },
-                                                "state": {
-                                                    "type": "string",
-                                                    "enum": [
-                                                        "leftTrack",
-                                                        "onTrack",
-                                                        "rightTrack",
-                                                        "unknown"
-                                                    ]
-                                                },
-                                                "count": {
-                                                    "type": "string",
-                                                    "enum": [
-                                                        "<25",
-                                                        "25-50",
-                                                        "50-75",
-                                                        ">75"
-                                                    ]
-                                                },
-                                                "personConnectedToBicycle": {
-                                                    "type": "array",
-                                                    "items": {
-                                                        "type": "string"
-                                                    }
-                                                },
-                                                "trainConnectedToWagon": {
-                                                    "type": "array",
-                                                    "items": {
-                                                        "type": "string"
-                                                    }
-                                                },
-                                                "SignalAttachement_Top": {
-                                                    "type": "boolean"
-                                                },
-                                                "structure": {
-                                                    "type": "string"
-                                                },
-                                                "state_personal_item": {
-                                                    "type": "string",
-                                                    "enum": [
-                                                        "pulled",
-                                                        "carried",
-                                                        "alone"
-                                                    ]
-                                                },
-                                                "SignalAttachement_Right": {
-                                                    "type": "boolean"
-                                                },
-                                                "personConnectedToPerson": {
-                                                    "type": "array",
-                                                    "items": {
-                                                        "type": "string"
-                                                    }
-                                                },
-                                                "signalPoleConnectedToSignals": {
-                                                    "type": "array",
-                                                    "items": {
-                                                        "type": "string"
-                                                    }
-                                                },
-                                                "age": {
-                                                    "type": "string"
-                                                },
-                                                "aid": {
-                                                    "type": "string"
-                                                },
-                                                "function": {
-                                                    "type": "string"
-                                                },
-                                                "type_road_vehicle": {
-                                                    "type": "string",
-                                                    "enum": [
-                                                        "car",
-                                                        "van",
-                                                        "truck",
-                                                        "bus",
-                                                        "constructionVehicle",
-                                                        "trailer",
-                                                        "other"
-                                                    ]
-                                                },
-                                                "size": {
-                                                    "type": "string",
-                                                    "enum": [
-                                                        "small",
-                                                        "medium",
-                                                        "large"
-                                                    ]
-                                                },
-                                                "pramConnectedToPerson": {
-                                                    "type": "array",
-                                                    "items": {
-                                                        "type": "string"
-                                                    }
-                                                },
-                                                "type_wagon": {
-                                                    "type": "string",
-                                                    "enum": [
-                                                        "freight",
-                                                        "intercity",
-                                                        "regional",
-                                                        "construction",
-                                                        "other"
-                                                    ]
-                                                },
-                                                "type_signal": {
-                                                    "type": "string",
-                                                    "enum": [
-                                                        "light",
-                                                        "shapeDistantSignal",
-                                                        "shapeMainSignal"
-                                                    ]
-                                                },
-                                                "type_personal_item": {
-                                                    "type": "string",
-                                                    "enum": [
-                                                        "suitcase",
-                                                        "umbrella",
-                                                        "others"
-                                                    ]
-                                                },
-                                                "type": {
-                                                    "type": "string"
-                                                },
-                                                "endTrack": {
-                                                    "type": "array",
-                                                    "items": {
-                                                        "type": "string"
-                                                    }
-                                                },
-                                                "startTrack": {
-                                                    "type": "array",
-                                                    "items": {
-                                                        "type": "string"
-                                                    }
-                                                },
-                                                "onTrack": {
-                                                    "type": "array",
-                                                    "items": {
-                                                        "type": "string"
-                                                    }
-                                                },
-                                                "motorcycleConnectedToPerson": {
-                                                    "type": "array",
-                                                    "items": {
-                                                        "type": "string"
-                                                    }
-                                                },
-                                                "wheelchairConnectedToPerson": {
-                                                    "type": "array",
-                                                    "items": {
-                                                        "type": "string"
-                                                    }
-                                                },
-                                                "type_train": {
-                                                    "type": "string",
-                                                    "enum": [
-                                                        "commuter",
-                                                        "regional",
-                                                        "locomotive",
-                                                        "intercity",
-                                                        "construction",
-                                                        "other"
-                                                    ]
-                                                },
-                                                "state_pram": {
-                                                    "type": "string",
-                                                    "enum": [
-                                                        "carried",
-                                                        "pushed",
-                                                        "steady"
-                                                    ]
-                                                },
-                                                "state_bicycle": {
-                                                    "type": "string",
-                                                    "enum": [
-                                                        "carried",
-                                                        "pushed",
-                                                        "ridden",
-                                                        "motionless"
-                                                    ]
-                                                },
-                                                "size_animal": {
-                                                    "type": "string",
-                                                    "enum": [
-                                                        "small",
-                                                        "medium",
-                                                        "large"
-                                                    ]
-                                                }
-                                            }
-                                        },
-                                        "sensor": {
-                                            "type": "object",
-                                            "properties": {
-                                                "type": {
-                                                    "type": "string"
-                                                },
-                                                "uri": {
-                                                    "type": "string"
-                                                },
-                                                "timestamp": {
-                                                    "type": "string"
-                                                }
-                                            },
-                                            "required": [
-                                                "timestamp",
-                                                "type",
-                                                "uri"
-                                            ]
-                                        }
-                                    },
-                                    "required": [
-                                        "attributes",
-                                        "className",
-                                        "geometry",
-                                        "id",
-                                        "objectId",
-                                        "sensor"
-                                    ]
-                                }
+                                "$ref": "#/definitions/3D_BOUNDING_BOX"
+                            },
+                            "3D_SEGMENTATION": {
+                                "$ref": "#/definitions/3D_SEGMENTATION"
                             }
                         },
                         "required": [
                             "2D_BOUNDING_BOX",
                             "2D_POLYGON",
                             "2D_POLYLINE",
-                            "3D_BOUNDING_BOX"
+                            "3D_BOUNDING_BOX",
+                            "3D_SEGMENTATION"
                         ]
                     }
                 },
@@ -1076,6 +513,87 @@
                     "timestamp"
                 ]
             }
+        },
+        "metadata": {
+            "additionalProperties": false,
+            "type": "object",
+            "properties": {
+                "clip_id": {
+                    "description": "tbd",
+                    "type": "string"
+                },
+                "external_clip_id": {
+                    "description": "tbd",
+                    "type": "string"
+                },
+                "project_id": {
+                    "description": "tbd",
+                    "type": "string"
+                },
+                "export_time": {
+                    "type": "string",
+                    "pattern": "^\\d{4}-\\d{2}-\\d{2} \\d{2}:\\d{2} UTC$"
+                },
+                "exporter_version": {
+                    "type": "string"
+                },
+                "coordinate_system_3d": {
+                    "description": "tbd",
+                    "type": "string"
+                },
+                "coordinate_system_reference": {
+                    "description": "tbd",
+                    "type": "string"
+                },
+                "folder_name": {
+                    "description": "tbd",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "clip_id",
+                "coordinate_system_3d",
+                "coordinate_system_reference",
+                "export_time",
+                "exporter_version",
+                "external_clip_id",
+                "folder_name",
+                "project_id"
+            ]
+        },
+        "sensor": {
+            "additionalProperties": false,
+            "type": "object",
+            "properties": {
+                "type": {
+                    "description": "tbd",
+                    "type": "string"
+                },
+                "uri": {
+                    "description": "tbd",
+                    "type": "string"
+                },
+                "timestamp": {
+                    "description": "tbd",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "timestamp",
+                "type",
+                "uri"
+            ]
+        }
+    },
+    "properties": {
+        "metadata": {
+            "$ref": "#/definitions/metadata"
+        },
+        "coordinateSystems": {
+            "$ref": "#/definitions/coordinateSystems"
+        },
+        "frames": {
+            "$ref": "#/definitions/frames"
         }
     },
     "required": [
