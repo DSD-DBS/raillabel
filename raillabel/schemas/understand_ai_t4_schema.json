@@ -3,52 +3,6 @@
     "type": "object",
     "additionalProperties": false,
     "definitions": {
-        "metadata": {
-            "additionalProperties": false,
-            "type": "object",
-            "properties": {
-                "clip_id": {
-                    "type": "string"
-                },
-                "external_clip_id": {
-                    "type": "string"
-                },
-                "project_id": {
-                    "type": "string"
-                },
-                "export_time": {
-                    "type": "string",
-                    "pattern": "^\\d{4}-\\d{2}-\\d{2} \\d{2}:\\d{2} UTC$"
-                },
-                "exporter_version": {
-                    "type": "string"
-                },
-                "coordinate_system_3d": {
-                    "type": "string"
-                },
-                "coordinate_system_reference": {
-                    "type": "string"
-                },
-                "folder_name": {
-                    "type": "string"
-                }
-            },
-            "required": [
-                "clip_id",
-                "coordinate_system_3d",
-                "coordinate_system_reference",
-                "export_time",
-                "exporter_version",
-                "external_clip_id",
-                "folder_name",
-                "project_id"
-            ]
-        }
-    },
-    "properties": {
-        "metadata": {
-            "$ref": "#/definitions/metadata"
-        },
         "coordinateSystems": {
             "type": "array",
             "items": {
@@ -142,6 +96,55 @@
                     "topic"
                 ]
             }
+        },
+        "metadata": {
+            "additionalProperties": false,
+            "type": "object",
+            "properties": {
+                "clip_id": {
+                    "type": "string"
+                },
+                "external_clip_id": {
+                    "type": "string"
+                },
+                "project_id": {
+                    "type": "string"
+                },
+                "export_time": {
+                    "type": "string",
+                    "pattern": "^\\d{4}-\\d{2}-\\d{2} \\d{2}:\\d{2} UTC$"
+                },
+                "exporter_version": {
+                    "type": "string"
+                },
+                "coordinate_system_3d": {
+                    "type": "string"
+                },
+                "coordinate_system_reference": {
+                    "type": "string"
+                },
+                "folder_name": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "clip_id",
+                "coordinate_system_3d",
+                "coordinate_system_reference",
+                "export_time",
+                "exporter_version",
+                "external_clip_id",
+                "folder_name",
+                "project_id"
+            ]
+        }
+    },
+    "properties": {
+        "metadata": {
+            "$ref": "#/definitions/metadata"
+        },
+        "coordinateSystems": {
+            "$ref": "#/definitions/coordinateSystems"
         },
         "frames": {
             "type": "array",
