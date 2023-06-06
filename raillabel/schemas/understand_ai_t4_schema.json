@@ -1,10 +1,10 @@
 {
     "$schema": "http://json-schema.org/draft-07/schema#",
     "type": "object",
-    "additionalProperties": true,
+    "additionalProperties": false,
     "properties": {
         "metadata": {
-            "additionalProperties": true,
+            "additionalProperties": false,
             "type": "object",
             "properties": {
                 "clip_id": {
@@ -47,7 +47,7 @@
         "coordinateSystems": {
             "type": "array",
             "items": {
-                "additionalProperties": true,
+                "additionalProperties": false,
                 "type": "object",
                 "properties": {
                     "coordinate_system_id": {
@@ -141,7 +141,7 @@
         "frames": {
             "type": "array",
             "items": {
-                "additionalProperties": true,
+                "additionalProperties": false,
                 "type": "object",
                 "properties": {
                     "frameId": {
@@ -151,13 +151,13 @@
                         "type": "string"
                     },
                     "annotations": {
-                        "additionalProperties": true,
+                        "additionalProperties": false,
                         "type": "object",
                         "properties": {
                             "2D_BOUNDING_BOX": {
                                 "type": "array",
                                 "items": {
-                                    "additionalProperties": true,
+                                    "additionalProperties": false,
                                     "type": "object",
                                     "properties": {
                                         "id": {
@@ -170,7 +170,7 @@
                                             "type": "string"
                                         },
                                         "geometry": {
-                                            "additionalProperties": true,
+                                            "additionalProperties": false,
                                             "type": "object",
                                             "properties": {
                                                 "xMin": {
@@ -194,7 +194,7 @@
                                             ]
                                         },
                                         "attributes": {
-                                            "additionalProperties": true,
+                                            "additionalProperties": false,
                                             "type": "object",
                                             "patternProperties": {
                                                 "^": {
@@ -225,7 +225,7 @@
                                             }
                                         },
                                         "sensor": {
-                                            "additionalProperties": true,
+                                            "additionalProperties": false,
                                             "type": "object",
                                             "properties": {
                                                 "type": {
@@ -258,7 +258,7 @@
                             "2D_POLYLINE": {
                                 "type": "array",
                                 "items": {
-                                    "additionalProperties": true,
+                                    "additionalProperties": false,
                                     "type": "object",
                                     "properties": {
                                         "id": {
@@ -271,7 +271,7 @@
                                             "type": "string"
                                         },
                                         "geometry": {
-                                            "additionalProperties": true,
+                                            "additionalProperties": false,
                                             "type": "object",
                                             "properties": {
                                                 "points": {
@@ -291,7 +291,7 @@
                                             ]
                                         },
                                         "attributes": {
-                                            "additionalProperties": true,
+                                            "additionalProperties": false,
                                             "type": "object",
                                             "patternProperties": {
                                                 "^": {
@@ -322,7 +322,7 @@
                                             }
                                         },
                                         "sensor": {
-                                            "additionalProperties": true,
+                                            "additionalProperties": false,
                                             "type": "object",
                                             "properties": {
                                                 "type": {
@@ -355,7 +355,7 @@
                             "2D_POLYGON": {
                                 "type": "array",
                                 "items": {
-                                    "additionalProperties": true,
+                                    "additionalProperties": false,
                                     "type": "object",
                                     "properties": {
                                         "id": {
@@ -368,7 +368,7 @@
                                             "type": "string"
                                         },
                                         "geometry": {
-                                            "additionalProperties": true,
+                                            "additionalProperties": false,
                                             "type": "object",
                                             "properties": {
                                                 "points": {
@@ -388,7 +388,7 @@
                                             ]
                                         },
                                         "attributes": {
-                                            "additionalProperties": true,
+                                            "additionalProperties": false,
                                             "type": "object",
                                             "patternProperties": {
                                                 "^": {
@@ -419,7 +419,7 @@
                                             }
                                         },
                                         "sensor": {
-                                            "additionalProperties": true,
+                                            "additionalProperties": false,
                                             "type": "object",
                                             "properties": {
                                                 "type": {
@@ -452,7 +452,7 @@
                             "3D_BOUNDING_BOX": {
                                 "type": "array",
                                 "items": {
-                                    "additionalProperties": true,
+                                    "additionalProperties": false,
                                     "type": "object",
                                     "properties": {
                                         "id": {
@@ -465,11 +465,11 @@
                                             "type": "string"
                                         },
                                         "geometry": {
-                                            "additionalProperties": true,
+                                            "additionalProperties": false,
                                             "type": "object",
                                             "properties": {
                                                 "size": {
-                                                    "additionalProperties": true,
+                                                    "additionalProperties": false,
                                                     "type": "object",
                                                     "properties": {
                                                         "height": {
@@ -489,7 +489,7 @@
                                                     ]
                                                 },
                                                 "center": {
-                                                    "additionalProperties": true,
+                                                    "additionalProperties": false,
                                                     "type": "object",
                                                     "properties": {
                                                         "x": {
@@ -509,7 +509,7 @@
                                                     ]
                                                 },
                                                 "quaternion": {
-                                                    "additionalProperties": true,
+                                                    "additionalProperties": false,
                                                     "type": "object",
                                                     "properties": {
                                                         "x": {
@@ -540,7 +540,7 @@
                                             ]
                                         },
                                         "attributes": {
-                                            "additionalProperties": true,
+                                            "additionalProperties": false,
                                             "type": "object",
                                             "patternProperties": {
                                                 "^": {
@@ -571,7 +571,7 @@
                                             }
                                         },
                                         "sensor": {
-                                            "additionalProperties": true,
+                                            "additionalProperties": false,
                                             "type": "object",
                                             "properties": {
                                                 "type": {
@@ -604,7 +604,7 @@
                             "3D_SEGMENTATION": {
                                 "type": "array",
                                 "items": {
-                                    "additionalProperties": true,
+                                    "additionalProperties": false,
                                     "type": "object",
                                     "properties": {
                                         "id": {
@@ -617,11 +617,11 @@
                                             "type": "string"
                                         },
                                         "geometry": {
-                                            "additionalProperties": true,
+                                            "additionalProperties": false,
                                             "type": "object",
                                             "properties": {
                                                 "associatedPoints": {
-                                                    "additionalProperties": true,
+                                                    "additionalProperties": false,
                                                     "type": "array",
                                                     "items": {
                                                         "type": "integer"
@@ -637,7 +637,7 @@
                                             ]
                                         },
                                         "attributes": {
-                                            "additionalProperties": true,
+                                            "additionalProperties": false,
                                             "type": "object",
                                             "patternProperties": {
                                                 "^": {
@@ -668,7 +668,7 @@
                                             }
                                         },
                                         "sensor": {
-                                            "additionalProperties": true,
+                                            "additionalProperties": false,
                                             "type": "object",
                                             "properties": {
                                                 "type": {
