@@ -163,6 +163,113 @@
                 ]
             }
         },
+        "3D_BOUNDING_BOX": {
+            "type": "array",
+            "items": {
+                "additionalProperties": false,
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "string"
+                    },
+                    "objectId": {
+                        "type": "string"
+                    },
+                    "className": {
+                        "type": "string"
+                    },
+                    "geometry": {
+                        "additionalProperties": false,
+                        "type": "object",
+                        "properties": {
+                            "size": {
+                                "additionalProperties": false,
+                                "type": "object",
+                                "properties": {
+                                    "height": {
+                                        "type": "number"
+                                    },
+                                    "width": {
+                                        "type": "number"
+                                    },
+                                    "length": {
+                                        "type": "number"
+                                    }
+                                },
+                                "required": [
+                                    "height",
+                                    "length",
+                                    "width"
+                                ]
+                            },
+                            "center": {
+                                "additionalProperties": false,
+                                "type": "object",
+                                "properties": {
+                                    "x": {
+                                        "type": "number"
+                                    },
+                                    "y": {
+                                        "type": "number"
+                                    },
+                                    "z": {
+                                        "type": "number"
+                                    }
+                                },
+                                "required": [
+                                    "x",
+                                    "y",
+                                    "z"
+                                ]
+                            },
+                            "quaternion": {
+                                "additionalProperties": false,
+                                "type": "object",
+                                "properties": {
+                                    "x": {
+                                        "type": "number"
+                                    },
+                                    "y": {
+                                        "type": "number"
+                                    },
+                                    "z": {
+                                        "type": "number"
+                                    },
+                                    "w": {
+                                        "type": "number"
+                                    }
+                                },
+                                "required": [
+                                    "w",
+                                    "x",
+                                    "y",
+                                    "z"
+                                ]
+                            }
+                        },
+                        "required": [
+                            "center",
+                            "quaternion",
+                            "size"
+                        ]
+                    },
+                    "attributes": {
+                        "$ref": "#/definitions/attributes"
+                    },
+                    "sensor": {
+                        "$ref": "#/definitions/sensor"
+                    }
+                },
+                "required": [
+                    "attributes",
+                    "className",
+                    "geometry",
+                    "id",
+                    "objectId",
+                    "sensor"
+                ]
+            }
+        },
         "attributes": {
             "additionalProperties": false,
             "type": "object",
@@ -383,111 +490,7 @@
                                 "$ref": "#/definitions/2D_POLYGON"
                             },
                             "3D_BOUNDING_BOX": {
-                                "type": "array",
-                                "items": {
-                                    "additionalProperties": false,
-                                    "type": "object",
-                                    "properties": {
-                                        "id": {
-                                            "type": "string"
-                                        },
-                                        "objectId": {
-                                            "type": "string"
-                                        },
-                                        "className": {
-                                            "type": "string"
-                                        },
-                                        "geometry": {
-                                            "additionalProperties": false,
-                                            "type": "object",
-                                            "properties": {
-                                                "size": {
-                                                    "additionalProperties": false,
-                                                    "type": "object",
-                                                    "properties": {
-                                                        "height": {
-                                                            "type": "number"
-                                                        },
-                                                        "width": {
-                                                            "type": "number"
-                                                        },
-                                                        "length": {
-                                                            "type": "number"
-                                                        }
-                                                    },
-                                                    "required": [
-                                                        "height",
-                                                        "length",
-                                                        "width"
-                                                    ]
-                                                },
-                                                "center": {
-                                                    "additionalProperties": false,
-                                                    "type": "object",
-                                                    "properties": {
-                                                        "x": {
-                                                            "type": "number"
-                                                        },
-                                                        "y": {
-                                                            "type": "number"
-                                                        },
-                                                        "z": {
-                                                            "type": "number"
-                                                        }
-                                                    },
-                                                    "required": [
-                                                        "x",
-                                                        "y",
-                                                        "z"
-                                                    ]
-                                                },
-                                                "quaternion": {
-                                                    "additionalProperties": false,
-                                                    "type": "object",
-                                                    "properties": {
-                                                        "x": {
-                                                            "type": "number"
-                                                        },
-                                                        "y": {
-                                                            "type": "number"
-                                                        },
-                                                        "z": {
-                                                            "type": "number"
-                                                        },
-                                                        "w": {
-                                                            "type": "number"
-                                                        }
-                                                    },
-                                                    "required": [
-                                                        "w",
-                                                        "x",
-                                                        "y",
-                                                        "z"
-                                                    ]
-                                                }
-                                            },
-                                            "required": [
-                                                "center",
-                                                "quaternion",
-                                                "size"
-                                            ]
-                                        },
-                                        "attributes": {
-                                            "$ref": "#/definitions/attributes"
-                                        },
-                                        "sensor": {
-                                            "$ref": "#/definitions/sensor"
-                                        }
-                                    },
-                                    "required": [
-                                        "attributes",
-                                        "className",
-                                        "geometry",
-                                        "id",
-                                        "objectId",
-                                        "sensor"
-                                    ]
-                                }
+                                "$ref": "#/definitions/3D_BOUNDING_BOX"
                             },
                             "3D_SEGMENTATION": {
                                 "type": "array",
