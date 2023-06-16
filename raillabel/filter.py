@@ -2,6 +2,7 @@
 # SPDX-License-Identifier: Apache-2.0
 
 import pickle
+import typing as t
 
 from . import _filter_classes, format
 
@@ -82,30 +83,7 @@ def filter(scene: format.Scene, **kwargs) -> format.Scene:
         if an unexpected keyword argument has been set.
     """
 
-    # Collects the filters
-    filters = []
-    supported_kwargs = []
-    for cls in _filter_classes.__dict__.values():
-        if (
-            isinstance(cls, type)
-            and issubclass(cls, _filter_classes._FilterABC)
-            and cls != _filter_classes._FilterABC
-        ):
-            filters.append(cls(kwargs))
-            supported_kwargs.extend(cls.PARAMETERS)
-
-    frame_filters = [f for f in filters if "frame" in f.LEVELS]
-    frame_data_filters = [f for f in filters if "frame_data" in f.LEVELS]
-    object_filters = [f for f in filters if "object" in f.LEVELS]
-    annotation_filters = [f for f in filters if "annotation" in f.LEVELS]
-
-    # Raises an exception if an unexpected kwarg is receifed
-    for arg in kwargs:
-        if arg not in supported_kwargs:
-            raise TypeError(
-                f"filter() got an unexpected keyword argument '{arg}'. Supported keyword "
-                + f"arguments: {sorted(supported_kwargs)}"
-            )
+    filters_by_level = _collect_filter_classes(kwargs)
 
     filtered_scene = _copy(scene)
 
@@ -114,13 +92,13 @@ def filter(scene: format.Scene, **kwargs) -> format.Scene:
 
     for frame_id, frame in scene.frames.items():
 
-        if not _passes_filters(frame, frame_filters):
+        if not _passes_filters(frame, filters_by_level["frame"]):
             del filtered_scene.frames[frame_id]
             continue
 
         for frame_data_id, frame_data in frame.frame_data.items():
 
-            if _passes_filters(frame_data, frame_data_filters):
+            if _passes_filters(frame_data, filters_by_level["frame_data"]):
                 used_sensors.add(frame_data.sensor.uid)
 
             else:
@@ -128,12 +106,12 @@ def filter(scene: format.Scene, **kwargs) -> format.Scene:
 
         for object_id, object_data in frame.object_data.items():
 
-            if not _passes_filters(scene.objects[object_id], object_filters):
+            if not _passes_filters(scene.objects[object_id], filters_by_level["object"]):
                 continue
 
             for annotation_id, annotation in object_data.annotations.items():
 
-                if _passes_filters(annotation, annotation_filters):
+                if _passes_filters(annotation, filters_by_level["annotation"]):
                     used_objects.add(object_id)
                     used_sensors.add(annotation.sensor.uid)
 
@@ -169,6 +147,44 @@ def filter(scene: format.Scene, **kwargs) -> format.Scene:
                 del filtered_scene.frames[frame_id].object_data[object_id]
 
     return filtered_scene
+
+
+def _collect_filter_classes(kwargs) -> t.Tuple[t.List[t.Type], t.List[str]]:
+    filters = []
+    supported_kwargs = []
+    for cls in _filter_classes.__dict__.values():
+        if (
+            isinstance(cls, type)
+            and issubclass(cls, _filter_classes._FilterABC)
+            and cls != _filter_classes._FilterABC
+        ):
+            filters.append(cls(kwargs))
+            supported_kwargs.extend(cls.PARAMETERS)
+
+    _check_for_unsupported_arg(kwargs, supported_kwargs)
+
+    return _seperate_filters_by_level(filters)
+
+
+def _check_for_unsupported_arg(kwargs: t.List[str], supported_kwargs: t.List[str]):
+    for arg in kwargs:
+        if arg not in supported_kwargs:
+            raise TypeError(
+                f"filter() got an unexpected keyword argument '{arg}'. Supported keyword "
+                + f"arguments: {sorted(supported_kwargs)}"
+            )
+
+
+def _seperate_filters_by_level(filters: t.List[t.Type]) -> t.Dict[str, t.List[t.Type]]:
+    all_filter_levels = [level for f in filters for level in f.LEVELS]
+
+    filters_by_level = {level: [] for level in all_filter_levels}
+    for level in filters_by_level:
+        for filter in filters:
+            if level in filter.LEVELS:
+                filters_by_level[level].append(filter)
+
+    return filters_by_level
 
 
 def _passes_filters(data, filters):
