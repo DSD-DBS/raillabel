@@ -115,7 +115,7 @@ disable = [
   "global-statement",
   "invalid-name",
   "no-else-return",               # using else returns is more readible imo
-  "protected-access",
+  "protected-access",             # class comparisons raised as false positive
   "redefined-builtin",
   "too-few-public-methods",
   "too-many-ancestors",
