@@ -141,6 +141,7 @@ disable = [
   "unspecified-encoding",
   "unsupported-membership-test",
   "dangerous-default-value",
+  "unidiomatic-typecheck",  # type() is necessary in some cases
 
   # Auto-formatting
   "bad-indentation",
