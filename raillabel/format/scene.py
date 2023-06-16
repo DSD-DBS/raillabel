@@ -5,6 +5,7 @@ import typing as t
 import uuid
 from dataclasses import dataclass, field
 
+from .._util._attribute_type import AttributeType
 from .frame import Frame
 from .metadata import Metadata
 from .object import Object
@@ -191,17 +192,7 @@ class Scene:
 
                     for attr_name, attr_value in annotation.attributes.items():
 
-                        if type(attr_value) == str:
-                            attr_type = "text"
-
-                        elif type(attr_value) in [float, int]:
-                            attr_type = "num"
-
-                        elif type(attr_value) == bool:
-                            attr_type = "boolean"
-
-                        elif type(attr_value) in [list, tuple]:
-                            attr_type = "vec"
+                        attr_type = AttributeType.from_value(type(attr_value)).value
 
                         object_frame_intervals[object_id]["object_data_pointers"][annotation.name][
                             "attribute_pointers"
