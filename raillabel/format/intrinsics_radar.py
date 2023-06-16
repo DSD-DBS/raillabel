@@ -11,7 +11,8 @@ class IntrinsicsRadar:
     Parameters
     ----------
     resolution_px_per_m: float
-        Factor for calculating the 3D coordinates of a pixel in the cartesian radar images. Number of pixels in the images per meter from the sensor.
+        Factor for calculating the 3D coordinates of a pixel in the cartesian radar images.
+        Number of pixels in the images per meter from the sensor.
     width_px: int
         Width of the cartesian image frame in pixels.
     height_px: int
