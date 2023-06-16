@@ -113,7 +113,6 @@ max-line-length = 100
 disable = [
   "arguments-renamed",
   "global-statement",
-  "import-outside-toplevel",
   "invalid-name",
   "missing-class-docstring",
   "missing-function-docstring",
