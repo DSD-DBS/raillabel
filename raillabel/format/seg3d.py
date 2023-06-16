@@ -32,7 +32,7 @@ class Seg3d(_Annotation):
 
     @classmethod
     def fromdict(
-        self,
+        cls,
         data_dict: dict,
         sensors: dict,
     ) -> "Seg3d":
@@ -55,8 +55,8 @@ class Seg3d(_Annotation):
             uid=str(data_dict["uid"]),
             name=str(data_dict["name"]),
             point_ids=data_dict["val"],
-            sensor=self._coordinate_system_fromdict(data_dict, sensors),
-            attributes=self._attributes_fromdict(data_dict),
+            sensor=cls._coordinate_system_fromdict(data_dict, sensors),
+            attributes=cls._attributes_fromdict(data_dict),
         )
 
     def asdict(self) -> dict:

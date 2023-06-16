@@ -46,7 +46,7 @@ class Poly2d(_Annotation):
 
     @classmethod
     def fromdict(
-        self,
+        cls,
         data_dict: dict,
         sensors: dict,
     ) -> "Poly2d":
@@ -70,9 +70,9 @@ class Poly2d(_Annotation):
             name=str(data_dict["name"]),
             closed=data_dict["closed"],
             mode=data_dict["mode"],
-            points=self._points_fromdict(data_dict),
-            sensor=self._coordinate_system_fromdict(data_dict, sensors),
-            attributes=self._attributes_fromdict(data_dict),
+            points=cls._points_fromdict(data_dict),
+            sensor=cls._coordinate_system_fromdict(data_dict, sensors),
+            attributes=cls._attributes_fromdict(data_dict),
         )
 
     def asdict(self) -> dict:
@@ -101,7 +101,8 @@ class Poly2d(_Annotation):
 
         return dict_repr
 
-    def _points_fromdict(data_dict: dict) -> t.List[Point2d]:
+    @classmethod
+    def _points_fromdict(cls, data_dict: dict) -> t.List[Point2d]:
         points = []
         for i in range(0, len(data_dict["val"]), 2):
             points.append(Point2d(x=data_dict["val"][i], y=data_dict["val"][i + 1]))

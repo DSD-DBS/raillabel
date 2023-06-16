@@ -156,15 +156,17 @@ class Frame:
 
         return dict_repr
 
-    def _timestamp_fromdict(data_dict: dict) -> t.Optional[decimal.Decimal]:
+    @classmethod
+    def _timestamp_fromdict(cls, data_dict: dict) -> t.Optional[decimal.Decimal]:
 
         if "frame_properties" not in data_dict or "timestamp" not in data_dict["frame_properties"]:
             return None
 
         return decimal.Decimal(data_dict["frame_properties"]["timestamp"])
 
+    @classmethod
     def _sensors_fromdict(
-        data_dict: dict, frame_uid: int, scene_sensors: t.Dict[str, Sensor]
+        cls, data_dict: dict, frame_uid: int, scene_sensors: t.Dict[str, Sensor]
     ) -> t.Dict[str, SensorReference]:
 
         if "frame_properties" not in data_dict or "streams" not in data_dict["frame_properties"]:
@@ -186,8 +188,9 @@ class Frame:
 
         return sensors
 
+    @classmethod
     def _frame_data_fromdict(
-        data_dict: dict, frame_id: int, annotation_classes: dict, sensors: t.Dict[str, Sensor]
+        cls, data_dict: dict, frame_id: int, annotation_classes: dict, sensors: t.Dict[str, Sensor]
     ) -> t.Dict[str, Num]:
 
         if "frame_properties" not in data_dict or "frame_data" not in data_dict["frame_properties"]:
@@ -216,7 +219,9 @@ class Frame:
 
         return frame_data
 
+    @classmethod
     def _objects_fromdict(
+        cls,
         data_dict: dict,
         frame_id: int,
         objects: t.Dict[str, Object],
@@ -248,7 +253,8 @@ class Frame:
 
         return object_data
 
-    def _fix_sensor_uri_attribute(frame: "Frame") -> "Frame":
+    @classmethod
+    def _fix_sensor_uri_attribute(cls, frame: "Frame") -> "Frame":
 
         for ann_id, ann in list(frame.annotations.items()):
             for attr_name, attr_val in ann.attributes.items():

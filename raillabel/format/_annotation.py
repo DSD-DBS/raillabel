@@ -35,7 +35,7 @@ class _Annotation(ABC):
 
     @classmethod
     @abstractmethod
-    def fromdict(self, data_dict: t.Dict, sensors: t.Dict) -> t.Type["_Annotation"]:
+    def fromdict(cls, data_dict: t.Dict, sensors: t.Dict) -> t.Type["_Annotation"]:
         raise NotImplementedError
 
     # === Private Methods ====================================================
@@ -89,7 +89,8 @@ class _Annotation(ABC):
 
         return dict_repr
 
-    def _coordinate_system_fromdict(data_dict: dict, sensors: dict) -> t.Optional[Sensor]:
+    @classmethod
+    def _coordinate_system_fromdict(cls, data_dict: dict, sensors: dict) -> t.Optional[Sensor]:
 
         is_coordinate_system_in_data = (
             "coordinate_system" in data_dict and data_dict["coordinate_system"] != ""
@@ -107,7 +108,9 @@ class _Annotation(ABC):
 
         return sensors[data_dict["coordinate_system"]]
 
+    @classmethod
     def _attributes_fromdict(
+        cls,
         data_dict: dict,
     ) -> t.Dict[str, t.Union[int, float, bool, str, list]]:
 

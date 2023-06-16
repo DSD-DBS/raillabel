@@ -24,7 +24,7 @@ class IntrinsicsRadar:
     height_px: int
 
     @classmethod
-    def fromdict(self, data_dict: dict) -> "IntrinsicsRadar":
+    def fromdict(cls, data_dict: dict) -> "IntrinsicsRadar":
         """Generate a IntrinsicsRadar object from a dict.
 
         Parameters

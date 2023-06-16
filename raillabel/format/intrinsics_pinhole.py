@@ -32,7 +32,7 @@ class IntrinsicsPinhole:
     height_px: int
 
     @classmethod
-    def fromdict(self, data_dict: dict) -> "IntrinsicsPinhole":
+    def fromdict(cls, data_dict: dict) -> "IntrinsicsPinhole":
         """Generate a IntrinsicsPinhole object from a dict.
 
         Parameters

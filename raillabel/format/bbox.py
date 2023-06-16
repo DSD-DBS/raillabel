@@ -36,7 +36,7 @@ class Bbox(_Annotation):
     _REQ_FIELDS = ["pos", "size"]
 
     @classmethod
-    def fromdict(self, data_dict: dict, sensors: dict) -> "Bbox":
+    def fromdict(cls, data_dict: dict, sensors: dict) -> "Bbox":
         """Generate a Bbox object from a dict.
 
         Parameters
@@ -57,8 +57,8 @@ class Bbox(_Annotation):
             name=str(data_dict["name"]),
             pos=Point2d(x=data_dict["val"][0], y=data_dict["val"][1]),
             size=Size2d(x=data_dict["val"][2], y=data_dict["val"][3]),
-            sensor=self._coordinate_system_fromdict(data_dict, sensors),
-            attributes=self._attributes_fromdict(data_dict),
+            sensor=cls._coordinate_system_fromdict(data_dict, sensors),
+            attributes=cls._attributes_fromdict(data_dict),
         )
 
     def asdict(self) -> dict:

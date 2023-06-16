@@ -32,7 +32,7 @@ class Num(_Annotation):
     _REQ_FIELDS = ["val"]
 
     @classmethod
-    def fromdict(self, data_dict: dict, sensors: dict) -> "Num":
+    def fromdict(cls, data_dict: dict, sensors: dict) -> "Num":
         """Generate a Num object from a dict.
 
         Parameters
@@ -52,8 +52,8 @@ class Num(_Annotation):
             uid=str(data_dict["uid"]),
             name=str(data_dict["name"]),
             val=data_dict["val"],
-            sensor=self._coordinate_system_fromdict(data_dict, sensors),
-            attributes=self._attributes_fromdict(data_dict),
+            sensor=cls._coordinate_system_fromdict(data_dict, sensors),
+            attributes=cls._attributes_fromdict(data_dict),
         )
 
     def asdict(self) -> dict:

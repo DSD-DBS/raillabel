@@ -42,7 +42,7 @@ class Cuboid(_Annotation):
 
     @classmethod
     def fromdict(
-        self,
+        cls,
         data_dict: dict,
         sensors: dict,
     ) -> "Cuboid":
@@ -80,8 +80,8 @@ class Cuboid(_Annotation):
                 y=data_dict["val"][8],
                 z=data_dict["val"][9],
             ),
-            sensor=self._coordinate_system_fromdict(data_dict, sensors),
-            attributes=self._attributes_fromdict(data_dict),
+            sensor=cls._coordinate_system_fromdict(data_dict, sensors),
+            attributes=cls._attributes_fromdict(data_dict),
         )
 
     def asdict(self) -> dict:
