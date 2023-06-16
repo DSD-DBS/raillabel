@@ -11,7 +11,9 @@
             "perf",
             "refactor",
             "revert",
-            "test"
+            "test",
+
+            "lint"
         ],
         "commitScopes": []
     }
