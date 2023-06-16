@@ -116,7 +116,7 @@ disable = [
   "invalid-name",
   "no-else-return",               # using else returns is more readible imo
   "protected-access",             # class comparisons raised as false positive
-  "redefined-builtin",
+  "redefined-builtin",            # the domain is full of builtin-names (object, type, format, ...)
   "too-few-public-methods",
   "too-many-ancestors",
   "too-many-arguments",
