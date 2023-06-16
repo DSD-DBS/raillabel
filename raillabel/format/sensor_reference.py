@@ -73,7 +73,8 @@ class SensorReference:
 
         return dict_repr
 
-    def _timestamp_fromdict(data_dict: dict) -> decimal.Decimal:
+    @classmethod
+    def _timestamp_fromdict(cls, data_dict: dict) -> decimal.Decimal:
 
         if "stream_sync" in data_dict:
             _warning(
