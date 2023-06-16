@@ -22,7 +22,8 @@ class Polygon2d(_Annotation):
     class_name: str
         Name of the class this annotation belongs to.
     attributes: dict[str, str or list]
-        Key value pairs of attributes with the keys beeing the friendly identifier of the attribute and the value beeing the attribute value.
+        Key value pairs of attributes with the keys beeing the friendly identifier of the
+        attribute and the value beeing the attribute value.
     sensor: raillabel._understand_ai_t4_format.SensorReference
         Information about the sensor this annotation is labeled in.
     points: list[tuple[float, float]]
