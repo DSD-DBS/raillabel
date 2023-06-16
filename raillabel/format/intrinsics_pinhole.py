@@ -16,7 +16,8 @@ class IntrinsicsPinhole:
         coordinate system into the image plane (3x1). This is the usual K matrix for camera
         projection as in OpenCV. It is extended from 3x3 to 3x4 to enable its direct utilisation to
         project 4x1 homogeneous 3D points. The matrix is defined to follow the camera model:
-        x-to-right, y-down, z-forward. The following equation applies: x_img = camera_matrix * X_ccs.
+        x-to-right, y-down, z-forward. The following equation applies:
+        x_img = camera_matrix * X_ccs.
     distortion: tuple of float of length 5 to 14
         This is the array 1xN radial and tangential distortion coefficients.
     width_px: int
