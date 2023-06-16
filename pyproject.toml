@@ -114,7 +114,7 @@ disable = [
   "arguments-renamed",
   "global-statement",
   "invalid-name",
-  "no-else-return",
+  "no-else-return",               # using else returns is more readible imo
   "protected-access",
   "redefined-builtin",
   "too-few-public-methods",
