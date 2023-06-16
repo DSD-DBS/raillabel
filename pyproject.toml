@@ -114,8 +114,6 @@ disable = [
   "arguments-renamed",
   "global-statement",
   "invalid-name",
-  #"no-else-continue",
-  "no-else-raise",
   "no-else-return",
   "protected-access",
   "redefined-builtin",
