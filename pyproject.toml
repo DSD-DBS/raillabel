@@ -138,10 +138,10 @@ disable = [
   "too-many-public-methods",
   "too-many-return-statements",
   "too-many-statements",
+  "unidiomatic-typecheck",        # type() is necessary in some cases
   "unspecified-encoding",
-  "unsupported-membership-test",
+  "unsupported-membership-test",  # raise false positives for dicts
   "dangerous-default-value",
-  "unidiomatic-typecheck",  # type() is necessary in some cases
 
   # Auto-formatting
   "bad-indentation",
