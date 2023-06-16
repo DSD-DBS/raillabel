@@ -119,7 +119,6 @@ disable = [
   "redefined-builtin",            # the domain is full of builtin-names (object, type, format, ...)
   "too-few-public-methods",       # does not contribute to code quality imo
   "too-many-arguments",           # 6 as a limit is too low
-  "too-many-boolean-expressions",
   "too-many-branches",
   "too-many-instance-attributes",
   "too-many-lines",
