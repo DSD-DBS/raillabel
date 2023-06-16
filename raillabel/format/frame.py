@@ -96,7 +96,8 @@ class Frame:
         sensors: dict
             Dictionary of all sensors in the scene.
         annotation_classes: dict
-            Dictionary conaining all of the annotation classes as values with the OpenLABEL identifiers as keys.
+            Dictionary conaining all of the annotation classes as values with the OpenLABEL
+            identifiers as keys.
 
         Returns
         -------
