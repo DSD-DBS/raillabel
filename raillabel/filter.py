@@ -124,9 +124,9 @@ def _seperate_filters_by_level(filters: t.List[t.Type]) -> t.Dict[str, t.List[t.
 
     filters_by_level = {level: [] for level in all_filter_levels}
     for level in filters_by_level:
-        for filter in filters:
-            if level in filter.LEVELS:
-                filters_by_level[level].append(filter)
+        for filter_class in filters:
+            if level in filter_class.LEVELS:
+                filters_by_level[level].append(filter_class)
 
     return filters_by_level
 
