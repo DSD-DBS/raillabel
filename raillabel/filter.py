@@ -84,69 +84,13 @@ def filter(scene: format.Scene, **kwargs) -> format.Scene:
     """
 
     filters_by_level = _collect_filter_classes(kwargs)
-
-    filtered_scene = _copy(scene)
-
-    used_sensors = set()
-    used_objects = set()
-
-    for frame_id, frame in scene.frames.items():
-
-        if not _passes_filters(frame, filters_by_level["frame"]):
-            del filtered_scene.frames[frame_id]
-            continue
-
-        for frame_data_id, frame_data in frame.frame_data.items():
-
-            if _passes_filters(frame_data, filters_by_level["frame_data"]):
-                used_sensors.add(frame_data.sensor.uid)
-
-            else:
-                del filtered_scene.frames[frame_id].frame_data[frame_data_id]
-
-        for object_id, object_data in frame.object_data.items():
-
-            if not _passes_filters(scene.objects[object_id], filters_by_level["object"]):
-                continue
-
-            for annotation_id, annotation in object_data.annotations.items():
-
-                if _passes_filters(annotation, filters_by_level["annotation"]):
-                    used_objects.add(object_id)
-                    used_sensors.add(annotation.sensor.uid)
-
-                else:
-                    del (
-                        filtered_scene.frames[frame_id]
-                        .object_data[object_id]
-                        .annotations[annotation_id]
-                    )
-
-    # Clears out any unused sensors, objects and references
-
-    for sensor_id in scene.sensors:
-        if sensor_id not in used_sensors:
-            del filtered_scene.sensors[sensor_id]
-
-    for object_id in scene.objects:
-        if object_id not in used_objects:
-            del filtered_scene.objects[object_id]
-
-    for frame_id in filtered_scene.frames:
-
-        for sensor_id in scene.frames[frame_id].sensors:
-            if sensor_id not in used_sensors:
-                del filtered_scene.frames[frame_id].sensors[sensor_id]
-
-        for object_id in scene.frames[frame_id].object_data:
-
-            if (
-                object_id not in used_objects
-                or len(filtered_scene.frames[frame_id].object_data[object_id].annotations) == 0
-            ):
-                del filtered_scene.frames[frame_id].object_data[object_id]
+    filtered_scene, used_sensors, used_objects = _filter_scene(_copy(scene), filters_by_level)
+    filtered_scene = _remove_unused(filtered_scene, used_sensors, used_objects)
 
     return filtered_scene
+
+
+# --- Prepare filter classes
 
 
 def _collect_filter_classes(kwargs) -> t.Tuple[t.List[t.Type], t.List[str]]:
@@ -185,6 +129,104 @@ def _seperate_filters_by_level(filters: t.List[t.Type]) -> t.Dict[str, t.List[t.
                 filters_by_level[level].append(filter)
 
     return filters_by_level
+
+
+# --- Filter scene
+
+
+def _filter_scene(
+    scene: format.Scene, filters_by_level: t.Dict[str, t.List[t.Type]]
+) -> t.Tuple[format.Scene, t.Set[str], t.Set[str]]:
+
+    used_sensors = set()
+    used_objects = set()
+
+    for frame_id, frame in list(scene.frames.items()):
+
+        if not _passes_filters(frame, filters_by_level["frame"]):
+            del scene.frames[frame_id]
+            continue
+
+        for frame_data_id, frame_data in list(frame.frame_data.items()):
+
+            if _passes_filters(frame_data, filters_by_level["frame_data"]):
+                used_sensors.add(frame_data.sensor.uid)
+
+            else:
+                del scene.frames[frame_id].frame_data[frame_data_id]
+
+        for object_id, object_data in frame.object_data.items():
+
+            if not _passes_filters(scene.objects[object_id], filters_by_level["object"]):
+                continue
+
+            for annotation_id, annotation in list(object_data.annotations.items()):
+
+                if _passes_filters(annotation, filters_by_level["annotation"]):
+                    used_objects.add(object_id)
+                    used_sensors.add(annotation.sensor.uid)
+
+                else:
+                    del scene.frames[frame_id].object_data[object_id].annotations[annotation_id]
+
+    return scene, used_sensors, used_objects
+
+
+# --- Remove unused
+
+
+def _remove_unused(
+    scene: format.Scene, used_sensors: t.Set[str], used_objects: t.Set[str]
+) -> format.Scene:
+
+    scene = _remove_unused_sensors(scene, used_sensors)
+    scene = _remove_unused_objects(scene, used_objects)
+
+    for frame_id in scene.frames:
+
+        scene.frames[frame_id] = _remove_unused_sensor_references(
+            scene.frames[frame_id], used_sensors
+        )
+
+        scene.frames[frame_id] = _remove_unused_object_data(scene.frames[frame_id], used_objects)
+
+    return scene
+
+
+def _remove_unused_sensors(scene: format.Scene, used_sensors: t.Set[str]) -> format.Scene:
+    for sensor_id in list(scene.sensors):
+        if sensor_id not in used_sensors:
+            del scene.sensors[sensor_id]
+
+    return scene
+
+
+def _remove_unused_objects(scene: format.Scene, used_objects: t.Set[str]) -> format.Scene:
+    for object_id in list(scene.objects):
+        if object_id not in used_objects:
+            del scene.objects[object_id]
+
+    return scene
+
+
+def _remove_unused_sensor_references(frame: format.Frame, used_sensors: t.Set[str]) -> format.Frame:
+    for sensor_id in list(frame.sensors):
+        if sensor_id not in used_sensors:
+            del frame.sensors[sensor_id]
+
+    return frame
+
+
+def _remove_unused_object_data(frame: format.Frame, used_objects: t.Set[str]) -> format.Frame:
+    for object_id in list(frame.object_data):
+
+        if object_id not in used_objects or len(frame.object_data[object_id].annotations) == 0:
+            del frame.object_data[object_id]
+
+    return frame
+
+
+# --- Helper functions
 
 
 def _passes_filters(data, filters):
