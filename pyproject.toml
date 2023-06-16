@@ -118,7 +118,6 @@ disable = [
   "protected-access",             # class comparisons raised as false positive
   "redefined-builtin",            # the domain is full of builtin-names (object, type, format, ...)
   "too-few-public-methods",       # does not contribute to code quality imo
-  "too-many-ancestors",
   "too-many-arguments",
   "too-many-boolean-expressions",
   "too-many-branches",
