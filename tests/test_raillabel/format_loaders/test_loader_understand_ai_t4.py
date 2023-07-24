@@ -23,7 +23,7 @@ def test_supports_true(json_data, loader):
 
 def test_supports_false(json_data, loader):
     data = json_data["understand_ai_real_life"]
-    data["metadata"]["project_id"] = "invalid"
+    del data["metadata"]["project_id"]
     assert not loader.supports(data)
 
 
