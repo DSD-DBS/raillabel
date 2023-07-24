@@ -117,6 +117,9 @@ class LoaderRailLabelV2(LoaderABC):
             If True, the Loader class is suitable for the data.
         """
 
+        if "openlabel" not in data or "metadata" not in data["openlabel"]:
+            return False
+
         if "subschema_version" in data["openlabel"]["metadata"]:
             return (
                 "openlabel" in data

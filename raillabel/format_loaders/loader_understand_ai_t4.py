@@ -43,6 +43,8 @@ class LoaderUnderstandAiT4(LoaderABC):
             The loaded scene with the data.
         """
 
+        self.warnings = []
+
         if validate:
             self.validate(data)
 
