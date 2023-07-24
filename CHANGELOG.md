@@ -53,3 +53,7 @@ Release
 - Raillabel schema is now more restrictive regarding intrinsic calibration
 - Support for understand.ai t4 format
 - Renaming of raillabel.format.Frame.data to frame_data
+
+### 2.2.1
+- Fixed bug, that prevented loading a understand ai file via raillabel.load()
+- Made the project_id field in the understand ai files less restrictive
