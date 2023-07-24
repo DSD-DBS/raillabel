@@ -71,7 +71,6 @@ class LoaderUnderstandAiT4(LoaderABC):
         return (
             "metadata" in data
             and "project_id" in data["metadata"]
-            and data["metadata"]["project_id"] == "trains_4"
             and "coordinateSystems" in data
             and "frames" in data
         )
