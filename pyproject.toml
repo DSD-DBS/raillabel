@@ -120,7 +120,6 @@ disable = [
   "too-few-public-methods",       # does not contribute to code quality imo
   "too-many-arguments",           # 6 as a limit is too low
   "too-many-instance-attributes", # classes mirror OpenLABEL, therefore the number of fields is set
-  "too-many-public-methods",
   "too-many-return-statements",
   "too-many-statements",
   "unidiomatic-typecheck",        # type() is necessary in some cases
