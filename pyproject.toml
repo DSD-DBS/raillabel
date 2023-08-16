@@ -119,8 +119,7 @@ disable = [
   "redefined-builtin",            # the domain is full of builtin-names (object, type, format, ...)
   "too-few-public-methods",       # does not contribute to code quality imo
   "too-many-arguments",           # 6 as a limit is too low
-  "too-many-instance-attributes",
-  "too-many-lines",
+  "too-many-instance-attributes", # classes mirror OpenLABEL, therefore the number of fields is set
   "too-many-locals",
   "too-many-public-methods",
   "too-many-return-statements",
