@@ -123,7 +123,6 @@ disable = [
   "unidiomatic-typecheck",        # type() is necessary in some cases
   "unspecified-encoding",         # default encoding is sufficient in all cases
   "unsupported-membership-test",  # raise false positives for dicts
-  "dangerous-default-value",
 
   # Auto-formatting
   "bad-indentation",
