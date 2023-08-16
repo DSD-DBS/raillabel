@@ -25,7 +25,9 @@ class Frame:
     timestamp: decimal.Decimal
         Timestamp containing the Unix epoch time of the frame with up to nanosecond precision.
     annotations: dict
-        Dictionary containing all annotations. The keys are the uids of the annotations and the values are objects of type BoundingBox2d, BoundingBox3d, Polygon2d, Polyline2d or Segementation3d.
+        Dictionary containing all annotations. The keys are the uids of the annotations and the
+        values are objects of type BoundingBox2d, BoundingBox3d, Polygon2d, Polyline2d or
+        Segementation3d.
     """
 
     id: int

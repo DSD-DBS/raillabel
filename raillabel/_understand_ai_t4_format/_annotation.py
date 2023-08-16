@@ -6,6 +6,7 @@ from abc import ABC, abstractmethod, abstractproperty
 from dataclasses import dataclass
 from uuid import UUID
 
+from .._util._attribute_type import AttributeType
 from ._translation import translate_class_id, translate_sensor_id
 from .sensor_reference import SensorReference
 
@@ -62,23 +63,7 @@ class _Annotation(ABC):
 
         for attr_name, attr_value in self.attributes.items():
 
-            if type(attr_value) == str:
-                attr_type = "text"
-
-            elif type(attr_value) == bool:
-                attr_type = "boolean"
-
-            elif type(attr_value) in [float, int]:
-                attr_type = "num"
-
-            elif type(attr_value) in [list, tuple]:
-                attr_type = "vec"
-
-            else:
-                raise TypeError(
-                    f"Attribute type {attr_value.__class__.__name__} of {attr_value} is not "
-                    + "supported. Supported types are str, float, int, bool, list, tuple."
-                )
+            attr_type = AttributeType.from_value(type(attr_value)).value
 
             if attr_type not in attributes:
                 attributes[attr_type] = []

@@ -13,10 +13,12 @@ class _FilterABC(ABC):
 
     Creating a new filter
     ---------------------
-    To create a new, custom filter create a new class in this dir, that inherits from _FilterABC. Any class, that inherits from _FilterABC will automatically be loaded by the filter function.
-    Include the filter arguments (include_[...], exclude_[...], ...) in the PARAMETERS field. These will be mutually exclusive.
-    Select a level for the filter. The level determines where the filter is going to be applied (e.g. at the frame level, annotation level, ...).
-    Include the conditions to pass the filter in the passes_filter() method, which returns True if the filter is passed.
+    To create a new, custom filter create a new class in this dir, that inherits from _FilterABC.
+    Any class, that inherits from _FilterABC will automatically be loaded by the filter function.
+    Include the filter arguments (include_[...], exclude_[...], ...) in the PARAMETERS field. These
+    will be mutually exclusive.Select a level for the filter. The level determines where the filter
+    is going to be applied (e.g. at the frame level, annotation level, ...). Include the conditions
+    to pass the filter in the passes_filter() method, which returns True if the filter is passed.
     The contents of the filter arguments can optionally be processed by the _process_filter_args().
     """
 

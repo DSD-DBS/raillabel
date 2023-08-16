@@ -5,6 +5,7 @@ import typing as t
 from abc import ABC, abstractmethod, abstractproperty
 from dataclasses import dataclass, field
 
+from .._util._attribute_type import AttributeType
 from .._util._warning import _warning
 from .sensor import Sensor
 
@@ -35,7 +36,7 @@ class _Annotation(ABC):
 
     @classmethod
     @abstractmethod
-    def fromdict(self, data_dict: t.Dict, sensors: t.Dict) -> t.Type["_Annotation"]:
+    def fromdict(cls, data_dict: t.Dict, sensors: t.Dict) -> t.Type["_Annotation"]:
         raise NotImplementedError
 
     # === Private Methods ====================================================
@@ -60,27 +61,7 @@ class _Annotation(ABC):
 
             for attr_name, attr_value in self.attributes.items():
 
-                # Since the annotation stores the attributes in a collective
-                # dictionary, they must be seperated by type in order to comply
-                # with the OpenLabel format.
-
-                if type(attr_value) == str:
-                    attr_type = "text"
-
-                elif type(attr_value) in [float, int]:
-                    attr_type = "num"
-
-                elif type(attr_value) == bool:
-                    attr_type = "boolean"
-
-                elif type(attr_value) in [list, tuple]:
-                    attr_type = "vec"
-
-                else:
-                    raise TypeError(
-                        f"Attribute type {attr_value.__class__.__name__} of {attr_value} is not "
-                        + "supported. Supported types are str, float, int, bool, list, tuple."
-                    )
+                attr_type = AttributeType.from_value(type(attr_value)).value
 
                 if attr_type not in dict_repr["attributes"]:
                     dict_repr["attributes"][attr_type] = []
@@ -89,7 +70,8 @@ class _Annotation(ABC):
 
         return dict_repr
 
-    def _coordinate_system_fromdict(data_dict: dict, sensors: dict) -> t.Optional[Sensor]:
+    @classmethod
+    def _coordinate_system_fromdict(cls, data_dict: dict, sensors: dict) -> t.Optional[Sensor]:
 
         is_coordinate_system_in_data = (
             "coordinate_system" in data_dict and data_dict["coordinate_system"] != ""
@@ -107,7 +89,9 @@ class _Annotation(ABC):
 
         return sensors[data_dict["coordinate_system"]]
 
+    @classmethod
     def _attributes_fromdict(
+        cls,
         data_dict: dict,
     ) -> t.Dict[str, t.Union[int, float, bool, str, list]]:
 

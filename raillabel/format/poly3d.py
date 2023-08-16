@@ -38,7 +38,7 @@ class Poly3d(_Annotation):
 
     @classmethod
     def fromdict(
-        self,
+        cls,
         data_dict: dict,
         sensors: dict,
     ) -> "Poly3d":
@@ -61,9 +61,9 @@ class Poly3d(_Annotation):
             uid=str(data_dict["uid"]),
             name=str(data_dict["name"]),
             closed=data_dict["closed"],
-            points=self._points_fromdict(data_dict),
-            sensor=self._coordinate_system_fromdict(data_dict, sensors),
-            attributes=self._attributes_fromdict(data_dict),
+            points=cls._points_fromdict(data_dict),
+            sensor=cls._coordinate_system_fromdict(data_dict, sensors),
+            attributes=cls._attributes_fromdict(data_dict),
         )
 
     def asdict(self) -> dict:
@@ -91,7 +91,8 @@ class Poly3d(_Annotation):
 
         return dict_repr
 
-    def _points_fromdict(data_dict: dict) -> t.List[Point3d]:
+    @classmethod
+    def _points_fromdict(cls, data_dict: dict) -> t.List[Point3d]:
         points = []
         for i in range(0, len(data_dict["val"]), 3):
             points.append(

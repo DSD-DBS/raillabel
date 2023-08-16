@@ -33,7 +33,8 @@ class CoordinateSystem:
     camera_matrix: list of float, optional
         Camera matrix of the sensor. Only applies to sensors of type camera. Default is None.
     dist_coeffs: list of float, optional
-        Distortion coefficients of the sensor. Only applies to sensors of type camera. Default is None.
+        Distortion coefficients of the sensor. Only applies to sensors of type camera. Default is
+        None.
     """
 
     uid: str

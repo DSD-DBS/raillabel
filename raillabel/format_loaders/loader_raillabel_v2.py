@@ -45,10 +45,10 @@ class LoaderRailLabelV2(LoaderABC):
         ----------
         data: dict
             A dictionary loaded from a JSON-file.
-        validate: bool
-            If True, the annotation data is validated via the respective schema. This is highly
-            recommended, as not validating the data may lead to Errors during loading or while handling
-            the scene. However, validating may increase the loading time. Default is True.
+        validate: bool, optional
+            If True, the annotation data is validated via the respective schema. This is
+            recommended, if you are working with a modified or non-official file. Setting this
+            option will increase loading time. Default is False.
 
         Returns
         -------
