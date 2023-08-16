@@ -121,7 +121,7 @@ disable = [
   "too-many-arguments",           # 6 as a limit is too low
   "too-many-instance-attributes", # classes mirror OpenLABEL, therefore the number of fields is set
   "unidiomatic-typecheck",        # type() is necessary in some cases
-  "unspecified-encoding",
+  "unspecified-encoding",         # default encoding is sufficient in all cases
   "unsupported-membership-test",  # raise false positives for dicts
   "dangerous-default-value",
 
