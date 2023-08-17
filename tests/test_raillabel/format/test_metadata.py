@@ -96,6 +96,18 @@ def test_asdict_full():
         "tagged_file": "test_folder",
     }
 
+def test_fromdict_additional_arg():
+    metadata = Metadata(
+        schema_version="1.0.0"
+    )
+
+    metadata.additional_argument = "Some Value"
+
+    assert metadata.asdict() == {
+        "schema_version": "1.0.0",
+        "additional_argument": "Some Value"
+    }
+
 if __name__ == "__main__":
     os.system("clear")
     pytest.main([__file__, "--disable-pytest-warnings", "--cache-clear"])
