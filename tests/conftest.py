@@ -12,6 +12,8 @@ import pytest
 
 sys.path.insert(1, str(Path(__file__).parent.parent))
 
+from test_raillabel.format.test_metadata import metadata_full, metadata_minimal
+
 import raillabel
 
 json_data_directories = [
@@ -30,7 +32,6 @@ def compile_uncommented_test_file():
 
     with open(str(json5_file_path)[:-1], "w") as f:
         json.dump(data, f, indent=4)
-
 
 @pytest.fixture
 def json_paths(request) -> t.Dict[str, Path]:

@@ -11,12 +11,31 @@ sys.path.insert(1, str(Path(__file__).parent.parent.parent.parent))
 
 from raillabel.format.metadata import Metadata
 
+# == Fixtures =========================
 
-def test_fromdict_minimal():
+@pytest.fixture
+def metadata_minimal() -> dict:
+    return {
+        "schema_version": "1.0.0"
+    }
+
+
+@pytest.fixture
+def metadata_full() -> dict:
+    return {
+        "schema_version": "1.0.0",
+        "annotator": "test_annotator",
+        "schema_version": "1.0.0",
+        "comment": "test_comment",
+        "name": "test_project",
+        "tagged_file": "test_folder",
+    }
+
+# == Tests ============================
+
+def test_fromdict_minimal(metadata_minimal):
     metadata = Metadata.fromdict(
-        {
-            "schema_version": "1.0.0"
-        },
+        metadata_minimal,
         "2.1.1"
     )
 
@@ -25,15 +44,9 @@ def test_fromdict_minimal():
     assert metadata.annotator is None
 
 
-def test_fromdict_full():
+def test_fromdict_full(metadata_full):
     metadata = Metadata.fromdict(
-        {
-            "annotator": "test_annotator",
-            "schema_version": "1.0.0",
-            "comment": "test_comment",
-            "name": "test_project",
-            "tagged_file": "test_folder",
-        },
+        metadata_full,
         "2.1.1"
     )
 
@@ -67,17 +80,15 @@ def test_fromdict_additional_arg_invalid():
         )
 
 
-def test_asdict_minimal():
+def test_asdict_minimal(metadata_minimal):
     metadata_dict = Metadata(
         schema_version="1.0.0"
     ).asdict()
 
-    assert metadata_dict == {
-        "schema_version": "1.0.0"
-    }
+    assert metadata_dict == metadata_minimal
 
 
-def test_asdict_full():
+def test_asdict_full(metadata_full):
     metadata_dict = Metadata(
         annotator="test_annotator",
         schema_version="1.0.0",
@@ -87,14 +98,8 @@ def test_asdict_full():
         tagged_file="test_folder",
     ).asdict()
 
-    assert metadata_dict == {
-        "annotator": "test_annotator",
-        "schema_version": "1.0.0",
-        "comment": "test_comment",
-        "name": "test_project",
-        "subschema_version": "2.1.1",
-        "tagged_file": "test_folder",
-    }
+    assert metadata_dict == metadata_full
+
 
 def test_fromdict_additional_arg():
     metadata = Metadata(
@@ -107,6 +112,7 @@ def test_fromdict_additional_arg():
         "schema_version": "1.0.0",
         "additional_argument": "Some Value"
     }
+
 
 if __name__ == "__main__":
     os.system("clear")
