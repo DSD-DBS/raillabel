@@ -32,7 +32,6 @@ def test_fromdict_full():
             "schema_version": "1.0.0",
             "comment": "test_comment",
             "name": "test_project",
-            "subschema_version": "2.1.0",
             "tagged_file": "test_folder",
         },
         "2.1.1"
@@ -54,8 +53,6 @@ def test_asdict_minimal():
     assert metadata_dict == {
         "schema_version": "1.0.0"
     }
-
-
 def test_asdict_full():
     metadata_dict = Metadata(
         annotator="test_annotator",
