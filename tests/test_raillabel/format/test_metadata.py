@@ -45,6 +45,28 @@ def test_fromdict_full():
     assert metadata.tagged_file == "test_folder"
 
 
+def test_fromdict_additional_arg_valid():
+    metadata = Metadata.fromdict(
+        {
+            "schema_version": "1.0.0",
+            "additional_argument": "Some Value"
+        }
+    )
+
+    assert metadata.schema_version == "1.0.0"
+    assert metadata.additional_argument == "Some Value"
+
+
+def test_fromdict_additional_arg_invalid():
+    with pytest.raises(KeyError):
+        Metadata.fromdict(
+            {
+                "schema_version": "1.0.0",
+                "invalid python variable": "Some Value"
+            }
+        )
+
+
 def test_asdict_minimal():
     metadata_dict = Metadata(
         schema_version="1.0.0"
@@ -53,6 +75,8 @@ def test_asdict_minimal():
     assert metadata_dict == {
         "schema_version": "1.0.0"
     }
+
+
 def test_asdict_full():
     metadata_dict = Metadata(
         annotator="test_annotator",
@@ -72,7 +96,6 @@ def test_asdict_full():
         "tagged_file": "test_folder",
     }
 
-# Executes the test if the file is called
 if __name__ == "__main__":
     os.system("clear")
     pytest.main([__file__, "--disable-pytest-warnings", "--cache-clear"])

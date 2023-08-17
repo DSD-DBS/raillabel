@@ -46,7 +46,8 @@ class Metadata:
         Parameters
         ----------
         data_dict: dict
-            RailLabel format snippet containing the relevant data.
+            RailLabel format snippet containing the relevant data. Additional (non-defined)
+            arguments can be set and will be added as properties to Metadata.
         subschema_version: str, optional
             Version of the RailLabel subschema
 
@@ -54,20 +55,15 @@ class Metadata:
         -------
         metadata: Metadata
             Converted metadata.
-        warnings: list of str
-            List of non-critical errors, that have occurred during the conversion.
         """
 
-        return Metadata(
+        metadata = Metadata(
             schema_version=data_dict["schema_version"],
             subschema_version=subschema_version,
-            annotator=data_dict.get("annotator"),
-            file_version=data_dict.get("file_version"),
-            name=data_dict.get("name"),
-            tagged_file=data_dict.get("tagged_file"),
-            comment=data_dict.get("comment"),
             exporter_version=cls._collect_exporter_version(),
         )
+
+        return cls._set_additional_attributes(metadata, data_dict)
 
     def asdict(self) -> dict:
         """Export self as a dict compatible with the OpenLABEL schema.
@@ -118,3 +114,21 @@ class Metadata:
 
         version_number_length = len(exporter_version) - len(exporter_version.split(".")[-1])
         return exporter_version[: version_number_length - 1]
+
+    @classmethod
+    def _set_additional_attributes(cls, metadata: "Metadata", data_dict: dict) -> "Metadata":
+
+        PRESET_KEYS = ["schema_version", "subschema_version", "exporter_version"]
+
+        for key, value in data_dict.items():
+            if key in PRESET_KEYS:
+                continue
+
+            is_key_a_valid_python_attribute = isinstance(key, str) and key.isidentifier()
+
+            if not is_key_a_valid_python_attribute:
+                raise KeyError(f"'{key}' is not a valid python attribute")
+
+            setattr(metadata, key, value)
+
+        return metadata
