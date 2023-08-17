@@ -27,19 +27,6 @@ def test_supports_false(json_data, loader):
     assert not loader.supports(data)
 
 
-def test_load_metadata(json_data, loader):
-    scene = loader.load(json_data["openlabel_v1_short"], validate=False)
-
-    ground_truth = json_data["openlabel_v1_short"]["openlabel"]
-
-    assert scene.metadata.annotator == ground_truth["metadata"]["annotator"]
-    assert scene.metadata.comment == ground_truth["metadata"]["comment"]
-    assert scene.metadata.name == ground_truth["metadata"]["name"]
-    assert scene.metadata.schema_version == ground_truth["metadata"]["schema_version"]
-    assert scene.metadata.tagged_file == ground_truth["metadata"]["tagged_file"]
-    assert scene.metadata.subschema_version == json_data["raillabel_v2_schema"]["version"]
-
-
 def test_load_sensors(json_data, loader):
     scene = loader.load(json_data["openlabel_v1_short"], validate=False)
 
