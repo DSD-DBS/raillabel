@@ -10,7 +10,11 @@ from importlib import metadata as importlib_metadata
 class Metadata:
     """Container for metadata information about the scene itself.
 
-    As the OpenLABEL metadata object accepts additional properties, so does this class. Any properties present in the JSON will be added to the Metadata() object when read through Metadata.fromdict(). Conversely, all attributes from the Metadata() object will be stored into the JSON when using Metadata.asdict(). You can therefore just add attributes to the Python object and have them stored.
+    As the OpenLABEL metadata object accepts additional properties, so does this class. Any
+    properties present in the JSON will be added to the Metadata() object when read through
+    Metadata.fromdict(). Conversely, all attributes from the Metadata() object will be stored
+    into the JSON when using Metadata.asdict(). You can therefore just add attributes to the
+    Python object and have them stored.
     Example:
         m = Metadata.fromdict(
             {
