@@ -33,12 +33,10 @@ class FrameInterval:
             if an attribute can not be converted to the type required by the OpenLabel schema.
         """
 
-        dict_repr = {
+        return {
             "frame_start": int(self.frame_start),
             "frame_end": int(self.frame_end),
         }
-
-        return dict_repr
 
     def __len__(self) -> int:
         """Return the length in frames."""
