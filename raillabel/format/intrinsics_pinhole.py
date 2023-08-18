@@ -47,8 +47,8 @@ class IntrinsicsPinhole:
         """
 
         return IntrinsicsPinhole(
-            camera_matrix=data_dict["camera_matrix"],
-            distortion=data_dict["distortion_coeffs"],
+            camera_matrix=tuple(data_dict["camera_matrix"]),
+            distortion=tuple(data_dict["distortion_coeffs"]),
             width_px=data_dict["width_px"],
             height_px=data_dict["height_px"],
         )
