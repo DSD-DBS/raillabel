@@ -22,6 +22,21 @@ class Transform:
     pos: Point3d
     quat: Quaternion
 
+    @classmethod
+    def fromdict(cls, data_dict: dict) -> "Transform":
+        """Generate a Transform object from a dict.
+
+        Parameters
+        ----------
+        data_dict: dict
+            RailLabel format snippet containing the relevant data.
+        """
+
+        return Transform(
+            pos=Point3d.fromdict(data_dict["translation"]),
+            quat=Quaternion.fromdict(data_dict["quaternion"]),
+        )
+
     def asdict(self) -> dict:
         """Export self as a dict compatible with the OpenLABEL schema.
 

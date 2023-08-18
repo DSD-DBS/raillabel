@@ -29,6 +29,7 @@ from test_raillabel.format.test_point3d import point3d, point3d_dict
 from test_raillabel.format.test_quaternion import quaternion, quaternion_dict
 from test_raillabel.format.test_size2d import size2d, size2d_dict
 from test_raillabel.format.test_size3d import size3d, size3d_dict
+from test_raillabel.format.test_transform import transform, transform_dict
 
 import raillabel
 
