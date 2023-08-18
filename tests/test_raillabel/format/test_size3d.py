@@ -30,14 +30,14 @@ def test_fromdict():
 
     assert size3d.x == 0.35
     assert size3d.y == 0.7
-    assert size3d.z == 19.2
+    assert size3d.z == 1.92
 
 
 def test_asdict():
     size3d = Size3d(
         x=0.35,
         y=0.7,
-        z=19.2
+        z=1.92
     )
 
     assert size3d.asdict() == [0.35, 0.7, 1.92]
