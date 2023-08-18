@@ -25,7 +25,7 @@ def metadata_full() -> dict:
     return {
         "schema_version": "1.0.0",
         "annotator": "test_annotator",
-        "schema_version": "1.0.0",
+        "subschema_version": "2.1.0",
         "comment": "test_comment",
         "name": "test_project",
         "tagged_file": "test_folder",
@@ -33,9 +33,11 @@ def metadata_full() -> dict:
 
 # == Tests ============================
 
-def test_fromdict_minimal(metadata_minimal):
+def test_fromdict_minimal():
     metadata = Metadata.fromdict(
-        metadata_minimal,
+        {
+            "schema_version": "1.0.0"
+        },
         "2.1.1"
     )
 
@@ -44,9 +46,16 @@ def test_fromdict_minimal(metadata_minimal):
     assert metadata.annotator is None
 
 
-def test_fromdict_full(metadata_full):
+def test_fromdict_full():
     metadata = Metadata.fromdict(
-        metadata_full,
+        {
+            "schema_version": "1.0.0",
+            "annotator": "test_annotator",
+            "subschema_version": "2.1.0",
+            "comment": "test_comment",
+            "name": "test_project",
+            "tagged_file": "test_folder",
+        },
         "2.1.1"
     )
 
@@ -80,25 +89,34 @@ def test_fromdict_additional_arg_invalid():
         )
 
 
-def test_asdict_minimal(metadata_minimal):
+def test_asdict_minimal():
     metadata_dict = Metadata(
         schema_version="1.0.0"
     ).asdict()
 
-    assert metadata_dict == metadata_minimal
+    assert metadata_dict == {
+        "schema_version": "1.0.0"
+    }
 
 
-def test_asdict_full(metadata_full):
+def test_asdict_full():
     metadata_dict = Metadata(
         annotator="test_annotator",
         schema_version="1.0.0",
         comment="test_comment",
         name="test_project",
-        subschema_version="2.1.1",
+        subschema_version="2.1.0",
         tagged_file="test_folder",
     ).asdict()
 
-    assert metadata_dict == metadata_full
+    assert metadata_dict == {
+        "schema_version": "1.0.0",
+        "annotator": "test_annotator",
+        "subschema_version": "2.1.0",
+        "comment": "test_comment",
+        "name": "test_project",
+        "tagged_file": "test_folder",
+    }
 
 
 def test_fromdict_additional_arg():
