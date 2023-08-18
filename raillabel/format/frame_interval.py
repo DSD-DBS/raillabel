@@ -19,6 +19,21 @@ class FrameInterval:
     frame_start: int
     frame_end: int
 
+    @classmethod
+    def fromdict(cls, data_dict: dict) -> "FrameInterval":
+        """Generate a FrameInterval object from a dict.
+
+        Parameters
+        ----------
+        data_dict: dict
+            RailLabel format snippet containing the relevant data.
+        """
+
+        return FrameInterval(
+            frame_start=data_dict["frame_start"],
+            frame_end=data_dict["frame_end"],
+        )
+
     def asdict(self) -> dict:
         """Export self as a dict compatible with the OpenLABEL schema.
 

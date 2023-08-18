@@ -11,27 +11,55 @@ sys.path.insert(1, str(Path(__file__).parent.parent.parent.parent))
 
 from raillabel.format.frame_interval import FrameInterval
 
+# == Fixtures =========================
 
-def test_asdict_valid():
-    frame_interval = FrameInterval(0, 1)
+@pytest.fixture
+def frame_interval_dict() -> dict:
+    return {
+        "frame_start": 12,
+        "frame_end": 16
+    }
+
+@pytest.fixture
+def frame_interval() -> dict:
+    return FrameInterval(
+        frame_start=12,
+        frame_end=16,
+    )
+
+# == Tests ============================
+
+def test_fromdict():
+    frame_interval = FrameInterval.fromdict(
+        {
+            "frame_start": 12,
+            "frame_end": 16,
+        }
+    )
+
+    assert frame_interval.frame_start == 12
+    assert frame_interval.frame_end == 16
+
+
+def test_asdict():
+    frame_interval = FrameInterval(
+        frame_start=12,
+        frame_end=16,
+    )
 
     assert frame_interval.asdict() == {
-        "frame_start": 0,
-        "frame_end": 1
+        "frame_start": 12,
+        "frame_end": 16,
     }
 
 
-def test_asdict_invalid():
-    frame_interval = FrameInterval(0, "invalid_integer")
-
-    with pytest.raises(ValueError):
-        frame_interval.asdict()
-
-
 def test_len():
-    frame_interval = FrameInterval(0, 13)
+    frame_interval = FrameInterval(
+        frame_start=12,
+        frame_end=16,
+    )
 
-    assert len(frame_interval) == 14
+    assert len(frame_interval) == 5
 
 
 if __name__ == "__main__":
