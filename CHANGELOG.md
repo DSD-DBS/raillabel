@@ -58,5 +58,5 @@ Release
 - Fixed bug, that prevented loading a understand ai file via raillabel.load()
 - Made the project_id field in the understand ai files less restrictive
 
-## 2.3
+## 2.3.0
 - Support for additional, undefined attributes in raillabel.format.Metadata
