@@ -13,6 +13,10 @@ import pytest
 sys.path.insert(1, str(Path(__file__).parent.parent))
 
 from test_raillabel.format.test_frame_interval import frame_interval, frame_interval_dict
+from test_raillabel.format.test_intrinsics_pinhole import (
+    intrinsics_pinhole,
+    intrinsics_pinhole_dict,
+)
 from test_raillabel.format.test_metadata import (
     metadata_full,
     metadata_full_dict,
