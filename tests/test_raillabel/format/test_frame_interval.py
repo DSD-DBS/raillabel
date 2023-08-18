@@ -64,4 +64,4 @@ def test_len():
 
 if __name__ == "__main__":
     os.system("clear")
-    pytest.main([__file__, "--disable-pytest-warnings", "--cache-clear"])
+    pytest.main([__file__, "--disable-pytest-warnings", "--cache-clear", "-v"])
