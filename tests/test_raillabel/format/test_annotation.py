@@ -31,4 +31,4 @@ def test_post_init():
 # Executes the test if the file is called
 if __name__ == "__main__":
     os.system("clear")
-    pytest.main([__file__, "--disable-pytest-warnings", "--cache-clear"])
+    pytest.main([__file__, "--disable-pytest-warnings", "--cache-clear", "-v"])

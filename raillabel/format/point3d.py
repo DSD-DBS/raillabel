@@ -22,6 +22,22 @@ class Point3d:
     y: float
     z: float
 
+    @classmethod
+    def fromdict(cls, data_dict: dict) -> "Point3d":
+        """Generate a Point3d object from a dict.
+
+        Parameters
+        ----------
+        data_dict: dict
+            RailLabel format snippet containing the relevant data.
+        """
+
+        return Point3d(
+            x=data_dict[0],
+            y=data_dict[1],
+            z=data_dict[2],
+        )
+
     def asdict(self) -> dict:
         """Export self as a dict compatible with the OpenLABEL schema.
 

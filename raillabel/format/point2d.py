@@ -19,6 +19,21 @@ class Point2d:
     x: float
     y: float
 
+    @classmethod
+    def fromdict(cls, data_dict: dict) -> "Point2d":
+        """Generate a Point2d object from a dict.
+
+        Parameters
+        ----------
+        data_dict: dict
+            RailLabel format snippet containing the relevant data.
+        """
+
+        return Point2d(
+            x=data_dict[0],
+            y=data_dict[1],
+        )
+
     def asdict(self) -> dict:
         """Export self as a dict compatible with the OpenLABEL schema.
 

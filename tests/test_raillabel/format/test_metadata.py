@@ -11,6 +11,45 @@ sys.path.insert(1, str(Path(__file__).parent.parent.parent.parent))
 
 from raillabel.format.metadata import Metadata
 
+# == Fixtures =========================
+
+@pytest.fixture
+def metadata_minimal_dict() -> dict:
+    return {
+        "schema_version": "1.0.0"
+    }
+
+
+@pytest.fixture
+def metadata_full_dict() -> dict:
+    return {
+        "schema_version": "1.0.0",
+        "annotator": "test_annotator",
+        "subschema_version": "2.1.0",
+        "comment": "test_comment",
+        "name": "test_project",
+        "tagged_file": "test_folder",
+    }
+
+@pytest.fixture
+def metadata_minimal() -> dict:
+    return Metadata(
+        schema_version="1.0.0"
+    )
+
+
+@pytest.fixture
+def metadata_full() -> dict:
+    return Metadata(
+        schema_version="1.0.0",
+        annotator="test_annotator",
+        subschema_version="2.1.0",
+        comment="test_comment",
+        name="test_project",
+        tagged_file="test_folder",
+    )
+
+# == Tests ============================
 
 def test_fromdict_minimal():
     metadata = Metadata.fromdict(
@@ -28,8 +67,9 @@ def test_fromdict_minimal():
 def test_fromdict_full():
     metadata = Metadata.fromdict(
         {
-            "annotator": "test_annotator",
             "schema_version": "1.0.0",
+            "annotator": "test_annotator",
+            "subschema_version": "2.1.0",
             "comment": "test_comment",
             "name": "test_project",
             "tagged_file": "test_folder",
@@ -83,18 +123,19 @@ def test_asdict_full():
         schema_version="1.0.0",
         comment="test_comment",
         name="test_project",
-        subschema_version="2.1.1",
+        subschema_version="2.1.0",
         tagged_file="test_folder",
     ).asdict()
 
     assert metadata_dict == {
-        "annotator": "test_annotator",
         "schema_version": "1.0.0",
+        "annotator": "test_annotator",
+        "subschema_version": "2.1.0",
         "comment": "test_comment",
         "name": "test_project",
-        "subschema_version": "2.1.1",
         "tagged_file": "test_folder",
     }
+
 
 def test_fromdict_additional_arg():
     metadata = Metadata(
@@ -108,6 +149,7 @@ def test_fromdict_additional_arg():
         "additional_argument": "Some Value"
     }
 
+
 if __name__ == "__main__":
     os.system("clear")
-    pytest.main([__file__, "--disable-pytest-warnings", "--cache-clear"])
+    pytest.main([__file__, "--disable-pytest-warnings", "--cache-clear", "-v"])

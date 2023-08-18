@@ -12,6 +12,33 @@ import pytest
 
 sys.path.insert(1, str(Path(__file__).parent.parent))
 
+from test_raillabel.format.test_frame_interval import frame_interval, frame_interval_dict
+from test_raillabel.format.test_intrinsics_pinhole import (
+    intrinsics_pinhole,
+    intrinsics_pinhole_dict,
+)
+from test_raillabel.format.test_intrinsics_radar import intrinsics_radar, intrinsics_radar_dict
+from test_raillabel.format.test_metadata import (
+    metadata_full,
+    metadata_full_dict,
+    metadata_minimal,
+    metadata_minimal_dict,
+)
+from test_raillabel.format.test_point2d import point2d, point2d_dict
+from test_raillabel.format.test_point3d import point3d, point3d_dict
+from test_raillabel.format.test_quaternion import quaternion, quaternion_dict
+from test_raillabel.format.test_sensor import (
+    sensor_camera,
+    sensor_camera_dict,
+    sensor_lidar,
+    sensor_lidar_dict,
+    sensor_radar,
+    sensor_radar_dict,
+)
+from test_raillabel.format.test_size2d import size2d, size2d_dict
+from test_raillabel.format.test_size3d import size3d, size3d_dict
+from test_raillabel.format.test_transform import transform, transform_dict
+
 import raillabel
 
 json_data_directories = [
@@ -30,7 +57,6 @@ def compile_uncommented_test_file():
 
     with open(str(json5_file_path)[:-1], "w") as f:
         json.dump(data, f, indent=4)
-
 
 @pytest.fixture
 def json_paths(request) -> t.Dict[str, Path]:
