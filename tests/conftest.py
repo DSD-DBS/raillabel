@@ -17,6 +17,7 @@ from test_raillabel.format.test_intrinsics_pinhole import (
     intrinsics_pinhole,
     intrinsics_pinhole_dict,
 )
+from test_raillabel.format.test_intrinsics_radar import intrinsics_radar, intrinsics_radar_dict
 from test_raillabel.format.test_metadata import (
     metadata_full,
     metadata_full_dict,
