@@ -67,6 +67,35 @@ def sensor_camera(transform, intrinsics_pinhole) -> Sensor:
         uri="/S1206063/image",
     )
 
+
+@pytest.fixture
+def sensor_radar_dict(transform_dict, intrinsics_radar_dict) -> dict:
+    return {
+        "uid": "radar",
+        "stream": {
+            "type": "radar",
+            "uri": "/talker1/Nvt/Cartesian",
+            "stream_properties": {
+                "intrinsics_pinhole": intrinsics_radar_dict
+            }
+        },
+        "coordinate_system": {
+            "type": "sensor",
+            "parent": "base",
+            "pose_wrt_parent": transform_dict,
+        }
+    }
+
+@pytest.fixture
+def sensor_radar(transform, intrinsics_radar) -> Sensor:
+    return Sensor(
+        uid="radar",
+        extrinsics=transform,
+        intrinsics=intrinsics_radar,
+        type=SensorType.RADAR,
+        uri="/talker1/Nvt/Cartesian",
+    )
+
 # == Tests ============================
 
 def test_lidar_fromdict(transform, transform_dict):
@@ -136,17 +165,20 @@ def test_camera_fromdict(transform, transform_dict, intrinsics_pinhole, intrinsi
 
 def test_camera_asdict(transform, transform_dict, intrinsics_pinhole, intrinsics_pinhole_dict):
     sensor = Sensor(
-        uid="lidar",
+        uid="rgb_middle",
         extrinsics=transform,
-        intrinsics=None,
-        type=SensorType.LIDAR,
-        uri="/lidar_merged",
+        intrinsics=intrinsics_pinhole,
+        type=SensorType.CAMERA,
+        uri="/S1206063/image",
     )
 
     assert sensor.asdict() == {
         "stream": {
-            "type": "lidar",
-            "uri": "/lidar_merged",
+            "type": "camera",
+            "uri": "/S1206063/image",
+            "stream_properties": {
+                "intrinsics_pinhole": intrinsics_pinhole_dict
+            }
         },
         "coordinate_system": {
             "type": "sensor",
@@ -154,6 +186,55 @@ def test_camera_asdict(transform, transform_dict, intrinsics_pinhole, intrinsics
             "pose_wrt_parent": transform_dict,
         }
     }
+
+
+def test_radar_fromdict(transform, transform_dict, intrinsics_radar, intrinsics_radar_dict):
+    sensor = Sensor.fromdict(
+        uid="radar",
+        stream_data_dict={
+            "type": "radar",
+            "uri": "/talker1/Nvt/Cartesian",
+            "stream_properties": {
+                "intrinsics_radar": intrinsics_radar_dict
+            }
+        },
+        cs_data_dict={
+            "type": "sensor",
+            "parent": "base",
+            "pose_wrt_parent": transform_dict,
+        }
+    )
+
+    assert sensor.uid == "radar"
+    assert sensor.extrinsics == transform
+    assert sensor.intrinsics == intrinsics_radar
+    assert sensor.type == SensorType.RADAR
+    assert sensor.uri == "/talker1/Nvt/Cartesian"
+
+def test_radar_asdict(transform, transform_dict, intrinsics_radar, intrinsics_radar_dict):
+    sensor = Sensor(
+        uid="radar",
+        extrinsics=transform,
+        intrinsics=intrinsics_radar,
+        type=SensorType.RADAR,
+        uri="/talker1/Nvt/Cartesian",
+    )
+
+    assert sensor.asdict() == {
+        "stream": {
+            "type": "radar",
+            "uri": "/talker1/Nvt/Cartesian",
+            "stream_properties": {
+                "intrinsics_radar": intrinsics_radar_dict
+            }
+        },
+        "coordinate_system": {
+            "type": "sensor",
+            "parent": "base",
+            "pose_wrt_parent": transform_dict,
+        }
+    }
+
 
 if __name__ == "__main__":
     os.system("clear")
