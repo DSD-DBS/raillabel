@@ -13,7 +13,12 @@ import pytest
 sys.path.insert(1, str(Path(__file__).parent.parent))
 
 from test_raillabel.format.test_frame_interval import frame_interval, frame_interval_dict
-from test_raillabel.format.test_metadata import metadata_full, metadata_minimal
+from test_raillabel.format.test_metadata import (
+    metadata_full,
+    metadata_full_dict,
+    metadata_minimal,
+    metadata_minimal_dict,
+)
 from test_raillabel.format.test_point2d import point2d, point2d_dict
 from test_raillabel.format.test_point3d import point3d, point3d_dict
 from test_raillabel.format.test_quaternion import quaternion, quaternion_dict

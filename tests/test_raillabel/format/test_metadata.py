@@ -14,14 +14,14 @@ from raillabel.format.metadata import Metadata
 # == Fixtures =========================
 
 @pytest.fixture
-def metadata_minimal() -> dict:
+def metadata_minimal_dict() -> dict:
     return {
         "schema_version": "1.0.0"
     }
 
 
 @pytest.fixture
-def metadata_full() -> dict:
+def metadata_full_dict() -> dict:
     return {
         "schema_version": "1.0.0",
         "annotator": "test_annotator",
@@ -30,6 +30,24 @@ def metadata_full() -> dict:
         "name": "test_project",
         "tagged_file": "test_folder",
     }
+
+@pytest.fixture
+def metadata_minimal() -> dict:
+    return Metadata(
+        schema_version="1.0.0"
+    )
+
+
+@pytest.fixture
+def metadata_full() -> dict:
+    return Metadata(
+        schema_version="1.0.0",
+        annotator="test_annotator",
+        subschema_version="2.1.0",
+        comment="test_comment",
+        name="test_project",
+        tagged_file="test_folder",
+    )
 
 # == Tests ============================
 
