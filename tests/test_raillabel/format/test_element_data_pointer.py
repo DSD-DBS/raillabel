@@ -9,7 +9,6 @@ import pytest
 
 sys.path.insert(1, str(Path(__file__).parent.parent.parent.parent))
 
-from raillabel.format.bbox import Bbox
 from raillabel.format.element_data_pointer import AttributeType, ElementDataPointer
 
 # == Fixtures =========================

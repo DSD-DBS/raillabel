@@ -3,15 +3,9 @@
 
 import typing as t
 from dataclasses import dataclass
-from enum import Enum
 
 from .._util._attribute_type import AttributeType
-from ._annotation import _Annotation
 from .frame_interval import FrameInterval
-from .sensor import Sensor
-
-if t.TYPE_CHECKING:
-    from .object import Object
 
 
 @dataclass
