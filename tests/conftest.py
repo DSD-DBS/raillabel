@@ -12,6 +12,12 @@ import pytest
 
 sys.path.insert(1, str(Path(__file__).parent.parent))
 
+from test_raillabel.format.test_element_data_pointer import (
+    element_data_pointer_full,
+    element_data_pointer_full_dict,
+    element_data_pointer_minimal,
+    element_data_pointer_minimal_dict,
+)
 from test_raillabel.format.test_frame_interval import frame_interval, frame_interval_dict
 from test_raillabel.format.test_intrinsics_pinhole import (
     intrinsics_pinhole,
