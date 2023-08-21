@@ -1,7 +1,11 @@
 # Copyright DB Netz AG and contributors
 # SPDX-License-Identifier: Apache-2.0
 
+import typing as t
 from dataclasses import dataclass
+from uuid import UUID
+
+from .frame_interval import FrameInterval
 
 
 @dataclass
@@ -56,3 +60,26 @@ class Object:
         """
 
         return {"name": str(self.name), "type": str(self.type)}
+
+    def frame_intervals(self, frames: t.Dict[int, "Frame"]) -> t.List[FrameInterval]:
+        """Return frame intervals in which this object is present.
+
+        Parameters
+        ----------
+        frames: dict[int, raillabel.format.Frame]
+            The dictionary of frames stored under Scene.frames.
+
+        Returns
+        -------
+        list[FrameInterval]
+            List of the FrameIntervals, where this object is contained.
+        """
+
+        frame_uids_containing_object = [
+            frame.uid for frame in frames.values() if self._is_object_in_frame(frame)
+        ]
+
+        return FrameInterval.from_frame_uids(frame_uids_containing_object)
+
+    def _is_object_in_frame(self, frame: "Frame") -> bool:
+        return UUID(self.uid) in frame.object_data
