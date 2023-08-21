@@ -4,8 +4,6 @@
 import typing as t
 from dataclasses import dataclass
 
-import numpy as np
-
 
 @dataclass
 class FrameInterval:
@@ -111,7 +109,7 @@ class FrameInterval:
                 intervals.append(sorted_frame_uids[interval_start_i : i + 1])
                 interval_start_i = i + 1
 
-        intervals.append(sorted_frame_uids[interval_start_i : i + 2])
-        interval_start_i = i + 2
+        intervals.append(sorted_frame_uids[interval_start_i : len(sorted_frame_uids)])
+        interval_start_i = len(sorted_frame_uids)
 
         return intervals
