@@ -23,11 +23,9 @@ def element_data_pointer_minimal_dict() -> dict:
     }
 
 @pytest.fixture
-def element_data_pointer_minimal(sensor_camera, object_person):
+def element_data_pointer_minimal():
     return ElementDataPointer(
-        sensor=sensor_camera,
-        annotation_type=Bbox,
-        object=object_person,
+        uid="rgb_middle__bbox__person",
         frame_intervals=[],
         attribute_pointers={}
     )
@@ -51,9 +49,7 @@ def element_data_pointer_full_dict(frame_interval_dict) -> dict:
 @pytest.fixture
 def element_data_pointer_full(sensor_camera, object_person, frame_interval):
     return ElementDataPointer(
-        sensor=sensor_camera,
-        annotation_type=Bbox,
-        object=object_person,
+        uid="rgb_middle__bbox__person",
         frame_intervals=[
             frame_interval
         ],
@@ -67,23 +63,10 @@ def element_data_pointer_full(sensor_camera, object_person, frame_interval):
 
 # == Tests ============================
 
-def test_uid(sensor_camera, object_person):
-    element_data_pointer = ElementDataPointer(
-        sensor=sensor_camera,
-        annotation_type=Bbox,
-        object=object_person,
-        frame_intervals=[],
-        attribute_pointers={}
-    )
-
-    assert element_data_pointer.uid == "rgb_middle__bbox__person"
-
 
 def test_asdict_minimal(sensor_camera, object_person):
     element_data_pointer = ElementDataPointer(
-        sensor=sensor_camera,
-        annotation_type=Bbox,
-        object=object_person,
+        uid="rgb_middle__bbox__person",
         frame_intervals=[],
         attribute_pointers={}
     )
@@ -96,9 +79,7 @@ def test_asdict_minimal(sensor_camera, object_person):
 
 def test_asdict_full(sensor_camera, object_person, frame_interval, frame_interval_dict):
     element_data_pointer = ElementDataPointer(
-        sensor=sensor_camera,
-        annotation_type=Bbox,
-        object=object_person,
+        uid="rgb_middle__bbox__person",
         frame_intervals=[
             frame_interval
         ],

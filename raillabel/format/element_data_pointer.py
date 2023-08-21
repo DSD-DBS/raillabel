@@ -5,6 +5,7 @@ import typing as t
 from dataclasses import dataclass
 from enum import Enum
 
+from .._util._attribute_type import AttributeType
 from ._annotation import _Annotation
 from .frame_interval import FrameInterval
 from .sensor import Sensor
@@ -21,15 +22,11 @@ class ElementDataPointer:
 
     Parameters
     ----------
-    sensor: raillabel.format.Sensor
-        Sensor the referenced annotations are contained in.
-    annotation_type: child class of raillabel.format._Annotation
-        Class of the referenced annotations. Must be a child class of _Annotations.
-    object: raillabel.format.Object
-        Object the referenced annotations belong to.
+    uid: str
+        Unique identifier of the ElementDataPointer assembled using a specific schema.
     frame_intervals: list[raillabel.format.FrameInterval]
         Frame intervals, this element data pointer is contained in.
-    attribute_pointers: dict[str, raillabel.format.element_data_pointers.AttributeType]
+    attribute_pointers: dict[str, raillabel.util._attribute_type.AttributeType]
         References of attributes contained in the referenced annotations with attribute type.
 
     Properties (read-only)
@@ -38,16 +35,14 @@ class ElementDataPointer:
         Unique identifier of the ElementDataPointer built from the attributes.
     """
 
-    sensor: Sensor
-    annotation_type: t.Type[_Annotation]
-    object: "Object"
+    uid: str
     frame_intervals: t.List[FrameInterval]
-    attribute_pointers: t.Dict[str, "AttributeType"]
+    attribute_pointers: t.Dict[str, AttributeType]
 
     @property
-    def uid(self) -> str:
-        """Return unique identifyer based on the properties."""
-        return f"{self.sensor.uid}__{self.annotation_type.OPENLABEL_ID}__{self.object.type}"
+    def annotation_type(self) -> str:
+        """Return type of annotation e.g. bbox, cuboid."""
+        return self.uid.split("__")[1]
 
     def asdict(self) -> dict:
         """Export self as a dict compatible with the OpenLABEL schema.
@@ -64,7 +59,7 @@ class ElementDataPointer:
         """
 
         return {
-            "type": self.annotation_type.OPENLABEL_ID,
+            "type": self.annotation_type,
             "frame_intervals": self._frame_intervals_asdict(),
             "attribute_pointers": self._attribute_pointers_asdict(),
         }
@@ -76,12 +71,3 @@ class ElementDataPointer:
         return {
             attr_name: attr_type.value for attr_name, attr_type in self.attribute_pointers.items()
         }
-
-
-class AttributeType(Enum):
-    """Possible types of attributes."""
-
-    BOOLEAN = "boolean"
-    NUM = "num"
-    TEXT = "text"
-    VEC = "vec"
