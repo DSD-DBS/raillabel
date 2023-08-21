@@ -4,6 +4,7 @@
 
 from .bbox import Bbox
 from .cuboid import Cuboid
+from .element_data_pointer import ElementDataPointer
 from .frame import Frame
 from .frame_interval import FrameInterval
 from .intrinsics_pinhole import IntrinsicsPinhole
