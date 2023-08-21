@@ -9,6 +9,9 @@ from ._annotation import _Annotation
 from .frame_interval import FrameInterval
 from .sensor import Sensor
 
+if t.TYPE_CHECKING:
+    from .object import Object
+
 
 @dataclass
 class ElementDataPointer:
@@ -37,7 +40,7 @@ class ElementDataPointer:
 
     sensor: Sensor
     annotation_type: t.Type[_Annotation]
-    object: "raillabel.format.Object"
+    object: "Object"
     frame_intervals: t.List[FrameInterval]
     attribute_pointers: t.Dict[str, "AttributeType"]
 

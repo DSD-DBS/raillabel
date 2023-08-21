@@ -7,6 +7,9 @@ from uuid import UUID
 
 from .frame_interval import FrameInterval
 
+if t.TYPE_CHECKING:
+    from .frame import Frame
+
 
 @dataclass
 class Object:
