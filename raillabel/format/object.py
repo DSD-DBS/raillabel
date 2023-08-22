@@ -143,7 +143,7 @@ class Object:
         }
 
     def _is_object_in_frame(self, frame: "Frame") -> bool:
-        return UUID(self.uid) in frame.object_data
+        return UUID(self.uid) in frame.object_data or str(self.uid) in frame.object_data
 
     def _filtered_annotations(self, frame: "Frame") -> dict_values:
         if self.uid not in frame.object_data:
