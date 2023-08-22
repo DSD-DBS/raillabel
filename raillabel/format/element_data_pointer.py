@@ -58,7 +58,7 @@ class ElementDataPointer:
             "attribute_pointers": self._attribute_pointers_asdict(),
         }
 
-    def _frame_intervals_asdict(self) -> list[t.Dict[str, int]]:
+    def _frame_intervals_asdict(self) -> t.List[t.Dict[str, int]]:
         return [fi.asdict() for fi in self.frame_intervals]
 
     def _attribute_pointers_asdict(self) -> t.Dict[str, str]:
