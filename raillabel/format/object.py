@@ -179,7 +179,7 @@ class Object:
     def _convert_to_attribute_pointers(
         self, attributes_per_pointer_id: t.Dict[str, t.Dict[str, t.Any]]
     ) -> t.Dict[str, t.Dict[str, AttributeType]]:
-        for pointer_id, attributes in attributes_per_pointer_id.items():
+        for attributes in attributes_per_pointer_id.values():
             for attribute_name, attribute_value in attributes.items():
                 attributes[attribute_name] = AttributeType.from_value(type(attribute_value))
 
