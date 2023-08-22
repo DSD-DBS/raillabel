@@ -60,3 +60,9 @@ Release
 
 ## 2.3.0
 - Support for additional, undefined attributes in raillabel.format.Metadata
+
+# Unreleased
+- FrameInterval.from_frame_uids(): create FrameIntervals by providing a list of frame uids
+- Object.object_data_pointers(): generate ElementDataPointers
+- Scene.frame_intervals, Object.frame_intervals(): generate FrameIntervals
+- Object.asdict() now provides also frame intervals and object data pointers, if the frames from the scene are provided

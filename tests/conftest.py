@@ -12,6 +12,12 @@ import pytest
 
 sys.path.insert(1, str(Path(__file__).parent.parent))
 
+from test_raillabel.format.test_element_data_pointer import (
+    element_data_pointer_full,
+    element_data_pointer_full_dict,
+    element_data_pointer_minimal,
+    element_data_pointer_minimal_dict,
+)
 from test_raillabel.format.test_frame_interval import frame_interval, frame_interval_dict
 from test_raillabel.format.test_intrinsics_pinhole import (
     intrinsics_pinhole,
@@ -24,6 +30,7 @@ from test_raillabel.format.test_metadata import (
     metadata_minimal,
     metadata_minimal_dict,
 )
+from test_raillabel.format.test_object import object_person, object_person_dict
 from test_raillabel.format.test_point2d import point2d, point2d_dict
 from test_raillabel.format.test_point3d import point3d, point3d_dict
 from test_raillabel.format.test_quaternion import quaternion, quaternion_dict

@@ -5,8 +5,8 @@ import typing as t
 import uuid
 from dataclasses import dataclass, field
 
-from .._util._attribute_type import AttributeType
 from .frame import Frame
+from .frame_interval import FrameInterval
 from .metadata import Metadata
 from .object import Object
 from .sensor import Sensor
@@ -26,12 +26,22 @@ class Scene:
         Dictionary of raillabel.format.Objects. Dictionary keys are the object uids. Default is {}.
     frames: dict of raillabel.format.Frame, optional
         Dict of frames in the scene. Dictionary keys are the frame uids. Default is {}.
+
+    Properties (read-only)
+    ----------------------
+    frame_intervals: list[FrameIntervals]
+        List of frame intervals describing the frames present in this scene.
     """
 
     metadata: Metadata
     sensors: t.Dict[str, Sensor] = field(default_factory=dict)
     objects: t.Dict[uuid.UUID, Object] = field(default_factory=dict)
     frames: t.Dict[int, Frame] = field(default_factory=dict)
+
+    @property
+    def frame_intervals(self) -> t.List[FrameInterval]:
+        """Return frame intervals of the present frames."""
+        return FrameInterval.from_frame_uids(list(self.frames.keys()))
 
     def asdict(self) -> dict:
         """Export self as a dict compatible with the OpenLABEL schema.
@@ -47,163 +57,52 @@ class Scene:
             if an attribute can not be converted to the type required by the OpenLabel schema.
         """
 
-        dict_repr = {"openlabel": {"metadata": self.metadata.asdict()}}
+        return {
+            "openlabel": self._clean_empty_fields(
+                {
+                    "metadata": self.metadata.asdict(),
+                    "streams": self._streams_asdict(self.sensors),
+                    "coordinate_systems": self._coordinate_systems_asdict(self.sensors),
+                    "objects": self._objects_asdict(self.objects),
+                    "frames": self._frames_asdict(self.frames),
+                    "frame_intervals": self._frame_intervals_asdict(self.frame_intervals),
+                }
+            )
+        }
 
-        if self.sensors != {}:
-            dict_repr["openlabel"]["streams"] = {
-                str(k): v.asdict()["stream"] for k, v in self.sensors.items()
-            }
-            dict_repr["openlabel"]["coordinate_systems"] = {
-                str(k): v.asdict()["coordinate_system"] for k, v in self.sensors.items()
-            }
-            dict_repr["openlabel"]["coordinate_systems"]["base"] = {
-                "type": "local",
-                "parent": "",
-                "children": list(self.sensors.keys()),
-            }
+    def _clean_empty_fields(self, dictionary: dict) -> dict:
 
-        if self.objects != {}:
-            dict_repr["openlabel"]["objects"] = {
-                str(k): v.asdict() for k, v in self.objects.items()
-            }
+        empty_keys = []
+        for key, value in dictionary.items():
+            if value is None or len(value) == 0:
+                empty_keys.append(key)
 
-        if self.frames != {}:
-            dict_repr["openlabel"]["frames"] = {str(k): v.asdict() for k, v in self.frames.items()}
+        for key in empty_keys:
+            del dictionary[key]
 
-        dict_repr = self._add_object_data_pointers(dict_repr)
+        return dictionary
 
-        return dict_repr
+    def _streams_asdict(self, sensors: t.Dict[str, Sensor]) -> dict:
+        return {uid: sensor.asdict()["stream"] for uid, sensor in sensors.items()}
 
-    def _add_object_data_pointers(self, dict_repr: dict) -> dict:
-        """Add object frame intervals and object_data_pointers to the JSON.
+    def _coordinate_systems_asdict(self, sensors: t.Dict[str, Sensor]) -> dict:
 
-        The VCD visualization tool requires a short "summary" of where an object and the
-        object_data_pointers occurr, which includes the frame intervals of the object and the frame
-        intervals of the object_data names.
+        if len(sensors) == 0:
+            return None
 
-        Parameters
-        ----------
-        dict_repr : dict
-            Dictionary in the RailLabel format, that should be enhanced.
+        coordinate_systems = {"base": {"type": "local", "parent": "", "children": []}}
 
-        Returns
-        -------
-        dict
-            Enhanced dictionary.
-        """
+        for uid, sensor in sensors.items():
+            coordinate_systems[uid] = sensor.asdict()["coordinate_system"]
+            coordinate_systems["base"]["children"].append(uid)
 
-        # Creates the frame intervals and object_data_pointers
-        frame_intervals = []
-        object_frame_intervals = {}
-        for frame in self.frames.values():
+        return coordinate_systems
 
-            # Adds the frame intervals
-            if len(frame_intervals) == 0:
-                frame_intervals.append(
-                    {
-                        "frame_start": frame.uid,
-                        "frame_end": frame.uid,
-                    }
-                )
+    def _objects_asdict(self, objects: t.Dict[uuid.UUID, Object]) -> dict:
+        return {str(uid): object.asdict(self.frames) for uid, object in objects.items()}
 
-            elif frame.uid == frame_intervals[-1]["frame_end"] + 1:
-                frame_intervals[-1]["frame_end"] += 1
+    def _frames_asdict(self, frames: t.Dict[int, Frame]) -> dict:
+        return {uid: frame.asdict() for uid, frame in frames.items()}
 
-            else:
-                frame_intervals.append(
-                    {
-                        "frame_start": frame.uid,
-                        "frame_end": frame.uid,
-                    }
-                )
-
-            # Adds the object frame intervals
-            for object_id in frame.object_data:
-
-                if object_id not in object_frame_intervals:
-                    object_frame_intervals[object_id] = {
-                        "frame_intervals": [
-                            {
-                                "frame_start": frame.uid,
-                                "frame_end": frame.uid,
-                            }
-                        ],
-                        "object_data_pointers": {},
-                    }
-
-                else:
-                    if (
-                        object_frame_intervals[object_id]["frame_intervals"][-1]["frame_end"]
-                        == frame.uid - 1
-                    ):
-                        object_frame_intervals[object_id]["frame_intervals"][-1][
-                            "frame_end"
-                        ] = frame.uid
-
-                    else:
-                        object_frame_intervals[object_id]["frame_intervals"].append(
-                            {
-                                "frame_start": frame.uid,
-                                "frame_end": frame.uid,
-                            }
-                        )
-
-            # Adds the object_data_pointers
-            for object_id in frame.object_data:
-                for annotation in frame.object_data[object_id].annotations.values():
-
-                    if (
-                        annotation.name
-                        not in object_frame_intervals[object_id]["object_data_pointers"]
-                    ):
-                        object_frame_intervals[object_id]["object_data_pointers"][
-                            annotation.name
-                        ] = {
-                            "type": annotation.name.split("__")[1],
-                            "frame_intervals": [
-                                {
-                                    "frame_start": frame.uid,
-                                    "frame_end": frame.uid,
-                                }
-                            ],
-                            "attribute_pointers": {},
-                        }
-
-                    else:
-                        if (
-                            object_frame_intervals[object_id]["object_data_pointers"][
-                                annotation.name
-                            ]["frame_intervals"][-1]["frame_end"]
-                            >= frame.uid - 1
-                        ):
-                            object_frame_intervals[object_id]["object_data_pointers"][
-                                annotation.name
-                            ]["frame_intervals"][-1]["frame_end"] = frame.uid
-
-                        else:
-                            object_frame_intervals[object_id]["object_data_pointers"][
-                                annotation.name
-                            ]["frame_intervals"].append(
-                                {
-                                    "frame_start": frame.uid,
-                                    "frame_end": frame.uid,
-                                }
-                            )
-
-                    for attr_name, attr_value in annotation.attributes.items():
-
-                        attr_type = AttributeType.from_value(type(attr_value)).value
-
-                        object_frame_intervals[object_id]["object_data_pointers"][annotation.name][
-                            "attribute_pointers"
-                        ][attr_name] = attr_type
-
-        # Adds the frame_intervals to the dict
-        dict_repr["openlabel"]["frame_intervals"] = frame_intervals
-
-        # Adds the object_data_pointers to the dict
-        if "objects" in dict_repr["openlabel"]:
-            for object_id, object in dict_repr["openlabel"]["objects"].items():
-                object.update(object_frame_intervals[object_id])
-
-        return dict_repr
+    def _frame_intervals_asdict(self, frame_intervals: t.List[FrameInterval]) -> t.List[dict]:
+        return [fi.asdict() for fi in frame_intervals]
