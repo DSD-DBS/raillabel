@@ -7,6 +7,7 @@ from dataclasses import dataclass, field
 
 from .._util._attribute_type import AttributeType
 from .frame import Frame
+from .frame_interval import FrameInterval
 from .metadata import Metadata
 from .object import Object
 from .sensor import Sensor
@@ -26,12 +27,22 @@ class Scene:
         Dictionary of raillabel.format.Objects. Dictionary keys are the object uids. Default is {}.
     frames: dict of raillabel.format.Frame, optional
         Dict of frames in the scene. Dictionary keys are the frame uids. Default is {}.
+
+    Properties (read-only)
+    ----------------------
+    frame_intervals: list[FrameIntervals]
+        List of frame intervals describing the frames present in this scene.
     """
 
     metadata: Metadata
     sensors: t.Dict[str, Sensor] = field(default_factory=dict)
     objects: t.Dict[uuid.UUID, Object] = field(default_factory=dict)
     frames: t.Dict[int, Frame] = field(default_factory=dict)
+
+    @property
+    def frame_intervals(self) -> t.List[FrameInterval]:
+        """Return frame intervals of the present frames."""
+        return FrameInterval.from_frame_uids(list(self.frames.keys()))
 
     def asdict(self) -> dict:
         """Export self as a dict compatible with the OpenLABEL schema.
