@@ -5,7 +5,6 @@ import typing as t
 import uuid
 from dataclasses import dataclass, field
 
-from .._util._attribute_type import AttributeType
 from .frame import Frame
 from .frame_interval import FrameInterval
 from .metadata import Metadata
