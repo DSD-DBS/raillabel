@@ -64,7 +64,7 @@ def test_fromdict():
     assert object.type == "person"
 
 
-def test_asdict():
+def test_asdict_no_frames():
     object = Object(
         uid="b40ba3ad-0327-46ff-9c28-2506cfd6d934",
         name="person_0000",
@@ -75,6 +75,27 @@ def test_asdict():
         "name": "person_0000",
         "type": "person",
     }
+
+def test_asdict_with_frames():
+    object = Object(
+        uid="b40ba3ad-0327-46ff-9c28-2506cfd6d934",
+        name="person_0000",
+        type="person",
+    )
+
+    frames = {
+        0: build_frame(0,
+            {
+                object: [build_annotation("rgb_middle__bbox__person")]
+            }
+        ),
+    }
+
+    object_dict = object.asdict(frames)
+
+    assert "frame_intervals" in object_dict
+    assert "object_data_pointers" in object_dict
+    assert "rgb_middle__bbox__person" in object_dict["object_data_pointers"]
 
 
 def test_frame_intervals():

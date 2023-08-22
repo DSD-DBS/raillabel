@@ -5,6 +5,8 @@ import typing as t
 from dataclasses import dataclass
 from uuid import UUID
 
+from _collections_abc import dict_values
+
 from .element_data_pointer import AttributeType, ElementDataPointer
 from .frame_interval import FrameInterval
 
@@ -51,13 +53,16 @@ class Object:
         """
         return Object(uid=object_uid, type=data_dict["type"], name=data_dict["name"])
 
-    def asdict(self) -> dict:
+    def asdict(self, frames: t.Optional[t.Dict[int, "Frame"]] = None) -> dict:
         """Export self as a dict compatible with the OpenLABEL schema.
 
         Returns
         -------
         dict_repr: dict
             Dict representation of this class instance.
+        frames: dict, optional
+            The dictionary of frames stored under Scene.frames used for the frame intervals and
+            object data pointers. If None, these are not provided. Default is None.
 
         Raises
         ------
@@ -65,7 +70,18 @@ class Object:
             if an attribute can not be converted to the type required by the OpenLabel schema.
         """
 
-        return {"name": str(self.name), "type": str(self.type)}
+        if frames is None:
+            return {"name": str(self.name), "type": str(self.type)}
+
+        else:
+            return {
+                "name": str(self.name),
+                "type": str(self.type),
+                "frame_intervals": self._frame_intervals_asdict(self.frame_intervals(frames)),
+                "object_data_pointers": self._object_data_pointers_asdict(
+                    self.object_data_pointers(frames)
+                ),
+            }
 
     def frame_intervals(self, frames: t.Dict[int, "Frame"]) -> t.List[FrameInterval]:
         """Return frame intervals in which this object is present.
@@ -116,10 +132,20 @@ class Object:
 
     # --- Private Methods -------------
 
+    def _frame_intervals_asdict(self, frame_intervals: t.List[FrameInterval]) -> dict:
+        return [fi.asdict() for fi in frame_intervals]
+
+    def _object_data_pointers_asdict(
+        self, object_data_pointers: t.Dict[str, ElementDataPointer]
+    ) -> dict:
+        return {
+            pointer_id: pointer.asdict() for pointer_id, pointer in object_data_pointers.items()
+        }
+
     def _is_object_in_frame(self, frame: "Frame") -> bool:
         return UUID(self.uid) in frame.object_data
 
-    def _filtered_annotations(self, frame: "Frame") -> "dict_values":
+    def _filtered_annotations(self, frame: "Frame") -> dict_values:
         if self.uid not in frame.object_data:
             return []
         return frame.object_data[self.uid].annotations.values()
