@@ -21,7 +21,7 @@ class Seg3d(_Annotation):
         The list of point indices.
     attributes: dict, optional
         Attributes of the annotation. Default is {}.
-    sensor: raillabel.format.CoordinateSystem, optional
+    sensor: raillabel.format.Sensor, optional
         The sensor, this annotation is labeled in. Default is None.
     """
 
