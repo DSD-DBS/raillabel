@@ -40,7 +40,12 @@ from test_raillabel.format.test_metadata import (
 )
 from test_raillabel.format.test_num import num, num_dict
 from test_raillabel.format.test_object import object_person, object_person_dict
-from test_raillabel.format.test_point2d import point2d, point2d_dict
+from test_raillabel.format.test_point2d import (
+    point2d,
+    point2d_another,
+    point2d_another_dict,
+    point2d_dict,
+)
 from test_raillabel.format.test_point3d import point3d, point3d_dict
 from test_raillabel.format.test_quaternion import quaternion, quaternion_dict
 from test_raillabel.format.test_sensor import (
