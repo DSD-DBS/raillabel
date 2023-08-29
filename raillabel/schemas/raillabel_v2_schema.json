@@ -263,7 +263,7 @@
                                     "type": "number"
                                 }
                             ],
-                            "description": "The timestamp indicates a time instant as a string or numerical value to describe this frame."
+                            "description": "The timestamp indicates a time instant as a UTC string or numerical value to describe this frame."
                         },
                         "frame_data": {
                             "$ref": "#/definitions/object_data"
@@ -770,7 +770,7 @@
                                             "type": "number"
                                         }
                                     ],
-                                    "description": "The timestamp indicates a time instant as a string or numerical value to describe this frame."
+                                    "description": "The timestamp indicates a time instant as a UTC string or numerical value to describe this frame."
                                 }
                             },
                             "type": "object"
