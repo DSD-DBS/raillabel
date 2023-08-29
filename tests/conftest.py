@@ -12,6 +12,12 @@ import pytest
 
 sys.path.insert(1, str(Path(__file__).parent.parent))
 
+from test_raillabel.format.test_attributes import (
+    attributes_multiple_types,
+    attributes_multiple_types_dict,
+    attributes_single_type,
+    attributes_single_type_dict,
+)
 from test_raillabel.format.test_element_data_pointer import (
     element_data_pointer_full,
     element_data_pointer_full_dict,
