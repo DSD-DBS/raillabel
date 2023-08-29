@@ -47,6 +47,7 @@ from test_raillabel.format.test_point2d import (
     point2d_dict,
 )
 from test_raillabel.format.test_point3d import point3d, point3d_dict
+from test_raillabel.format.test_poly2d import poly2d, poly2d_dict
 from test_raillabel.format.test_quaternion import quaternion, quaternion_dict
 from test_raillabel.format.test_sensor import (
     sensor_camera,
