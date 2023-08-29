@@ -21,6 +21,15 @@ def point2d_dict() -> dict:
 def point2d() -> dict:
     return Point2d(1.5, 222)
 
+
+@pytest.fixture
+def point2d_another_dict() -> dict:
+    return [19, 84]
+
+@pytest.fixture
+def point2d_another() -> dict:
+    return Point2d(19, 84)
+
 # == Tests ============================
 
 def test_fromdict():
