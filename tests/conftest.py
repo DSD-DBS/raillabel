@@ -18,6 +18,7 @@ from test_raillabel.format.test_attributes import (
     attributes_single_type,
     attributes_single_type_dict,
 )
+from test_raillabel.format.test_bbox import bbox, bbox_dict
 from test_raillabel.format.test_element_data_pointer import (
     element_data_pointer_full,
     element_data_pointer_full_dict,
