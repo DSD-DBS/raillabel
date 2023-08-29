@@ -57,18 +57,23 @@ class _Annotation(ABC):
             dict_repr["coordinate_system"] = str(self.sensor.uid)
 
         if self.attributes != {}:
-            dict_repr["attributes"] = {}
-
-            for attr_name, attr_value in self.attributes.items():
-
-                attr_type = AttributeType.from_value(type(attr_value)).value
-
-                if attr_type not in dict_repr["attributes"]:
-                    dict_repr["attributes"][attr_type] = []
-
-                dict_repr["attributes"][attr_type].append({"name": attr_name, "val": attr_value})
+            dict_repr["attributes"] = self._attributes_asdict(self.attributes)
 
         return dict_repr
+
+    def _attributes_asdict(self, attributes: dict) -> dict:
+        attributes_dict = {}
+
+        for attr_name, attr_value in self.attributes.items():
+
+            attr_type = AttributeType.from_value(type(attr_value)).value
+
+            if attr_type not in attributes_dict:
+                attributes_dict[attr_type] = []
+
+            attributes_dict[attr_type].append({"name": attr_name, "val": attr_value})
+
+        return attributes_dict
 
     @classmethod
     def _coordinate_system_fromdict(cls, data_dict: dict, sensors: dict) -> t.Optional[Sensor]:
