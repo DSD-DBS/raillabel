@@ -64,7 +64,7 @@ class _Annotation(ABC):
     def _attributes_asdict(self, attributes: dict) -> dict:
         attributes_dict = {}
 
-        for attr_name, attr_value in self.attributes.items():
+        for attr_name, attr_value in attributes.items():
 
             attr_type = AttributeType.from_value(type(attr_value)).value
 
