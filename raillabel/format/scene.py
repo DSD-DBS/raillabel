@@ -197,9 +197,12 @@ class Scene:
     def _frames_fromdict(
         cls, frames_dict: dict, sensors: t.Dict[str, Sensor], objects: t.Dict[str, Object]
     ) -> t.Dict[int, Frame]:
-        return {
-            uid: Frame.fromdict(uid, frame, objects, sensors) for uid, frame in frames_dict.items()
-        }
+
+        frames = {}
+        for frame_uid, frame_dict in frames_dict.items():
+            frames[int(frame_uid)] = Frame.fromdict(frame_uid, frame_dict, objects, sensors)
+
+        return frames
 
     # --- asdict() ------------------------------
 
