@@ -7,7 +7,7 @@ from . import format
 from .exceptions import *
 from .filter import filter
 from .format.scene import Scene
-from .load import load
+from .load import load, load_from_string
 from .save import save
 from .validate import validate
 

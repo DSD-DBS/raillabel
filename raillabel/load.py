@@ -35,6 +35,54 @@ def load(path: str, validate: bool = False, show_warnings: bool = True) -> forma
         if during the validation, errors in the annotation file are found.
     """
 
+    # Checks for the supported file type
+    if not str(path).lower().endswith(".json"):
+        raise exceptions.UnsupportedFormatError(f"{path} is not in a supported file format.")
+
+    # Loads the content of the file
+    with open(path) as data_file:
+        json_string = data_file.read()
+
+    # Hand over to load_from_string
+    try:
+        return load_from_string(json_string, validate, show_warnings)
+    except exceptions.UnsupportedFormatError:
+        raise exceptions.UnsupportedFormatError(f"{path} is not in a supported file format.")
+
+
+def load_from_string(
+    json_string: str, validate: bool = False, show_warnings: bool = True
+) -> format.Scene:
+    """Load an annotation file of any supported type from a string.
+
+    Parameters
+    ----------
+    json_string: str
+        Content of an annotation file.
+    validate: bool, optional
+        If True, the annotation data is validated via the respective schema. This is highly
+        recommended, as not validating the data may lead to errors during loading or while handling
+        the scene. However, validating may increase the loading time. Default is False.
+    show_warnings: bool, optional
+        If True, any non-critical inconsistencies in the data are output as a warning. Default is
+        True.
+
+    Returns
+    -------
+    scene: raillabel.Scene
+        Scene with the loaded data.
+
+    Raises
+    ------
+    raillabel.exceptions.UnsupportedFormatError
+        if the annotation file does not match any loaders.
+    raillabel.exceptions.SchemaError
+        if during the validation, errors in the annotation file are found.
+    """
+
+    # Loads the JSON data
+    data = json.loads(json_string)
+
     # To expand the supported formats in a simple manner, load() automatically fetches all classes
     # in the format_loaders directory and checks if they are suitable as loaders. To avoid errors
     # caused by potential other files and classes in the directory, only classes, which inherite
@@ -44,14 +92,6 @@ def load(path: str, validate: bool = False, show_warnings: bool = True) -> forma
     for cls in format_loaders.__dict__.values():
         if isinstance(cls, type) and issubclass(cls, LoaderABC) and cls != LoaderABC:
             loader_classes.append(cls)
-
-    # Checks for the supported file type
-    if not str(path).lower().endswith(".json"):
-        raise exceptions.UnsupportedFormatError(f"{path} is not in a supported file format.")
-
-    # Loads the JSON data
-    with open(path) as data_file:
-        data = json.load(data_file)
 
     # Iterates over the loader classes to find a suitable one
     for loader_class in loader_classes:
@@ -69,7 +109,7 @@ def load(path: str, validate: bool = False, show_warnings: bool = True) -> forma
         if show_warnings:
 
             if len(loader.warnings) > 0:
-                print(f"During the loading of {path} warnings have occurred:")
+                print(f"During the loading of the given string warnings have occurred:")
 
                 for warning in loader.warnings:
                     print(" - " + warning)
@@ -79,4 +119,4 @@ def load(path: str, validate: bool = False, show_warnings: bool = True) -> forma
     # This part of the code is only reached if no suitable loader has been found or the data is
     # not in a supported file format. Therefore an exception is raised.
 
-    raise exceptions.UnsupportedFormatError(f"{path} is not in a supported file format.")
+    raise exceptions.UnsupportedFormatError(f"The given string is not in a supported file format.")
