@@ -3,6 +3,7 @@
 
 import os
 import sys
+import typing as t
 from pathlib import Path
 
 import pytest
@@ -12,6 +13,14 @@ sys.path.insert(1, str(Path(__file__).parent.parent.parent.parent))
 from raillabel.format.sensor import Sensor, SensorType
 
 # == Fixtures =========================
+
+@pytest.fixture
+def sensors(sensor_lidar, sensor_camera, sensor_radar) -> t.Dict[str, Sensor]:
+    return {
+        sensor_lidar.uid: sensor_lidar,
+        sensor_camera.uid: sensor_camera,
+        sensor_radar.uid: sensor_radar,
+    }
 
 @pytest.fixture
 def sensor_lidar_dict(transform_dict) -> dict:

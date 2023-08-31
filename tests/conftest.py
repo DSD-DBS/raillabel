@@ -70,6 +70,7 @@ from test_raillabel.format.test_sensor import (
     sensor_lidar_dict,
     sensor_radar,
     sensor_radar_dict,
+    sensors,
 )
 from test_raillabel.format.test_sensor_reference import (
     sensor_reference_camera,

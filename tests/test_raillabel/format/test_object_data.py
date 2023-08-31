@@ -42,18 +42,13 @@ def object_data_person(object_person, bbox, poly2d, cuboid, poly3d, seg3d) -> di
 
 def test_fromdict(
     object_person,
-    sensor_camera, sensor_lidar,
+    sensors,
     bbox, bbox_dict,
     poly2d, poly2d_dict,
     cuboid, cuboid_dict,
     poly3d, poly3d_dict,
     seg3d, seg3d_dict,
 ):
-    sensors = {
-        sensor_lidar.uid: sensor_lidar,
-        sensor_camera.uid: sensor_camera,
-    }
-
     object_data = ObjectData.fromdict(
         object=object_person,
         data_dict={
