@@ -33,7 +33,7 @@ class LoaderRailLabelV2(LoaderABC):
             subschema_version = json.load(schema_file)["version"]
         return subschema_version
 
-    def load(self, data: dict, validate: bool = True) -> format.Scene:
+    def load(self, data: dict, validate: bool = False) -> format.Scene:
         """Load the data into a raillabel.Scene and return it.
 
         Parameters
