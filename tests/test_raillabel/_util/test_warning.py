@@ -25,6 +25,15 @@ def test_handover_exception():
         with _WarningsLogger() as logger:
             raise RuntimeError("weewoo something went wrong")
 
+def test_clear_warnings():
+    with _WarningsLogger() as logger1:
+        _warning("lorem ipsum")
+
+    with _WarningsLogger() as logger2:
+        pass
+
+    assert len(logger2.warnings) == 0
+
 
 if __name__ == "__main__":
     os.system("clear")
