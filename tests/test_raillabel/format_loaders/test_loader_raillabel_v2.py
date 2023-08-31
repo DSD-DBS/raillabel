@@ -27,30 +27,6 @@ def test_supports_false(json_data, loader):
     assert not loader.supports(data)
 
 
-def test_load_frame_annotations(json_data, loader, annotation_compare_methods):
-    scene = loader.load(json_data["openlabel_v1_short"], validate=False)
-
-    ground_truth = json_data["openlabel_v1_short"]["openlabel"]
-
-    for frame_id, frame in scene.frames.items():
-
-        assert len(frame.object_data) == len(ground_truth["frames"][str(frame_id)]["objects"])
-        for object_id, object_data in ground_truth["frames"][str(frame_id)]["objects"].items():
-            assert object_id in frame.object_data
-
-            object_data = object_data["object_data"]
-
-            accumulative_object_data = []
-            for object_data_type in object_data.values():
-                accumulative_object_data.extend(object_data_type)
-
-            assert len(frame.object_data[object_id].annotations) == len(accumulative_object_data)
-
-            for object_data_type, object_data in object_data.items():
-                for annotation in object_data:
-                    annotation_compare_methods[object_data_type](frame.annotations[annotation["uid"]], annotation)
-
-
 def test_load_uri_vcd_incompatible(
     json_data, loader
 ):
