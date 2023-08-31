@@ -43,13 +43,18 @@ class Scene:
         """Return frame intervals of the present frames."""
         return FrameInterval.from_frame_uids(list(self.frames.keys()))
 
-    def asdict(self) -> dict:
+    # === Public Methods ==========================================================================
+
+    def asdict(self, calculate_pointers: bool = True) -> dict:
         """Export self as a dict compatible with the OpenLABEL schema.
 
         Returns
         -------
         dict_repr: dict
             Dict representation of this Scene.
+        calculate_pointers: bool, optional
+            If True, object_data_pointers and Object frame_intervals will be calculated. Default
+            is True.
 
         Raises
         ------
@@ -63,12 +68,14 @@ class Scene:
                     "metadata": self.metadata.asdict(),
                     "streams": self._streams_asdict(self.sensors),
                     "coordinate_systems": self._coordinate_systems_asdict(self.sensors),
-                    "objects": self._objects_asdict(self.objects),
+                    "objects": self._objects_asdict(self.objects, calculate_pointers),
                     "frames": self._frames_asdict(self.frames),
                     "frame_intervals": self._frame_intervals_asdict(self.frame_intervals),
                 }
             )
         }
+
+    # === Private Methods =========================================================================
 
     def _clean_empty_fields(self, dictionary: dict) -> dict:
 
@@ -98,8 +105,12 @@ class Scene:
 
         return coordinate_systems
 
-    def _objects_asdict(self, objects: t.Dict[uuid.UUID, Object]) -> dict:
-        return {str(uid): object.asdict(self.frames) for uid, object in objects.items()}
+    def _objects_asdict(self, objects: t.Dict[uuid.UUID, Object], calculate_pointers: bool) -> dict:
+
+        if calculate_pointers:
+            return {str(uid): object.asdict(self.frames) for uid, object in objects.items()}
+        else:
+            return {str(uid): object.asdict() for uid, object in objects.items()}
 
     def _frames_asdict(self, frames: t.Dict[int, Frame]) -> dict:
         return {uid: frame.asdict() for uid, frame in frames.items()}
