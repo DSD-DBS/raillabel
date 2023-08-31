@@ -85,7 +85,7 @@ def sensor_radar_dict(transform_dict, intrinsics_radar_dict) -> dict:
             "type": "radar",
             "uri": "/talker1/Nvt/Cartesian",
             "stream_properties": {
-                "intrinsics_pinhole": intrinsics_radar_dict
+                "intrinsics_radar": intrinsics_radar_dict
             }
         },
         "coordinate_system": {
