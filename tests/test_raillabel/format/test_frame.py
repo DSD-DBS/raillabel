@@ -33,6 +33,24 @@ def frame_sensors(sensor_reference_camera) -> dict:
         sensors={sensor_reference_camera.sensor.uid: sensor_reference_camera},
     )
 
+
+@pytest.fixture
+def frame_frame_data_dict(num_dict) -> dict:
+    return {
+        "frame_properties": {
+            "frame_data": {
+                "num": [num_dict]
+            }
+        }
+    }
+
+@pytest.fixture
+def frame_frame_data(num) -> dict:
+    return Frame(
+        uid=0,
+        frame_data={num.name: num}
+    )
+
 # == Tests ============================
 
 def test_fromdict_sensors(
@@ -58,6 +76,25 @@ def test_fromdict_sensors(
     assert frame.timestamp == Decimal("1632321743.100000072")
     assert frame.sensors == {sensor_reference_camera.sensor.uid: sensor_reference_camera}
 
+def test_fromdict_frame_data(
+    num, num_dict,
+    sensor_camera
+):
+    frame = Frame.fromdict(
+        uid=0,
+        data_dict={
+            "frame_properties": {
+                "frame_data": {
+                    "num": [num_dict]
+                }
+            }
+        },
+        sensors={sensor_camera.uid: sensor_camera},
+        objects={},
+    )
+
+    assert frame.frame_data == {num.name: num}
+
 
 def test_asdict_sensors(
     sensor_reference_camera_dict,
@@ -74,6 +111,20 @@ def test_asdict_sensors(
             "timestamp": "1632321743.100000072",
             "streams": {
                 "rgb_middle": sensor_reference_camera_dict
+            }
+        }
+    }
+
+def test_asdict_frame_data(num, num_dict):
+    frame = Frame(
+        uid=0,
+        frame_data={num.name: num}
+    )
+
+    assert frame.asdict() == {
+        "frame_properties": {
+            "frame_data": {
+                "num": [num_dict]
             }
         }
     }
