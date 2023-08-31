@@ -51,6 +51,29 @@ def frame_frame_data(num) -> dict:
         frame_data={num.name: num}
     )
 
+
+@pytest.fixture
+def frame_object_data_dict(
+    object_data_person_dict, object_data_person,
+    object_data_train_dict, object_data_train,
+) -> dict:
+    return {
+        "objects": {
+            object_data_person.object.uid: object_data_person_dict,
+            object_data_train.object.uid: object_data_train_dict,
+        }
+    }
+
+@pytest.fixture
+def frame_object_data(object_data_person, object_data_train) -> dict:
+    return Frame(
+        uid=0,
+        object_data={
+            object_data_person.object.uid: object_data_person,
+            object_data_train.object.uid: object_data_train,
+        }
+    )
+
 # == Tests ============================
 
 def test_fromdict_sensors(
@@ -95,6 +118,30 @@ def test_fromdict_frame_data(
 
     assert frame.frame_data == {num.name: num}
 
+def test_fromdict_object_data(
+    object_data_person_dict, object_data_person,
+    object_data_train_dict, object_data_train,
+    sensors,
+    object_person, object_train,
+):
+    frame = Frame.fromdict(
+        uid=0,
+        data_dict={
+            "objects": {
+                object_data_person.object.uid: object_data_person_dict,
+                object_data_train.object.uid: object_data_train_dict,
+            }
+        },
+        sensors=sensors,
+        objects={
+            object_person.uid: object_person,
+            object_train.uid: object_train,
+        },
+    )
+
+    assert frame.object_data[object_data_person.object.uid] == object_data_person
+    assert frame.object_data[object_data_train.object.uid] == object_data_train
+
 
 def test_asdict_sensors(
     sensor_reference_camera_dict,
@@ -129,7 +176,28 @@ def test_asdict_frame_data(num, num_dict):
         }
     }
 
+def test_asdict_object_data(
+    object_data_person_dict, object_data_person,
+    object_data_train_dict, object_data_train,
+    sensors,
+    object_person, object_train,
+):
+    frame = Frame(
+        uid=0,
+        object_data={
+            object_data_person.object.uid: object_data_person,
+            object_data_train.object.uid: object_data_train,
+        }
+    )
+
+    assert frame.asdict() == {
+        "objects": {
+            object_data_person.object.uid: object_data_person_dict,
+            object_data_train.object.uid: object_data_train_dict,
+        }
+    }
+
 
 if __name__ == "__main__":
     os.system("clear")
-    pytest.main([__file__, "--disable-pytest-warnings", "--cache-clear", "-v"])
+    pytest.main([__file__, "--disable-pytest-warnings", "--cache-clear", "-vv"])

@@ -29,6 +29,8 @@ from test_raillabel.format.test_element_data_pointer import (
 from test_raillabel.format.test_frame import (
     frame_frame_data,
     frame_frame_data_dict,
+    frame_object_data,
+    frame_object_data_dict,
     frame_sensors,
     frame_sensors_dict,
 )
