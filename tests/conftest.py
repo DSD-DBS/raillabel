@@ -26,14 +26,7 @@ from test_raillabel.format.test_element_data_pointer import (
     element_data_pointer_minimal,
     element_data_pointer_minimal_dict,
 )
-from test_raillabel.format.test_frame import (
-    frame_frame_data,
-    frame_frame_data_dict,
-    frame_object_data,
-    frame_object_data_dict,
-    frame_sensors,
-    frame_sensors_dict,
-)
+from test_raillabel.format.test_frame import frame, frame_dict
 from test_raillabel.format.test_frame_interval import frame_interval, frame_interval_dict
 from test_raillabel.format.test_intrinsics_pinhole import (
     intrinsics_pinhole,

@@ -15,49 +15,22 @@ from raillabel.format.frame import Frame
 # == Fixtures =========================
 
 @pytest.fixture
-def frame_sensors_dict(sensor_reference_camera_dict) -> dict:
+def frame_dict(
+    sensor_reference_camera_dict,
+    num_dict,
+    object_data_person, object_data_person_dict,
+    object_data_train, object_data_train_dict,
+) -> dict:
     return {
         "frame_properties": {
             "timestamp": "1632321743.100000072",
             "streams": {
                 "rgb_middle": sensor_reference_camera_dict
-            }
-        }
-    }
-
-@pytest.fixture
-def frame_sensors(sensor_reference_camera) -> dict:
-    return Frame(
-        uid=0,
-        timestamp=Decimal("1632321743.100000072"),
-        sensors={sensor_reference_camera.sensor.uid: sensor_reference_camera},
-    )
-
-
-@pytest.fixture
-def frame_frame_data_dict(num_dict) -> dict:
-    return {
-        "frame_properties": {
+            },
             "frame_data": {
                 "num": [num_dict]
-            }
-        }
-    }
-
-@pytest.fixture
-def frame_frame_data(num) -> dict:
-    return Frame(
-        uid=0,
-        frame_data={num.name: num}
-    )
-
-
-@pytest.fixture
-def frame_object_data_dict(
-    object_data_person_dict, object_data_person,
-    object_data_train_dict, object_data_train,
-) -> dict:
-    return {
+            },
+        },
         "objects": {
             object_data_person.object.uid: object_data_person_dict,
             object_data_train.object.uid: object_data_train_dict,
@@ -65,9 +38,17 @@ def frame_object_data_dict(
     }
 
 @pytest.fixture
-def frame_object_data(object_data_person, object_data_train) -> dict:
+def frame(
+    sensor_reference_camera,
+    num,
+    object_data_person,
+    object_data_train,
+) -> dict:
     return Frame(
         uid=0,
+        timestamp=Decimal("1632321743.100000072"),
+        sensors={sensor_reference_camera.sensor.uid: sensor_reference_camera},
+        frame_data={num.name: num},
         object_data={
             object_data_person.object.uid: object_data_person,
             object_data_train.object.uid: object_data_train,
@@ -104,7 +85,7 @@ def test_fromdict_frame_data(
     sensor_camera
 ):
     frame = Frame.fromdict(
-        uid=0,
+        uid=1,
         data_dict={
             "frame_properties": {
                 "frame_data": {
@@ -125,7 +106,7 @@ def test_fromdict_object_data(
     object_person, object_train,
 ):
     frame = Frame.fromdict(
-        uid=0,
+        uid=2,
         data_dict={
             "objects": {
                 object_data_person.object.uid: object_data_person_dict,
