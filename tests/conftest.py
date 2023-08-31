@@ -40,7 +40,8 @@ from test_raillabel.format.test_metadata import (
     metadata_minimal_dict,
 )
 from test_raillabel.format.test_num import num, num_dict
-from test_raillabel.format.test_object import object_person, object_person_dict
+from test_raillabel.format.test_object import object_person, object_person_dictx
+from test_raillabel.format.test_object_data import object_data_person, object_data_person_dict
 from test_raillabel.format.test_point2d import (
     point2d,
     point2d_another,
