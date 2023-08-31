@@ -17,7 +17,7 @@ from raillabel.format.seg3d import Seg3d
 def seg3d_dict(sensor_lidar, attributes_multiple_types_dict) -> dict:
     return {
         "uid": "db4e4a77-B926-4a6c-a2a6-e0ecf9d8734a",
-        "name": "lidar__seg3d__person",
+        "name": "lidar__vec__person",
         "val": [586, 789, 173],
         "coordinate_system": sensor_lidar.uid,
         "attributes": attributes_multiple_types_dict
@@ -27,7 +27,7 @@ def seg3d_dict(sensor_lidar, attributes_multiple_types_dict) -> dict:
 def seg3d(sensor_lidar, attributes_multiple_types) -> dict:
     return Seg3d(
         uid="db4e4a77-B926-4a6c-a2a6-e0ecf9d8734a",
-        name="lidar__seg3d__person",
+        name="lidar__vec__person",
         point_ids=[586, 789, 173],
         sensor=sensor_lidar,
         attributes=attributes_multiple_types,
@@ -42,7 +42,7 @@ def test_fromdict(
     seg3d = Seg3d.fromdict(
         {
             "uid": "db4e4a77-B926-4a6c-a2a6-e0ecf9d8734a",
-            "name": "lidar__seg3d__person",
+            "name": "lidar__vec__person",
             "val": [586, 789, 173],
             "coordinate_system": sensor_lidar.uid,
             "attributes": attributes_multiple_types_dict
@@ -53,7 +53,7 @@ def test_fromdict(
     )
 
     assert seg3d.uid == "db4e4a77-B926-4a6c-a2a6-e0ecf9d8734a"
-    assert seg3d.name == "lidar__seg3d__person"
+    assert seg3d.name == "lidar__vec__person"
     assert seg3d.point_ids == [586, 789, 173]
     assert seg3d.sensor == sensor_lidar
     assert seg3d.attributes == attributes_multiple_types
@@ -65,7 +65,7 @@ def test_asdict(
 ):
     seg3d = Seg3d(
         uid="db4e4a77-B926-4a6c-a2a6-e0ecf9d8734a",
-        name="lidar__seg3d__person",
+        name="lidar__vec__person",
         point_ids=[586, 789, 173],
         sensor=sensor_lidar,
         attributes=attributes_multiple_types,
@@ -73,7 +73,7 @@ def test_asdict(
 
     assert seg3d.asdict() == {
         "uid": "db4e4a77-B926-4a6c-a2a6-e0ecf9d8734a",
-        "name": "lidar__seg3d__person",
+        "name": "lidar__vec__person",
         "val": [586, 789, 173],
         "coordinate_system": sensor_lidar.uid,
         "attributes": attributes_multiple_types_dict
