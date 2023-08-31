@@ -238,9 +238,8 @@ class Frame:
                 continue
 
             object_data[obj_id] = ObjectData.fromdict(
-                uid=obj_id,
+                object=objects[obj_id],
                 data_dict=obj_ann["object_data"],
-                objects=objects,
                 sensors=sensors,
             )
 

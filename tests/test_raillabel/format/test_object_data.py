@@ -49,15 +49,13 @@ def test_fromdict(
     poly3d, poly3d_dict,
     seg3d, seg3d_dict,
 ):
-
-    objects = {object_person.uid: object_person}
     sensors = {
         sensor_lidar.uid: sensor_lidar,
         sensor_camera.uid: sensor_camera,
     }
 
     object_data = ObjectData.fromdict(
-        uid=object_person.uid,
+        object=object_person,
         data_dict={
             "bbox": [bbox_dict],
             "poly2d": [poly2d_dict],
@@ -65,7 +63,6 @@ def test_fromdict(
             "poly3d": [poly3d_dict],
             "vec": [seg3d_dict],
         },
-        objects=objects,
         sensors=sensors,
     )
 
