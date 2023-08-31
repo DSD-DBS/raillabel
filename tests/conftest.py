@@ -45,6 +45,8 @@ from test_raillabel.format.test_object import (
     object_person_dict,
     object_train,
     object_train_dict,
+    objects,
+    objects_dict,
 )
 from test_raillabel.format.test_object_data import (
     object_data_person,

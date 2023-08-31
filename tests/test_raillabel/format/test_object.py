@@ -31,6 +31,21 @@ from raillabel.format import (
 # == Fixtures =========================
 
 @pytest.fixture
+def objects_dict(object_person_dict, object_train_dict) -> dict:
+    return {
+        object_person_dict["object_uid"]: object_person_dict["data_dict"],
+        object_train_dict["object_uid"]: object_train_dict["data_dict"],
+    }
+
+@pytest.fixture
+def objects(object_person, object_train) -> t.Dict[str, Object]:
+    return {
+        object_person.uid: object_person,
+        object_train.uid: object_train,
+    }
+
+
+@pytest.fixture
 def object_person_dict() -> dict:
     return {
         "object_uid": "b40ba3ad-0327-46ff-9c28-2506cfd6d934",
