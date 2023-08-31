@@ -123,6 +123,7 @@ disable = [
   "unidiomatic-typecheck",        # type() is necessary in some cases
   "unspecified-encoding",         # default encoding is sufficient in all cases
   "unsupported-membership-test",  # raise false positives for dicts
+  "global-variable-not-assigned", # raises false positive when global variable is a dict and items are assigned
 
   # Auto-formatting
   "bad-indentation",
