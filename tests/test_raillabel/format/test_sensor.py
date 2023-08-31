@@ -23,6 +23,32 @@ def sensors(sensor_lidar, sensor_camera, sensor_radar) -> t.Dict[str, Sensor]:
     }
 
 @pytest.fixture
+def streams_dict(sensor_camera_dict, sensor_lidar_dict, sensor_radar_dict) -> dict:
+    return {
+        sensor_camera_dict["uid"]: sensor_camera_dict["stream"],
+        sensor_lidar_dict["uid"]: sensor_lidar_dict["stream"],
+        sensor_radar_dict["uid"]: sensor_radar_dict["stream"],
+    }
+
+@pytest.fixture
+def coordinate_systems_dict(sensor_camera_dict, sensor_lidar_dict, sensor_radar_dict) -> dict:
+    return {
+        "base": {
+            "type": "local",
+            "parent": "",
+            "children": [
+                sensor_lidar_dict["uid"],
+                sensor_camera_dict["uid"],
+                sensor_radar_dict["uid"],
+            ]
+        },
+        sensor_camera_dict["uid"]: sensor_camera_dict["coordinate_system"],
+        sensor_lidar_dict["uid"]: sensor_lidar_dict["coordinate_system"],
+        sensor_radar_dict["uid"]: sensor_radar_dict["coordinate_system"],
+    }
+
+
+@pytest.fixture
 def sensor_lidar_dict(transform_dict) -> dict:
     return {
         "uid": "lidar",

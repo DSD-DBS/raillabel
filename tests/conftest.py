@@ -69,6 +69,7 @@ from test_raillabel.format.test_poly3d import poly3d, poly3d_dict
 from test_raillabel.format.test_quaternion import quaternion, quaternion_dict
 from test_raillabel.format.test_seg3d import seg3d, seg3d_dict
 from test_raillabel.format.test_sensor import (
+    coordinate_systems_dict,
     sensor_camera,
     sensor_camera_dict,
     sensor_lidar,
@@ -76,6 +77,7 @@ from test_raillabel.format.test_sensor import (
     sensor_radar,
     sensor_radar_dict,
     sensors,
+    streams_dict,
 )
 from test_raillabel.format.test_sensor_reference import (
     sensor_reference_camera,
