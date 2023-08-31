@@ -56,11 +56,9 @@ def test_fromdict_minimal():
         {
             "schema_version": "1.0.0"
         },
-        "2.1.1"
     )
 
     assert metadata.schema_version == "1.0.0"
-    assert metadata.subschema_version == "2.1.1"
     assert metadata.annotator is None
 
 
