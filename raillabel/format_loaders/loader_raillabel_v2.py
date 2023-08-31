@@ -62,35 +62,7 @@ class LoaderRailLabelV2(LoaderABC):
         if validate:
             self.validate(data)
 
-        data = self._prepare_data(data)
-
-        self.scene = format.Scene(
-            metadata=format.Metadata.fromdict(
-                data_dict=data["metadata"], subschema_version=self.subschema_version
-            )
-        )
-
-        self._check_sensor_completeness(data["coordinate_systems"], data["streams"])
-
-        for stream_id in data["streams"]:
-            self.scene.sensors[stream_id] = format.Sensor.fromdict(
-                uid=stream_id,
-                cs_data_dict=data["coordinate_systems"][stream_id],
-                stream_data_dict=data["streams"][stream_id],
-            )
-
-        for object_id in data["objects"]:
-            self.scene.objects[object_id] = format.Object.fromdict(
-                data["objects"][object_id], object_id
-            )
-
-        for frame_id in data["frames"]:
-            self.scene.frames[int(frame_id)] = format.Frame.fromdict(
-                uid=frame_id,
-                data_dict=data["frames"][frame_id],
-                objects=self.scene.objects,
-                sensors=self.scene.sensors,
-            )
+        self.scene = format.Scene.fromdict(data, self.subschema_version)
 
         self.warnings = self._get_warnings()
         self._clear_log_handler()
