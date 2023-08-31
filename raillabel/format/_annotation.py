@@ -91,7 +91,7 @@ class _Annotation(ABC):
 
         if data_dict["coordinate_system"] not in sensors:
             _warning(
-                f"{data_dict['coordinate_system']} does not exist as a coordinate system, "
+                f"'{data_dict['coordinate_system']}' does not exist as a sensor, "
                 + f"but is referenced for the annotation {data_dict['uid']}."
             )
             return None
