@@ -94,6 +94,8 @@ def test_fromdict_metadata(
         subschema_version=metadata_full.subschema_version,
     )
 
+    scene.metadata.exporter_version = None  # necessary for testing on remote
+
     assert scene.metadata == metadata_full
 
 def test_fromdict_sensors(
