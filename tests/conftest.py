@@ -65,6 +65,10 @@ from test_raillabel.format.test_sensor import (
     sensor_radar,
     sensor_radar_dict,
 )
+from test_raillabel.format.test_sensor_reference import (
+    sensor_reference_camera,
+    sensor_reference_camera_dict,
+)
 from test_raillabel.format.test_size2d import size2d, size2d_dict
 from test_raillabel.format.test_size3d import size3d, size3d_dict
 from test_raillabel.format.test_transform import transform, transform_dict
