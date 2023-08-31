@@ -2,6 +2,7 @@
 # SPDX-License-Identifier: Apache-2.0
 """Module containing all relevant OpenLABEL format classes."""
 
+from ._annotation import _Annotation, annotation_classes
 from .bbox import Bbox
 from .cuboid import Cuboid
 from .element_data_pointer import ElementDataPointer

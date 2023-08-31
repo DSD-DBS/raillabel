@@ -10,18 +10,19 @@ import pytest
 sys.path.insert(1, str(Path(__file__).parent.parent.parent.parent))
 
 import raillabel
+from raillabel.format._annotation import annotation_classes
 
 # == Fixtures =========================
 
 @pytest.fixture
-def annotation_classes() -> dict:
+def annotation_classes_dict() -> dict:
     return {
         "bbox": raillabel.format.Bbox,
         "poly2d": raillabel.format.Poly2d,
         "num": raillabel.format.Num,
         "cuboid": raillabel.format.Cuboid,
         "poly3d": raillabel.format.Poly3d,
-        "seg3d": raillabel.format.Seg3d,
+        "vec": raillabel.format.Seg3d,
     }
 
 # == Tests ============================
@@ -40,6 +41,16 @@ def test_post_init():
             name="test_name",
             pos=raillabel.format.Point2d(0, 1),
         )
+
+def test_annotation_classes():
+    assert annotation_classes() == {
+        "bbox": raillabel.format.Bbox,
+        "poly2d": raillabel.format.Poly2d,
+        "num": raillabel.format.Num,
+        "cuboid": raillabel.format.Cuboid,
+        "poly3d": raillabel.format.Poly3d,
+        "vec": raillabel.format.Seg3d,
+    }
 
 
 # Executes the test if the file is called

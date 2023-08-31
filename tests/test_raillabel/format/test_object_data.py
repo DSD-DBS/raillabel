@@ -21,7 +21,7 @@ def object_data_person_dict(bbox_dict, poly2d_dict, cuboid_dict, poly3d_dict, se
             "poly2d": [poly2d_dict],
             "cuboid": [cuboid_dict],
             "poly3d": [poly3d_dict],
-            "seg3d": [seg3d_dict],
+            "vec": [seg3d_dict],
         }
     }
 
@@ -41,7 +41,7 @@ def object_data_person(object_person, bbox, poly2d, cuboid, poly3d, seg3d) -> di
 # == Tests ============================
 
 def test_fromdict(
-    object_person, annotation_classes,
+    object_person, annotation_classes_dict,
     sensor_camera, sensor_lidar,
     bbox, bbox_dict,
     poly2d, poly2d_dict,
@@ -63,11 +63,11 @@ def test_fromdict(
             "poly2d": [poly2d_dict],
             "cuboid": [cuboid_dict],
             "poly3d": [poly3d_dict],
-            "seg3d": [seg3d_dict],
+            "vec": [seg3d_dict],
         },
         objects=objects,
         sensors=sensors,
-        annotation_classes=annotation_classes,
+        annotation_classes=annotation_classes_dict,
     )
 
     assert object_data.object == object_person
