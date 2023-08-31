@@ -119,50 +119,6 @@ def test_warnings_stream_sync_field(json_data, loader):
     assert "save()" in loader.warnings[0]
 
 
-def test_warnings_ann_object(json_data, loader):
-    data = json_data["openlabel_v1_short"]
-
-    data["openlabel"]["frames"]["0"]["objects"][
-        "affeaffe-0327-46ff-9c28-2506cfd6d934"
-    ] = {"object_data": {}}
-
-    loader.load(data, validate=False)
-    assert len(loader.warnings) == 1
-
-    assert not "affeaffe-0327-46ff-9c28-2506cfd6d934" in loader.scene.frames[0].object_data
-
-    # Tests for keywords in the warning that can help the user identify the source
-    assert "frame" in loader.warnings[0]
-    assert "0" in loader.warnings[0]
-    assert "object" in loader.warnings[0]
-    assert "affeaffe-0327-46ff-9c28-2506cfd6d934" in loader.warnings[0]
-
-
-def test_warnings_wrong_annotation_cs(json_data, loader):
-    data = json_data["openlabel_v1_short"]
-
-    data["openlabel"]["frames"]["0"]["objects"][
-        "b40ba3ad-0327-46ff-9c28-2506cfd6d934"
-    ]["object_data"]["bbox"][0]["coordinate_system"] = "non_existent_sensor"
-
-    loader.load(data, validate=False)
-    assert len(loader.warnings) == 1
-
-    assert (
-        loader.scene.frames[0]
-        .object_data["b40ba3ad-0327-46ff-9c28-2506cfd6d934"]
-        .bboxs["78f0ad89-2750-4a30-9d66-44c9da73a714"]
-        .sensor
-        is None
-    )
-
-    # Tests for keywords in the warning that can help the user identify the source
-    assert "annotation" in loader.warnings[0]
-    assert "78f0ad89-2750-4a30-9d66-44c9da73a714" in loader.warnings[0]
-    assert "sensor" in loader.warnings[0]
-    assert "non_existent_sensor" in loader.warnings[0]
-
-
 def test_identify_of_references(json_data, loader):
     data = json_data["openlabel_v1_short"]
 

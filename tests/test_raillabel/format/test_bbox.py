@@ -9,6 +9,7 @@ import pytest
 
 sys.path.insert(1, str(Path(__file__).parent.parent.parent.parent))
 
+from raillabel._util._warning import _WarningsLogger
 from raillabel.format.bbox import Bbox
 
 # == Fixtures =========================
@@ -84,6 +85,31 @@ def test_fromdict(
     assert bbox.size == size2d
     assert bbox.sensor == sensor_camera
     assert bbox.attributes == attributes_multiple_types
+
+def test_fromdict_unknown_coordinate_system_warning(
+    point2d_dict,
+    size2d_dict,
+    sensor_camera,
+):
+    with _WarningsLogger() as logger:
+        bbox = Bbox.fromdict(
+            {
+                "uid": "78f0ad89-2750-4a30-9d66-44c9da73a714",
+                "name": "rgb_middle__bbox__person",
+                "val": point2d_dict + size2d_dict,
+                "coordinate_system": "UNKNOWN_COORDINATE_SYSTEM",
+            },
+            {
+                sensor_camera.uid: sensor_camera
+            }
+        )
+
+    assert len(logger.warnings) == 1
+    assert "78f0ad89-2750-4a30-9d66-44c9da73a714" in logger.warnings[0]
+    assert "'UNKNOWN_COORDINATE_SYSTEM'" in logger.warnings[0]
+    assert "sensor" in logger.warnings[0]
+
+    assert bbox.sensor is None
 
 
 def test_asdict(
