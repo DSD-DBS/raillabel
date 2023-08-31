@@ -5,6 +5,7 @@ import typing as t
 import uuid
 from dataclasses import dataclass, field
 
+from .. import exceptions
 from .frame import Frame
 from .frame_interval import FrameInterval
 from .metadata import Metadata
@@ -45,6 +46,44 @@ class Scene:
 
     # === Public Methods ==========================================================================
 
+    @classmethod
+    def fromdict(cls, data_dict: dict, subschema_version: t.Optional[str] = None) -> "Scene":
+        """Generate a Scene object from a RailLABEL-dict.
+
+        Parameters
+        ----------
+        data_dict: dict
+            RailLabel format snippet containing the relevant data.
+        subschema_version: str, optional
+            Version of the RailLabel subschema.
+
+        Returns
+        -------
+        raillabel.format.Scene
+            Converted Scene object.
+
+        Raises
+        ------
+        raillabel.exceptions.MissingCoordinateSystemError
+            if a stream has no corresponding coordinate system.
+        raillabel.exceptions.MissingStreamError
+            if a coordinate system has no corresponding stream.
+        raillabel.exceptions.UnsupportedParentError
+            if a coordinate system has no corresponding stream.
+        """
+
+        data_dict = cls._prepare_data(data_dict)
+
+        sensors = cls._sensors_fromdict(data_dict["streams"], data_dict["coordinate_systems"])
+        objects = cls._objects_fromdict(data_dict["objects"])
+
+        return Scene(
+            metadata=Metadata.fromdict(data_dict["metadata"], subschema_version),
+            sensors=sensors,
+            objects=objects,
+            frames=cls._frames_fromdict(data_dict["frames"], sensors, objects),
+        )
+
     def asdict(self, calculate_pointers: bool = True) -> dict:
         """Export self as a dict compatible with the OpenLABEL schema.
 
@@ -76,6 +115,93 @@ class Scene:
         }
 
     # === Private Methods =========================================================================
+
+    # --- fromdict() ----------------------------
+
+    @classmethod
+    def _prepare_data(cls, data: dict) -> dict:
+        """Add optional fields to dict to simplify interaction.
+
+        Parameters
+        ----------
+        data : dict
+            JSON data.
+
+        Returns
+        -------
+        dict
+            Enhanced JSON data.
+        """
+
+        if "coordinate_systems" not in data["openlabel"]:
+            data["openlabel"]["coordinate_systems"] = {}
+
+        if "streams" not in data["openlabel"]:
+            data["openlabel"]["streams"] = {}
+
+        if "objects" not in data["openlabel"]:
+            data["openlabel"]["objects"] = {}
+
+        if "frames" not in data["openlabel"]:
+            data["openlabel"]["frames"] = {}
+
+        return data["openlabel"]
+
+    @classmethod
+    def _sensors_fromdict(
+        cls, streams_dict: dict, coordinate_systems_dict: dict
+    ) -> t.Dict[str, Sensor]:
+
+        cls._check_sensor_completeness(streams_dict, coordinate_systems_dict)
+
+        sensors = {}
+
+        for stream_id in streams_dict:
+            sensors[stream_id] = Sensor.fromdict(
+                uid=stream_id,
+                cs_data_dict=coordinate_systems_dict[stream_id],
+                stream_data_dict=streams_dict[stream_id],
+            )
+
+        return sensors
+
+    @classmethod
+    def _check_sensor_completeness(cls, streams_dict: dict, coordinate_systems_dict: dict):
+
+        for stream_uid in streams_dict:
+            if stream_uid not in coordinate_systems_dict:
+                raise exceptions.MissingCoordinateSystemError(
+                    f"Stream {stream_uid} has no corresponding coordinate system."
+                )
+
+        for cs_uid in coordinate_systems_dict:
+            if cs_uid == "base":
+                continue
+
+            if coordinate_systems_dict[cs_uid]["parent"] != "base":
+                raise exceptions.UnsupportedParentError(
+                    f"Only 'base' is permitted as a parent for coordinate system {cs_uid}, "
+                    + f"not {coordinate_systems_dict[cs_uid]['parent']}."
+                )
+
+            if cs_uid not in streams_dict:
+                raise exceptions.MissingStreamError(
+                    f"Coordinate sytem {cs_uid} has no corresponding stream."
+                )
+
+    @classmethod
+    def _objects_fromdict(cls, object_dict: dict) -> t.Dict[str, Object]:
+        return {uid: Object.fromdict(object, uid) for uid, object in object_dict.items()}
+
+    @classmethod
+    def _frames_fromdict(
+        cls, frames_dict: dict, sensors: t.Dict[str, Sensor], objects: t.Dict[str, Object]
+    ) -> t.Dict[int, Frame]:
+        return {
+            uid: Frame.fromdict(uid, frame, objects, sensors) for uid, frame in frames_dict.items()
+        }
+
+    # --- asdict() ------------------------------
 
     def _clean_empty_fields(self, dictionary: dict) -> dict:
 

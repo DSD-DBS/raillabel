@@ -69,6 +69,7 @@ from test_raillabel.format.test_point3d import (
 from test_raillabel.format.test_poly2d import poly2d, poly2d_dict
 from test_raillabel.format.test_poly3d import poly3d, poly3d_dict
 from test_raillabel.format.test_quaternion import quaternion, quaternion_dict
+from test_raillabel.format.test_scene import scene, scene_dict
 from test_raillabel.format.test_seg3d import seg3d, seg3d_dict
 from test_raillabel.format.test_sensor import (
     coordinate_systems_dict,

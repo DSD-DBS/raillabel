@@ -66,3 +66,4 @@ Release
 - Object.object_data_pointers(): generate ElementDataPointers
 - Scene.frame_intervals, Object.frame_intervals(): generate FrameIntervals
 - Object.asdict() now provides also frame intervals and object data pointers, if the frames from the scene are provided
+- Scene.fromdict() for loading a scene from a dictionary
