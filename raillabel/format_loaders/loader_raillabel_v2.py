@@ -4,14 +4,10 @@
 import json
 import logging
 import typing as t
-from importlib import import_module
-from inspect import isclass
 from io import StringIO
 from pathlib import Path
-from pkgutil import iter_modules
 
 from .. import exceptions, format
-from ..format._annotation import _Annotation
 from ._loader_abc import LoaderABC
 
 
