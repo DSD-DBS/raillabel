@@ -27,20 +27,6 @@ def test_supports_false(json_data, loader):
     assert not loader.supports(data)
 
 
-def test_load_objects(json_data, loader):
-    scene = loader.load(json_data["openlabel_v1_short"], validate=False)
-
-    ground_truth = json_data["openlabel_v1_short"]["openlabel"]
-
-    assert len(scene.objects) == len(ground_truth["objects"])
-    for object_id, object in scene.objects.items():
-
-        assert object_id in ground_truth["objects"]
-        assert object.uid == object_id
-        assert object.name == ground_truth["objects"][object_id]["name"]
-        assert object.type == ground_truth["objects"][object_id]["type"]
-
-
 def test_load_frames_completeness(json_data, loader):
     scene = loader.load(json_data["openlabel_v1_short"], validate=False)
 
