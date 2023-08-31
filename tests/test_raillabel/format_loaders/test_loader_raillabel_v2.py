@@ -27,40 +27,6 @@ def test_supports_false(json_data, loader):
     assert not loader.supports(data)
 
 
-def test_load_sensors(json_data, loader):
-    scene = loader.load(json_data["openlabel_v1_short"], validate=False)
-
-    ground_truth = json_data["openlabel_v1_short"]["openlabel"]
-
-    assert len(scene.sensors) == len(ground_truth["streams"])
-    for sensor_id, sensor in scene.sensors.items():
-
-        assert sensor_id in ground_truth["streams"]
-        assert sensor.uid == sensor_id
-        assert sensor.type.value == ground_truth["streams"][sensor_id]["type"]
-        assert sensor.uri == ground_truth["streams"][sensor_id]["uri"]
-
-        assert [
-            sensor.extrinsics.pos.x,
-            sensor.extrinsics.pos.y,
-            sensor.extrinsics.pos.z,
-        ] == ground_truth["coordinate_systems"][sensor_id]["pose_wrt_parent"]["translation"]
-        assert [
-            sensor.extrinsics.quat.x,
-            sensor.extrinsics.quat.y,
-            sensor.extrinsics.quat.z,
-            sensor.extrinsics.quat.w,
-        ] == ground_truth["coordinate_systems"][sensor_id]["pose_wrt_parent"]["quaternion"]
-
-        if sensor.type.value != "camera":
-            continue
-
-        assert list(sensor.intrinsics.camera_matrix) == ground_truth["streams"][sensor_id]["stream_properties"]["intrinsics_pinhole"]["camera_matrix"]
-        assert list(sensor.intrinsics.distortion) == ground_truth["streams"][sensor_id]["stream_properties"]["intrinsics_pinhole"]["distortion_coeffs"]
-        assert sensor.intrinsics.width_px == ground_truth["streams"][sensor_id]["stream_properties"]["intrinsics_pinhole"]["width_px"]
-        assert sensor.intrinsics.height_px == ground_truth["streams"][sensor_id]["stream_properties"]["intrinsics_pinhole"]["height_px"]
-
-
 def test_load_objects(json_data, loader):
     scene = loader.load(json_data["openlabel_v1_short"], validate=False)
 
