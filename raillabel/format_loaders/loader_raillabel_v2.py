@@ -2,12 +2,11 @@
 # SPDX-License-Identifier: Apache-2.0
 
 import json
-import logging
 import typing as t
-from io import StringIO
 from pathlib import Path
 
 from .. import exceptions, format
+from .._util._warning import _WarningsLogger
 from ._loader_abc import LoaderABC
 
 
@@ -57,15 +56,13 @@ class LoaderRailLabelV2(LoaderABC):
             if validate is True and the data does not validate against the schema.
         """
 
-        self._set_up_logger()
-
         if validate:
             self.validate(data)
 
-        self.scene = format.Scene.fromdict(data, self.subschema_version)
+        with _WarningsLogger() as logger:
+            self.scene = format.Scene.fromdict(data, self.subschema_version)
 
-        self.warnings = self._get_warnings()
-        self._clear_log_handler()
+        self.warnings = logger.warnings
 
         return self.scene
 
@@ -100,23 +97,6 @@ class LoaderRailLabelV2(LoaderABC):
                 and "metadata" in data["openlabel"]
                 and "schema_version" in data["openlabel"]["metadata"]
             )
-
-    def _set_up_logger(self) -> t.Tuple[StringIO, logging.StreamHandler]:
-        """Set up the warnings logger.
-
-        Returns
-        -------
-        StringIO
-            stream containing the warnings.
-        """
-
-        logger = logging.getLogger("loader_warnings")
-        warnings_stream = StringIO()
-        handler = logging.StreamHandler(warnings_stream)
-        handler.setLevel(logging.WARNING)
-        logger.addHandler(handler)
-
-        return warnings_stream
 
     def _prepare_data(self, data: dict) -> dict:
         """Add optional fields to dict to simplify interaction.
@@ -186,26 +166,3 @@ class LoaderRailLabelV2(LoaderABC):
                 raise exceptions.MissingStreamError(
                     f"Coordinate sytem {cs_uid} has no corresponding stream."
                 )
-
-    def _get_warnings(self) -> t.List[str]:
-        """Fetch warnings from logger as list.
-
-        Returns
-        -------
-        list of str
-            List of warnings.
-        """
-
-        logger = logging.getLogger("loader_warnings")
-        stream = logger.handlers[-1].stream
-        stream.seek(0)
-
-        warnings_list = stream.getvalue().split("\n")
-
-        if len(warnings_list) > 0:
-            warnings_list = warnings_list[:-1]
-
-        return warnings_list
-
-    def _clear_log_handler(self):
-        logging.getLogger("loader_warnings").handlers = []
