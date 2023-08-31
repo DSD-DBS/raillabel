@@ -48,6 +48,25 @@ def object_person() -> dict:
         type="person",
     )
 
+
+@pytest.fixture
+def object_train_dict() -> dict:
+    return {
+        "object_uid": "d51a19be-8bc2-4a82-b66a-03c8de95b0cf",
+        "data_dict": {
+            "name": "train_0000",
+            "type": "train",
+        },
+    }
+
+@pytest.fixture
+def object_train() -> dict:
+    return Object(
+        uid="d51a19be-8bc2-4a82-b66a-03c8de95b0cf",
+        name="train_0000",
+        type="train",
+    )
+
 # == Tests ============================
 
 def test_fromdict():

@@ -38,6 +38,24 @@ def object_data_person(object_person, bbox, poly2d, cuboid, poly3d, seg3d) -> di
         }
     )
 
+
+@pytest.fixture
+def object_data_train_dict(bbox_train_dict) -> dict:
+    return {
+        "object_data": {
+            "bbox": [bbox_train_dict],
+        }
+    }
+
+@pytest.fixture
+def object_data_train(object_train, bbox_train, poly2d, cuboid, poly3d, seg3d) -> dict:
+    return ObjectData(
+        object=object_train,
+        annotations={
+            bbox_train.uid: bbox_train,
+        }
+    )
+
 # == Tests ============================
 
 def test_fromdict(

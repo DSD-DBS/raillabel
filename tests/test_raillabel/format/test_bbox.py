@@ -34,6 +34,29 @@ def bbox(point2d, size2d, sensor_camera, attributes_multiple_types) -> dict:
         attributes=attributes_multiple_types,
     )
 
+
+@pytest.fixture
+def bbox_train_dict(sensor_camera, attributes_single_type_dict, point2d_dict, size2d_dict) -> dict:
+    return {
+        "uid": "6a7cfdb7-149d-4987-98dd-79d05a8cc8e6",
+        "name": "rgb_middle__bbox__train",
+        "val": point2d_dict + size2d_dict,
+        "coordinate_system": sensor_camera.uid,
+        "attributes": attributes_single_type_dict
+    }
+
+@pytest.fixture
+def bbox_train(point2d, size2d, sensor_camera, attributes_single_type) -> dict:
+    return Bbox(
+        uid="6a7cfdb7-149d-4987-98dd-79d05a8cc8e6",
+        name="rgb_middle__bbox__train",
+        pos=point2d,
+        size=size2d,
+        sensor=sensor_camera,
+        attributes=attributes_single_type,
+    )
+
+
 # == Tests ============================
 
 def test_fromdict(

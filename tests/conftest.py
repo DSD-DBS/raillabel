@@ -18,7 +18,7 @@ from test_raillabel.format.test_attributes import (
     attributes_single_type,
     attributes_single_type_dict,
 )
-from test_raillabel.format.test_bbox import bbox, bbox_dict
+from test_raillabel.format.test_bbox import bbox, bbox_dict, bbox_train, bbox_train_dict
 from test_raillabel.format.test_cuboid import cuboid, cuboid_dict
 from test_raillabel.format.test_element_data_pointer import (
     element_data_pointer_full,
@@ -45,8 +45,18 @@ from test_raillabel.format.test_metadata import (
     metadata_minimal_dict,
 )
 from test_raillabel.format.test_num import num, num_dict
-from test_raillabel.format.test_object import object_person, object_person_dict
-from test_raillabel.format.test_object_data import object_data_person, object_data_person_dict
+from test_raillabel.format.test_object import (
+    object_person,
+    object_person_dict,
+    object_train,
+    object_train_dict,
+)
+from test_raillabel.format.test_object_data import (
+    object_data_person,
+    object_data_person_dict,
+    object_data_train,
+    object_data_train_dict,
+)
 from test_raillabel.format.test_point2d import (
     point2d,
     point2d_another,
