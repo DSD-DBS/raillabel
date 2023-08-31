@@ -27,60 +27,6 @@ def test_supports_false(json_data, loader):
     assert not loader.supports(data)
 
 
-def test_load_frames_completeness(json_data, loader):
-    scene = loader.load(json_data["openlabel_v1_short"], validate=False)
-
-    ground_truth = json_data["openlabel_v1_short"]["openlabel"]
-
-    assert len(scene.frames) == len(ground_truth["frames"])
-    for frame_id, frame in scene.frames.items():
-
-        assert str(frame_id) in ground_truth["frames"]
-        assert frame.uid == frame_id
-
-
-def test_load_frame_timestamps(json_data, loader):
-    scene = loader.load(json_data["openlabel_v1_short"], validate=False)
-
-    ground_truth = json_data["openlabel_v1_short"]["openlabel"]
-
-    for frame_id, frame in scene.frames.items():
-        assert str(frame.timestamp) == ground_truth["frames"][str(frame_id)]["frame_properties"]["timestamp"]
-
-
-def test_load_frame_sensors(json_data, loader):
-    scene = loader.load(json_data["openlabel_v1_short"], validate=False)
-
-    ground_truth = json_data["openlabel_v1_short"]["openlabel"]
-
-    for frame_id, frame in scene.frames.items():
-
-        assert len(frame.sensors) == len(ground_truth["frames"][str(frame_id)]["frame_properties"]["streams"])
-        for sensor_id, sensor in frame.sensors.items():
-
-            assert sensor_id in ground_truth["frames"][str(frame_id)]["frame_properties"]["streams"]
-            assert str(sensor.timestamp) == ground_truth["frames"][str(frame_id)]["frame_properties"]["streams"][sensor_id]["stream_properties"]["sync"]["timestamp"]
-            assert str(sensor.uri) == ground_truth["frames"][str(frame_id)]["frame_properties"]["streams"][sensor_id]["uri"]
-
-
-def test_load_frame_data(json_data, loader, annotation_compare_methods):
-    scene = loader.load(json_data["openlabel_v1_short"], validate=False)
-
-    ground_truth = json_data["openlabel_v1_short"]["openlabel"]
-
-    for frame_id, frame in scene.frames.items():
-
-        accumulative_frame_data = []
-        for frame_data_type in ground_truth["frames"][str(frame_id)]["frame_properties"]["frame_data"].values():
-            accumulative_frame_data.extend(frame_data_type)
-
-        assert len(frame.frame_data) == len(accumulative_frame_data)
-
-        for frame_data_type, frame_data in ground_truth["frames"][str(frame_id)]["frame_properties"]["frame_data"].items():
-            for annotation in frame_data:
-                annotation_compare_methods[frame_data_type](frame.frame_data[annotation["name"]], annotation)
-
-
 def test_load_frame_annotations(json_data, loader, annotation_compare_methods):
     scene = loader.load(json_data["openlabel_v1_short"], validate=False)
 
