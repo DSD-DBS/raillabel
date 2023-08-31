@@ -88,14 +88,12 @@ class LoaderRailLabelV2(LoaderABC):
                 data["objects"][object_id], object_id
             )
 
-        annotation_classes = self._fetch_annotation_classes()
         for frame_id in data["frames"]:
             self.scene.frames[int(frame_id)] = format.Frame.fromdict(
                 uid=frame_id,
                 data_dict=data["frames"][frame_id],
                 objects=self.scene.objects,
                 sensors=self.scene.sensors,
-                annotation_classes=annotation_classes,
             )
 
         self.warnings = self._get_warnings()
@@ -220,26 +218,6 @@ class LoaderRailLabelV2(LoaderABC):
                 raise exceptions.MissingStreamError(
                     f"Coordinate sytem {cs_uid} has no corresponding stream."
                 )
-
-    def _fetch_annotation_classes(self) -> dict:
-
-        annotation_classes = {}
-
-        package_dir = str(Path(__file__).resolve().parent.parent / "format")
-        for (_, module_name, _) in iter_modules([package_dir]):
-
-            module = import_module(f"raillabel.format.{module_name}")
-            for attribute_name in dir(module):
-                attribute = getattr(module, attribute_name)
-
-                if (
-                    isclass(attribute)
-                    and issubclass(attribute, _Annotation)
-                    and attribute != _Annotation
-                ):
-                    annotation_classes[attribute.OPENLABEL_ID] = attribute
-
-        return annotation_classes
 
     def _get_warnings(self) -> t.List[str]:
         """Fetch warnings from logger as list.

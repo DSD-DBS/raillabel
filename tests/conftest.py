@@ -12,7 +12,6 @@ import pytest
 
 sys.path.insert(1, str(Path(__file__).parent.parent))
 
-from test_raillabel.format.test_annotation import annotation_classes_dict
 from test_raillabel.format.test_attributes import (
     attributes_multiple_types,
     attributes_multiple_types_dict,

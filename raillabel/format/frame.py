@@ -8,6 +8,7 @@ import warnings
 from dataclasses import dataclass, field
 
 from .._util._warning import _warning
+from ._annotation import annotation_classes
 from .num import Num
 from .object import Object
 from .object_data import ObjectData
@@ -81,7 +82,6 @@ class Frame:
         data_dict: dict,
         objects: t.Dict[str, Object],
         sensors: t.Dict[str, Sensor],
-        annotation_classes: dict,
     ) -> "Frame":
         """Generate a Frame object from a dict.
 
@@ -95,9 +95,6 @@ class Frame:
             Dictionary of all objects in the scene.
         sensors: dict
             Dictionary of all sensors in the scene.
-        annotation_classes: dict
-            Dictionary conaining all of the annotation classes as values with the OpenLABEL
-            identifiers as keys.
 
         Returns
         -------
@@ -109,10 +106,8 @@ class Frame:
             uid=int(uid),
             timestamp=cls._timestamp_fromdict(data_dict),
             sensors=cls._sensors_fromdict(data_dict, int(uid), sensors),
-            frame_data=cls._frame_data_fromdict(data_dict, int(uid), annotation_classes, sensors),
-            object_data=cls._objects_fromdict(
-                data_dict, int(uid), objects, sensors, annotation_classes
-            ),
+            frame_data=cls._frame_data_fromdict(data_dict, int(uid), sensors),
+            object_data=cls._objects_fromdict(data_dict, int(uid), objects, sensors),
         )
 
         frame = cls._fix_sensor_uri_attribute(frame)
@@ -190,7 +185,7 @@ class Frame:
 
     @classmethod
     def _frame_data_fromdict(
-        cls, data_dict: dict, frame_id: int, annotation_classes: dict, sensors: t.Dict[str, Sensor]
+        cls, data_dict: dict, frame_id: int, sensors: t.Dict[str, Sensor]
     ) -> t.Dict[str, Num]:
 
         if "frame_properties" not in data_dict or "frame_data" not in data_dict["frame_properties"]:
@@ -200,11 +195,11 @@ class Frame:
 
         for ann_type in data_dict["frame_properties"]["frame_data"]:
 
-            if ann_type not in annotation_classes:
+            if ann_type not in annotation_classes():
                 _warning(
                     f"Annotation type {ann_type} (frame {frame_id}, frame data) is "
                     + "currently not supported. Supported annotation types: "
-                    + str(list(annotation_classes.keys()))
+                    + str(list(annotation_classes().keys()))
                 )
                 continue
 
@@ -213,7 +208,7 @@ class Frame:
                 if "uid" not in ann_raw:
                     ann_raw["uid"] = uuid.uuid4()
 
-                frame_data[ann_raw["name"]] = annotation_classes[ann_type].fromdict(
+                frame_data[ann_raw["name"]] = annotation_classes()[ann_type].fromdict(
                     ann_raw, sensors
                 )
 
@@ -226,7 +221,6 @@ class Frame:
         frame_id: int,
         objects: t.Dict[str, Object],
         sensors: t.Dict[str, Sensor],
-        annotation_classes: dict,
     ) -> t.Dict[uuid.UUID, ObjectData]:
 
         if "objects" not in data_dict:
@@ -248,7 +242,6 @@ class Frame:
                 data_dict=obj_ann["object_data"],
                 objects=objects,
                 sensors=sensors,
-                annotation_classes=annotation_classes,
             )
 
         return object_data

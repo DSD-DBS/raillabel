@@ -6,7 +6,7 @@ import uuid
 from dataclasses import dataclass, field
 
 from .._util._warning import _warning
-from ._annotation import _Annotation
+from ._annotation import _Annotation, annotation_classes
 from .bbox import Bbox
 from .cuboid import Cuboid
 from .object import Object
@@ -76,7 +76,6 @@ class ObjectData:
         data_dict: dict,
         objects: t.Dict[str, Object],
         sensors: t.Dict[str, Sensor],
-        annotation_classes: dict,
     ) -> "ObjectData":
         """Generate a ObjectData object from a dict.
 
@@ -90,9 +89,6 @@ class ObjectData:
             Dictionary of all objects in the scene.
         sensors: dict
             Dictionary of all sensors in the scene.
-        annotation_classes: dict
-            Dictionary conaining all of the annotation classes as values
-            with the OpenLABEL identifiers as keys.
 
         Returns
         -------
@@ -104,11 +100,11 @@ class ObjectData:
 
         for ann_type in data_dict:
 
-            if ann_type not in annotation_classes:
+            if ann_type not in annotation_classes():
                 _warning(
                     f"Annotation type {ann_type} is currently not supported. Supported "
                     + "annotation types: "
-                    + str(list(annotation_classes.keys()))
+                    + str(list(annotation_classes().keys()))
                 )
                 continue
 
@@ -123,7 +119,7 @@ class ObjectData:
                     )
                     ann_raw["uid"] = str(uuid.uuid4())
 
-                object_data.annotations[ann_raw["uid"]] = annotation_classes[ann_type].fromdict(
+                object_data.annotations[ann_raw["uid"]] = annotation_classes()[ann_type].fromdict(
                     ann_raw,
                     sensors,
                 )

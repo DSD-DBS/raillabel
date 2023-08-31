@@ -12,19 +12,6 @@ sys.path.insert(1, str(Path(__file__).parent.parent.parent.parent))
 import raillabel
 from raillabel.format._annotation import annotation_classes
 
-# == Fixtures =========================
-
-@pytest.fixture
-def annotation_classes_dict() -> dict:
-    return {
-        "bbox": raillabel.format.Bbox,
-        "poly2d": raillabel.format.Poly2d,
-        "num": raillabel.format.Num,
-        "cuboid": raillabel.format.Cuboid,
-        "poly3d": raillabel.format.Poly3d,
-        "vec": raillabel.format.Seg3d,
-    }
-
 # == Tests ============================
 
 def test_post_init():

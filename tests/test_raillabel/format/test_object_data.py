@@ -41,7 +41,7 @@ def object_data_person(object_person, bbox, poly2d, cuboid, poly3d, seg3d) -> di
 # == Tests ============================
 
 def test_fromdict(
-    object_person, annotation_classes_dict,
+    object_person,
     sensor_camera, sensor_lidar,
     bbox, bbox_dict,
     poly2d, poly2d_dict,
@@ -67,7 +67,6 @@ def test_fromdict(
         },
         objects=objects,
         sensors=sensors,
-        annotation_classes=annotation_classes_dict,
     )
 
     assert object_data.object == object_person
