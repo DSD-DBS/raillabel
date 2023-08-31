@@ -130,7 +130,7 @@ class Frame:
 
         dict_repr = {}
 
-        if self.timestamp is not None or self.sensors != {}:
+        if self.timestamp is not None or self.sensors != {} or self.frame_data != {}:
             dict_repr["frame_properties"] = {}
 
         if self.timestamp is not None:
