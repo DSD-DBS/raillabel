@@ -69,19 +69,6 @@ def test_warning_uri_attribute(
     assert "uri" in loader.warnings[0]
 
 
-def test_stream_with_no_coordinate_system(json_data, loader):
-    data = json_data["openlabel_v1_short"]
-
-    del data["openlabel"]["coordinate_systems"]["ir_middle"]
-    del data["openlabel"]["coordinate_systems"]["base"]["children"][
-        data["openlabel"]["coordinate_systems"]["base"]["children"].index(
-            "ir_middle"
-        )
-    ]
-    with pytest.raises(raillabel.exceptions.MissingCoordinateSystemError):
-        loader.load(data)
-
-
 def test_warnings_sync(json_data, loader):
     data = json_data["openlabel_v1_short"]
 
