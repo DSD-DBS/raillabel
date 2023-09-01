@@ -39,15 +39,15 @@ def test_file_two_type_errors(json_data):
 
 
 def test_valid_file_path(json_data, json_paths):
-    validation_result = raillabel.validate(json_data["openlabel_v1_short"], str(json_paths["raillabel_v2_schema"]))
+    validation_result = raillabel.validate(json_data["openlabel_v1_short"], str(json_paths["raillabel_schema"]))
     assert validation_result[0]
 
 
 def test_invalid_file_path(json_data, json_paths):
-    json_paths["raillabel_v2_schema"] = str(json_paths["raillabel_v2_schema"]) + "_invalid"
+    json_paths["raillabel_schema"] = str(json_paths["raillabel_schema"]) + "_invalid"
 
     with pytest.raises(FileNotFoundError):
-        raillabel.validate(json_data["openlabel_v1_short"], json_paths["raillabel_v2_schema"])
+        raillabel.validate(json_data["openlabel_v1_short"], json_paths["raillabel_schema"])
 
 
 def test_invalid_schema_key(json_data):

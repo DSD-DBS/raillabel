@@ -24,7 +24,7 @@ class LoaderRailLabel(LoaderABC):
     scene: format.Scene
     warnings: t.List[str]
 
-    SCHEMA_PATH: Path = Path(__file__).parent.parent / "schemas" / "raillabel_v2_schema.json"
+    SCHEMA_PATH: Path = Path(__file__).parent.parent / "schemas" / "raillabel_schema.json"
 
     @property
     def subschema_version(self):
