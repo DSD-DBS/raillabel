@@ -3,6 +3,7 @@
 
 import os
 import sys
+import typing as t
 from pathlib import Path
 
 import pytest
@@ -12,6 +13,40 @@ sys.path.insert(1, str(Path(__file__).parent.parent.parent.parent))
 from raillabel.format.sensor import Sensor, SensorType
 
 # == Fixtures =========================
+
+@pytest.fixture
+def sensors(sensor_lidar, sensor_camera, sensor_radar) -> t.Dict[str, Sensor]:
+    return {
+        sensor_lidar.uid: sensor_lidar,
+        sensor_camera.uid: sensor_camera,
+        sensor_radar.uid: sensor_radar,
+    }
+
+@pytest.fixture
+def streams_dict(sensor_camera_dict, sensor_lidar_dict, sensor_radar_dict) -> dict:
+    return {
+        sensor_camera_dict["uid"]: sensor_camera_dict["stream"],
+        sensor_lidar_dict["uid"]: sensor_lidar_dict["stream"],
+        sensor_radar_dict["uid"]: sensor_radar_dict["stream"],
+    }
+
+@pytest.fixture
+def coordinate_systems_dict(sensor_camera_dict, sensor_lidar_dict, sensor_radar_dict) -> dict:
+    return {
+        "base": {
+            "type": "local",
+            "parent": "",
+            "children": [
+                sensor_lidar_dict["uid"],
+                sensor_camera_dict["uid"],
+                sensor_radar_dict["uid"],
+            ]
+        },
+        sensor_camera_dict["uid"]: sensor_camera_dict["coordinate_system"],
+        sensor_lidar_dict["uid"]: sensor_lidar_dict["coordinate_system"],
+        sensor_radar_dict["uid"]: sensor_radar_dict["coordinate_system"],
+    }
+
 
 @pytest.fixture
 def sensor_lidar_dict(transform_dict) -> dict:
@@ -76,7 +111,7 @@ def sensor_radar_dict(transform_dict, intrinsics_radar_dict) -> dict:
             "type": "radar",
             "uri": "/talker1/Nvt/Cartesian",
             "stream_properties": {
-                "intrinsics_pinhole": intrinsics_radar_dict
+                "intrinsics_radar": intrinsics_radar_dict
             }
         },
         "coordinate_system": {

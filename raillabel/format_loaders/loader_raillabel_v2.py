@@ -2,16 +2,11 @@
 # SPDX-License-Identifier: Apache-2.0
 
 import json
-import logging
 import typing as t
-from importlib import import_module
-from inspect import isclass
-from io import StringIO
 from pathlib import Path
-from pkgutil import iter_modules
 
 from .. import exceptions, format
-from ..format._annotation import _Annotation
+from .._util._warning import _WarningsLogger
 from ._loader_abc import LoaderABC
 
 
@@ -38,7 +33,7 @@ class LoaderRailLabelV2(LoaderABC):
             subschema_version = json.load(schema_file)["version"]
         return subschema_version
 
-    def load(self, data: dict, validate: bool = True) -> format.Scene:
+    def load(self, data: dict, validate: bool = False) -> format.Scene:
         """Load the data into a raillabel.Scene and return it.
 
         Parameters
@@ -61,45 +56,13 @@ class LoaderRailLabelV2(LoaderABC):
             if validate is True and the data does not validate against the schema.
         """
 
-        self._set_up_logger()
-
         if validate:
             self.validate(data)
 
-        data = self._prepare_data(data)
+        with _WarningsLogger() as logger:
+            self.scene = format.Scene.fromdict(data, self.subschema_version)
 
-        self.scene = format.Scene(
-            metadata=format.Metadata.fromdict(
-                data_dict=data["metadata"], subschema_version=self.subschema_version
-            )
-        )
-
-        self._check_sensor_completeness(data["coordinate_systems"], data["streams"])
-
-        for stream_id in data["streams"]:
-            self.scene.sensors[stream_id] = format.Sensor.fromdict(
-                uid=stream_id,
-                cs_data_dict=data["coordinate_systems"][stream_id],
-                stream_data_dict=data["streams"][stream_id],
-            )
-
-        for object_id in data["objects"]:
-            self.scene.objects[object_id] = format.Object.fromdict(
-                data["objects"][object_id], object_id
-            )
-
-        annotation_classes = self._fetch_annotation_classes()
-        for frame_id in data["frames"]:
-            self.scene.frames[int(frame_id)] = format.Frame.fromdict(
-                uid=frame_id,
-                data_dict=data["frames"][frame_id],
-                objects=self.scene.objects,
-                sensors=self.scene.sensors,
-                annotation_classes=annotation_classes,
-            )
-
-        self.warnings = self._get_warnings()
-        self._clear_log_handler()
+        self.warnings = logger.warnings
 
         return self.scene
 
@@ -134,23 +97,6 @@ class LoaderRailLabelV2(LoaderABC):
                 and "metadata" in data["openlabel"]
                 and "schema_version" in data["openlabel"]["metadata"]
             )
-
-    def _set_up_logger(self) -> t.Tuple[StringIO, logging.StreamHandler]:
-        """Set up the warnings logger.
-
-        Returns
-        -------
-        StringIO
-            stream containing the warnings.
-        """
-
-        logger = logging.getLogger("loader_warnings")
-        warnings_stream = StringIO()
-        handler = logging.StreamHandler(warnings_stream)
-        handler.setLevel(logging.WARNING)
-        logger.addHandler(handler)
-
-        return warnings_stream
 
     def _prepare_data(self, data: dict) -> dict:
         """Add optional fields to dict to simplify interaction.
@@ -220,46 +166,3 @@ class LoaderRailLabelV2(LoaderABC):
                 raise exceptions.MissingStreamError(
                     f"Coordinate sytem {cs_uid} has no corresponding stream."
                 )
-
-    def _fetch_annotation_classes(self) -> dict:
-
-        annotation_classes = {}
-
-        package_dir = str(Path(__file__).resolve().parent.parent / "format")
-        for (_, module_name, _) in iter_modules([package_dir]):
-
-            module = import_module(f"raillabel.format.{module_name}")
-            for attribute_name in dir(module):
-                attribute = getattr(module, attribute_name)
-
-                if (
-                    isclass(attribute)
-                    and issubclass(attribute, _Annotation)
-                    and attribute != _Annotation
-                ):
-                    annotation_classes[attribute.OPENLABEL_ID] = attribute
-
-        return annotation_classes
-
-    def _get_warnings(self) -> t.List[str]:
-        """Fetch warnings from logger as list.
-
-        Returns
-        -------
-        list of str
-            List of warnings.
-        """
-
-        logger = logging.getLogger("loader_warnings")
-        stream = logger.handlers[-1].stream
-        stream.seek(0)
-
-        warnings_list = stream.getvalue().split("\n")
-
-        if len(warnings_list) > 0:
-            warnings_list = warnings_list[:-1]
-
-        return warnings_list
-
-    def _clear_log_handler(self):
-        logging.getLogger("loader_warnings").handlers = []

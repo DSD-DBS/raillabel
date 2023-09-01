@@ -4,6 +4,10 @@
 import typing as t
 from abc import ABC, abstractmethod, abstractproperty
 from dataclasses import dataclass, field
+from importlib import import_module
+from inspect import isclass
+from pathlib import Path
+from pkgutil import iter_modules
 
 from .._util._attribute_type import AttributeType
 from .._util._warning import _warning
@@ -57,18 +61,23 @@ class _Annotation(ABC):
             dict_repr["coordinate_system"] = str(self.sensor.uid)
 
         if self.attributes != {}:
-            dict_repr["attributes"] = {}
-
-            for attr_name, attr_value in self.attributes.items():
-
-                attr_type = AttributeType.from_value(type(attr_value)).value
-
-                if attr_type not in dict_repr["attributes"]:
-                    dict_repr["attributes"][attr_type] = []
-
-                dict_repr["attributes"][attr_type].append({"name": attr_name, "val": attr_value})
+            dict_repr["attributes"] = self._attributes_asdict(self.attributes)
 
         return dict_repr
+
+    def _attributes_asdict(self, attributes: dict) -> dict:
+        attributes_dict = {}
+
+        for attr_name, attr_value in attributes.items():
+
+            attr_type = AttributeType.from_value(type(attr_value)).value
+
+            if attr_type not in attributes_dict:
+                attributes_dict[attr_type] = []
+
+            attributes_dict[attr_type].append({"name": attr_name, "val": attr_value})
+
+        return attributes_dict
 
     @classmethod
     def _coordinate_system_fromdict(cls, data_dict: dict, sensors: dict) -> t.Optional[Sensor]:
@@ -82,7 +91,7 @@ class _Annotation(ABC):
 
         if data_dict["coordinate_system"] not in sensors:
             _warning(
-                f"{data_dict['coordinate_system']} does not exist as a coordinate system, "
+                f"'{data_dict['coordinate_system']}' does not exist as a sensor, "
                 + f"but is referenced for the annotation {data_dict['uid']}."
             )
             return None
@@ -119,3 +128,32 @@ class _Annotation(ABC):
         for f in self._REQ_FIELDS:
             if getattr(self, f) is None:
                 raise TypeError(f"{f} is a required argument for {self.__class__.__name__}")
+
+
+def annotation_classes() -> t.Dict[str, t.Type[_Annotation]]:
+    """Return dictionary with _Annotation child classes."""
+    return ANNOTATION_CLASSES
+
+
+def _collect_annotation_classes():
+    """Collect annotation child classes and store them."""
+
+    global ANNOTATION_CLASSES
+
+    package_dir = str(Path(__file__).resolve().parent)
+    for (_, module_name, _) in iter_modules([package_dir]):
+
+        module = import_module(f"raillabel.format.{module_name}")
+        for attribute_name in dir(module):
+            attribute = getattr(module, attribute_name)
+
+            if (
+                isclass(attribute)
+                and issubclass(attribute, _Annotation)
+                and attribute != _Annotation
+            ):
+                ANNOTATION_CLASSES[attribute.OPENLABEL_ID] = attribute
+
+
+ANNOTATION_CLASSES = {}
+_collect_annotation_classes()

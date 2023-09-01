@@ -3,7 +3,7 @@
 """Devkit for working with recorded and annotated train ride data from DB."""
 from importlib import metadata
 
-from . import format
+from . import _util, format
 from .exceptions import *
 from .filter import filter
 from .format.scene import Scene
