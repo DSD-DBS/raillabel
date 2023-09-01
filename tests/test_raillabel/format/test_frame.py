@@ -10,6 +10,7 @@ import pytest
 
 sys.path.insert(1, str(Path(__file__).parent.parent.parent.parent))
 
+from raillabel._util._warning import _WarningsLogger
 from raillabel.format.frame import Frame
 
 # == Fixtures =========================
@@ -122,6 +123,46 @@ def test_fromdict_object_data(
 
     assert frame.object_data[object_data_person.object.uid] == object_data_person
     assert frame.object_data[object_data_train.object.uid] == object_data_train
+
+def test_fromdict_uri_attribute(
+    bbox_dict,
+    sensor_reference_camera_dict, sensors,
+    object_person, objects,
+):
+    bbox_with_uri_attribute = bbox_dict
+    bbox_with_uri_attribute["attributes"]["text"].append({
+        "name": "uri",
+        "val": "test_uri.png"
+    })
+
+    with _WarningsLogger() as logger:
+        frame = Frame.fromdict(
+            uid=0,
+            data_dict={
+                "frame_properties": {
+                    "streams": {
+                        "rgb_middle": sensor_reference_camera_dict
+                    }
+                },
+                "objects": {
+                    object_person.uid: {
+                        "object_data": {
+                            "bbox": [bbox_with_uri_attribute]
+                        }
+                    }
+                }
+            },
+            sensors=sensors,
+            objects=objects,
+        )
+
+    assert len(logger.warnings) == 1
+    assert "uri" in logger.warnings[0]
+    assert bbox_with_uri_attribute["uid"] in logger.warnings[0]
+    assert "raillabel.save()" in logger.warnings[0]
+
+    assert frame.sensors["rgb_middle"].uri == "test_uri.png"
+    assert "uri" not in frame.annotations[bbox_with_uri_attribute["uid"]].attributes
 
 
 def test_asdict_sensors(
