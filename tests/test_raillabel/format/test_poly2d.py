@@ -38,7 +38,6 @@ def poly2d(
 ) -> dict:
     return Poly2d(
         uid="d73b5988-767B-47ef-979c-022af60c6ab2",
-        name="rgb_middle__poly2d__person",
         points=[point2d, point2d_another],
         object=object_person,
         sensor=sensor_camera,
@@ -88,7 +87,6 @@ def test_asdict(
 ):
     poly2d = Poly2d(
         uid="d73b5988-767B-47ef-979c-022af60c6ab2",
-        name="rgb_middle__poly2d__person",
         points=[point2d, point2d_another],
         object=object_person,
         sensor=sensor_camera,

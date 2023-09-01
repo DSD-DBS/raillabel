@@ -17,8 +17,6 @@ class Poly3d(_ObjectAnnotation):
     ----------
     uid: str
         This a string representing the unique universal identifier for the annotation.
-    name: str
-        Human readable name describing the annotation.
     points: list of raillabel.format.Point3d
         List of the 3d points that make up the polyline.
     closed: bool
@@ -31,6 +29,11 @@ class Poly3d(_ObjectAnnotation):
     attributes: dict, optional
         Attributes of the annotation. Dict keys are the name str of the attribute, values are the
         attribute values. Default is {}.
+
+    Properties (read-only)
+    ----------------------
+    name: str
+        Name of the annotation used by the VCD player for indexing in the object data pointers.
     """
 
     points: t.List[Point3d] = None
@@ -60,7 +63,6 @@ class Poly3d(_ObjectAnnotation):
 
         return Poly3d(
             uid=str(data_dict["uid"]),
-            name=str(data_dict["name"]),
             closed=data_dict["closed"],
             points=cls._points_fromdict(data_dict),
             object=object,

@@ -36,7 +36,6 @@ def all_annotations(
 def test_post_init_happy(object_person, point2d, size2d):
     raillabel.format.Bbox(
         uid="d2764400-8560-4991-a491-ada598b345c8",
-        name="test_name",
         object=object_person,
         pos=point2d,
         size=size2d,
@@ -46,7 +45,6 @@ def test_post_init_unhappy(object_person, point2d):
     with pytest.raises(TypeError):
         raillabel.format.Bbox(
             uid="d2764400-8560-4991-a491-ada598b345c8",
-            name="test_name",
             object=object_person,
             pos=point2d,
         )

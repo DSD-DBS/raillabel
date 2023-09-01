@@ -17,8 +17,6 @@ class Poly2d(_ObjectAnnotation):
     ----------
     uid: str
         This a string representing the unique universal identifier for the annotation.
-    name: str
-        Human readable name describing the annotation.
     points: list of raillabel.format.Point2d
         List of the 2d points that make up the polyline.
     closed: bool
@@ -38,6 +36,11 @@ class Poly2d(_ObjectAnnotation):
     attributes: dict, optional
         Attributes of the annotation. Dict keys are the name str of the attribute, values are the
         attribute values. Default is {}.
+
+    Properties (read-only)
+    ----------------------
+    name: str
+        Name of the annotation used by the VCD player for indexing in the object data pointers.
     """
 
     points: t.List[Point2d] = None
@@ -68,7 +71,6 @@ class Poly2d(_ObjectAnnotation):
 
         return Poly2d(
             uid=str(data_dict["uid"]),
-            name=str(data_dict["name"]),
             closed=data_dict["closed"],
             mode=data_dict["mode"],
             points=cls._points_fromdict(data_dict),

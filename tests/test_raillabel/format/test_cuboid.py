@@ -38,7 +38,6 @@ def cuboid(
 ) -> dict:
     return Cuboid(
         uid="2c6b3de0-86c2-4684-b576-4cfd4f50d6ad",
-        name="lidar__cuboid__person",
         pos=point3d,
         quat=quaternion,
         size=size3d,
@@ -89,7 +88,6 @@ def test_asdict(
 ):
     cuboid = Cuboid(
         uid="2c6b3de0-86c2-4684-b576-4cfd4f50d6ad",
-        name="lidar__cuboid__person",
         pos=point3d,
         quat=quaternion,
         size=size3d,

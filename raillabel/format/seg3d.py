@@ -16,8 +16,6 @@ class Seg3d(_ObjectAnnotation):
     ----------
     uid: str
         This a string representing the unique universal identifier of the annotation.
-    name: str
-        Human readable name describing the annotation.
     point_ids: list of int
         The list of point indices.
     object: raillabel.format.Object
@@ -27,6 +25,11 @@ class Seg3d(_ObjectAnnotation):
     attributes: dict, optional
         Attributes of the annotation. Dict keys are the name str of the attribute, values are the
         attribute values. Default is {}.
+
+    Properties (read-only)
+    ----------------------
+    name: str
+        Name of the annotation used by the VCD player for indexing in the object data pointers.
     """
 
     point_ids: t.List[int] = None
@@ -55,7 +58,6 @@ class Seg3d(_ObjectAnnotation):
 
         return Seg3d(
             uid=str(data_dict["uid"]),
-            name=str(data_dict["name"]),
             point_ids=data_dict["val"],
             object=object,
             sensor=cls._coordinate_system_fromdict(data_dict, sensors),
