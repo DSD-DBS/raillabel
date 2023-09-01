@@ -5,6 +5,7 @@ import typing as t
 from dataclasses import dataclass
 
 from ._object_annotation import _ObjectAnnotation
+from .object import Object
 
 
 @dataclass
@@ -19,10 +20,13 @@ class Seg3d(_ObjectAnnotation):
         Human readable name describing the annotation.
     point_ids: list of int
         The list of point indices.
-    attributes: dict, optional
-        Attributes of the annotation. Default is {}.
+    object: raillabel.format.Object
+        A reference to the object, this annotation belongs to.
     sensor: raillabel.format.Sensor, optional
-        The sensor, this annotation is labeled in. Default is None.
+        A reference to the sensor, this annotation is labeled in. Default is None.
+    attributes: dict, optional
+        Attributes of the annotation. Dict keys are the name str of the attribute, values are the
+        attribute values. Default is {}.
     """
 
     point_ids: t.List[int] = None
@@ -31,11 +35,7 @@ class Seg3d(_ObjectAnnotation):
     _REQ_FIELDS = ["point_ids"]
 
     @classmethod
-    def fromdict(
-        cls,
-        data_dict: dict,
-        sensors: dict,
-    ) -> "Seg3d":
+    def fromdict(cls, data_dict: dict, sensors: dict, object: Object) -> "Seg3d":
         """Generate a Seg3d object from a dict.
 
         Parameters
@@ -44,6 +44,8 @@ class Seg3d(_ObjectAnnotation):
             RailLabel format snippet containing the relevant data.
         sensors: dict
             Dictionary containing all sensors for the scene.
+        object: raillabel.format.Object
+            Object this annotation belongs to.
 
         Returns
         -------
@@ -55,6 +57,7 @@ class Seg3d(_ObjectAnnotation):
             uid=str(data_dict["uid"]),
             name=str(data_dict["name"]),
             point_ids=data_dict["val"],
+            object=object,
             sensor=cls._coordinate_system_fromdict(data_dict, sensors),
             attributes=cls._attributes_fromdict(data_dict),
         )

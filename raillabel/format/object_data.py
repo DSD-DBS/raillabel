@@ -117,8 +117,7 @@ class ObjectData:
                     ann_raw["uid"] = str(uuid.uuid4())
 
                 object_data.annotations[ann_raw["uid"]] = annotation_classes()[ann_type].fromdict(
-                    ann_raw,
-                    sensors,
+                    ann_raw, sensors, object
                 )
 
         return object_data

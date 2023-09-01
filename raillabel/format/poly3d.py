@@ -5,6 +5,7 @@ import typing as t
 from dataclasses import dataclass
 
 from ._object_annotation import _ObjectAnnotation
+from .object import Object
 from .point3d import Point3d
 
 
@@ -23,11 +24,13 @@ class Poly3d(_ObjectAnnotation):
     closed: bool
         This parameter states, whether the polyline represents a closed shape (a polygon) or an
         open line.
+    object: raillabel.format.Object
+        A reference to the object, this annotation belongs to.
+    sensor: raillabel.format.Sensor, optional
+        A reference to the sensor, this annotation is labeled in. Default is None.
     attributes: dict, optional
         Attributes of the annotation. Dict keys are the name str of the attribute, values are the
         attribute values. Default is {}.
-    sensor: raillabel.format.Sensor, optional
-        A reference to the sensor, this annotation is labeled in. Default is None.
     """
 
     points: t.List[Point3d] = None
@@ -37,11 +40,7 @@ class Poly3d(_ObjectAnnotation):
     _REQ_FIELDS = ["points", "closed"]
 
     @classmethod
-    def fromdict(
-        cls,
-        data_dict: dict,
-        sensors: dict,
-    ) -> "Poly3d":
+    def fromdict(cls, data_dict: dict, sensors: dict, object: Object) -> "Poly3d":
         """Generate a Poly3d object from a dict.
 
         Parameters
@@ -50,6 +49,8 @@ class Poly3d(_ObjectAnnotation):
             RailLabel format snippet containing the relevant data.
         sensors: dict
             Dictionary containing all sensors for the scene.
+        object: raillabel.format.Object
+            Object this annotation belongs to.
 
         Returns
         -------
@@ -62,6 +63,7 @@ class Poly3d(_ObjectAnnotation):
             name=str(data_dict["name"]),
             closed=data_dict["closed"],
             points=cls._points_fromdict(data_dict),
+            object=object,
             sensor=cls._coordinate_system_fromdict(data_dict, sensors),
             attributes=cls._attributes_fromdict(data_dict),
         )

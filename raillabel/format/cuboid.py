@@ -4,6 +4,7 @@
 from dataclasses import dataclass
 
 from ._object_annotation import _ObjectAnnotation
+from .object import Object
 from .point3d import Point3d
 from .quaternion import Quaternion
 from .size3d import Size3d
@@ -26,11 +27,13 @@ class Cuboid(_ObjectAnnotation):
         The rotation of the cuboid in quaternions.
     size: raillabel.format.Size3d
         The size of the cuboid in meters.
+    object: raillabel.format.Object
+        A reference to the object, this annotation belongs to.
+    sensor: raillabel.format.Sensor, optional
+        A reference to the sensor, this annotation is labeled in. Default is None.
     attributes: dict, optional
         Attributes of the annotation. Dict keys are the name str of the attribute, values are the
         attribute values. Default is {}.
-    sensor: raillabel.format.Sensor, optional
-        A reference to the sensor, this annotation is labeled in. Default is None.
     """
 
     pos: Point3d = None
@@ -41,11 +44,7 @@ class Cuboid(_ObjectAnnotation):
     _REQ_FIELDS = ["pos", "size", "quat"]
 
     @classmethod
-    def fromdict(
-        cls,
-        data_dict: dict,
-        sensors: dict,
-    ) -> "Cuboid":
+    def fromdict(cls, data_dict: dict, sensors: dict, object: Object) -> "Cuboid":
         """Generate a Cuboid object from a dict.
 
         Parameters
@@ -54,6 +53,8 @@ class Cuboid(_ObjectAnnotation):
             RailLabel format snippet containing the relevant data.
         sensors: dict
             Dictionary containing all sensors for the scene.
+        object: raillabel.format.Object
+            Object this annotation belongs to.
 
         Returns
         -------
@@ -80,6 +81,7 @@ class Cuboid(_ObjectAnnotation):
                 y=data_dict["val"][8],
                 z=data_dict["val"][9],
             ),
+            object=object,
             sensor=cls._coordinate_system_fromdict(data_dict, sensors),
             attributes=cls._attributes_fromdict(data_dict),
         )

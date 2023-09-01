@@ -24,11 +24,12 @@ def seg3d_dict(sensor_lidar, attributes_multiple_types_dict) -> dict:
     }
 
 @pytest.fixture
-def seg3d(sensor_lidar, attributes_multiple_types) -> dict:
+def seg3d(sensor_lidar, attributes_multiple_types, object_person) -> dict:
     return Seg3d(
         uid="db4e4a77-B926-4a6c-a2a6-e0ecf9d8734a",
         name="lidar__vec__person",
         point_ids=[586, 789, 173],
+        object=object_person,
         sensor=sensor_lidar,
         attributes=attributes_multiple_types,
     )
@@ -36,7 +37,8 @@ def seg3d(sensor_lidar, attributes_multiple_types) -> dict:
 # == Tests ============================
 
 def test_fromdict(
-    sensor_lidar,
+    sensor_lidar, sensors,
+    object_person,
     attributes_multiple_types, attributes_multiple_types_dict,
 ):
     seg3d = Seg3d.fromdict(
@@ -47,26 +49,28 @@ def test_fromdict(
             "coordinate_system": sensor_lidar.uid,
             "attributes": attributes_multiple_types_dict
         },
-        {
-            sensor_lidar.uid: sensor_lidar
-        }
+        sensors,
+        object_person
     )
 
     assert seg3d.uid == "db4e4a77-B926-4a6c-a2a6-e0ecf9d8734a"
     assert seg3d.name == "lidar__vec__person"
     assert seg3d.point_ids == [586, 789, 173]
+    assert seg3d.object == object_person
     assert seg3d.sensor == sensor_lidar
     assert seg3d.attributes == attributes_multiple_types
 
 
 def test_asdict(
-    sensor_lidar,
+    sensor_lidar, sensors,
+    object_person,
     attributes_multiple_types, attributes_multiple_types_dict,
 ):
     seg3d = Seg3d(
         uid="db4e4a77-B926-4a6c-a2a6-e0ecf9d8734a",
         name="lidar__vec__person",
         point_ids=[586, 789, 173],
+        object=object_person,
         sensor=sensor_lidar,
         attributes=attributes_multiple_types,
     )

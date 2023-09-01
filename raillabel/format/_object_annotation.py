@@ -11,6 +11,7 @@ from pkgutil import iter_modules
 
 from .._util._attribute_type import AttributeType
 from .._util._warning import _warning
+from .object import Object
 from .sensor import Sensor
 
 
@@ -19,8 +20,9 @@ class _ObjectAnnotation(ABC):
 
     uid: str
     name: str
+    object: Object
+    sensor: t.Optional[Sensor] = None
     attributes: t.Dict[str, t.Union[int, float, bool, str, list]] = field(default_factory=dict)
-    sensor: Sensor = None
 
     @property
     @abstractproperty
@@ -40,7 +42,12 @@ class _ObjectAnnotation(ABC):
 
     @classmethod
     @abstractmethod
-    def fromdict(cls, data_dict: t.Dict, sensors: t.Dict) -> t.Type["_ObjectAnnotation"]:
+    def fromdict(
+        cls,
+        data_dict: t.Dict,
+        sensors: t.Dict,
+        object: Object,
+    ) -> t.Type["_ObjectAnnotation"]:
         raise NotImplementedError
 
     # === Private Methods ====================================================

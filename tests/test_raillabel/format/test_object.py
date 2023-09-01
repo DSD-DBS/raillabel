@@ -392,11 +392,17 @@ def build_annotation(name: str, attributes: dict={}) -> t.Union[Bbox, Cuboid]:
     sensor_uid, ann_type, object_type = tuple(name.split("__"))
 
     sensor = Sensor(sensor_uid)
+    object = Object(
+        uid=uuid4(),
+        name=f"{object_type}_0000",
+        type=object_type,
+    )
 
     if ann_type == "bbox":
         return Bbox(
             uid=uuid4(),
             name=name,
+            object=object,
             attributes=attributes,
             sensor=sensor,
             pos=Point2d(50, 100),
@@ -407,6 +413,7 @@ def build_annotation(name: str, attributes: dict={}) -> t.Union[Bbox, Cuboid]:
         return Cuboid(
             uid=uuid4(),
             name=name,
+            object=object,
             attributes=attributes,
             sensor=sensor,
             pos=Point3d(50, 100, 20),

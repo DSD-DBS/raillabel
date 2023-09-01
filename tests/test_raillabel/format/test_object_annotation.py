@@ -14,10 +14,11 @@ from raillabel.format._object_annotation import annotation_classes
 
 # == Tests ============================
 
-def test_post_init():
+def test_post_init(object_person):
     bbox = raillabel.format.Bbox(
         uid="d2764400-8560-4991-a491-ada598b345c8",
         name="test_name",
+        object=object_person,
         pos=raillabel.format.Point2d(0, 1),
         size=raillabel.format.Size2d(2, 3),
     )
@@ -26,6 +27,7 @@ def test_post_init():
         bbox = raillabel.format.Bbox(
             uid="d2764400-8560-4991-a491-ada598b345c8",
             name="test_name",
+            object=object_person,
             pos=raillabel.format.Point2d(0, 1),
         )
 
