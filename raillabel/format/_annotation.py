@@ -15,7 +15,7 @@ from .sensor import Sensor
 
 
 @dataclass
-class _Annotation(ABC):
+class _ObjectAnnotation(ABC):
 
     uid: str
     name: str
@@ -40,7 +40,7 @@ class _Annotation(ABC):
 
     @classmethod
     @abstractmethod
-    def fromdict(cls, data_dict: t.Dict, sensors: t.Dict) -> t.Type["_Annotation"]:
+    def fromdict(cls, data_dict: t.Dict, sensors: t.Dict) -> t.Type["_ObjectAnnotation"]:
         raise NotImplementedError
 
     # === Private Methods ====================================================
@@ -130,7 +130,7 @@ class _Annotation(ABC):
                 raise TypeError(f"{f} is a required argument for {self.__class__.__name__}")
 
 
-def annotation_classes() -> t.Dict[str, t.Type[_Annotation]]:
+def annotation_classes() -> t.Dict[str, t.Type[_ObjectAnnotation]]:
     """Return dictionary with _Annotation child classes."""
     return ANNOTATION_CLASSES
 
@@ -149,8 +149,8 @@ def _collect_annotation_classes():
 
             if (
                 isclass(attribute)
-                and issubclass(attribute, _Annotation)
-                and attribute != _Annotation
+                and issubclass(attribute, _ObjectAnnotation)
+                and attribute != _ObjectAnnotation
             ):
                 ANNOTATION_CLASSES[attribute.OPENLABEL_ID] = attribute
 

@@ -4,12 +4,12 @@
 import typing as t
 from dataclasses import dataclass
 
-from ._annotation import _Annotation
+from ._annotation import _ObjectAnnotation
 from .point3d import Point3d
 
 
 @dataclass
-class Poly3d(_Annotation):
+class Poly3d(_ObjectAnnotation):
     """Sequence of 3D points. Can either be a polygon or polyline.
 
     Parameters

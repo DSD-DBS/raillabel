@@ -6,7 +6,7 @@ import uuid
 from dataclasses import dataclass, field
 
 from .._util._warning import _warning
-from ._annotation import _Annotation, annotation_classes
+from ._annotation import _ObjectAnnotation, annotation_classes
 from .bbox import Bbox
 from .cuboid import Cuboid
 from .object import Object
@@ -42,7 +42,7 @@ class ObjectData:
     """
 
     object: Object
-    annotations: t.Dict[str, t.Type[_Annotation]] = field(default_factory=dict)
+    annotations: t.Dict[str, t.Type[_ObjectAnnotation]] = field(default_factory=dict)
 
     @property
     def bboxs(self) -> t.Dict[str, Bbox]:

@@ -3,14 +3,14 @@
 
 from dataclasses import dataclass
 
-from ._annotation import _Annotation
+from ._annotation import _ObjectAnnotation
 from .point3d import Point3d
 from .quaternion import Quaternion
 from .size3d import Size3d
 
 
 @dataclass
-class Cuboid(_Annotation):
+class Cuboid(_ObjectAnnotation):
     """3D bounding box.
 
     Parameters

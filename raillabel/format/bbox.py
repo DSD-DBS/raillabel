@@ -3,13 +3,13 @@
 
 from dataclasses import dataclass
 
-from ._annotation import _Annotation
+from ._annotation import _ObjectAnnotation
 from .point2d import Point2d
 from .size2d import Size2d
 
 
 @dataclass
-class Bbox(_Annotation):
+class Bbox(_ObjectAnnotation):
     """A 2D bounding box in an image.
 
     Parameters

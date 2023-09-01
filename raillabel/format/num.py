@@ -4,11 +4,11 @@
 import typing as t
 from dataclasses import dataclass
 
-from ._annotation import _Annotation
+from ._annotation import _ObjectAnnotation
 
 
 @dataclass
-class Num(_Annotation):
+class Num(_ObjectAnnotation):
     """A number.
 
     Parameters

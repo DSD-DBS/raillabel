@@ -3,7 +3,7 @@
 
 import typing as t
 
-from ._filter_abc import _Annotation, _FilterABC
+from ._filter_abc import _FilterABC, _ObjectAnnotation
 
 
 class _FilterObjectTypes(_FilterABC):
@@ -11,7 +11,7 @@ class _FilterObjectTypes(_FilterABC):
     PARAMETERS = ["include_object_types", "exclude_object_types"]
     LEVELS = ["object"]
 
-    def passes_filter(self, object: t.Type[_Annotation]) -> bool:
+    def passes_filter(self, object: t.Type[_ObjectAnnotation]) -> bool:
 
         if self.include_object_types is not None:
             return object.type in self.include_object_types

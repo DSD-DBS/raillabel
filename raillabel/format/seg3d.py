@@ -4,11 +4,11 @@
 import typing as t
 from dataclasses import dataclass
 
-from ._annotation import _Annotation
+from ._annotation import _ObjectAnnotation
 
 
 @dataclass
-class Seg3d(_Annotation):
+class Seg3d(_ObjectAnnotation):
     """The 3D segmentation of a lidar pointcloud.
 
     Parameters

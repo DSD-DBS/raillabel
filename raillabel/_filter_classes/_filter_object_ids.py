@@ -3,7 +3,7 @@
 
 import typing as t
 
-from ._filter_abc import _Annotation, _FilterABC
+from ._filter_abc import _FilterABC, _ObjectAnnotation
 
 
 class _FilterObjectIds(_FilterABC):
@@ -11,7 +11,7 @@ class _FilterObjectIds(_FilterABC):
     PARAMETERS = ["include_object_ids", "exclude_object_ids"]
     LEVELS = ["object"]
 
-    def passes_filter(self, object: t.Type[_Annotation]) -> bool:
+    def passes_filter(self, object: t.Type[_ObjectAnnotation]) -> bool:
 
         if self.include_object_ids is not None:
             return object.uid in self.include_object_ids

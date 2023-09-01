@@ -4,12 +4,12 @@
 import typing as t
 from dataclasses import dataclass
 
-from ._annotation import _Annotation
+from ._annotation import _ObjectAnnotation
 from .point2d import Point2d
 
 
 @dataclass
-class Poly2d(_Annotation):
+class Poly2d(_ObjectAnnotation):
     """Sequence of 2D points. Can either be a polygon or polyline.
 
     Parameters
