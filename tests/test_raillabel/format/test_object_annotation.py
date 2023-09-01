@@ -33,7 +33,6 @@ def test_annotation_classes():
     assert annotation_classes() == {
         "bbox": raillabel.format.Bbox,
         "poly2d": raillabel.format.Poly2d,
-        "num": raillabel.format.Num,
         "cuboid": raillabel.format.Cuboid,
         "poly3d": raillabel.format.Poly3d,
         "vec": raillabel.format.Seg3d,

@@ -4,11 +4,12 @@
 import typing as t
 from dataclasses import dataclass
 
-from ._object_annotation import _ObjectAnnotation
+from .._util._warning import _warning
+from .sensor import Sensor
 
 
 @dataclass
-class Num(_ObjectAnnotation):
+class Num:
     """A number.
 
     Parameters
@@ -26,10 +27,10 @@ class Num(_ObjectAnnotation):
         A reference to the sensor, this value is represented in. Default is None.
     """
 
-    val: t.Union[int, float] = None
-
-    OPENLABEL_ID = "num"
-    _REQ_FIELDS = ["val"]
+    uid: str
+    name: str
+    val: t.Union[int, float]
+    sensor: Sensor = None
 
     @classmethod
     def fromdict(cls, data_dict: dict, sensors: dict) -> "Num":
@@ -53,7 +54,6 @@ class Num(_ObjectAnnotation):
             name=str(data_dict["name"]),
             val=data_dict["val"],
             sensor=cls._coordinate_system_fromdict(data_dict, sensors),
-            attributes=cls._attributes_fromdict(data_dict),
         )
 
     def asdict(self) -> dict:
@@ -70,10 +70,28 @@ class Num(_ObjectAnnotation):
             if an attribute can not be converted to the type required by the OpenLabel schema.
         """
 
-        dict_repr = self._annotation_required_fields_asdict()
+        return {
+            "uid": str(self.uid),
+            "name": str(self.name),
+            "val": self.val,
+            "coordinate_system": str(self.sensor.uid),
+        }
 
-        dict_repr["val"] = self.val
+    @classmethod
+    def _coordinate_system_fromdict(cls, data_dict: dict, sensors: dict) -> t.Optional[Sensor]:
 
-        dict_repr.update(self._annotation_optional_fields_asdict())
+        is_coordinate_system_in_data = (
+            "coordinate_system" in data_dict and data_dict["coordinate_system"] != ""
+        )
 
-        return dict_repr
+        if not is_coordinate_system_in_data:
+            return None
+
+        if data_dict["coordinate_system"] not in sensors:
+            _warning(
+                f"'{data_dict['coordinate_system']}' does not exist as a sensor, "
+                + f"but is referenced for the annotation {data_dict['uid']}."
+            )
+            return None
+
+        return sensors[data_dict["coordinate_system"]]

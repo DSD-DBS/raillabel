@@ -8,7 +8,6 @@ import warnings
 from dataclasses import dataclass, field
 
 from .._util._warning import _warning
-from ._object_annotation import annotation_classes
 from .num import Num
 from .object import Object
 from .object_data import ObjectData
@@ -106,7 +105,7 @@ class Frame:
             uid=int(uid),
             timestamp=cls._timestamp_fromdict(data_dict),
             sensors=cls._sensors_fromdict(data_dict, int(uid), sensors),
-            frame_data=cls._frame_data_fromdict(data_dict, int(uid), sensors),
+            frame_data=cls._frame_data_fromdict(data_dict, sensors),
             object_data=cls._objects_fromdict(data_dict, int(uid), objects, sensors),
         )
 
@@ -185,32 +184,16 @@ class Frame:
 
     @classmethod
     def _frame_data_fromdict(
-        cls, data_dict: dict, frame_id: int, sensors: t.Dict[str, Sensor]
+        cls, data_dict: dict, sensors: t.Dict[str, Sensor]
     ) -> t.Dict[str, Num]:
 
         if "frame_properties" not in data_dict or "frame_data" not in data_dict["frame_properties"]:
             return {}
 
         frame_data = {}
-
         for ann_type in data_dict["frame_properties"]["frame_data"]:
-
-            if ann_type not in annotation_classes():
-                _warning(
-                    f"Annotation type {ann_type} (frame {frame_id}, frame data) is "
-                    + "currently not supported. Supported annotation types: "
-                    + str(list(annotation_classes().keys()))
-                )
-                continue
-
             for ann_raw in data_dict["frame_properties"]["frame_data"][ann_type]:
-
-                if "uid" not in ann_raw:
-                    ann_raw["uid"] = uuid.uuid4()
-
-                frame_data[ann_raw["name"]] = annotation_classes()[ann_type].fromdict(
-                    ann_raw, sensors
-                )
+                frame_data[ann_raw["name"]] = Num.fromdict(ann_raw, sensors)
 
         return frame_data
 
