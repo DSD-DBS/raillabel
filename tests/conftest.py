@@ -49,12 +49,7 @@ from test_raillabel.format.test_object import (
     objects_dict,
 )
 from test_raillabel.format.test_object_annotation import all_annotations
-from test_raillabel.format.test_object_data import (
-    object_data_person,
-    object_data_person_dict,
-    object_data_train,
-    object_data_train_dict,
-)
+from test_raillabel.format.test_object_data import object_data_person_dict, object_data_train_dict
 from test_raillabel.format.test_point2d import (
     point2d,
     point2d_another,

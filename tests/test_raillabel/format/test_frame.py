@@ -19,8 +19,8 @@ from raillabel.format.frame import Frame
 def frame_dict(
     sensor_reference_camera_dict,
     num_dict,
-    object_data_person, object_data_person_dict,
-    object_data_train, object_data_train_dict,
+    object_person, object_data_person_dict,
+    object_train, object_data_train_dict,
 ) -> dict:
     return {
         "frame_properties": {
@@ -33,8 +33,8 @@ def frame_dict(
             },
         },
         "objects": {
-            object_data_person.object.uid: object_data_person_dict,
-            object_data_train.object.uid: object_data_train_dict,
+            object_person.uid: object_data_person_dict,
+            object_train.uid: object_data_train_dict,
         }
     }
 
@@ -97,18 +97,17 @@ def test_fromdict_frame_data(
     assert frame.frame_data == {num.name: num}
 
 def test_fromdict_object_data(
-    object_data_person_dict, object_data_person,
-    object_data_train_dict, object_data_train,
+    object_data_person_dict, object_person,
+    object_data_train_dict, object_train,
     sensors,
     all_annotations,
-    object_person, object_train,
 ):
     frame = Frame.fromdict(
         uid=2,
         data_dict={
             "objects": {
-                object_data_person.object.uid: object_data_person_dict,
-                object_data_train.object.uid: object_data_train_dict,
+                object_person.uid: object_data_person_dict,
+                object_train.uid: object_data_train_dict,
             }
         },
         sensors=sensors,
@@ -221,8 +220,8 @@ def test_asdict_frame_data(num, num_dict):
     }
 
 def test_asdict_object_data(
-    object_data_person_dict, object_data_person,
-    object_data_train_dict, object_data_train,
+    object_data_person_dict, object_person,
+    object_data_train_dict, object_train,
     all_annotations
 ):
     frame = Frame(
@@ -232,8 +231,8 @@ def test_asdict_object_data(
 
     assert frame.asdict() == {
         "objects": {
-            object_data_person.object.uid: object_data_person_dict,
-            object_data_train.object.uid: object_data_train_dict,
+            object_person.uid: object_data_person_dict,
+            object_train.uid: object_data_train_dict,
         }
     }
 

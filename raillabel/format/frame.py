@@ -11,7 +11,6 @@ from .._util._warning import _warning
 from ._object_annotation import _ObjectAnnotation, annotation_classes
 from .num import Num
 from .object import Object
-from .object_data import ObjectData
 from .sensor import Sensor
 from .sensor_reference import SensorReference
 

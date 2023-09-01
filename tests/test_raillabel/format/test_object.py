@@ -19,7 +19,6 @@ from raillabel.format import (
     Frame,
     FrameInterval,
     Object,
-    ObjectData,
     Point2d,
     Point3d,
     Quaternion,
