@@ -266,13 +266,18 @@
                             "description": "The timestamp indicates a time instant as a UTC string or numerical value to describe this frame."
                         },
                         "frame_data": {
-                            "num": {
-                                "description": "List of \"num\" that describe this frame.",
-                                "items": {
-                                    "$ref": "#/definitions/num"
-                                },
-                                "type": "array"
-                            }
+                            "additionalProperties": false,
+                            "description": "Additional data to describe attributes of the frame.",
+                            "properties": {
+                                "num": {
+                                    "description": "List of \"num\" that describe this frame.",
+                                    "items": {
+                                        "$ref": "#/definitions/num"
+                                    },
+                                    "type": "array"
+                                }
+                            },
+                            "type": "object"
                         }
                     },
                     "type": "object"
@@ -358,15 +363,12 @@
             "additionalProperties": false,
             "description": "A number.",
             "properties": {
-                "attributes": {
-                    "$ref": "#/definitions/attributes"
-                },
                 "coordinate_system": {
                     "description": "Name of the coordinate system in respect of which this object data is expressed.",
                     "type": "string"
                 },
                 "name": {
-                    "description": "This is a string encoding the name of this object data. It is used as index inside the corresponding object data pointers.",
+                    "description": "This is a string encoding the name of this object data.",
                     "type": "string"
                 },
                 "val": {
@@ -380,6 +382,7 @@
                 }
             },
             "required": [
+                "name",
                 "val"
             ],
             "type": "object"
