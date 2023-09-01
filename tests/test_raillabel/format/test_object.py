@@ -120,7 +120,7 @@ def test_asdict_with_frames():
     frames = {
         0: build_frame(0,
             {
-                object: [build_annotation("rgb_middle__bbox__person")]
+                object: [build_annotation("rgb_middle__bbox__person", object)]
             }
         ),
     }
@@ -140,22 +140,10 @@ def test_frame_intervals():
     )
 
     frames = {
-        0: Frame(
-            uid=0,
-            object_data={UUID(object.uid): None}
-        ),
-        1: Frame(
-            uid=1,
-            object_data={UUID(object.uid): None}
-        ),
-        2: Frame(
-            uid=2,
-            object_data={}
-        ),
-        3: Frame(
-            uid=3,
-            object_data={UUID(object.uid): None}
-        ),
+        0: build_frame(0, {object: [build_annotation("rgb_middle__bbox__person", object)]}),
+        1: build_frame(1, {object: [build_annotation("rgb_middle__bbox__person", object)]}),
+        2: build_frame(2, {}),
+        3: build_frame(3, {object: [build_annotation("rgb_middle__bbox__person", object)]}),
     }
 
     assert object.frame_intervals(frames) == [
@@ -171,8 +159,8 @@ def test_object_data_pointers__sensor():
         0: build_frame(0,
             {
                 object: [
-                    build_annotation("rgb_middle__bbox__person"),
-                    build_annotation("lidar__bbox__person")
+                    build_annotation("rgb_middle__bbox__person", object),
+                    build_annotation("lidar__bbox__person", object)
                 ]
             }
         )
@@ -189,8 +177,8 @@ def test_object_data_pointers__annotation_type():
         0: build_frame(0,
             {
                 object: [
-                    build_annotation("rgb_middle__bbox__person"),
-                    build_annotation("rgb_middle__cuboid__person")
+                    build_annotation("rgb_middle__bbox__person", object),
+                    build_annotation("rgb_middle__cuboid__person", object)
                 ]
             }
         )
@@ -209,12 +197,12 @@ def test_object_data_pointers__one_frame_interval():
     frames = {
         0: build_frame(0,
             {
-                object: [build_annotation("rgb_middle__bbox__person")]
+                object: [build_annotation("rgb_middle__bbox__person", object)]
             }
         ),
         1: build_frame(1,
             {
-                object: [build_annotation("rgb_middle__bbox__person")]
+                object: [build_annotation("rgb_middle__bbox__person", object)]
             }
         ),
     }
@@ -232,17 +220,17 @@ def test_object_data_pointers__two_frame_intervals():
     frames = {
         0: build_frame(0,
             {
-                object: [build_annotation("rgb_middle__bbox__person")]
+                object: [build_annotation("rgb_middle__bbox__person", object)]
             }
         ),
         1: build_frame(1,
             {
-                object: [build_annotation("rgb_middle__bbox__person")]
+                object: [build_annotation("rgb_middle__bbox__person", object)]
             }
         ),
         8: build_frame(8,
             {
-                object: [build_annotation("rgb_middle__bbox__person")]
+                object: [build_annotation("rgb_middle__bbox__person", object)]
             }
         ),
     }
@@ -264,6 +252,7 @@ def test_object_data_pointers__attributes_one_annotation():
                 object: [
                     build_annotation(
                         name="rgb_middle__bbox__person",
+                        object=object,
                         attributes={
                             "text_attr": "some value",
                             "num_attr": 0,
@@ -294,6 +283,7 @@ def test_object_data_pointers__attributes_multiple_annotations_with_differing_at
                 object: [
                     build_annotation(
                         name="rgb_middle__bbox__person",
+                        object=object,
                         attributes={
                             "text_attr": "some value",
                             "num_attr": 0,
@@ -301,6 +291,7 @@ def test_object_data_pointers__attributes_multiple_annotations_with_differing_at
                     ),
                     build_annotation(
                         name="rgb_middle__bbox__person",
+                        object=object,
                         attributes={
                             "bool_attr": True,
                             "vec_attr": [0, 1],
@@ -328,14 +319,14 @@ def test_object_data_pointers__multiple_objects_of_differing_type():
         0: build_frame(0,
             {
                 object_person: [
-                    build_annotation("lidar__bbox__person"),
+                    build_annotation("lidar__bbox__person", object_person),
                 ]
             }
         ),
         1: build_frame(1,
             {
                 object_train: [
-                    build_annotation("lidar__bbox__train"),
+                    build_annotation("lidar__bbox__train", object_train),
                 ]
             }
         )
@@ -361,14 +352,14 @@ def test_object_data_pointers__multiple_objects_of_same_type():
         0: build_frame(0,
             {
                 object1: [
-                    build_annotation("lidar__bbox__person"),
+                    build_annotation("lidar__bbox__person", object1),
                 ]
             }
         ),
         1: build_frame(1,
             {
                 object2: [
-                    build_annotation("lidar__bbox__person"),
+                    build_annotation("lidar__bbox__person", object2),
                 ]
             }
         )
@@ -388,15 +379,10 @@ def test_object_data_pointers__multiple_objects_of_same_type():
 
 # == Helpers ==========================
 
-def build_annotation(name: str, attributes: dict={}) -> t.Union[Bbox, Cuboid]:
+def build_annotation(name: str, object: Object, attributes: dict={}) -> t.Union[Bbox, Cuboid]:
     sensor_uid, ann_type, object_type = tuple(name.split("__"))
 
     sensor = Sensor(sensor_uid)
-    object = Object(
-        uid=uuid4(),
-        name=f"{object_type}_0000",
-        type=object_type,
-    )
 
     if ann_type == "bbox":
         return Bbox(
@@ -425,14 +411,12 @@ def build_annotation(name: str, attributes: dict={}) -> t.Union[Bbox, Cuboid]:
         raise ValueError()
 
 def build_frame(uid: int, raw_object_data: t.Dict[Object, t.List[t.Union[Bbox, Cuboid]]]) -> Frame:
-    object_data = {}
-    for object, annotations in raw_object_data.items():
-        object_data[object.uid] = ObjectData(
-            object=object,
-            annotations={ann.uid: ann for ann in annotations}
-        )
+    annotations = {}
+    for object, object_data in raw_object_data.items():
+        for annotation in object_data:
+            annotations[annotation.uid] = annotation
 
-    return Frame(uid=uid, object_data=object_data)
+    return Frame(uid=uid, annotations=annotations)
 
 def build_object(type: str) -> Object:
     return Object(

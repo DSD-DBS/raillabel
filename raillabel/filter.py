@@ -155,19 +155,14 @@ def _filter_scene(
             else:
                 del scene.frames[frame_id].frame_data[frame_data_id]
 
-        for object_id, object_data in frame.object_data.items():
+        for annotation_id, annotation in list(frame.annotations.items()):
 
-            if not _passes_filters(scene.objects[object_id], filters_by_level["object"]):
-                continue
+            if _passes_filters(annotation, filters_by_level["annotation"]):
+                used_objects.add(annotation.object.uid)
+                used_sensors.add(annotation.sensor.uid)
 
-            for annotation_id, annotation in list(object_data.annotations.items()):
-
-                if _passes_filters(annotation, filters_by_level["annotation"]):
-                    used_objects.add(object_id)
-                    used_sensors.add(annotation.sensor.uid)
-
-                else:
-                    del scene.frames[frame_id].object_data[object_id].annotations[annotation_id]
+            else:
+                del scene.frames[frame_id].annotations[annotation_id]
 
     return scene, used_sensors, used_objects
 
@@ -187,8 +182,6 @@ def _remove_unused(
         scene.frames[frame_id] = _remove_unused_sensor_references(
             scene.frames[frame_id], used_sensors
         )
-
-        scene.frames[frame_id] = _remove_unused_object_data(scene.frames[frame_id], used_objects)
 
     return scene
 
@@ -213,15 +206,6 @@ def _remove_unused_sensor_references(frame: format.Frame, used_sensors: t.Set[st
     for sensor_id in list(frame.sensors):
         if sensor_id not in used_sensors:
             del frame.sensors[sensor_id]
-
-    return frame
-
-
-def _remove_unused_object_data(frame: format.Frame, used_objects: t.Set[str]) -> format.Frame:
-    for object_id in list(frame.object_data):
-
-        if object_id not in used_objects or len(frame.object_data[object_id].annotations) == 0:
-            del frame.object_data[object_id]
 
     return frame
 

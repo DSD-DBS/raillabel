@@ -48,6 +48,7 @@ from test_raillabel.format.test_object import (
     objects,
     objects_dict,
 )
+from test_raillabel.format.test_object_annotation import all_annotations
 from test_raillabel.format.test_object_data import (
     object_data_person,
     object_data_person_dict,

@@ -12,6 +12,25 @@ sys.path.insert(1, str(Path(__file__).parent.parent.parent.parent))
 import raillabel
 from raillabel.format._object_annotation import annotation_classes
 
+# == Fixtures =========================
+
+@pytest.fixture
+def all_annotations(
+    bbox, bbox_train,
+    cuboid,
+    poly2d,
+    poly3d,
+    seg3d,
+):
+    return {
+        bbox.uid: bbox,
+        bbox_train.uid: bbox_train,
+        cuboid.uid: cuboid,
+        poly2d.uid: poly2d,
+        poly3d.uid: poly3d,
+        seg3d.uid: seg3d,
+    }
+
 # == Tests ============================
 
 def test_post_init_happy(object_person, point2d, size2d):

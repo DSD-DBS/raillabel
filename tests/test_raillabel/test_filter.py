@@ -146,6 +146,7 @@ def test_filter_object_ids(json_paths, json_data, loader):
             "b40ba3ad-0327-46ff-9c28-2506cfd6d934",
         ],
     )
+
     assert scene_filtered == scene_filtered_ground_truth
 
     # Tests for exclude filter
