@@ -248,7 +248,7 @@ class Frame:
         data_dict: dict,
         object: Object,
         sensors: t.Dict[str, Sensor],
-    ) -> t.Generator[t.Type[_ObjectAnnotation]]:
+    ) -> t.Iterator[t.Type[_ObjectAnnotation]]:
 
         for ann_type, annotations_raw in data_dict.items():
             for ann_raw in annotations_raw:
