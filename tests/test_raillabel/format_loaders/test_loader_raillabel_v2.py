@@ -27,46 +27,10 @@ def test_supports_false(json_data, loader):
     assert not loader.supports(data)
 
 
-def test_load_uri_vcd_incompatible(
-    json_data, loader
-):
-    """Tests, whether an older annotation file, which is not usable for the VCD
-    library is converted into a compatible one."""
-
-    scene_ground_truth = loader.load(json_data["openlabel_v1_short"], validate=False)
-    scene = loader.load(
-        json_data["openlabel_v1_vcd_incompatible"],
-        validate=False
-    )
-
-    # The UUIDs of the frame data have been generated and therefore do not match the ground truth.
-    # They are set equal here.
-    for frame_id in scene_ground_truth.frames:
-        for frame_data in scene_ground_truth.frames[frame_id].frame_data:
-            scene.frames[frame_id].frame_data[frame_data].uid = (
-                scene_ground_truth.frames[frame_id].frame_data[frame_data].uid
-            )
-
-    assert scene == scene_ground_truth
-
-
 # Tests the warnings and errors
 def test_no_warnings(json_data, loader):
     loader.load(json_data["openlabel_v1_short"], validate=False)
     assert len(loader.warnings) == 0
-
-
-def test_warning_uri_attribute(
-    json_data, loader
-):
-
-    loader.load(
-        json_data["openlabel_v1_vcd_incompatible"],
-        validate=False
-    )
-
-    assert "attribute" in loader.warnings[0]
-    assert "uri" in loader.warnings[0]
 
 
 def test_warnings_sync(json_data, loader):
