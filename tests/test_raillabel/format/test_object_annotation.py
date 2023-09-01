@@ -14,22 +14,24 @@ from raillabel.format._object_annotation import annotation_classes
 
 # == Tests ============================
 
-def test_post_init(object_person):
-    bbox = raillabel.format.Bbox(
+def test_post_init_happy(object_person, point2d, size2d):
+    raillabel.format.Bbox(
         uid="d2764400-8560-4991-a491-ada598b345c8",
         name="test_name",
         object=object_person,
-        pos=raillabel.format.Point2d(0, 1),
-        size=raillabel.format.Size2d(2, 3),
+        pos=point2d,
+        size=size2d,
     )
 
+def test_post_init_unhappy(object_person, point2d):
     with pytest.raises(TypeError):
-        bbox = raillabel.format.Bbox(
+        raillabel.format.Bbox(
             uid="d2764400-8560-4991-a491-ada598b345c8",
             name="test_name",
             object=object_person,
-            pos=raillabel.format.Point2d(0, 1),
+            pos=point2d,
         )
+
 
 def test_annotation_classes():
     assert annotation_classes() == {
