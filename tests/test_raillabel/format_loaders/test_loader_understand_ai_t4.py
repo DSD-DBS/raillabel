@@ -31,7 +31,7 @@ def test_load(json_data, loader):
     input_data_raillabel = remove_non_parsed_fields(json_data["openlabel_v1_short"])
     input_data_uai = json_data["understand_ai_t4_short"]
 
-    scene_ground_truth = raillabel.format_loaders.LoaderRailLabelV2().load(input_data_raillabel, validate=False)
+    scene_ground_truth = raillabel.format_loaders.LoaderRailLabel().load(input_data_raillabel, validate=False)
     scene = loader.load(input_data_uai, validate=False)
 
     scene.metadata = scene_ground_truth.metadata
