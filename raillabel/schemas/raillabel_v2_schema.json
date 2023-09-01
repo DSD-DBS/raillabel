@@ -266,7 +266,13 @@
                             "description": "The timestamp indicates a time instant as a UTC string or numerical value to describe this frame."
                         },
                         "frame_data": {
-                            "$ref": "#/definitions/object_data"
+                            "num": {
+                                "description": "List of \"num\" that describe this frame.",
+                                "items": {
+                                    "$ref": "#/definitions/num"
+                                },
+                                "type": "array"
+                            }
                         }
                     },
                     "type": "object"
@@ -440,13 +446,6 @@
                     "description": "List of \"cuboid\" that describe this object.",
                     "items": {
                         "$ref": "#/definitions/cuboid"
-                    },
-                    "type": "array"
-                },
-                "num": {
-                    "description": "List of \"num\" that describe this object.",
-                    "items": {
-                        "$ref": "#/definitions/num"
                     },
                     "type": "array"
                 },
