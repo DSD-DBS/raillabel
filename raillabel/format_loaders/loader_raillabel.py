@@ -10,7 +10,7 @@ from .._util._warning import _WarningsLogger
 from ._loader_abc import LoaderABC
 
 
-class LoaderRailLabelV2(LoaderABC):
+class LoaderRailLabel(LoaderABC):
     """Loader class for the OpenLabel v1 annotation format.
 
     Attributes
@@ -24,7 +24,7 @@ class LoaderRailLabelV2(LoaderABC):
     scene: format.Scene
     warnings: t.List[str]
 
-    SCHEMA_PATH: Path = Path(__file__).parent.parent / "schemas" / "raillabel_v2_schema.json"
+    SCHEMA_PATH: Path = Path(__file__).parent.parent / "schemas" / "raillabel_schema.json"
 
     @property
     def subschema_version(self):
@@ -88,7 +88,7 @@ class LoaderRailLabelV2(LoaderABC):
                 "openlabel" in data
                 and "metadata" in data["openlabel"]
                 and "schema_version" in data["openlabel"]["metadata"]
-                and data["openlabel"]["metadata"]["subschema_version"].startswith("2.")
+                and data["openlabel"]["metadata"]["subschema_version"].split(".")[0] in ["2", "3"]
             )
 
         else:

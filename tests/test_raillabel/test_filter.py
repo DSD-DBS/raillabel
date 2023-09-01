@@ -31,7 +31,7 @@ def delete_sensor_from_data(data: dict, sensor_id: str) -> dict:
 
 @pytest.fixture
 def loader():
-    return raillabel.format_loaders.LoaderRailLabelV2()
+    return raillabel.format_loaders.LoaderRailLabel()
 
 
 def test_filter_unexpected_kwarg(json_paths):
@@ -146,6 +146,7 @@ def test_filter_object_ids(json_paths, json_data, loader):
             "b40ba3ad-0327-46ff-9c28-2506cfd6d934",
         ],
     )
+
     assert scene_filtered == scene_filtered_ground_truth
 
     # Tests for exclude filter

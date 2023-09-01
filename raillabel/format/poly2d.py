@@ -4,12 +4,13 @@
 import typing as t
 from dataclasses import dataclass
 
-from ._annotation import _Annotation
+from ._object_annotation import _ObjectAnnotation
+from .object import Object
 from .point2d import Point2d
 
 
 @dataclass
-class Poly2d(_Annotation):
+class Poly2d(_ObjectAnnotation):
     """Sequence of 2D points. Can either be a polygon or polyline.
 
     Parameters
@@ -30,11 +31,13 @@ class Poly2d(_Annotation):
         all the rest are defined relative to it. "MODE_POLY2D_SRF6DCC" specifies that SRF6DCC chain
         code method is used. "MODE_POLY2D_RS6FCC" specifies that the RS6FCC method is used. Default
         is 'MODE_POLY2D_ABSOLUTE'.
+    object: raillabel.format.Object
+        A reference to the object, this annotation belongs to.
+    sensor: raillabel.format.Sensor, optional
+        A reference to the sensor, this annotation is labeled in. Default is None.
     attributes: dict, optional
         Attributes of the annotation. Dict keys are the name str of the attribute, values are the
         attribute values. Default is {}.
-    sensor: raillabel.format.Sensor, optional
-        A reference to the sensor, this annotation is labeled in. Default is None.
     """
 
     points: t.List[Point2d] = None
@@ -45,11 +48,7 @@ class Poly2d(_Annotation):
     _REQ_FIELDS = ["points", "closed"]
 
     @classmethod
-    def fromdict(
-        cls,
-        data_dict: dict,
-        sensors: dict,
-    ) -> "Poly2d":
+    def fromdict(cls, data_dict: dict, sensors: dict, object: Object) -> "Poly2d":
         """Generate a Poly2d object from a dict.
 
         Parameters
@@ -58,6 +57,8 @@ class Poly2d(_Annotation):
             RailLabel format snippet containing the relevant data.
         sensors: dict
             Dictionary containing all sensors for the scene.
+        object: raillabel.format.Object
+            Object this annotation belongs to.
 
         Returns
         -------
@@ -71,6 +72,7 @@ class Poly2d(_Annotation):
             closed=data_dict["closed"],
             mode=data_dict["mode"],
             points=cls._points_fromdict(data_dict),
+            object=object,
             sensor=cls._coordinate_system_fromdict(data_dict, sensors),
             attributes=cls._attributes_fromdict(data_dict),
         )

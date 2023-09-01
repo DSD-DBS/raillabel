@@ -32,12 +32,14 @@ def poly3d_dict(
 def poly3d(
     point3d, point3d_another,
     sensor_lidar,
+    object_person,
     attributes_multiple_types
 ) -> dict:
     return Poly3d(
         uid="9a9a30f5-D334-4f11-aa3f-c3c83f2935eb",
         name="lidar__poly3d__person",
         points=[point3d, point3d_another],
+        object=object_person,
         sensor=sensor_lidar,
         attributes=attributes_multiple_types,
         closed=True,
@@ -48,26 +50,27 @@ def poly3d(
 def test_fromdict(
     point3d, point3d_dict,
     point3d_another, point3d_another_dict,
-    sensor_lidar,
+    sensor_lidar, sensors,
+    object_person,
     attributes_multiple_types, attributes_multiple_types_dict,
 ):
     poly3d = Poly3d.fromdict(
         {
-        "uid": "9a9a30f5-D334-4f11-aa3f-c3c83f2935eb",
-        "name": "lidar__poly3d__person",
-        "val": point3d_dict + point3d_another_dict,
-        "coordinate_system": sensor_lidar.uid,
-        "attributes": attributes_multiple_types_dict,
-        "closed": True,
-    },
-        {
-            sensor_lidar.uid: sensor_lidar
-        }
+            "uid": "9a9a30f5-D334-4f11-aa3f-c3c83f2935eb",
+            "name": "lidar__poly3d__person",
+            "val": point3d_dict + point3d_another_dict,
+            "coordinate_system": sensor_lidar.uid,
+            "attributes": attributes_multiple_types_dict,
+            "closed": True,
+        },
+        sensors,
+        object_person
     )
 
     assert poly3d.uid == "9a9a30f5-D334-4f11-aa3f-c3c83f2935eb"
     assert poly3d.name == "lidar__poly3d__person"
     assert poly3d.points == [point3d, point3d_another]
+    assert poly3d.object == object_person
     assert poly3d.sensor == sensor_lidar
     assert poly3d.attributes == attributes_multiple_types
     assert poly3d.closed == True
@@ -77,12 +80,14 @@ def test_asdict(
     point3d, point3d_dict,
     point3d_another, point3d_another_dict,
     sensor_lidar,
+    object_person,
     attributes_multiple_types, attributes_multiple_types_dict,
 ):
     poly3d = Poly3d(
         uid="9a9a30f5-D334-4f11-aa3f-c3c83f2935eb",
         name="lidar__poly3d__person",
         points=[point3d, point3d_another],
+        object=object_person,
         sensor=sensor_lidar,
         attributes=attributes_multiple_types,
         closed=True,

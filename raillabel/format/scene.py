@@ -6,6 +6,7 @@ import uuid
 from dataclasses import dataclass, field
 
 from .. import exceptions
+from .._util._clean_dict import _clean_dict
 from .frame import Frame
 from .frame_interval import FrameInterval
 from .metadata import Metadata
@@ -102,7 +103,7 @@ class Scene:
         """
 
         return {
-            "openlabel": self._clean_empty_fields(
+            "openlabel": _clean_dict(
                 {
                     "metadata": self.metadata.asdict(),
                     "streams": self._streams_asdict(self.sensors),
@@ -205,18 +206,6 @@ class Scene:
         return frames
 
     # --- asdict() ------------------------------
-
-    def _clean_empty_fields(self, dictionary: dict) -> dict:
-
-        empty_keys = []
-        for key, value in dictionary.items():
-            if value is None or len(value) == 0:
-                empty_keys.append(key)
-
-        for key in empty_keys:
-            del dictionary[key]
-
-        return dictionary
 
     def _streams_asdict(self, sensors: t.Dict[str, Sensor]) -> dict:
         return {uid: sensor.asdict()["stream"] for uid, sensor in sensors.items()}

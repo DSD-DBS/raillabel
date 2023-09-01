@@ -6,7 +6,7 @@ from pathlib import Path
 
 from .. import _understand_ai_t4_format as uai_format
 from ._loader_abc import LoaderABC
-from .loader_raillabel_v2 import LoaderRailLabelV2
+from .loader_raillabel import LoaderRailLabel
 
 
 class LoaderUnderstandAiT4(LoaderABC):
@@ -50,7 +50,7 @@ class LoaderUnderstandAiT4(LoaderABC):
 
         data_converted_to_raillabel = uai_format.Scene.fromdict(data).to_raillabel()
 
-        raillabel_scene = LoaderRailLabelV2().load(data_converted_to_raillabel, validate=False)
+        raillabel_scene = LoaderRailLabel().load(data_converted_to_raillabel, validate=False)
 
         return raillabel_scene
 

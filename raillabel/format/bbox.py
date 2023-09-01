@@ -3,13 +3,14 @@
 
 from dataclasses import dataclass
 
-from ._annotation import _Annotation
+from ._object_annotation import _ObjectAnnotation
+from .object import Object
 from .point2d import Point2d
 from .size2d import Size2d
 
 
 @dataclass
-class Bbox(_Annotation):
+class Bbox(_ObjectAnnotation):
     """A 2D bounding box in an image.
 
     Parameters
@@ -22,11 +23,13 @@ class Bbox(_Annotation):
         The center point of the bbox in pixels.
     size: raillabel.format.Size2d
         The dimensions of the bbox in pixels from the top left corner to the bottom right corner.
+    object: raillabel.format.Object
+        A reference to the object, this annotation belongs to.
+    sensor: raillabel.format.Sensor, optional
+        A reference to the sensor, this annotation is labeled in. Default is None.
     attributes: dict, optional
         Attributes of the annotation. Dict keys are the name str of the attribute, values are the
         attribute values. Default is {}.
-    sensor: raillabel.format.Sensor, optional
-        A reference to the sensor, this annotation is labeled in. Default is None.
     """
 
     pos: Point2d = None
@@ -36,7 +39,7 @@ class Bbox(_Annotation):
     _REQ_FIELDS = ["pos", "size"]
 
     @classmethod
-    def fromdict(cls, data_dict: dict, sensors: dict) -> "Bbox":
+    def fromdict(cls, data_dict: dict, sensors: dict, object: Object) -> "Bbox":
         """Generate a Bbox object from a dict.
 
         Parameters
@@ -45,6 +48,8 @@ class Bbox(_Annotation):
             RailLabel format snippet containing the relevant data.
         sensors: dict
             Dictionary containing all sensors for the scene.
+        object: raillabel.format.Object
+            Object this annotation belongs to.
 
         Returns
         -------
@@ -57,6 +62,7 @@ class Bbox(_Annotation):
             name=str(data_dict["name"]),
             pos=Point2d(x=data_dict["val"][0], y=data_dict["val"][1]),
             size=Size2d(x=data_dict["val"][2], y=data_dict["val"][3]),
+            object=object,
             sensor=cls._coordinate_system_fromdict(data_dict, sensors),
             attributes=cls._attributes_fromdict(data_dict),
         )

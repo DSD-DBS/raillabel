@@ -4,7 +4,7 @@
 import typing as t
 from abc import ABC, abstractmethod, abstractproperty
 
-from ..format._annotation import _Annotation
+from ..format._object_annotation import _ObjectAnnotation
 from ..format.frame import Frame
 
 
@@ -50,7 +50,7 @@ class _FilterABC(ABC):
                 setattr(self, param, None)
 
     @abstractmethod
-    def passes_filter(self, annotation: t.Union[t.Type[_Annotation], Frame]) -> bool:
+    def passes_filter(self, annotation: t.Union[t.Type[_ObjectAnnotation], Frame]) -> bool:
         raise NotImplementedError
 
     def _process_filter_args(self, filter_args):

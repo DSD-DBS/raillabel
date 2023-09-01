@@ -33,12 +33,14 @@ def poly2d_dict(
 def poly2d(
     point2d, point2d_another,
     sensor_camera,
-    attributes_multiple_types
+    attributes_multiple_types,
+    object_person
 ) -> dict:
     return Poly2d(
         uid="d73b5988-767B-47ef-979c-022af60c6ab2",
         name="rgb_middle__poly2d__person",
         points=[point2d, point2d_another],
+        object=object_person,
         sensor=sensor_camera,
         attributes=attributes_multiple_types,
         closed=True,
@@ -50,7 +52,8 @@ def poly2d(
 def test_fromdict(
     point2d, point2d_dict,
     point2d_another, point2d_another_dict,
-    sensor_camera,
+    sensor_camera, sensors,
+    object_person,
     attributes_multiple_types, attributes_multiple_types_dict,
 ):
     poly2d = Poly2d.fromdict(
@@ -63,14 +66,14 @@ def test_fromdict(
             "closed": True,
             "mode": "MODE_POLY2D_ABSOLUTE",
         },
-        {
-            sensor_camera.uid: sensor_camera
-        }
+        sensors,
+        object_person
     )
 
     assert poly2d.uid == "d73b5988-767B-47ef-979c-022af60c6ab2"
     assert poly2d.name == "rgb_middle__poly2d__person"
     assert poly2d.points == [point2d, point2d_another]
+    assert poly2d.object == object_person
     assert poly2d.sensor == sensor_camera
     assert poly2d.attributes == attributes_multiple_types
     assert poly2d.closed == True
@@ -80,13 +83,14 @@ def test_fromdict(
 def test_asdict(
     point2d, point2d_dict,
     point2d_another, point2d_another_dict,
-    sensor_camera,
+    sensor_camera, object_person,
     attributes_multiple_types, attributes_multiple_types_dict,
 ):
     poly2d = Poly2d(
         uid="d73b5988-767B-47ef-979c-022af60c6ab2",
         name="rgb_middle__poly2d__person",
         points=[point2d, point2d_another],
+        object=object_person,
         sensor=sensor_camera,
         attributes=attributes_multiple_types,
         closed=True,

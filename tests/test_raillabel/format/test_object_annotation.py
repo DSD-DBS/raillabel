@@ -10,30 +10,52 @@ import pytest
 sys.path.insert(1, str(Path(__file__).parent.parent.parent.parent))
 
 import raillabel
-from raillabel.format._annotation import annotation_classes
+from raillabel.format._object_annotation import annotation_classes
+
+# == Fixtures =========================
+
+@pytest.fixture
+def all_annotations(
+    bbox, bbox_train,
+    cuboid,
+    poly2d,
+    poly3d,
+    seg3d,
+):
+    return {
+        bbox.uid: bbox,
+        bbox_train.uid: bbox_train,
+        cuboid.uid: cuboid,
+        poly2d.uid: poly2d,
+        poly3d.uid: poly3d,
+        seg3d.uid: seg3d,
+    }
 
 # == Tests ============================
 
-def test_post_init():
-    bbox = raillabel.format.Bbox(
+def test_post_init_happy(object_person, point2d, size2d):
+    raillabel.format.Bbox(
         uid="d2764400-8560-4991-a491-ada598b345c8",
         name="test_name",
-        pos=raillabel.format.Point2d(0, 1),
-        size=raillabel.format.Size2d(2, 3),
+        object=object_person,
+        pos=point2d,
+        size=size2d,
     )
 
+def test_post_init_unhappy(object_person, point2d):
     with pytest.raises(TypeError):
-        bbox = raillabel.format.Bbox(
+        raillabel.format.Bbox(
             uid="d2764400-8560-4991-a491-ada598b345c8",
             name="test_name",
-            pos=raillabel.format.Point2d(0, 1),
+            object=object_person,
+            pos=point2d,
         )
+
 
 def test_annotation_classes():
     assert annotation_classes() == {
         "bbox": raillabel.format.Bbox,
         "poly2d": raillabel.format.Poly2d,
-        "num": raillabel.format.Num,
         "cuboid": raillabel.format.Cuboid,
         "poly3d": raillabel.format.Poly3d,
         "vec": raillabel.format.Seg3d,

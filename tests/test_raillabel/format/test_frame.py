@@ -19,8 +19,8 @@ from raillabel.format.frame import Frame
 def frame_dict(
     sensor_reference_camera_dict,
     num_dict,
-    object_data_person, object_data_person_dict,
-    object_data_train, object_data_train_dict,
+    object_person, object_data_person_dict,
+    object_train, object_data_train_dict,
 ) -> dict:
     return {
         "frame_properties": {
@@ -33,8 +33,8 @@ def frame_dict(
             },
         },
         "objects": {
-            object_data_person.object.uid: object_data_person_dict,
-            object_data_train.object.uid: object_data_train_dict,
+            object_person.uid: object_data_person_dict,
+            object_train.uid: object_data_train_dict,
         }
     }
 
@@ -42,18 +42,14 @@ def frame_dict(
 def frame(
     sensor_reference_camera,
     num,
-    object_data_person,
-    object_data_train,
+    all_annotations
 ) -> dict:
     return Frame(
         uid=0,
         timestamp=Decimal("1632321743.100000072"),
         sensors={sensor_reference_camera.sensor.uid: sensor_reference_camera},
         frame_data={num.name: num},
-        object_data={
-            object_data_person.object.uid: object_data_person,
-            object_data_train.object.uid: object_data_train,
-        }
+        annotations=all_annotations
     )
 
 # == Tests ============================
@@ -101,17 +97,17 @@ def test_fromdict_frame_data(
     assert frame.frame_data == {num.name: num}
 
 def test_fromdict_object_data(
-    object_data_person_dict, object_data_person,
-    object_data_train_dict, object_data_train,
+    object_data_person_dict, object_person,
+    object_data_train_dict, object_train,
     sensors,
-    object_person, object_train,
+    all_annotations,
 ):
     frame = Frame.fromdict(
         uid=2,
         data_dict={
             "objects": {
-                object_data_person.object.uid: object_data_person_dict,
-                object_data_train.object.uid: object_data_train_dict,
+                object_person.uid: object_data_person_dict,
+                object_train.uid: object_data_train_dict,
             }
         },
         sensors=sensors,
@@ -121,8 +117,7 @@ def test_fromdict_object_data(
         },
     )
 
-    assert frame.object_data[object_data_person.object.uid] == object_data_person
-    assert frame.object_data[object_data_train.object.uid] == object_data_train
+    assert frame.annotations == all_annotations
 
 def test_fromdict_uri_attribute(
     bbox_dict,
@@ -164,6 +159,34 @@ def test_fromdict_uri_attribute(
     assert frame.sensors["rgb_middle"].uri == "test_uri.png"
     assert "uri" not in frame.annotations[bbox_with_uri_attribute["uid"]].attributes
 
+def test_fromdict_duplicate_annotation_uid_warning(
+    sensors,
+    object_person, objects,
+    bbox_dict, cuboid_dict
+):
+    cuboid_dict["uid"] = bbox_dict["uid"]
+
+    with _WarningsLogger() as logger:
+        frame = Frame.fromdict(
+            uid=2,
+            data_dict={
+                "objects": {
+                    object_person.uid: {
+                        "object_data": {
+                            "bbox": [bbox_dict],
+                            "cuboid": [cuboid_dict],
+                        }
+                    }
+                }
+            },
+            sensors=sensors,
+            objects=objects,
+        )
+
+    assert len(logger.warnings) == 1
+    assert bbox_dict["uid"] in logger.warnings[0]
+    assert list(frame.annotations.values())[0].uid != list(frame.annotations.values())[1].uid
+
 
 def test_asdict_sensors(
     sensor_reference_camera_dict,
@@ -199,23 +222,19 @@ def test_asdict_frame_data(num, num_dict):
     }
 
 def test_asdict_object_data(
-    object_data_person_dict, object_data_person,
-    object_data_train_dict, object_data_train,
-    sensors,
-    object_person, object_train,
+    object_data_person_dict, object_person,
+    object_data_train_dict, object_train,
+    all_annotations
 ):
     frame = Frame(
         uid=0,
-        object_data={
-            object_data_person.object.uid: object_data_person,
-            object_data_train.object.uid: object_data_train,
-        }
+        annotations=all_annotations
     )
 
     assert frame.asdict() == {
         "objects": {
-            object_data_person.object.uid: object_data_person_dict,
-            object_data_train.object.uid: object_data_train_dict,
+            object_person.uid: object_data_person_dict,
+            object_train.uid: object_data_train_dict,
         }
     }
 

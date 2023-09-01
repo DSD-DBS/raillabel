@@ -14,7 +14,7 @@ import raillabel
 
 @pytest.fixture
 def loader():
-    return raillabel.format_loaders.LoaderRailLabelV2()
+    return raillabel.format_loaders.LoaderRailLabel()
 
 
 def test_supports_true(json_data, loader):
@@ -23,7 +23,7 @@ def test_supports_true(json_data, loader):
 
 def test_supports_false(json_data, loader):
     data = json_data["openlabel_v1_short"]
-    data["openlabel"]["metadata"]["subschema_version"] = "3.0.0"
+    data["openlabel"]["metadata"]["subschema_version"] = "4.0.0"
     assert not loader.supports(data)
 
 

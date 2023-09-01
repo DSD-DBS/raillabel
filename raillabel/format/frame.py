@@ -8,10 +8,9 @@ import warnings
 from dataclasses import dataclass, field
 
 from .._util._warning import _warning
-from ._annotation import annotation_classes
+from ._object_annotation import _ObjectAnnotation, annotation_classes
 from .num import Num
 from .object import Object
-from .object_data import ObjectData
 from .sensor import Sensor
 from .sensor_reference import SensorReference
 
@@ -33,6 +32,7 @@ class Frame:
         Dictionary containing data directly connected to the frame and not to any object, like
         gps/imu data. Dictionary keys are the ID-strings of the variable the data belongs to.
         Default is {}.
+    annotations
     object_data: dict of raillabel.format.ObjectData, optional
         Dictionary containing the annotations per object. Dictionary keys are the object uids.
         Default is {}.
@@ -48,20 +48,27 @@ class Frame:
     timestamp: t.Optional[decimal.Decimal] = None
     sensors: t.Dict[str, SensorReference] = field(default_factory=dict)
     frame_data: t.Dict[str, Num] = field(default_factory=dict)
-    object_data: t.Dict[uuid.UUID, ObjectData] = field(default_factory=dict)
+    annotations: t.Dict[uuid.UUID, t.Type[_ObjectAnnotation]] = field(default_factory=dict)
 
     @property
-    def annotations(self) -> t.Dict[uuid.UUID, t.Any]:
-        """Return dict containing all annotations of this frame.
+    def object_data(self) -> t.Dict[str, t.Dict[uuid.UUID, t.Type[_ObjectAnnotation]]]:
+        """Return annotations categorized by Object-Id.
 
-        Only use this field if you don't need object tracking
-        information. Dictionary keys are annotation UIDs.
+        Returns
+        -------
+        dict[str, dict[UUID, child of _ObjectAnnotation]]
+            Dictionary of annotations. Keys are object uids and values are annotations, that are
+            contained in the object.
         """
-        annotations = {}
-        for object in self.object_data.values():
-            annotations.update(object.annotations)
 
-        return annotations
+        object_data = {}
+        for ann_id, annotation in self.annotations.items():
+            if annotation.object.uid not in object_data:
+                object_data[annotation.object.uid] = {}
+
+            object_data[annotation.object.uid][ann_id] = annotation
+
+        return object_data
 
     @property
     def data(self) -> t.Dict[str, Num]:
@@ -106,12 +113,11 @@ class Frame:
             uid=int(uid),
             timestamp=cls._timestamp_fromdict(data_dict),
             sensors=cls._sensors_fromdict(data_dict, int(uid), sensors),
-            frame_data=cls._frame_data_fromdict(data_dict, int(uid), sensors),
-            object_data=cls._objects_fromdict(data_dict, int(uid), objects, sensors),
+            frame_data=cls._frame_data_fromdict(data_dict, sensors),
+            annotations=cls._objects_fromdict(data_dict, int(uid), objects, sensors),
         )
 
         frame = cls._fix_sensor_uri_attribute(frame)
-
         return frame
 
     def asdict(self) -> dict:
@@ -146,8 +152,8 @@ class Frame:
                 "num": [v.asdict() for v in self.frame_data.values()]
             }
 
-        if self.object_data != {}:
-            dict_repr["objects"] = {str(k): v.asdict() for k, v in self.object_data.items()}
+        if self.annotations != {}:
+            dict_repr["objects"] = self._annotations_asdict()
 
         return dict_repr
 
@@ -185,32 +191,16 @@ class Frame:
 
     @classmethod
     def _frame_data_fromdict(
-        cls, data_dict: dict, frame_id: int, sensors: t.Dict[str, Sensor]
+        cls, data_dict: dict, sensors: t.Dict[str, Sensor]
     ) -> t.Dict[str, Num]:
 
         if "frame_properties" not in data_dict or "frame_data" not in data_dict["frame_properties"]:
             return {}
 
         frame_data = {}
-
         for ann_type in data_dict["frame_properties"]["frame_data"]:
-
-            if ann_type not in annotation_classes():
-                _warning(
-                    f"Annotation type {ann_type} (frame {frame_id}, frame data) is "
-                    + "currently not supported. Supported annotation types: "
-                    + str(list(annotation_classes().keys()))
-                )
-                continue
-
             for ann_raw in data_dict["frame_properties"]["frame_data"][ann_type]:
-
-                if "uid" not in ann_raw:
-                    ann_raw["uid"] = uuid.uuid4()
-
-                frame_data[ann_raw["name"]] = annotation_classes()[ann_type].fromdict(
-                    ann_raw, sensors
-                )
+                frame_data[ann_raw["name"]] = Num.fromdict(ann_raw, sensors)
 
         return frame_data
 
@@ -221,12 +211,12 @@ class Frame:
         frame_id: int,
         objects: t.Dict[str, Object],
         sensors: t.Dict[str, Sensor],
-    ) -> t.Dict[uuid.UUID, ObjectData]:
+    ) -> t.Dict[uuid.UUID, t.Type[_ObjectAnnotation]]:
 
         if "objects" not in data_dict:
             return {}
 
-        object_data = {}
+        annotations = {}
 
         for obj_id, obj_ann in data_dict["objects"].items():
 
@@ -237,13 +227,35 @@ class Frame:
                 )
                 continue
 
-            object_data[obj_id] = ObjectData.fromdict(
-                object=objects[obj_id],
+            object_annotations = cls._object_annotations_fromdict(
                 data_dict=obj_ann["object_data"],
+                object=objects[obj_id],
                 sensors=sensors,
             )
 
-        return object_data
+            for annotation in object_annotations:
+                if annotation.uid in annotations:
+                    cls._issue_duplicate_annotation_uid_warning(annotation.uid, frame_id)
+                    annotation.uid = uuid.uuid4()
+
+                annotations[annotation.uid] = annotation
+
+        return annotations
+
+    @classmethod
+    def _object_annotations_fromdict(
+        cls,
+        data_dict: dict,
+        object: Object,
+        sensors: t.Dict[str, Sensor],
+    ) -> t.Iterator[t.Type[_ObjectAnnotation]]:
+
+        for ann_type, annotations_raw in data_dict.items():
+            for ann_raw in annotations_raw:
+
+                ann_raw = cls._fix_deprecated_annotation_name(ann_raw, ann_type, object.type)
+
+                yield annotation_classes()[ann_type].fromdict(ann_raw, sensors, object)
 
     @classmethod
     def _fix_sensor_uri_attribute(cls, frame: "Frame") -> "Frame":
@@ -264,6 +276,41 @@ class Frame:
                 break
 
         return frame
+
+    @classmethod
+    def _fix_deprecated_annotation_name(cls, ann_raw: dict, ann_type: str, obj_type: str) -> dict:
+
+        if "uid" not in ann_raw:
+            try:
+                ann_raw["uid"] = str(uuid.UUID(ann_raw["name"]))
+            except ValueError:
+                ann_raw["uid"] = str(uuid.uuid4())
+
+        ann_raw["name"] = f"{ann_raw['coordinate_system']}__{ann_type}__{obj_type}"
+
+        return ann_raw
+
+    @classmethod
+    def _issue_duplicate_annotation_uid_warning(cls, ann_uid: str, frame_id: int):
+        _warning(
+            f"Annotation UID '{ann_uid}' is contained more than once in frame {frame_id}. "
+            + "A new uid will be assigned."
+        )
+
+    def _annotations_asdict(self) -> dict:
+        annotations_dict = {}
+        for object_id, annotations in self.object_data.items():
+            annotations_dict[object_id] = {"object_data": {}}
+
+            for annotation in annotations.values():
+                if annotation.OPENLABEL_ID not in annotations_dict[object_id]["object_data"]:
+                    annotations_dict[object_id]["object_data"][annotation.OPENLABEL_ID] = []
+
+                annotations_dict[object_id]["object_data"][annotation.OPENLABEL_ID].append(
+                    annotation.asdict()
+                )
+
+        return annotations_dict
 
     def __eq__(self, other) -> bool:
         """Handel equal comparisons."""

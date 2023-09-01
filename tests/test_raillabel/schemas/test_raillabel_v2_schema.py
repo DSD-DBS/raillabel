@@ -9,7 +9,7 @@ import pytest
 
 def test_metaschema_validation(json_data):
     assert jsonschema.validate(
-        json_data["raillabel_v2_schema"],
+        json_data["raillabel_schema"],
         json_data["metaschema"]
     ) is None
 
@@ -17,7 +17,7 @@ def test_metaschema_validation(json_data):
 def test_sample_data_validation_subschema(json_data):
     assert jsonschema.validate(
         json_data["openlabel_v1_short"],
-        json_data["raillabel_v2_schema"]
+        json_data["raillabel_schema"]
     ) is None
 
 

@@ -9,7 +9,7 @@ import pytest
 
 sys.path.insert(1, str(Path(__file__).parent.parent.parent.parent))
 
-from raillabel.format._annotation import _Annotation
+from raillabel.format._object_annotation import _ObjectAnnotation
 
 # == Fixtures =========================
 
@@ -84,7 +84,7 @@ def test_fromdict__single_type():
         }
     }
 
-    assert _Annotation._attributes_fromdict(attributes_dict) == {
+    assert _ObjectAnnotation._attributes_fromdict(attributes_dict) == {
         "test_text_attr0": "test_text_attr0_val",
         "test_text_attr1": "test_text_attr1_val",
     }
@@ -111,7 +111,7 @@ def test_fromdict__multiple_types():
         }
     }
 
-    assert _Annotation._attributes_fromdict(attributes_dict) == {
+    assert _ObjectAnnotation._attributes_fromdict(attributes_dict) == {
         "text_attr": "text_val",
         "num_attr": 0,
         "bool_attr": True,
@@ -125,7 +125,7 @@ def test_asdict__single_type():
         "test_text_attr1": "test_text_attr1_val",
     }
 
-    assert _Annotation._attributes_asdict(None, attributes) == {
+    assert _ObjectAnnotation._attributes_asdict(None, attributes) == {
         "text": [
             {
                 "name": "test_text_attr0",
@@ -146,7 +146,7 @@ def test_asdict__multiple_types():
         "vec_attr": [0, 1, 2],
     }
 
-    assert _Annotation._attributes_asdict(None, attributes) == {
+    assert _ObjectAnnotation._attributes_asdict(None, attributes) == {
         "text": [{
             "name": "text_attr",
             "val": "text_val"

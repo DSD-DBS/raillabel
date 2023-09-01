@@ -30,13 +30,19 @@ def cuboid_dict(
     }
 
 @pytest.fixture
-def cuboid(point3d, size3d, quaternion, sensor_lidar, attributes_multiple_types) -> dict:
+def cuboid(
+    point3d, size3d, quaternion,
+    sensor_lidar,
+    attributes_multiple_types,
+    object_person
+) -> dict:
     return Cuboid(
         uid="2c6b3de0-86c2-4684-b576-4cfd4f50d6ad",
         name="lidar__cuboid__person",
         pos=point3d,
         quat=quaternion,
         size=size3d,
+        object=object_person,
         sensor=sensor_lidar,
         attributes=attributes_multiple_types,
     )
@@ -47,7 +53,8 @@ def test_fromdict(
     point3d, point3d_dict,
     size3d, size3d_dict,
     quaternion, quaternion_dict,
-    sensor_lidar,
+    sensor_lidar, sensors,
+    object_person,
     attributes_multiple_types, attributes_multiple_types_dict,
 ):
     cuboid = Cuboid.fromdict(
@@ -58,9 +65,8 @@ def test_fromdict(
             "coordinate_system": sensor_lidar.uid,
             "attributes": attributes_multiple_types_dict
         },
-        {
-            sensor_lidar.uid: sensor_lidar
-        }
+        sensors,
+        object_person
     )
 
     assert cuboid.uid == "2c6b3de0-86c2-4684-b576-4cfd4f50d6ad"
@@ -68,6 +74,7 @@ def test_fromdict(
     assert cuboid.pos == point3d
     assert cuboid.quat == quaternion
     assert cuboid.size == size3d
+    assert cuboid.object == object_person
     assert cuboid.sensor == sensor_lidar
     assert cuboid.attributes == attributes_multiple_types
 
@@ -77,6 +84,7 @@ def test_asdict(
     size3d, size3d_dict,
     quaternion, quaternion_dict,
     sensor_lidar,
+    object_person,
     attributes_multiple_types, attributes_multiple_types_dict,
 ):
     cuboid = Cuboid(
@@ -85,6 +93,7 @@ def test_asdict(
         pos=point3d,
         quat=quaternion,
         size=size3d,
+        object=object_person,
         sensor=sensor_lidar,
         attributes=attributes_multiple_types,
     )

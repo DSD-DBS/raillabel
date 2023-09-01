@@ -146,9 +146,7 @@ class Object:
         return UUID(self.uid) in frame.object_data or str(self.uid) in frame.object_data
 
     def _filtered_annotations(self, frame: "Frame") -> dict_values:
-        if self.uid not in frame.object_data:
-            return []
-        return frame.object_data[self.uid].annotations.values()
+        return [ann for ann in frame.annotations.values() if ann.object.uid == self.uid]
 
     def _collect_pointer_ids_per_frame(
         self, frames: t.Dict[int, "Frame"]

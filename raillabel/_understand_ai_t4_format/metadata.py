@@ -81,9 +81,7 @@ class Metadata:
         }
 
     def _get_subschema_version(self) -> str:
-        RAILLABEL_SCHEMA_PATH = (
-            Path(__file__).parent.parent / "schemas" / "raillabel_v2_schema.json"
-        )
+        RAILLABEL_SCHEMA_PATH = Path(__file__).parent.parent / "schemas" / "raillabel_schema.json"
 
         with RAILLABEL_SCHEMA_PATH.open() as schema_file:
             subschema_version = json.load(schema_file)["version"]

@@ -3,7 +3,7 @@
 
 import typing as t
 
-from ._filter_abc import _Annotation, _FilterABC
+from ._filter_abc import _FilterABC, _ObjectAnnotation
 
 
 class _FilterSensors(_FilterABC):
@@ -11,7 +11,7 @@ class _FilterSensors(_FilterABC):
     PARAMETERS = ["include_sensors", "exclude_sensors"]
     LEVELS = ["frame_data", "annotation"]
 
-    def passes_filter(self, annotation: t.Type[_Annotation]) -> bool:
+    def passes_filter(self, annotation: t.Type[_ObjectAnnotation]) -> bool:
 
         if self.include_sensors is not None:
             return annotation.sensor.uid in self.include_sensors

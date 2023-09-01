@@ -14,38 +14,32 @@ from raillabel.format.num import Num
 # == Fixtures =========================
 
 @pytest.fixture
-def num_dict(sensor_camera, attributes_multiple_types_dict) -> dict:
+def num_dict(sensor_camera) -> dict:
     return {
         "uid": "4e86c449-3B19-410c-aa64-603d46da3b26",
-        "name": "rgb_middle__num__whatever",
+        "name": "some_number",
         "val": 24,
-        "coordinate_system": sensor_camera.uid,
-        "attributes": attributes_multiple_types_dict
+        "coordinate_system": sensor_camera.uid
     }
 
 @pytest.fixture
-def num(sensor_camera, attributes_multiple_types) -> dict:
+def num(sensor_camera) -> dict:
     return Num(
         uid="4e86c449-3B19-410c-aa64-603d46da3b26",
-        name="rgb_middle__num__whatever",
+        name="some_number",
         val=24,
         sensor=sensor_camera,
-        attributes=attributes_multiple_types,
     )
 
 # == Tests ============================
 
-def test_fromdict(
-    sensor_camera,
-    attributes_multiple_types, attributes_multiple_types_dict,
-):
+def test_fromdict(sensor_camera):
     num = Num.fromdict(
         {
             "uid": "4e86c449-3B19-410c-aa64-603d46da3b26",
-            "name": "rgb_middle__num__whatever",
+            "name": "some_number",
             "val": 24,
             "coordinate_system": sensor_camera.uid,
-            "attributes": attributes_multiple_types_dict
         },
         {
             sensor_camera.uid: sensor_camera
@@ -53,30 +47,24 @@ def test_fromdict(
     )
 
     assert num.uid == "4e86c449-3B19-410c-aa64-603d46da3b26"
-    assert num.name == "rgb_middle__num__whatever"
+    assert num.name == "some_number"
     assert num.val == 24
     assert num.sensor == sensor_camera
-    assert num.attributes == attributes_multiple_types
 
 
-def test_asdict(
-    sensor_camera,
-    attributes_multiple_types, attributes_multiple_types_dict,
-):
+def test_asdict(sensor_camera):
     num = Num(
         uid="4e86c449-3B19-410c-aa64-603d46da3b26",
-        name="rgb_middle__num__whatever",
+        name="some_number",
         val=24,
         sensor=sensor_camera,
-        attributes=attributes_multiple_types,
     )
 
     assert num.asdict() == {
         "uid": "4e86c449-3B19-410c-aa64-603d46da3b26",
-        "name": "rgb_middle__num__whatever",
+        "name": "some_number",
         "val": 24,
         "coordinate_system": sensor_camera.uid,
-        "attributes": attributes_multiple_types_dict
     }
 
 

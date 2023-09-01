@@ -2,7 +2,7 @@
 # SPDX-License-Identifier: Apache-2.0
 """Module containing all relevant OpenLABEL format classes."""
 
-from ._annotation import _Annotation, annotation_classes
+from ._object_annotation import _ObjectAnnotation, annotation_classes
 from .bbox import Bbox
 from .cuboid import Cuboid
 from .element_data_pointer import ElementDataPointer
@@ -13,7 +13,6 @@ from .intrinsics_radar import IntrinsicsRadar
 from .metadata import Metadata
 from .num import Num
 from .object import Object
-from .object_data import ObjectData
 from .point2d import Point2d
 from .point3d import Point3d
 from .poly2d import Poly2d
