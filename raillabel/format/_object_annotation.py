@@ -19,10 +19,19 @@ from .sensor import Sensor
 class _ObjectAnnotation(ABC):
 
     uid: str
-    name: str
     object: Object
     sensor: t.Optional[Sensor] = None
     attributes: t.Dict[str, t.Union[int, float, bool, str, list]] = field(default_factory=dict)
+
+    @property
+    def name(self) -> str:
+        if self.sensor is None:
+            raise AttributeError(
+                f"Annotation {self.uid} does not have a 'sensor', which is required "
+                + "to create the name."
+            )
+
+        return f"{self.sensor.uid}__{self.OPENLABEL_ID}__{self.object.type}"
 
     @property
     @abstractproperty

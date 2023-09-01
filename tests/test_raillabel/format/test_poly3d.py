@@ -37,7 +37,6 @@ def poly3d(
 ) -> dict:
     return Poly3d(
         uid="9a9a30f5-D334-4f11-aa3f-c3c83f2935eb",
-        name="lidar__poly3d__person",
         points=[point3d, point3d_another],
         object=object_person,
         sensor=sensor_lidar,
@@ -85,7 +84,6 @@ def test_asdict(
 ):
     poly3d = Poly3d(
         uid="9a9a30f5-D334-4f11-aa3f-c3c83f2935eb",
-        name="lidar__poly3d__person",
         points=[point3d, point3d_another],
         object=object_person,
         sensor=sensor_lidar,

@@ -386,7 +386,6 @@ def build_annotation(name: str, object: Object, attributes: dict={}) -> t.Union[
     if ann_type == "bbox":
         return Bbox(
             uid=uuid4(),
-            name=name,
             object=object,
             attributes=attributes,
             sensor=sensor,
@@ -397,7 +396,6 @@ def build_annotation(name: str, object: Object, attributes: dict={}) -> t.Union[
     elif ann_type == "cuboid":
         return Cuboid(
             uid=uuid4(),
-            name=name,
             object=object,
             attributes=attributes,
             sensor=sensor,

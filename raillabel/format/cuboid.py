@@ -18,8 +18,6 @@ class Cuboid(_ObjectAnnotation):
     ----------
     uid: str
         This a string representing the unique universal identifier of the annotation.
-    name: str
-        Human readable name describing the annotation.
     pos: raillabel.format.Point3d
         The center position of the cuboid in meters, where the x coordinate points ahead of the
         vehicle, y points to the left and z points upwards.
@@ -34,6 +32,11 @@ class Cuboid(_ObjectAnnotation):
     attributes: dict, optional
         Attributes of the annotation. Dict keys are the name str of the attribute, values are the
         attribute values. Default is {}.
+
+    Properties (read-only)
+    ----------------------
+    name: str
+        Name of the annotation used by the VCD player for indexing in the object data pointers.
     """
 
     pos: Point3d = None
@@ -64,7 +67,6 @@ class Cuboid(_ObjectAnnotation):
 
         return Cuboid(
             uid=str(data_dict["uid"]),
-            name=str(data_dict["name"]),
             pos=Point3d(
                 x=data_dict["val"][0],
                 y=data_dict["val"][1],

@@ -17,8 +17,6 @@ class Bbox(_ObjectAnnotation):
     ----------
     uid: str
         This a string representing the unique universal identifier of the annotation.
-    name: str
-        Human readable name describing the annotation.
     pos: raillabel.format.Point2d
         The center point of the bbox in pixels.
     size: raillabel.format.Size2d
@@ -30,6 +28,11 @@ class Bbox(_ObjectAnnotation):
     attributes: dict, optional
         Attributes of the annotation. Dict keys are the name str of the attribute, values are the
         attribute values. Default is {}.
+
+    Properties (read-only)
+    ----------------------
+    name: str
+        Name of the annotation used by the VCD player for indexing in the object data pointers.
     """
 
     pos: Point2d = None
@@ -59,7 +62,6 @@ class Bbox(_ObjectAnnotation):
 
         return Bbox(
             uid=str(data_dict["uid"]),
-            name=str(data_dict["name"]),
             pos=Point2d(x=data_dict["val"][0], y=data_dict["val"][1]),
             size=Size2d(x=data_dict["val"][2], y=data_dict["val"][3]),
             object=object,

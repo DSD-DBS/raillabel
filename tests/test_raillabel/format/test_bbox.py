@@ -39,7 +39,6 @@ def bbox(
 ) -> dict:
     return Bbox(
         uid="78f0ad89-2750-4a30-9d66-44c9da73a714",
-        name="rgb_middle__bbox__person",
         pos=point2d,
         size=size2d,
         sensor=sensor_camera,
@@ -68,7 +67,6 @@ def bbox_train(
 ) -> dict:
     return Bbox(
         uid="6a7cfdb7-149d-4987-98dd-79d05a8cc8e6",
-        name="rgb_middle__bbox__train",
         pos=point2d,
         size=size2d,
         sensor=sensor_camera,
@@ -140,7 +138,6 @@ def test_asdict(
 ):
     bbox = Bbox(
         uid="78f0ad89-2750-4a30-9d66-44c9da73a714",
-        name="rgb_middle__bbox__person",
         pos=point2d,
         size=size2d,
         object=object_person,

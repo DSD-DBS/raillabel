@@ -27,7 +27,6 @@ def seg3d_dict(sensor_lidar, attributes_multiple_types_dict) -> dict:
 def seg3d(sensor_lidar, attributes_multiple_types, object_person) -> dict:
     return Seg3d(
         uid="db4e4a77-B926-4a6c-a2a6-e0ecf9d8734a",
-        name="lidar__vec__person",
         point_ids=[586, 789, 173],
         object=object_person,
         sensor=sensor_lidar,
@@ -68,7 +67,6 @@ def test_asdict(
 ):
     seg3d = Seg3d(
         uid="db4e4a77-B926-4a6c-a2a6-e0ecf9d8734a",
-        name="lidar__vec__person",
         point_ids=[586, 789, 173],
         object=object_person,
         sensor=sensor_lidar,
