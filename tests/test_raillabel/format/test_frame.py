@@ -159,31 +159,33 @@ def test_fromdict_uri_attribute(
     assert frame.sensors["rgb_middle"].uri == "test_uri.png"
     assert "uri" not in frame.annotations[bbox_with_uri_attribute["uid"]].attributes
 
-#TODO
-# def test_fromdict_duplicate_annotation_uid_warning(
-#     sensors,
-#     object_person, objects,
-#     bbox_dict, cuboid_dict
-# ):
-#     cuboid_dict["uid"] = bbox_dict["uid"]
+def test_fromdict_duplicate_annotation_uid_warning(
+    sensors,
+    object_person, objects,
+    bbox_dict, cuboid_dict
+):
+    cuboid_dict["uid"] = bbox_dict["uid"]
 
-#     with _WarningsLogger() as logger:
-#         frame = Frame.fromdict(
-#             uid=2,
-#             data_dict={
-#                 "objects": {
-#                     object_person.uid: {
-#                         "bbox": [bbox_dict],
-#                         "cuboid": [cuboid_dict],
-#                     }
-#                 }
-#             },
-#             sensors=sensors,
-#             objects=objects,
-#         )
+    with _WarningsLogger() as logger:
+        frame = Frame.fromdict(
+            uid=2,
+            data_dict={
+                "objects": {
+                    object_person.uid: {
+                        "object_data": {
+                            "bbox": [bbox_dict],
+                            "cuboid": [cuboid_dict],
+                        }
+                    }
+                }
+            },
+            sensors=sensors,
+            objects=objects,
+        )
 
-#     assert len(logger.warnings) == 1
-#     assert bbox_dict["uid"] in logger.warnings[0]
+    assert len(logger.warnings) == 1
+    assert bbox_dict["uid"] in logger.warnings[0]
+    assert list(frame.annotations.values())[0].uid != list(frame.annotations.values())[1].uid
 
 
 def test_asdict_sensors(

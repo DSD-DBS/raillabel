@@ -227,13 +227,18 @@ class Frame:
                 )
                 continue
 
-            annotations.update(
-                cls._object_annotations_fromdict(
-                    data_dict=obj_ann["object_data"],
-                    object=objects[obj_id],
-                    sensors=sensors,
-                )
+            object_annotations = cls._object_annotations_fromdict(
+                data_dict=obj_ann["object_data"],
+                object=objects[obj_id],
+                sensors=sensors,
             )
+
+            for annotation in object_annotations:
+                if annotation.uid in annotations:
+                    cls._issue_duplicate_annotation_uid_warning(annotation.uid, frame_id)
+                    annotation.uid = uuid.uuid4()
+
+                annotations[annotation.uid] = annotation
 
         return annotations
 
@@ -243,19 +248,14 @@ class Frame:
         data_dict: dict,
         object: Object,
         sensors: t.Dict[str, Sensor],
-    ) -> t.Dict[uuid.UUID, t.Type[_ObjectAnnotation]]:
+    ) -> t.Generator[t.Type[_ObjectAnnotation]]:
 
-        annotations = {}
         for ann_type, annotations_raw in data_dict.items():
             for ann_raw in annotations_raw:
 
                 ann_raw = cls._fix_deprecated_annotation_name(ann_raw, ann_type, object.type)
 
-                annotations[ann_raw["uid"]] = annotation_classes()[ann_type].fromdict(
-                    ann_raw, sensors, object
-                )
-
-        return annotations
+                yield annotation_classes()[ann_type].fromdict(ann_raw, sensors, object)
 
     @classmethod
     def _fix_sensor_uri_attribute(cls, frame: "Frame") -> "Frame":
@@ -289,6 +289,13 @@ class Frame:
         ann_raw["name"] = f"{ann_raw['coordinate_system']}__{ann_type}__{obj_type}"
 
         return ann_raw
+
+    @classmethod
+    def _issue_duplicate_annotation_uid_warning(cls, ann_uid: str, frame_id: int):
+        _warning(
+            f"Annotation UID '{ann_uid}' is contained more than once in frame {frame_id}. "
+            + "A new uid will be assigned."
+        )
 
     def _annotations_asdict(self) -> dict:
         annotations_dict = {}
