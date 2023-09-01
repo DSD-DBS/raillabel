@@ -6,7 +6,7 @@ import uuid
 from dataclasses import dataclass, field
 
 from .._util._warning import _warning
-from ._annotation import _ObjectAnnotation, annotation_classes
+from ._object_annotation import _ObjectAnnotation, annotation_classes
 from .bbox import Bbox
 from .cuboid import Cuboid
 from .object import Object

@@ -8,7 +8,7 @@ import warnings
 from dataclasses import dataclass, field
 
 from .._util._warning import _warning
-from ._annotation import annotation_classes
+from ._object_annotation import annotation_classes
 from .num import Num
 from .object import Object
 from .object_data import ObjectData

@@ -3,7 +3,7 @@
 
 from dataclasses import dataclass
 
-from ._annotation import _ObjectAnnotation
+from ._object_annotation import _ObjectAnnotation
 from .point2d import Point2d
 from .size2d import Size2d
 

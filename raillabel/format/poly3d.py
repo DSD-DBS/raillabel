@@ -4,7 +4,7 @@
 import typing as t
 from dataclasses import dataclass
 
-from ._annotation import _ObjectAnnotation
+from ._object_annotation import _ObjectAnnotation
 from .point3d import Point3d
 
 

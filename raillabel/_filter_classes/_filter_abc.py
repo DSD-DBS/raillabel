@@ -4,7 +4,7 @@
 import typing as t
 from abc import ABC, abstractmethod, abstractproperty
 
-from ..format._annotation import _ObjectAnnotation
+from ..format._object_annotation import _ObjectAnnotation
 from ..format.frame import Frame
 
 
