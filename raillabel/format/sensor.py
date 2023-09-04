@@ -47,15 +47,6 @@ class Sensor:
     uri: t.Optional[str] = None
     description: t.Optional[str] = None
 
-    @property
-    def rostopic(self):
-        """Return deprecated field containing the rostopic."""
-        warnings.warn(
-            "rostopic is a deprecated field and will be removed soon. Use sensor.uri instead.",
-            category=DeprecationWarning,
-        )
-        return self.uri
-
     @classmethod
     def fromdict(cls, uid: str, cs_data_dict: dict, stream_data_dict: dict) -> "Sensor":
         """Generate a Sensor object from a dict.
