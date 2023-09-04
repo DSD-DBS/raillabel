@@ -32,16 +32,14 @@ class Frame:
         Dictionary containing data directly connected to the frame and not to any object, like
         gps/imu data. Dictionary keys are the ID-strings of the variable the data belongs to.
         Default is {}.
-    annotations
-    object_data: dict of raillabel.format.ObjectData, optional
-        Dictionary containing the annotations per object. Dictionary keys are the object uids.
-        Default is {}.
+    annotations: dict[str, _ObjectAnnotation subclass], optional
+        Dictionary containing all annotations of this frame. Keys are annotation uids.
 
     Read-Only Attributes
     --------------------
-    annotations: dict
-        Consolidation of all annotations in the object_data. Only use this field if you don't need
-        object tracking information. Dictionary keys are annotation UIDs.
+    object_data: dict[str, dict[UUID, _ObjectAnnotation subclass]]
+        Annotations categorized by object. Keys are object uids and values are the annotations
+        as a dict, that have the object.
     """
 
     uid: int
@@ -56,7 +54,7 @@ class Frame:
 
         Returns
         -------
-        dict[str, dict[UUID, child of _ObjectAnnotation]]
+        dict[str, dict[UUID, _ObjectAnnotation subclass]]
             Dictionary of annotations. Keys are object uids and values are annotations, that are
             contained in the object.
         """
