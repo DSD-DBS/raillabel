@@ -16,3 +16,4 @@ from test_uai_sensor_reference import (
     sensor_lidar_uai,
     sensor_lidar_uai_dict,
 )
+from test_uai_size_3d import size_3d_uai, size_3d_uai_dict, size_3d_vec
