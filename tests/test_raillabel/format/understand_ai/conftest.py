@@ -23,6 +23,7 @@ from test_uai_coordinate_system import (
     coordinate_system_radar_uai,
     coordinate_system_radar_uai_dict,
 )
+from test_uai_metadata import metadata_raillabel_dict, metadata_uai, metadata_uai_dict
 from test_uai_point_3d import point_3d_uai, point_3d_uai_dict, point_3d_vec
 from test_uai_polygon_2d import polygon_2d_raillabel_dict, polygon_2d_uai, polygon_2d_uai_dict
 from test_uai_polyline_2d import polyline_2d_raillabel_dict, polyline_2d_uai, polyline_2d_uai_dict
