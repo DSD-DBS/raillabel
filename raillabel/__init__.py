@@ -5,11 +5,11 @@ from importlib import metadata
 
 from . import _util, format
 from .exceptions import *
-from .filter import filter
-from .format.scene import Scene
-from .load import load
-from .save import save
-from .validate import validate
+from .filter.filter import filter
+from .format import Scene
+from .load_.load import load
+from .save.save import save
+from .validate.validate import validate
 
 try:
     __version__ = metadata.version("raillabel")
