@@ -13,6 +13,7 @@ import pytest
 sys.path.insert(1, str(Path(__file__).parent.parent))
 
 from test_raillabel.format.raillabel import *
+from test_raillabel.format.understand_ai import *
 
 import raillabel
 
