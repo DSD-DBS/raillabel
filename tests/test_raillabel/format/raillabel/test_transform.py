@@ -9,7 +9,7 @@ import pytest
 
 sys.path.insert(1, str(Path(__file__).parent.parent.parent.parent))
 
-from raillabel.format.transform import Transform
+from raillabel.format import Transform
 
 # == Fixtures =========================
 

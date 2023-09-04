@@ -5,8 +5,8 @@ import typing as t
 import uuid
 from dataclasses import dataclass, field
 
-from .. import exceptions
-from .._util._clean_dict import _clean_dict
+from ... import exceptions
+from ..._util._clean_dict import _clean_dict
 from .frame import Frame
 from .frame_interval import FrameInterval
 from .metadata import Metadata

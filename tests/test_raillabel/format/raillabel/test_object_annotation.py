@@ -10,7 +10,7 @@ import pytest
 sys.path.insert(1, str(Path(__file__).parent.parent.parent.parent))
 
 import raillabel
-from raillabel.format._object_annotation import annotation_classes
+from raillabel.format import annotation_classes
 
 # == Fixtures =========================
 

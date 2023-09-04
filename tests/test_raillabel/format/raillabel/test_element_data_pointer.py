@@ -9,7 +9,8 @@ import pytest
 
 sys.path.insert(1, str(Path(__file__).parent.parent.parent.parent))
 
-from raillabel.format.element_data_pointer import AttributeType, ElementDataPointer
+from raillabel._util._attribute_type import AttributeType
+from raillabel.format import ElementDataPointer
 
 # == Fixtures =========================
 

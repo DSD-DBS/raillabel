@@ -5,7 +5,7 @@ import decimal
 import typing as t
 from dataclasses import dataclass
 
-from .._util._warning import _warning
+from ..._util._warning import _warning
 from .sensor import Sensor
 
 

@@ -9,7 +9,7 @@ import pytest
 
 sys.path.insert(1, str(Path(__file__).parent.parent.parent.parent))
 
-from raillabel.format.intrinsics_radar import IntrinsicsRadar
+from raillabel.format import IntrinsicsRadar
 
 # == Fixtures =========================
 

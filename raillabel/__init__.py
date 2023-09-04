@@ -6,7 +6,7 @@ from importlib import metadata
 from . import _util, format
 from .exceptions import *
 from .filter.filter import filter
-from .format.scene import Scene
+from .format import Scene
 from .load_.load import load
 from .save.save import save
 from .validate.validate import validate

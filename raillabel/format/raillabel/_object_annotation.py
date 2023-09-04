@@ -9,8 +9,8 @@ from inspect import isclass
 from pathlib import Path
 from pkgutil import iter_modules
 
-from .._util._attribute_type import AttributeType
-from .._util._warning import _warning
+from ..._util._attribute_type import AttributeType
+from ..._util._warning import _warning
 from .object import Object
 from .sensor import Sensor
 
@@ -159,7 +159,7 @@ def _collect_annotation_classes():
     package_dir = str(Path(__file__).resolve().parent)
     for (_, module_name, _) in iter_modules([package_dir]):
 
-        module = import_module(f"raillabel.format.{module_name}")
+        module = import_module(f"raillabel.format.raillabel.{module_name}")
         for attribute_name in dir(module):
             attribute = getattr(module, attribute_name)
 

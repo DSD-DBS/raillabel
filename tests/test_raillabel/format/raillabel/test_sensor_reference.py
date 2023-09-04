@@ -10,7 +10,7 @@ import pytest
 
 sys.path.insert(1, str(Path(__file__).parent.parent.parent.parent))
 
-from raillabel.format.sensor_reference import SensorReference
+from raillabel.format import SensorReference
 
 # == Fixtures =========================
 

@@ -4,8 +4,7 @@
 import typing as t
 from abc import ABC, abstractmethod, abstractproperty
 
-from ...format._object_annotation import _ObjectAnnotation
-from ...format.frame import Frame
+from ...format import Frame, _ObjectAnnotation
 
 
 class _FilterABC(ABC):

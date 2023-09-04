@@ -9,7 +9,7 @@ import pytest
 
 sys.path.insert(1, str(Path(__file__).parent.parent.parent.parent))
 
-from raillabel.format.poly3d import Poly3d
+from raillabel.format import Poly3d
 
 # == Fixtures =========================
 

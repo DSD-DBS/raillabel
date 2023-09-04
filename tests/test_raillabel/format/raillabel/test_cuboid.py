@@ -9,7 +9,7 @@ import pytest
 
 sys.path.insert(1, str(Path(__file__).parent.parent.parent.parent))
 
-from raillabel.format.cuboid import Cuboid
+from raillabel.format import Cuboid
 
 # == Fixtures =========================
 

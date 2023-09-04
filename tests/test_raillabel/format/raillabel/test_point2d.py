@@ -9,47 +9,45 @@ import pytest
 
 sys.path.insert(1, str(Path(__file__).parent.parent.parent.parent))
 
-from raillabel.format.point3d import Point3d
+from raillabel.format import Point2d
 
 # == Fixtures =========================
 
 @pytest.fixture
-def point3d_dict() -> dict:
-    return [420, 3.14, 0]
+def point2d_dict() -> dict:
+    return [1.5, 222]
 
 @pytest.fixture
-def point3d() -> dict:
-    return Point3d(420, 3.14, 0)
+def point2d() -> dict:
+    return Point2d(1.5, 222)
 
 
 @pytest.fixture
-def point3d_another_dict() -> dict:
-    return [9, 8, 7]
+def point2d_another_dict() -> dict:
+    return [19, 84]
 
 @pytest.fixture
-def point3d_another() -> dict:
-    return Point3d(9, 8, 7)
+def point2d_another() -> dict:
+    return Point2d(19, 84)
 
 # == Tests ============================
 
 def test_fromdict():
-    point3d = Point3d.fromdict(
-        [420, 3.14, 0]
+    point2d = Point2d.fromdict(
+        [1.5, 222]
     )
 
-    assert point3d.x == 420
-    assert point3d.y == 3.14
-    assert point3d.z == 0
+    assert point2d.x == 1.5
+    assert point2d.y == 222
 
 
 def test_asdict():
-    point3d = Point3d(
-        x=420,
-        y=3.14,
-        z=0,
+    point2d = Point2d(
+        x=1.5,
+        y=222,
     )
 
-    assert point3d.asdict() == [420, 3.14, 0]
+    assert point2d.asdict() == [1.5, 222]
 
 
 if __name__ == "__main__":

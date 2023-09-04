@@ -9,7 +9,7 @@ import pytest
 
 sys.path.insert(1, str(Path(__file__).parent.parent.parent.parent))
 
-from raillabel.format.frame_interval import FrameInterval
+from raillabel.format import FrameInterval
 
 # == Fixtures =========================
 
