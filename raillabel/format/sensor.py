@@ -32,8 +32,7 @@ class Sensor:
     intrinsics: raillabel.format.IntrinsicsPinhole or raillabel.format.IntrinsicsRadar, optional
         The intrinsic calibration of the sensor. Default is None.
     type: raillabel.format.SensorType, optional
-        A string encoding the type of the sensor. The only valid values are 'camera', 'lidar',
-        'radar', 'gps_imu' or 'other'. Default is None.
+        Information about the kind of sensor. Default is None.
     uri: str, optional
         Name of the subdirectory containing the sensor files. Default is None.
     description: str, optional
