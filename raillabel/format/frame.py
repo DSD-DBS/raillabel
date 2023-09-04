@@ -4,7 +4,6 @@
 import decimal
 import typing as t
 import uuid
-import warnings
 from dataclasses import dataclass, field
 
 from .._util._warning import _warning
