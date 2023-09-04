@@ -9,7 +9,7 @@ from ._loader_abc import LoaderABC
 from .loader_raillabel import LoaderRailLabel
 
 
-class LoaderUnderstandAiT4(LoaderABC):
+class LoaderUnderstandAi(LoaderABC):
     """Loader class for the Understand.Ai Trains4 annotation format.
 
     Attributes

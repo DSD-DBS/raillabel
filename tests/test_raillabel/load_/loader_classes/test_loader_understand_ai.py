@@ -14,7 +14,7 @@ import raillabel
 
 @pytest.fixture
 def loader():
-    return raillabel.load_.loader_classes.LoaderUnderstandAiT4()
+    return raillabel.load_.loader_classes.LoaderUnderstandAi()
 
 
 def test_supports_true(json_data, loader):
