@@ -96,7 +96,7 @@ def test_fromdict_frame_data(
 
     assert frame.frame_data == {num.name: num}
 
-def test_fromdict_object_data(
+def test_fromdict_annotations(
     object_data_person_dict, object_person,
     object_data_train_dict, object_train,
     sensors,
@@ -235,6 +235,37 @@ def test_asdict_object_data(
         "objects": {
             object_person.uid: object_data_person_dict,
             object_train.uid: object_data_train_dict,
+        }
+    }
+
+
+def test_object_data(
+    object_person, object_train,
+    bbox, cuboid, poly2d, poly3d, seg3d,
+    bbox_train
+):
+    frame = Frame(
+        uid=2,
+        annotations={
+            bbox.uid: bbox,
+            poly2d.uid: poly2d,
+            cuboid.uid: cuboid,
+            poly3d.uid: poly3d,
+            seg3d.uid: seg3d,
+            bbox_train.uid: bbox_train,
+        }
+    )
+
+    assert frame.object_data == {
+        object_person.uid: {
+            bbox.uid: bbox,
+            poly2d.uid: poly2d,
+            cuboid.uid: cuboid,
+            poly3d.uid: poly3d,
+            seg3d.uid: seg3d,
+        },
+        object_train.uid: {
+            bbox_train.uid: bbox_train
         }
     }
 
