@@ -10,7 +10,7 @@ from uuid import UUID, uuid4
 
 import pytest
 
-sys.path.insert(1, str(Path(__file__).parent.parent.parent.parent))
+sys.path.insert(1, str(Path(__file__).parent.parent.parent.parent.parent))
 
 from raillabel._util._attribute_type import AttributeType
 from raillabel.format import (

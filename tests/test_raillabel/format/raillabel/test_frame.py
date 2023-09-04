@@ -8,7 +8,7 @@ from pathlib import Path
 
 import pytest
 
-sys.path.insert(1, str(Path(__file__).parent.parent.parent.parent))
+sys.path.insert(1, str(Path(__file__).parent.parent.parent.parent.parent))
 
 from raillabel._util._warning import _WarningsLogger
 from raillabel.format import Frame
