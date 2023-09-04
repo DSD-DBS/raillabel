@@ -24,7 +24,7 @@ def attributes_uai() -> dict:
     }
 
 @pytest.fixture
-def attributes_raillabel() -> dict:
+def attributes_raillabel_dict() -> dict:
     return {
         "text": [
             {
