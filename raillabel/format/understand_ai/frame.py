@@ -150,7 +150,7 @@ class Frame:
         return {
             "timestamp": str(self.timestamp),
             "streams": {
-                sensor.type: sensor.to_raillabel() for sensor in self.translated_sensors.values()
+                sensor.type: sensor.to_raillabel()[1] for sensor in self.translated_sensors.values()
             },
         }
 
