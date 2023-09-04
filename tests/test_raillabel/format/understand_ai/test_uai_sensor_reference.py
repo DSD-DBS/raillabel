@@ -32,12 +32,15 @@ def sensor_camera_uai() -> dict:
 @pytest.fixture
 def sensor_camera_raillabel_dict() -> dict:
     return {
-        "stream_properties": {
-            "sync": {
-                "timestamp": "1632321843.100464760"
-            }
-        },
-        "uri": "A0001781_image/000_1632321843.100464760.png"
+        "uid": "ir_middle",
+        "data_dict": {
+            "stream_properties": {
+                "sync": {
+                    "timestamp": "1632321843.100464760"
+                }
+            },
+            "uri": "A0001781_image/000_1632321843.100464760.png"
+        }
     }
 
 
@@ -60,12 +63,15 @@ def sensor_lidar_uai() -> dict:
 @pytest.fixture
 def sensor_lidar_raillabel_dict() -> dict:
     return {
-        "stream_properties": {
-            "sync": {
-                "timestamp": "1632321880.132833000"
-            }
-        },
-        "uri": "lidar_merged/000_1632321880.132833000.pcd"
+        "uid": "lidar",
+        "data_dict": {
+            "stream_properties": {
+                "sync": {
+                    "timestamp": "1632321880.132833000"
+                }
+            },
+            "uri": "lidar_merged/000_1632321880.132833000.pcd"
+        }
     }
 
 # == Tests ============================

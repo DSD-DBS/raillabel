@@ -123,7 +123,7 @@ def test_to_raillabel(
     }
     assert object_id == str(bounding_box_2d.object_id)
     assert translated_class_id == translate_class_id(bounding_box_2d.class_name)
-    assert sensor_reference == sensor_camera_raillabel_dict
+    assert sensor_reference == sensor_camera_raillabel_dict["data_dict"]
 
 if __name__ == "__main__":
     import os
