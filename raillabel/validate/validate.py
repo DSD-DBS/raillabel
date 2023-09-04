@@ -9,7 +9,7 @@ from pathlib import Path
 import fastjsonschema
 import jsonschema
 
-from . import exceptions
+from .. import exceptions
 
 
 def validate(data: dict, schema_path: str = "raillabel") -> t.Tuple[bool, t.List[str]]:

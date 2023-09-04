@@ -6,7 +6,7 @@ from pathlib import Path
 
 from . import exceptions
 from .format import Scene
-from .validate import validate as validate_func
+from .validate.validate import validate as validate_func
 
 
 def save(scene: Scene, path: str, prettify_json: bool = False, validate: bool = False):

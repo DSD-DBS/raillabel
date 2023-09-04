@@ -7,7 +7,7 @@ from pathlib import Path
 
 from .. import format
 from ..exceptions import SchemaError
-from ..validate import validate as global_validate
+from ..validate.validate import validate as global_validate
 
 
 class LoaderABC(ABC):
