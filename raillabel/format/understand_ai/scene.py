@@ -47,7 +47,7 @@ class Scene:
             frames=cls._frames_fromdict(data_dict["frames"]),
         )
 
-    def to_raillabel(self) -> t.Tuple[dict, dict]:
+    def to_raillabel(self) -> dict:
         """Convert to a raillabel compatible dict.
 
         Returns
@@ -74,7 +74,7 @@ class Scene:
         return coordinate_systems
 
     @classmethod
-    def _frames_fromdict(cls, data_dict: t.List[dict]) -> t.Dict[str, Frame]:
+    def _frames_fromdict(cls, data_dict: t.List[dict]) -> t.Dict[int, Frame]:
         frames = {}
         for frame in data_dict:
             frames[frame["frameId"]] = Frame.fromdict(frame)
