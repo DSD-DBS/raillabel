@@ -24,7 +24,7 @@ class Segmentation3d(_Annotation):
     attributes: dict[str, str or list]
         Key value pairs of attributes with the keys beeing the friendly identifier of the
         attribute and the value beeing the attribute value.
-    sensor: raillabel._understand_ai_t4_format.SensorReference
+    sensor: raillabel.format.understand_ai.SensorReference
         Information about the sensor this annotation is labeled in.
     associated_points: list[int]
         List of point indices of the lidar pointcloud.

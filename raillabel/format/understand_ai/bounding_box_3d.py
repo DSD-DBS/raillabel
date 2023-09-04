@@ -27,13 +27,13 @@ class BoundingBox3d(_Annotation):
     attributes: dict[str, str or list]
         Key value pairs of attributes with the keys beeing the friendly identifier of the
         attribute and the value beeing the attribute value.
-    sensor: raillabel._understand_ai_t4_format.SensorReference
+    sensor: raillabel.format.understand_ai.SensorReference
         Information about the sensor this annotation is labeled in.
-    center: raillabel._understand_ai_t4_format.Point3d
+    center: raillabel.format.understand_ai.Point3d
         Center position of the bounding box.
-    size: raillabel._understand_ai_t4_format.Size3d
+    size: raillabel.format.understand_ai.Size3d
         3d size of the bounding box.
-    quaternion: raillabel._understand_ai_t4_format.Quaternion
+    quaternion: raillabel.format.understand_ai.Quaternion
         Rotation quaternion of the bounding box.
     """
 

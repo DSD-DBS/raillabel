@@ -10,8 +10,8 @@ from .sensor_reference import SensorReference
 
 
 @dataclass
-class Polyline2d(_Annotation):
-    """A 2d polyline.
+class Polygon2d(_Annotation):
+    """A 2d polygon.
 
     Parameters
     ----------
@@ -24,10 +24,10 @@ class Polyline2d(_Annotation):
     attributes: dict[str, str or list]
         Key value pairs of attributes with the keys beeing the friendly identifier of the
         attribute and the value beeing the attribute value.
-    sensor: raillabel._understand_ai_t4_format.SensorReference
+    sensor: raillabel.format.understand_ai.SensorReference
         Information about the sensor this annotation is labeled in.
     points: list[tuple[float, float]]
-        2d points belonging to the polyline.
+        2d points belonging to the polygon.
     """
 
     points: t.List[t.Tuple[float, float]]
@@ -35,8 +35,8 @@ class Polyline2d(_Annotation):
     OPENLABEL_ID = "poly2d"
 
     @classmethod
-    def fromdict(cls, data_dict: t.Dict) -> "Polyline2d":
-        """Generate a Polyline2d from a dictionary in the UAI format.
+    def fromdict(cls, data_dict: t.Dict) -> "Polygon2d":
+        """Generate a Polygon2d from a dictionary in the UAI format.
 
         Parameters
         ----------
@@ -45,11 +45,11 @@ class Polyline2d(_Annotation):
 
         Returns
         -------
-        Polyline2d
-            Converted 2d polyline.
+        Polygon2d
+            Converted 2d polygon.
         """
 
-        return Polyline2d(
+        return Polygon2d(
             id=UUID(data_dict["id"]),
             object_id=UUID(data_dict["objectId"]),
             class_name=data_dict["className"],
@@ -73,11 +73,11 @@ class Polyline2d(_Annotation):
             Dictionary of the sensor reference.
         """
 
-        polyline = super().to_raillabel()
-        polyline[0]["closed"] = False
-        polyline[0]["mode"] = "MODE_POLY2D_ABSOLUTE"
+        polygon = super().to_raillabel()
+        polygon[0]["closed"] = True
+        polygon[0]["mode"] = "MODE_POLY2D_ABSOLUTE"
 
-        return polyline
+        return polygon
 
     def _val_to_raillabel(self) -> t.List[float]:
         return [coordinate for point in self.points for coordinate in point]

@@ -1,6 +1,6 @@
 # Copyright DB Netz AG and contributors
 # SPDX-License-Identifier: Apache-2.0
-"""Module containing all relevant OpenLABEL format classes."""
+"""Module containing all relevant format classes."""
 
 from .raillabel._object_annotation import _ObjectAnnotation, annotation_classes
 from .raillabel.bbox import Bbox

@@ -4,7 +4,7 @@
 import typing as t
 from pathlib import Path
 
-from ... import _understand_ai_t4_format as uai_format
+from ...format import understand_ai as uai_format
 from ._loader_abc import LoaderABC
 from .loader_raillabel import LoaderRailLabel
 
@@ -14,8 +14,8 @@ class LoaderUnderstandAiT4(LoaderABC):
 
     Attributes
     ----------
-    scene: raillabel._understand_ai_t4_format.Scene
-        Loaded raillabel._understand_ai_t4_format.Scene with the data.
+    scene: raillabel.format.understand_ai.Scene
+        Loaded raillabel.format.understand_ai.Scene with the data.
     warnings: t.List[str]
         List of warning strings, that have been found during the execution of load().
     """
@@ -23,7 +23,12 @@ class LoaderUnderstandAiT4(LoaderABC):
     scene: uai_format.Scene
     warnings: t.List[str]
 
-    SCHEMA_PATH: Path = Path(__file__).parent.parent / "schemas" / "understand_ai_t4_schema.json"
+    SCHEMA_PATH: Path = (
+        Path(__file__).parent.parent.parent
+        / "validate"
+        / "schemas"
+        / "understand_ai_t4_schema.json"
+    )
 
     def load(self, data: dict, validate: bool = True) -> uai_format.Scene:
         """Load the data into a UAIScene and return it.
@@ -39,7 +44,7 @@ class LoaderUnderstandAiT4(LoaderABC):
 
         Returns
         -------
-        scene: raillabel._understand_ai_t4_format.UAIScene
+        scene: raillabel.format.understand_ai.UAIScene
             The loaded scene with the data.
         """
 

@@ -6,7 +6,7 @@ from abc import ABC, abstractmethod, abstractproperty
 from dataclasses import dataclass
 from uuid import UUID
 
-from .._util._attribute_type import AttributeType
+from ..._util._attribute_type import AttributeType
 from ._translation import translate_class_id, translate_sensor_id
 from .sensor_reference import SensorReference
 

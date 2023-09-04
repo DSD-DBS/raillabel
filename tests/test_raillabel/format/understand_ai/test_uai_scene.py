@@ -7,11 +7,14 @@ from pathlib import Path
 
 import pytest
 
-sys.path.insert(1, str(Path(__file__).parent.parent.parent.parent))
+sys.path.insert(1, str(Path(__file__).parent.parent.parent.parent.parent))
 
-from test_uai_frame import _prepare_frame_data
+try:
+    from test_uai_frame import _prepare_frame_data
+except ImportError:
+    from .test_uai_frame import _prepare_frame_data
 
-import raillabel._understand_ai_t4_format as uai_format
+import raillabel.format.understand_ai as uai_format
 
 
 def remove_generated_fields(raillabel_data: dict) -> dict:

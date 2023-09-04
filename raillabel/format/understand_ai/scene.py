@@ -15,11 +15,11 @@ class Scene:
 
     Parameters
     ----------
-    metadata: raillabel._understand_ai_t4_format.Metadata
+    metadata: raillabel.format.understand_ai.Metadata
         Container for metadata information about the scene itself.
-    coordinate_systems: dict[str, raillabel._understand_ai_t4_format.CoordinateSystem]
+    coordinate_systems: dict[str, raillabel.format.understand_ai.CoordinateSystem]
         Global information for sensors regarding calibration.
-    frames: dict[int, raillabel._understand_ai_t4_format.Frame]
+    frames: dict[int, raillabel.format.understand_ai.Frame]
     """
 
     metadata: Metadata

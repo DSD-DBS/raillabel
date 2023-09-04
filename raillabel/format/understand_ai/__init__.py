@@ -1,5 +1,6 @@
 # Copyright DB Netz AG and contributors
 # SPDX-License-Identifier: Apache-2.0
+"""Module containing all relevant understand.ai format classes."""
 
 from .bounding_box_2d import BoundingBox2d
 from .bounding_box_3d import BoundingBox3d
