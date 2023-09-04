@@ -1,8 +1,13 @@
 # Copyright DB Netz AG and contributors
 # SPDX-License-Identifier: Apache-2.0
 
-from .test_uai_attributes import attributes_raillabel_dict, attributes_uai, attributes_uai_dict
-from .test_uai_sensor_reference import (
+from test_uai_attributes import attributes_raillabel_dict, attributes_uai, attributes_uai_dict
+from test_uai_bounding_box_2d import (
+    bounding_box_raillabel_dict,
+    bounding_box_uai,
+    bounding_box_uai_dict,
+)
+from test_uai_sensor_reference import (
     sensor_camera_raillabel_dict,
     sensor_camera_uai,
     sensor_camera_uai_dict,
