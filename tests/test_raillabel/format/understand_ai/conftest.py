@@ -16,6 +16,11 @@ from test_uai_point_3d import point_3d_uai, point_3d_uai_dict, point_3d_vec
 from test_uai_polygon_2d import polygon_2d_raillabel_dict, polygon_2d_uai, polygon_2d_uai_dict
 from test_uai_polyline_2d import polyline_2d_raillabel_dict, polyline_2d_uai, polyline_2d_uai_dict
 from test_uai_quaternion import quaternion_uai, quaternion_uai_dict, quaternion_vec
+from test_uai_segmentation_3d import (
+    segmentation_3d_raillabel_dict,
+    segmentation_3d_uai,
+    segmentation_3d_uai_dict,
+)
 from test_uai_sensor_reference import (
     sensor_camera_raillabel_dict,
     sensor_camera_uai,
