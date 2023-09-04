@@ -95,7 +95,7 @@ from test_raillabel.format.raillabel.test_transform import transform, transform_
 import raillabel
 
 json_data_directories = [
-    Path(__file__).parent / "test_raillabel" / "__test_assets__",
+    Path(__file__).parent / "__test_assets__",
     Path(__file__).parent.parent / "raillabel" / "validate" / "schemas"
 ]
 
