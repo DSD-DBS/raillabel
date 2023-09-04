@@ -77,7 +77,7 @@ class Scene:
     def _frames_fromdict(cls, data_dict: t.List[dict]) -> t.Dict[int, Frame]:
         frames = {}
         for frame in data_dict:
-            frames[frame["frameId"]] = Frame.fromdict(frame)
+            frames[int(frame["frameId"])] = Frame.fromdict(frame)
 
         return frames
 
