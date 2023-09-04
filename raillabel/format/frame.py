@@ -70,18 +70,6 @@ class Frame:
 
         return object_data
 
-    @property
-    def data(self) -> t.Dict[str, Num]:
-        """Return frame data under alias.
-
-        Will be deprecated soon.
-        """
-        warnings.warn(
-            "data is a deprecated field and will be removed soon. Use Frame.frame_data instead.",
-            category=DeprecationWarning,
-        )
-        return self.frame_data
-
     @classmethod
     def fromdict(
         cls,
