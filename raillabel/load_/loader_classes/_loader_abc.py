@@ -5,9 +5,9 @@ import typing as t
 from abc import ABC, abstractmethod
 from pathlib import Path
 
-from .. import format
-from ..exceptions import SchemaError
-from ..validate.validate import validate as global_validate
+from ... import format
+from ...exceptions import SchemaError
+from ...validate.validate import validate as global_validate
 
 
 class LoaderABC(ABC):

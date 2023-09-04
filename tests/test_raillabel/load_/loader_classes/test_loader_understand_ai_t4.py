@@ -14,7 +14,7 @@ import raillabel
 
 @pytest.fixture
 def loader():
-    return raillabel.format_loaders.LoaderUnderstandAiT4()
+    return raillabel.load_.loader_classes.LoaderUnderstandAiT4()
 
 
 def test_supports_true(json_data, loader):
@@ -31,7 +31,7 @@ def test_load(json_data, loader):
     input_data_raillabel = remove_non_parsed_fields(json_data["openlabel_v1_short"])
     input_data_uai = json_data["understand_ai_t4_short"]
 
-    scene_ground_truth = raillabel.format_loaders.LoaderRailLabel().load(input_data_raillabel, validate=False)
+    scene_ground_truth = raillabel.load_.loader_classes.LoaderRailLabel().load(input_data_raillabel, validate=False)
     scene = loader.load(input_data_uai, validate=False)
 
     scene.metadata = scene_ground_truth.metadata

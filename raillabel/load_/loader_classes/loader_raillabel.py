@@ -5,8 +5,8 @@ import json
 import typing as t
 from pathlib import Path
 
-from .. import exceptions, format
-from .._util._warning import _WarningsLogger
+from ... import exceptions, format
+from ..._util._warning import _WarningsLogger
 from ._loader_abc import LoaderABC
 
 
@@ -25,7 +25,7 @@ class LoaderRailLabel(LoaderABC):
     warnings: t.List[str]
 
     SCHEMA_PATH: Path = (
-        Path(__file__).parent.parent / "validate" / "schemas" / "raillabel_schema.json"
+        Path(__file__).parent.parent.parent / "validate" / "schemas" / "raillabel_schema.json"
     )
 
     @property

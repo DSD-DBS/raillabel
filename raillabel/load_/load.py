@@ -3,11 +3,13 @@
 
 import json
 
-from . import exceptions, format, format_loaders
-from .format_loaders._loader_abc import LoaderABC
+from ..exceptions import UnsupportedFormatError
+from ..format import Scene
+from . import loader_classes as loader_classes_pkg
+from .loader_classes._loader_abc import LoaderABC
 
 
-def load(path: str, validate: bool = False, show_warnings: bool = True) -> format.Scene:
+def load(path: str, validate: bool = False, show_warnings: bool = True) -> Scene:
     """Load an annotation file of any supported type.
 
     Parameters
@@ -29,25 +31,25 @@ def load(path: str, validate: bool = False, show_warnings: bool = True) -> forma
 
     Raises
     ------
-    raillabel.exceptions.UnsupportedFormatError
+    raillabel.UnsupportedFormatError
         if the annotation file does not match any loaders.
     raillabel.exceptions.SchemaError
         if during the validation, errors in the annotation file are found.
     """
 
     # To expand the supported formats in a simple manner, load() automatically fetches all classes
-    # in the format_loaders directory and checks if they are suitable as loaders. To avoid errors
+    # in the loader_classes directory and checks if they are suitable as loaders. To avoid errors
     # caused by potential other files and classes in the directory, only classes, which inherite
     # from LoaderABC are considered.
 
     loader_classes = []
-    for cls in format_loaders.__dict__.values():
+    for cls in loader_classes_pkg.__dict__.values():
         if isinstance(cls, type) and issubclass(cls, LoaderABC) and cls != LoaderABC:
             loader_classes.append(cls)
 
     # Checks for the supported file type
     if not str(path).lower().endswith(".json"):
-        raise exceptions.UnsupportedFormatError(f"{path} is not in a supported file format.")
+        raise UnsupportedFormatError(f"{path} is not in a supported file format.")
 
     # Loads the JSON data
     with open(path) as data_file:
@@ -79,4 +81,4 @@ def load(path: str, validate: bool = False, show_warnings: bool = True) -> forma
     # This part of the code is only reached if no suitable loader has been found or the data is
     # not in a supported file format. Therefore an exception is raised.
 
-    raise exceptions.UnsupportedFormatError(f"{path} is not in a supported file format.")
+    raise UnsupportedFormatError(f"{path} is not in a supported file format.")

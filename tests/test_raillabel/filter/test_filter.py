@@ -31,7 +31,7 @@ def delete_sensor_from_data(data: dict, sensor_id: str) -> dict:
 
 @pytest.fixture
 def loader():
-    return raillabel.format_loaders.LoaderRailLabel()
+    return raillabel.load_.loader_classes.LoaderRailLabel()
 
 
 def test_filter_unexpected_kwarg(json_paths):

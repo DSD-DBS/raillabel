@@ -67,7 +67,7 @@ def test_frame_intervals():
         }
     }
 
-    scene = raillabel.format_loaders.LoaderRailLabel().load(data)
+    scene = raillabel.load_.loader_classes.LoaderRailLabel().load(data)
     dict_repr = scene.asdict()["openlabel"]
 
     assert "frame_intervals" in dict_repr

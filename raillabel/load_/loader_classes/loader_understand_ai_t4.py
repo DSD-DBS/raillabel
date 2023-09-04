@@ -4,7 +4,7 @@
 import typing as t
 from pathlib import Path
 
-from .. import _understand_ai_t4_format as uai_format
+from ... import _understand_ai_t4_format as uai_format
 from ._loader_abc import LoaderABC
 from .loader_raillabel import LoaderRailLabel
 

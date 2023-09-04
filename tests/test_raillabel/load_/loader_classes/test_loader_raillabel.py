@@ -7,14 +7,14 @@ from pathlib import Path
 
 import pytest
 
-sys.path.insert(1, str(Path(__file__).parent.parent.parent.parent))
+sys.path.insert(1, str(Path(__file__).parent.parent.parent.parent.parent))
 
 import raillabel
 
 
 @pytest.fixture
 def loader():
-    return raillabel.format_loaders.LoaderRailLabel()
+    return raillabel.load_.loader_classes.LoaderRailLabel()
 
 
 def test_supports_true(json_data, loader):

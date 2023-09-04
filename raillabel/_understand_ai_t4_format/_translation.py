@@ -81,7 +81,9 @@ def _load_translation():
 
     global TRANSLATION
 
-    translatiion_path = Path(__file__).parent.parent / "format_loaders" / "translation.json"
+    translatiion_path = (
+        Path(__file__).parent.parent / "load_" / "loader_classes" / "translation.json"
+    )
     with translatiion_path.open() as translation_file:
         TRANSLATION = json.load(translation_file)
 
