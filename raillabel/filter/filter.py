@@ -4,7 +4,8 @@
 import pickle
 import typing as t
 
-from . import _filter_classes, format
+from .. import format
+from . import _filter_classes
 
 
 def filter(scene: format.Scene, **kwargs) -> format.Scene:
