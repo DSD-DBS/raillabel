@@ -45,7 +45,7 @@ def bounding_box_2d_uai(attributes_uai, sensor_camera_uai) -> dict:
     )
 
 @pytest.fixture
-def bounding_box_2d_raillabel_dict(attributes_raillabel_dict, sensor_camera_uai) -> dict:
+def bounding_box_2d_raillabel_dict(attributes_raillabel_dict, sensor_camera_raillabel_dict) -> dict:
     return {
         "name": "2f2a1d7f-56d1-435c-a3ec-d6b8fdaaa965",
         "val": [
@@ -54,7 +54,7 @@ def bounding_box_2d_raillabel_dict(attributes_raillabel_dict, sensor_camera_uai)
             2.0,
             2.0
         ],
-        "coordinate_system": sensor_camera_uai.type,
+        "coordinate_system": sensor_camera_raillabel_dict["uid"],
         "attributes": attributes_raillabel_dict,
     }
 
