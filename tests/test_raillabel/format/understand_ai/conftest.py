@@ -13,6 +13,7 @@ from test_uai_bounding_box_3d import (
     bounding_box_3d_uai_dict,
 )
 from test_uai_point_3d import point_3d_uai, point_3d_uai_dict, point_3d_vec
+from test_uai_polygon_2d import polygon_2d_raillabel_dict, polygon_2d_uai, polygon_2d_uai_dict
 from test_uai_quaternion import quaternion_uai, quaternion_uai_dict, quaternion_vec
 from test_uai_sensor_reference import (
     sensor_camera_raillabel_dict,
