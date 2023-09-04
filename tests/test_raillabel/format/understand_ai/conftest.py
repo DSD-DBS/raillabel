@@ -12,6 +12,17 @@ from test_uai_bounding_box_3d import (
     bounding_box_3d_uai,
     bounding_box_3d_uai_dict,
 )
+from test_uai_coordinate_system import (
+    coordinate_system_camera_raillabel_dict,
+    coordinate_system_camera_uai,
+    coordinate_system_camera_uai_dict,
+    coordinate_system_lidar_raillabel_dict,
+    coordinate_system_lidar_uai,
+    coordinate_system_lidar_uai_dict,
+    coordinate_system_radar_raillabel_dict,
+    coordinate_system_radar_uai,
+    coordinate_system_radar_uai_dict,
+)
 from test_uai_point_3d import point_3d_uai, point_3d_uai_dict, point_3d_vec
 from test_uai_polygon_2d import polygon_2d_raillabel_dict, polygon_2d_uai, polygon_2d_uai_dict
 from test_uai_polyline_2d import polyline_2d_raillabel_dict, polyline_2d_uai, polyline_2d_uai_dict
