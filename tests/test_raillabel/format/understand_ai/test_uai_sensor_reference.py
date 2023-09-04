@@ -39,7 +39,7 @@ def sensor_camera_raillabel_dict() -> dict:
                     "timestamp": "1632321843.100464760"
                 }
             },
-            "uri": "A0001781_image/000_1632321843.100464760.png"
+            "uri": "000_1632321843.100464760.png"
         }
     }
 
@@ -70,7 +70,7 @@ def sensor_lidar_raillabel_dict() -> dict:
                     "timestamp": "1632321880.132833000"
                 }
             },
-            "uri": "lidar_merged/000_1632321880.132833000.pcd"
+            "uri": "000_1632321880.132833000.pcd"
         }
     }
 
@@ -104,7 +104,7 @@ def test_to_raillabel():
                 "timestamp": "1632321843.100464760"
             }
         },
-        "uri": "A0001781_image/000_1632321843.100464760.png"
+        "uri": "000_1632321843.100464760.png"
     }
 
 if __name__ == "__main__":
