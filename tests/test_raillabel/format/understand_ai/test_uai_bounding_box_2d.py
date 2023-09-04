@@ -10,12 +10,12 @@ import pytest
 sys.path.insert(1, str(Path(__file__).parent.parent.parent.parent.parent))
 
 import raillabel.format.understand_ai as uai_format
-from raillabel.format.understand_ai._translation import translate_class_id, translate_sensor_id
+from raillabel.format.understand_ai._translation import translate_class_id
 
 # == Fixtures =========================
 
 @pytest.fixture
-def bounding_box_uai_dict(sensor_camera_uai_dict, attributes_uai_dict) -> dict:
+def bounding_box_2d_uai_dict(sensor_camera_uai_dict, attributes_uai_dict) -> dict:
     return {
         "id": "2f2a1d7f-56d1-435c-a3ec-d6b8fdaaa965",
         "objectId": "48c988bd-76f1-423f-b46d-7e7acb859f31",
@@ -31,7 +31,7 @@ def bounding_box_uai_dict(sensor_camera_uai_dict, attributes_uai_dict) -> dict:
     }
 
 @pytest.fixture
-def bounding_box_uai(attributes_uai, sensor_camera_uai) -> dict:
+def bounding_box_2d_uai(attributes_uai, sensor_camera_uai) -> dict:
     return uai_format.BoundingBox2d(
         id=UUID("2f2a1d7f-56d1-435c-a3ec-d6b8fdaaa965"),
         object_id=UUID("48c988bd-76f1-423f-b46d-7e7acb859f31"),
@@ -45,7 +45,7 @@ def bounding_box_uai(attributes_uai, sensor_camera_uai) -> dict:
     )
 
 @pytest.fixture
-def bounding_box_raillabel_dict(attributes_raillabel_dict, sensor_camera_uai) -> dict:
+def bounding_box_2d_raillabel_dict(attributes_raillabel_dict, sensor_camera_uai) -> dict:
     return {
         "name": "2f2a1d7f-56d1-435c-a3ec-d6b8fdaaa965",
         "val": [

@@ -3,9 +3,9 @@
 
 from test_uai_attributes import attributes_raillabel_dict, attributes_uai, attributes_uai_dict
 from test_uai_bounding_box_2d import (
-    bounding_box_raillabel_dict,
-    bounding_box_uai,
-    bounding_box_uai_dict,
+    bounding_box_2d_raillabel_dict,
+    bounding_box_2d_uai,
+    bounding_box_2d_uai_dict,
 )
 from test_uai_point_3d import point_3d_uai, point_3d_uai_dict, point_3d_vec
 from test_uai_quaternion import quaternion_uai, quaternion_uai_dict, quaternion_vec
