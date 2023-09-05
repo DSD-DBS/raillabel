@@ -81,6 +81,10 @@ def coordinate_system_camera_raillabel_dict(point_3d_vec, quaternion_vec) -> dic
         }
     )
 
+@pytest.fixture
+def coordinate_system_camera_translated_uid() -> dict:
+    return "ir_middle"
+
 
 @pytest.fixture
 def coordinate_system_lidar_uai_dict(point_3d_vec, quaternion_vec) -> dict:
@@ -124,6 +128,10 @@ def coordinate_system_lidar_raillabel_dict(point_3d_vec, quaternion_vec) -> dict
             "uri": "/lidar_merged",
         }
     )
+
+@pytest.fixture
+def coordinate_system_lidar_translated_uid() -> dict:
+    return "lidar"
 
 
 @pytest.fixture
@@ -176,6 +184,10 @@ def coordinate_system_radar_raillabel_dict(point_3d_vec, quaternion_vec) -> dict
             }
         }
     )
+
+@pytest.fixture
+def coordinate_system_radar_translated_uid() -> dict:
+    return "radar"
 
 # == Tests ============================
 

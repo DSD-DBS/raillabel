@@ -54,12 +54,12 @@ def bounding_box_3d_uai(
 @pytest.fixture
 def bounding_box_3d_raillabel_dict(
     point_3d_vec, size_3d_vec, quaternion_vec,
-    sensor_lidar_raillabel_dict, attributes_raillabel_dict
+    coordinate_system_lidar_translated_uid, attributes_raillabel_dict
 ) -> dict:
     return {
         "name": "910399ec-da3e-4d7e-be42-ef8e53e38ca6",
         "val": point_3d_vec + quaternion_vec + size_3d_vec,
-        "coordinate_system": sensor_lidar_raillabel_dict["uid"],
+        "coordinate_system": coordinate_system_lidar_translated_uid,
         "attributes": attributes_raillabel_dict
     }
 
@@ -101,7 +101,7 @@ def test_to_raillabel(
     size_3d_uai, point_3d_uai, quaternion_uai,
     point_3d_vec, quaternion_vec, size_3d_vec,
     attributes_uai, attributes_raillabel_dict,
-    sensor_lidar_uai, sensor_lidar_raillabel_dict
+    sensor_lidar_uai, coordinate_system_lidar_translated_uid, sensor_lidar_raillabel_dict,
 ):
     bounding_box_3d = uai_format.BoundingBox3d(
         id=UUID("910399ec-da3e-4d7e-be42-ef8e53e38ca6"),
@@ -119,12 +119,12 @@ def test_to_raillabel(
     assert data_dict == {
         "name": "910399ec-da3e-4d7e-be42-ef8e53e38ca6",
         "val": point_3d_vec + quaternion_vec + size_3d_vec,
-        "coordinate_system": sensor_lidar_raillabel_dict["uid"],
+        "coordinate_system": coordinate_system_lidar_translated_uid,
         "attributes": attributes_raillabel_dict
     }
     assert object_id == str(bounding_box_3d.object_id)
     assert translated_class_id == translate_class_id(bounding_box_3d.class_name)
-    assert sensor_reference == sensor_lidar_raillabel_dict["data_dict"]
+    assert sensor_reference == sensor_lidar_raillabel_dict
 
 if __name__ == "__main__":
     import os

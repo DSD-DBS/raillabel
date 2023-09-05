@@ -50,7 +50,7 @@ def polygon_2d_uai(attributes_uai, sensor_camera_uai) -> dict:
     )
 
 @pytest.fixture
-def polygon_2d_raillabel_dict(attributes_raillabel_dict, sensor_camera_raillabel_dict) -> dict:
+def polygon_2d_raillabel_dict(attributes_raillabel_dict, coordinate_system_camera_translated_uid) -> dict:
     return {
         "name": "0f90cffa-2b6b-4e09-8fc2-527769a94e0a",
         "val": [
@@ -61,7 +61,7 @@ def polygon_2d_raillabel_dict(attributes_raillabel_dict, sensor_camera_raillabel
         ],
         "mode": "MODE_POLY2D_ABSOLUTE",
         "closed": True,
-        "coordinate_system": sensor_camera_raillabel_dict["uid"],
+        "coordinate_system": coordinate_system_camera_translated_uid,
         "attributes": attributes_raillabel_dict,
     }
 
@@ -105,7 +105,7 @@ def test_fromdict(
 
 def test_to_raillabel(
     attributes_uai, attributes_raillabel_dict,
-    sensor_camera_uai, sensor_camera_raillabel_dict,
+    sensor_camera_uai, sensor_camera_raillabel_dict, coordinate_system_camera_translated_uid,
 ):
     polygon_2d = uai_format.Polygon2d(
         id=UUID("0f90cffa-2b6b-4e09-8fc2-527769a94e0a"),
@@ -132,13 +132,13 @@ def test_to_raillabel(
             115.01063176442402, 411.0810690770479,
         ],
         "mode": "MODE_POLY2D_ABSOLUTE",
-        "coordinate_system": sensor_camera_raillabel_dict["uid"],
+        "coordinate_system": coordinate_system_camera_translated_uid,
         "closed": True,
         "attributes": attributes_raillabel_dict,
     }
     assert object_id == str(polygon_2d.object_id)
     assert translated_class_id == translate_class_id(polygon_2d.class_name)
-    assert sensor_reference == sensor_camera_raillabel_dict["data_dict"]
+    assert sensor_reference == sensor_camera_raillabel_dict
 
 if __name__ == "__main__":
     import os

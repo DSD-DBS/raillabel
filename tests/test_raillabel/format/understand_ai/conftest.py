@@ -14,12 +14,15 @@ from test_uai_bounding_box_3d import (
 )
 from test_uai_coordinate_system import (
     coordinate_system_camera_raillabel_dict,
+    coordinate_system_camera_translated_uid,
     coordinate_system_camera_uai,
     coordinate_system_camera_uai_dict,
     coordinate_system_lidar_raillabel_dict,
+    coordinate_system_lidar_translated_uid,
     coordinate_system_lidar_uai,
     coordinate_system_lidar_uai_dict,
     coordinate_system_radar_raillabel_dict,
+    coordinate_system_radar_translated_uid,
     coordinate_system_radar_uai,
     coordinate_system_radar_uai_dict,
 )

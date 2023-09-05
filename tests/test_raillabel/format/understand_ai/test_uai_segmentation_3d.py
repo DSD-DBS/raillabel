@@ -41,11 +41,11 @@ def segmentation_3d_uai(attributes_uai, sensor_lidar_uai) -> dict:
     )
 
 @pytest.fixture
-def segmentation_3d_raillabel_dict(attributes_raillabel_dict, sensor_lidar_raillabel_dict) -> dict:
+def segmentation_3d_raillabel_dict(attributes_raillabel_dict, coordinate_system_lidar_translated_uid) -> dict:
     return {
         "name": "13478f94-d556-4f64-a72b-47662e94988e",
         "val": [39814, 39815, 39816, 39817, 39818],
-        "coordinate_system": sensor_lidar_raillabel_dict["uid"],
+        "coordinate_system": coordinate_system_lidar_translated_uid,
         "attributes": attributes_raillabel_dict
     }
 
@@ -80,7 +80,7 @@ def test_fromdict(
 
 def test_to_raillabel(
     attributes_uai, attributes_raillabel_dict,
-    sensor_lidar_uai, sensor_lidar_raillabel_dict,
+    sensor_lidar_uai, sensor_lidar_raillabel_dict, coordinate_system_lidar_translated_uid,
 ):
     segmentation_3d = uai_format.Segmentation3d(
         id=UUID("13478f94-d556-4f64-a72b-47662e94988e"),
@@ -97,12 +97,12 @@ def test_to_raillabel(
     assert data_dict == {
         "name": "13478f94-d556-4f64-a72b-47662e94988e",
         "val": [39814, 39815, 39816, 39817, 39818],
-        "coordinate_system": sensor_lidar_raillabel_dict["uid"],
+        "coordinate_system": coordinate_system_lidar_translated_uid,
         "attributes": attributes_raillabel_dict,
     }
     assert object_id == str(segmentation_3d.object_id)
     assert translated_class_id == translate_class_id(segmentation_3d.class_name)
-    assert sensor_reference == sensor_lidar_raillabel_dict["data_dict"]
+    assert sensor_reference == sensor_lidar_raillabel_dict
 
 if __name__ == "__main__":
     import os

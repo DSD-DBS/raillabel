@@ -45,7 +45,7 @@ def bounding_box_2d_uai(attributes_uai, sensor_camera_uai) -> dict:
     )
 
 @pytest.fixture
-def bounding_box_2d_raillabel_dict(attributes_raillabel_dict, sensor_camera_raillabel_dict) -> dict:
+def bounding_box_2d_raillabel_dict(attributes_raillabel_dict, coordinate_system_camera_translated_uid) -> dict:
     return {
         "name": "2f2a1d7f-56d1-435c-a3ec-d6b8fdaaa965",
         "val": [
@@ -54,7 +54,7 @@ def bounding_box_2d_raillabel_dict(attributes_raillabel_dict, sensor_camera_rail
             2.0,
             2.0
         ],
-        "coordinate_system": sensor_camera_raillabel_dict["uid"],
+        "coordinate_system": coordinate_system_camera_translated_uid,
         "attributes": attributes_raillabel_dict,
     }
 
@@ -94,7 +94,7 @@ def test_fromdict(
 
 def test_to_raillabel(
     attributes_uai, attributes_raillabel_dict,
-    sensor_camera_uai, sensor_camera_raillabel_dict,
+    sensor_camera_uai, sensor_camera_raillabel_dict, coordinate_system_camera_translated_uid,
 ):
     bounding_box_2d = uai_format.BoundingBox2d(
         id=UUID("2f2a1d7f-56d1-435c-a3ec-d6b8fdaaa965"),
@@ -118,12 +118,12 @@ def test_to_raillabel(
             2.0,
             2.0
         ],
-        "coordinate_system": sensor_camera_uai.type,
+        "coordinate_system": coordinate_system_camera_translated_uid,
         "attributes": attributes_raillabel_dict,
     }
     assert object_id == str(bounding_box_2d.object_id)
     assert translated_class_id == translate_class_id(bounding_box_2d.class_name)
-    assert sensor_reference == sensor_camera_raillabel_dict["data_dict"]
+    assert sensor_reference == sensor_camera_raillabel_dict
 
 if __name__ == "__main__":
     import os
