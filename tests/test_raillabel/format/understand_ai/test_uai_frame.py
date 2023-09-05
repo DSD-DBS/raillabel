@@ -1,99 +1,187 @@
 # Copyright DB Netz AG and contributors
 # SPDX-License-Identifier: Apache-2.0
 
-import os
 import sys
-from decimal import Decimal
 from pathlib import Path
+from uuid import UUID
 
 import pytest
 
-sys.path.insert(1, str(Path(__file__).parent.parent.parent.parent))
+sys.path.insert(1, str(Path(__file__).parent.parent.parent.parent.parent))
 
 import raillabel.format.understand_ai as uai_format
 
+# == Fixtures =========================
 
-def _prepare_frame_data(frame_data: dict, json_data: dict) -> dict:
-    frame_data["annotations"]["2D_BOUNDING_BOX"] = [json_data["_understand_ai_t4_format/bounding_box_2d"]]
-    frame_data["annotations"]["2D_BOUNDING_BOX"][0]["sensor"] = json_data["_understand_ai_t4_format/sensor_reference_camera"]
-    frame_data["annotations"]["2D_POLYLINE"] = [json_data["_understand_ai_t4_format/polyline_2d"]]
-    frame_data["annotations"]["2D_POLYLINE"][0]["sensor"] = json_data["_understand_ai_t4_format/sensor_reference_camera"]
-    frame_data["annotations"]["2D_POLYGON"] = [json_data["_understand_ai_t4_format/polygon_2d"]]
-    frame_data["annotations"]["2D_POLYGON"][0]["sensor"] = json_data["_understand_ai_t4_format/sensor_reference_camera"]
-    frame_data["annotations"]["3D_BOUNDING_BOX"] = [json_data["_understand_ai_t4_format/bounding_box_3d"]]
-    frame_data["annotations"]["3D_BOUNDING_BOX"][0]["sensor"] = json_data["_understand_ai_t4_format/sensor_reference_lidar"]
-    frame_data["annotations"]["3D_SEGMENTATION"] = [json_data["_understand_ai_t4_format/segmentation_3d"]]
-    frame_data["annotations"]["3D_SEGMENTATION"][0]["sensor"] = json_data["_understand_ai_t4_format/sensor_reference_lidar"]
+@pytest.fixture
+def frame_uai_dict(
+    bounding_box_2d_uai_dict,
+    bounding_box_3d_uai_dict,
+    polygon_2d_uai_dict,
+    polyline_2d_uai_dict,
+    segmentation_3d_uai_dict,
+    sensor_lidar_uai_dict,
+) -> dict:
+    return {
+        "frameId": "000",
+        "timestamp": sensor_lidar_uai_dict["timestamp"],
+        "annotations": {
+            "2D_BOUNDING_BOX": [bounding_box_2d_uai_dict],
+            "2D_POLYLINE": [polyline_2d_uai_dict],
+            "2D_POLYGON": [polygon_2d_uai_dict],
+            "3D_BOUNDING_BOX": [bounding_box_3d_uai_dict],
+            "3D_SEGMENTATION": [segmentation_3d_uai_dict],
+        }
+    }
 
-    return frame_data
-
-
-def _prepare_ground_truth(ground_truth: dict, json_data:dict) -> dict:
-    ground_truth["objects"]["48c988bd-76f1-423f-b46d-7e7acb859f31"]["object_data"]["bbox"] = [
-        json_data["_understand_ai_t4_format/bounding_box_2d_raillabel"]
-    ]
-    ground_truth["objects"]["48c988bd-76f1-423f-b46d-7e7acb859f31"]["object_data"]["cuboid"] = [
-        json_data["_understand_ai_t4_format/bounding_box_3d_raillabel"]
-    ]
-    ground_truth["objects"]["58e7edd8-a7ee-4775-a837-e6dd375e8150"]["object_data"]["poly2d"] = [
-        json_data["_understand_ai_t4_format/polygon_2d_raillabel"]
-    ]
-    ground_truth["objects"]["4d8eca35-6c1d-4159-8062-21c2f2c051df"]["object_data"]["poly2d"] = [
-        json_data["_understand_ai_t4_format/polyline_2d_raillabel"]
-    ]
-    ground_truth["objects"]["05a7e7a7-91e1-49ef-a172-780f2461f013"]["object_data"]["vec"] = [
-        json_data["_understand_ai_t4_format/segmentation_3d_raillabel"]
-    ]
-
-    return ground_truth
-
-
-def test_fromdict(json_data):
-    input_data = _prepare_frame_data(json_data["_understand_ai_t4_format/frame"], json_data)
-    frame = uai_format.Frame.fromdict(input_data)
-
-    assert frame.id == int(input_data["frameId"])
-    assert frame.timestamp == Decimal(input_data["timestamp"])
-    assert frame.bounding_box_2ds[json_data["_understand_ai_t4_format/bounding_box_2d"]["id"]] == uai_format.BoundingBox2d.fromdict(
-        json_data["_understand_ai_t4_format/bounding_box_2d"]
-    )
-    assert frame.polyline_2ds[json_data["_understand_ai_t4_format/polyline_2d"]["id"]] == uai_format.Polyline2d.fromdict(
-        json_data["_understand_ai_t4_format/polyline_2d"]
-    )
-    assert frame.polygon_2ds[json_data["_understand_ai_t4_format/polygon_2d"]["id"]] == uai_format.Polygon2d.fromdict(
-        json_data["_understand_ai_t4_format/polygon_2d"]
-    )
-    assert frame.bounding_box_3ds[json_data["_understand_ai_t4_format/bounding_box_3d"]["id"]] == uai_format.BoundingBox3d.fromdict(
-        json_data["_understand_ai_t4_format/bounding_box_3d"]
-    )
-    assert frame.segmentation_3ds[json_data["_understand_ai_t4_format/segmentation_3d"]["id"]] == uai_format.Segmentation3d.fromdict(
-        json_data["_understand_ai_t4_format/segmentation_3d"]
+@pytest.fixture
+def frame_uai(
+    bounding_box_2d_uai,
+    bounding_box_3d_uai,
+    polygon_2d_uai,
+    polyline_2d_uai,
+    segmentation_3d_uai,
+    sensor_lidar_uai,
+):
+    return uai_format.Frame(
+        id=0,
+        timestamp=sensor_lidar_uai.timestamp,
+        bounding_box_2ds={str(bounding_box_2d_uai.id): bounding_box_2d_uai},
+        bounding_box_3ds={str(bounding_box_3d_uai.id): bounding_box_3d_uai},
+        polygon_2ds={str(polygon_2d_uai.id): polygon_2d_uai},
+        polyline_2ds={str(polyline_2d_uai.id): polyline_2d_uai},
+        segmentation_3ds={str(segmentation_3d_uai.id): segmentation_3d_uai},
     )
 
-def test_to_raillabel(json_data):
-    input_data = _prepare_frame_data(json_data["_understand_ai_t4_format/frame"], json_data)
-    frame = uai_format.Frame.fromdict(input_data)
-    output_data = frame.to_raillabel()
-    ground_truth = _prepare_ground_truth(json_data["_understand_ai_t4_format/frame_raillabel"], json_data)
+@pytest.fixture
+def frame_raillabel_dict(
+    bounding_box_2d_uai, bounding_box_2d_raillabel_dict,
+    bounding_box_3d_raillabel_dict,
+    polygon_2d_uai, polygon_2d_raillabel_dict,
+    polyline_2d_uai, polyline_2d_raillabel_dict,
+    segmentation_3d_uai, segmentation_3d_raillabel_dict,
+    sensor_lidar_uai, sensor_lidar_raillabel_dict, coordinate_system_lidar_translated_uid,
+    sensor_camera_raillabel_dict, coordinate_system_camera_translated_uid,
+) -> dict:
+    return {
+        "frame_properties": {
+            "timestamp": str(sensor_lidar_uai.timestamp),
+            "streams": {
+                coordinate_system_camera_translated_uid: sensor_camera_raillabel_dict,
+                coordinate_system_lidar_translated_uid: sensor_lidar_raillabel_dict,
+            }
+        },
+        "objects": {
+            str(bounding_box_2d_uai.object_id): {
+                "object_data": {
+                    "bbox": [bounding_box_2d_raillabel_dict],
+                    "cuboid": [bounding_box_3d_raillabel_dict],
+                }
+            },
+            str(polygon_2d_uai.object_id): {
+                "object_data": {
+                    "poly2d": [polygon_2d_raillabel_dict]
+                }
+            },
+            str(polyline_2d_uai.object_id): {
+                "object_data": {
+                    "poly2d": [polyline_2d_raillabel_dict]
+                }
+            },
+            str(segmentation_3d_uai.object_id): {
+                "object_data": {
+                    "vec": [segmentation_3d_raillabel_dict]
+                }
+            },
+        }
+    }
 
-    assert output_data == ground_truth
+# == Tests ============================
 
-def test_translated_sensors(json_data):
-    input_data = _prepare_frame_data(json_data["_understand_ai_t4_format/frame"], json_data)
-    frame = uai_format.Frame.fromdict(input_data)
-    ground_truth_streams = json_data["_understand_ai_t4_format/frame_raillabel"]["frame_properties"]["streams"]
+def test_fromdict(
+    bounding_box_2d_uai_dict, bounding_box_2d_uai,
+    bounding_box_3d_uai_dict, bounding_box_3d_uai,
+    polygon_2d_uai_dict, polygon_2d_uai,
+    polyline_2d_uai_dict, polyline_2d_uai,
+    segmentation_3d_uai_dict, segmentation_3d_uai,
+    sensor_lidar_uai_dict, sensor_lidar_uai,
+):
+    frame = uai_format.Frame.fromdict(
+        {
+            "frameId": "000",
+            "timestamp": sensor_lidar_uai_dict["timestamp"],
+            "annotations": {
+                "2D_BOUNDING_BOX": [bounding_box_2d_uai_dict],
+                "2D_POLYLINE": [polyline_2d_uai_dict],
+                "2D_POLYGON": [polygon_2d_uai_dict],
+                "3D_BOUNDING_BOX": [bounding_box_3d_uai_dict],
+                "3D_SEGMENTATION": [segmentation_3d_uai_dict],
+            }
+        }
+    )
 
-    assert frame.translated_sensors.keys() == ground_truth_streams.keys()
+    assert frame.id == 0
+    assert frame.timestamp == sensor_lidar_uai.timestamp
+    assert frame.bounding_box_2ds == {str(bounding_box_2d_uai.id): bounding_box_2d_uai}
+    assert frame.bounding_box_3ds == {str(bounding_box_3d_uai.id): bounding_box_3d_uai}
+    assert frame.polygon_2ds == {str(polygon_2d_uai.id): polygon_2d_uai}
+    assert frame.polyline_2ds == {str(polyline_2d_uai.id): polyline_2d_uai}
+    assert frame.segmentation_3ds == {str(segmentation_3d_uai.id): segmentation_3d_uai}
 
-def test_translated_objects(json_data):
-    input_data = _prepare_frame_data(json_data["_understand_ai_t4_format/frame"], json_data)
-    frame = uai_format.Frame.fromdict(input_data)
-    ground_truth_objects = json_data["_understand_ai_t4_format/frame_raillabel"]["objects"]
 
-    assert frame.translated_objects.keys() == ground_truth_objects.keys()
+def test_to_raillabel(
+    bounding_box_2d_uai, bounding_box_2d_raillabel_dict,
+    bounding_box_3d_uai, bounding_box_3d_raillabel_dict,
+    polygon_2d_uai, polygon_2d_raillabel_dict,
+    polyline_2d_uai, polyline_2d_raillabel_dict,
+    segmentation_3d_uai, segmentation_3d_raillabel_dict,
+    sensor_lidar_uai, sensor_lidar_raillabel_dict, coordinate_system_lidar_translated_uid,
+    sensor_camera_raillabel_dict, coordinate_system_camera_translated_uid,
+):
+    frame = uai_format.Frame(
+        id=0,
+        timestamp=sensor_lidar_uai.timestamp,
+        bounding_box_2ds={str(bounding_box_2d_uai.id): bounding_box_2d_uai},
+        bounding_box_3ds={str(bounding_box_3d_uai.id): bounding_box_3d_uai},
+        polygon_2ds={str(polygon_2d_uai.id): polygon_2d_uai},
+        polyline_2ds={str(polyline_2d_uai.id): polyline_2d_uai},
+        segmentation_3ds={str(segmentation_3d_uai.id): segmentation_3d_uai},
+    )
 
+    assert frame.to_raillabel() == {
+        "frame_properties": {
+            "timestamp": str(sensor_lidar_uai.timestamp),
+            "streams": {
+                coordinate_system_camera_translated_uid: sensor_camera_raillabel_dict,
+                coordinate_system_lidar_translated_uid: sensor_lidar_raillabel_dict,
+            }
+        },
+        "objects": {
+            str(bounding_box_2d_uai.object_id): {
+                "object_data": {
+                    "bbox": [bounding_box_2d_raillabel_dict],
+                    "cuboid": [bounding_box_3d_raillabel_dict],
+                }
+            },
+            str(polygon_2d_uai.object_id): {
+                "object_data": {
+                    "poly2d": [polygon_2d_raillabel_dict]
+                }
+            },
+            str(polyline_2d_uai.object_id): {
+                "object_data": {
+                    "poly2d": [polyline_2d_raillabel_dict]
+                }
+            },
+            str(segmentation_3d_uai.object_id): {
+                "object_data": {
+                    "vec": [segmentation_3d_raillabel_dict]
+                }
+            },
+        }
+    }
 
-# Executes the test if the file is called
 if __name__ == "__main__":
+    import os
     os.system("clear")
-    pytest.main([__file__, "--disable-pytest-warnings", "--cache-clear"])
+    pytest.main([__file__, "--disable-pytest-warnings", "--cache-clear", "-vv"])
