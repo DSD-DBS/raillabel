@@ -114,7 +114,7 @@ class Frame:
             ),
         )
 
-    def to_raillabel(self) -> t.Tuple[dict, t.List[str], t.Dict[str, str]]:
+    def to_raillabel(self) -> dict:
         """Generate a Frame from a dictionary in the UAI format.
 
         Parameters
@@ -147,7 +147,12 @@ class Frame:
                 "uri": stream.uri.split("/")[-1],
             }
 
-        return {"timestamp": str(self.timestamp), "streams": streams_dict}
+        return {
+            "timestamp": str(self.timestamp),
+            "streams": {
+                sensor.type: sensor.to_raillabel()[1] for sensor in self.translated_sensors.values()
+            },
+        }
 
     def _objects_to_raillabel(self) -> dict:
         object_data = {}

@@ -1,76 +1,341 @@
 # Copyright DB Netz AG and contributors
 # SPDX-License-Identifier: Apache-2.0
 
-import os
 import sys
 from pathlib import Path
 
 import pytest
 
-sys.path.insert(1, str(Path(__file__).parent.parent.parent.parent))
+sys.path.insert(1, str(Path(__file__).parent.parent.parent.parent.parent))
 
 import raillabel.format.understand_ai as uai_format
 
+# == Fixtures =========================
 
-def test_fromdict_camera(json_data):
-    input_data = json_data["_understand_ai_t4_format/coordinate_system_camera"]
-    coordinate_system = uai_format.CoordinateSystem.fromdict(input_data)
+@pytest.fixture
+def coordinate_system_camera_uai_dict(point_3d_vec, quaternion_vec) -> dict:
+    return {
+        "coordinate_system_id": "ir_middle",
+        "topic": "/A0001781/image",
+        "frame_id": " A0001781",
+        "position": point_3d_vec,
+        "rotation_quaternion": quaternion_vec,
+        "rotation_matrix": [0] * 9,
+        "angle_axis_rotation": [0] * 3,
+        "homogeneous_transform": [0] * 16,
+        "measured_position": [0, 0, 0],
+        "camera_matrix": [
+            3535,    0, 319.5,
+               0, 3535, 239.5,
+               0,    0,   1  ,
+        ],
+        "dist_coeffs": [0, 1, 2, 3, 4]
+    }
 
-    assert coordinate_system.uid == input_data["coordinate_system_id"]
-    assert coordinate_system.topic == input_data["topic"]
-    assert coordinate_system.frame_id == input_data["frame_id"]
-    assert coordinate_system.position == input_data["position"]
-    assert coordinate_system.rotation_quaternion == input_data["rotation_quaternion"]
-    assert coordinate_system.rotation_matrix == input_data["rotation_matrix"]
-    assert coordinate_system.angle_axis_rotation == input_data["angle_axis_rotation"]
-    assert coordinate_system.homogeneous_transform == input_data["homogeneous_transform"]
-    assert coordinate_system.measured_position == input_data["measured_position"]
-    assert coordinate_system.camera_matrix == input_data["camera_matrix"]
-    assert coordinate_system.dist_coeffs == input_data["dist_coeffs"]
+@pytest.fixture
+def coordinate_system_camera_uai(point_3d_vec, quaternion_vec):
+    return uai_format.CoordinateSystem(
+        uid="ir_middle",
+        topic="/A0001781/image",
+        frame_id=" A0001781",
+        position=point_3d_vec,
+        rotation_quaternion=quaternion_vec,
+        rotation_matrix=[0] * 9,
+        angle_axis_rotation=[0] * 3,
+        homogeneous_transform=[0] * 16,
+        measured_position=[0, 0, 0],
+        camera_matrix=[
+            3535,    0, 319.5,
+               0, 3535, 239.5,
+               0,    0,   1  ,
+        ],
+        dist_coeffs=[0, 1, 2, 3, 4]
+    )
 
-def test_fromdict_lidar(json_data):
-    input_data = json_data["_understand_ai_t4_format/coordinate_system_lidar"]
-    coordinate_system = uai_format.CoordinateSystem.fromdict(input_data)
+@pytest.fixture
+def coordinate_system_camera_raillabel_dict(point_3d_vec, quaternion_vec) -> dict:
+    return (
+        {
+            "type": "sensor",
+            "parent": "base",
+            "pose_wrt_parent": {
+                "translation": point_3d_vec,
+                "quaternion": quaternion_vec
+            }
+        },
+        {
+            "type": "camera",
+            "uri": "/A0001781/image",
+            "stream_properties": {
+                "intrinsics_pinhole": {
+                    "camera_matrix": [
+                        3535,    0, 319.5, 0,
+                        0, 3535, 239.5, 0,
+                        0,    0,   1  , 0,
+                    ],
+                    "distortion_coeffs": [0, 1, 2, 3, 4],
+                    "width_px": 640,
+                    "height_px": 480,
+                }
+            }
+        }
+    )
 
-    assert coordinate_system.uid == input_data["coordinate_system_id"]
-    assert coordinate_system.topic == input_data["topic"]
-    assert coordinate_system.frame_id == input_data["frame_id"]
-    assert coordinate_system.position == input_data["position"]
-    assert coordinate_system.rotation_quaternion == input_data["rotation_quaternion"]
-    assert coordinate_system.rotation_matrix == input_data["rotation_matrix"]
-    assert coordinate_system.angle_axis_rotation == input_data["angle_axis_rotation"]
-    assert coordinate_system.homogeneous_transform == input_data["homogeneous_transform"]
-    assert coordinate_system.measured_position == None
-    assert coordinate_system.camera_matrix == None
-    assert coordinate_system.dist_coeffs == None
+@pytest.fixture
+def coordinate_system_camera_translated_uid() -> dict:
+    return "ir_middle"
 
-def test_to_raillabel_camera(json_data):
-    input_data = json_data["_understand_ai_t4_format/coordinate_system_camera"]
-    coordinate_system = uai_format.CoordinateSystem.fromdict(input_data)
-    output_cs, output_stream = coordinate_system.to_raillabel()
-    ground_truth_cs = json_data["_understand_ai_t4_format/coordinate_system_camera_cs_raillabel"]
-    ground_truth_stream = json_data["_understand_ai_t4_format/coordinate_system_camera_stream_raillabel"]
 
-    assert output_cs == ground_truth_cs
-    assert output_stream == ground_truth_stream
+@pytest.fixture
+def coordinate_system_lidar_uai_dict(point_3d_vec, quaternion_vec) -> dict:
+    return {
+        "coordinate_system_id": "LIDAR",
+        "topic": "/lidar_merged",
+        "frame_id": "lidar_merged",
+        "position": point_3d_vec,
+        "rotation_quaternion": quaternion_vec,
+        "rotation_matrix": [0] * 9,
+        "angle_axis_rotation": [0] * 3,
+        "homogeneous_transform": [0] * 16,
+    }
 
-def test_to_raillabel_lidar(json_data):
-    input_data = json_data["_understand_ai_t4_format/coordinate_system_lidar"]
-    coordinate_system = uai_format.CoordinateSystem.fromdict(input_data)
-    _, output_stream = coordinate_system.to_raillabel()
-    ground_truth_stream = json_data["_understand_ai_t4_format/coordinate_system_lidar_stream_raillabel"]
+@pytest.fixture
+def coordinate_system_lidar_uai(point_3d_vec, quaternion_vec):
+    return uai_format.CoordinateSystem(
+        uid="LIDAR",
+        topic="/lidar_merged",
+        frame_id="lidar_merged",
+        position=point_3d_vec,
+        rotation_quaternion=quaternion_vec,
+        rotation_matrix=[0] * 9,
+        angle_axis_rotation=[0] * 3,
+        homogeneous_transform=[0] * 16,
+    )
 
-    assert output_stream == ground_truth_stream
+@pytest.fixture
+def coordinate_system_lidar_raillabel_dict(point_3d_vec, quaternion_vec) -> dict:
+    return (
+        {
+            "type": "sensor",
+            "parent": "base",
+            "pose_wrt_parent": {
+                "translation": point_3d_vec,
+                "quaternion": quaternion_vec
+            }
+        },
+        {
+            "type": "lidar",
+            "uri": "/lidar_merged",
+        }
+    )
 
-def test_to_raillabel_radar(json_data):
-    input_data = json_data["_understand_ai_t4_format/coordinate_system_radar"]
-    coordinate_system = uai_format.CoordinateSystem.fromdict(input_data)
-    _, output_stream = coordinate_system.to_raillabel()
-    ground_truth_stream = json_data["_understand_ai_t4_format/coordinate_system_radar_stream_raillabel"]
+@pytest.fixture
+def coordinate_system_lidar_translated_uid() -> dict:
+    return "lidar"
 
-    assert output_stream == ground_truth_stream
 
-# Executes the test if the file is called
+@pytest.fixture
+def coordinate_system_radar_uai_dict(point_3d_vec, quaternion_vec) -> dict:
+    return {
+        "coordinate_system_id": "radar",
+        "rotation_around_z_in_degrees": 1.22869,
+        "topic": "/talker1/Nvt/Cartesian",
+        "frame_id": "navtech",
+        "position": point_3d_vec,
+        "rotation_quaternion": quaternion_vec,
+        "rotation_matrix": [0] * 9,
+        "angle_axis_rotation": [0] * 3,
+        "homogeneous_transform": [0] * 16,
+    }
+
+@pytest.fixture
+def coordinate_system_radar_uai(point_3d_vec, quaternion_vec):
+    return uai_format.CoordinateSystem(
+        uid="radar",
+        topic="/talker1/Nvt/Cartesian",
+        frame_id="navtech",
+        position=point_3d_vec,
+        rotation_quaternion=quaternion_vec,
+        rotation_matrix=[0] * 9,
+        angle_axis_rotation=[0] * 3,
+        homogeneous_transform=[0] * 16,
+    )
+
+@pytest.fixture
+def coordinate_system_radar_raillabel_dict(point_3d_vec, quaternion_vec) -> dict:
+    return (
+        {
+            "type": "sensor",
+            "parent": "base",
+            "pose_wrt_parent": {
+                "translation": point_3d_vec,
+                "quaternion": quaternion_vec
+            }
+        },
+        {
+            "type": "radar",
+            "uri": "/talker1/Nvt/Cartesian",
+            "stream_properties": {
+                "intrinsics_radar": {
+                    "resolution_px_per_m": 2.856,
+                    "width_px": 2856,
+                    "height_px": 1428
+                }
+            }
+        }
+    )
+
+@pytest.fixture
+def coordinate_system_radar_translated_uid() -> dict:
+    return "radar"
+
+# == Tests ============================
+
+def test_fromdict(point_3d_vec, quaternion_vec):
+    coordinate_system = uai_format.CoordinateSystem.fromdict(
+        {
+            "coordinate_system_id": "ir_middle",
+            "topic": "/A0001781/image",
+            "frame_id": " A0001781",
+            "position": point_3d_vec,
+            "rotation_quaternion": quaternion_vec,
+            "rotation_matrix": [0] * 9,
+            "angle_axis_rotation": [0] * 3,
+            "homogeneous_transform": [0] * 16,
+            "measured_position": [0, 0, 0],
+            "camera_matrix": [
+                3535,    0, 319.5,
+                   0, 3535, 239.5,
+                   0,    0,   1  ,
+            ],
+            "dist_coeffs": [0, 1, 2, 3, 4]
+        }
+    )
+
+    assert coordinate_system.uid == "ir_middle"
+    assert coordinate_system.topic == "/A0001781/image"
+    assert coordinate_system.frame_id == " A0001781"
+    assert coordinate_system.position == point_3d_vec
+    assert coordinate_system.rotation_quaternion == quaternion_vec
+    assert coordinate_system.rotation_matrix == [0] * 9
+    assert coordinate_system.angle_axis_rotation == [0] * 3
+    assert coordinate_system.homogeneous_transform == [0] * 16
+    assert coordinate_system.measured_position == [0, 0, 0]
+    assert coordinate_system.camera_matrix == [
+        3535,    0, 319.5,
+           0, 3535, 239.5,
+           0,    0,   1  ,
+    ]
+    assert coordinate_system.dist_coeffs == [0, 1, 2, 3, 4]
+
+
+def test_to_raillabel__coordinate_system(point_3d_vec, quaternion_vec):
+    coordinate_system = uai_format.CoordinateSystem(
+        uid="ir_middle",
+        topic="/A0001781/image",
+        frame_id=" A0001781",
+        position=point_3d_vec,
+        rotation_quaternion=quaternion_vec,
+        rotation_matrix=[0] * 9,
+        angle_axis_rotation=[0] * 3,
+        homogeneous_transform=[0] * 16,
+        measured_position=[0, 0, 0],
+        camera_matrix=[
+            3535,    0, 319.5,
+               0, 3535, 239.5,
+               0,    0,   1  ,
+        ],
+        dist_coeffs=[0, 1, 2, 3, 4]
+    )
+
+    assert coordinate_system.to_raillabel()[0] == {
+        "type": "sensor",
+        "parent": "base",
+        "pose_wrt_parent": {
+            "translation": point_3d_vec,
+            "quaternion": quaternion_vec
+        }
+    }
+
+def test_to_raillabel__stream__camera(point_3d_vec, quaternion_vec):
+    coordinate_system = uai_format.CoordinateSystem(
+        uid="ir_middle",
+        topic="/A0001781/image",
+        frame_id=" A0001781",
+        position=point_3d_vec,
+        rotation_quaternion=quaternion_vec,
+        rotation_matrix=[0] * 9,
+        angle_axis_rotation=[0] * 3,
+        homogeneous_transform=[0] * 16,
+        measured_position=[0, 0, 0],
+        camera_matrix=[
+            3535,    0, 319.5,
+               0, 3535, 239.5,
+               0,    0,   1  ,
+        ],
+        dist_coeffs=[0, 1, 2, 3, 4]
+    )
+
+    assert coordinate_system.to_raillabel()[1] == {
+        "type": "camera",
+        "uri": "/A0001781/image",
+        "stream_properties": {
+            "intrinsics_pinhole": {
+                "camera_matrix": [
+                    3535,    0, 319.5, 0,
+                       0, 3535, 239.5, 0,
+                       0,    0,   1  , 0,
+                ],
+                "distortion_coeffs": [0, 1, 2, 3, 4],
+                "width_px": 640,
+                "height_px": 480,
+            }
+        }
+    }
+
+def test_to_raillabel__stream__lidar(point_3d_vec, quaternion_vec):
+    coordinate_system = uai_format.CoordinateSystem(
+        uid="LIDAR",
+        topic="/lidar_merged",
+        frame_id="lidar_merged",
+        position=point_3d_vec,
+        rotation_quaternion=quaternion_vec,
+        rotation_matrix=[0] * 9,
+        angle_axis_rotation=[0] * 3,
+        homogeneous_transform=[0] * 16,
+    )
+
+    assert coordinate_system.to_raillabel()[1] == {
+        "type": "lidar",
+        "uri": "/lidar_merged",
+    }
+
+def test_to_raillabel__stream__radar(point_3d_vec, quaternion_vec):
+    coordinate_system = uai_format.CoordinateSystem(
+        uid="radar",
+        topic="/talker1/Nvt/Cartesian",
+        frame_id="navtech",
+        position=point_3d_vec,
+        rotation_quaternion=quaternion_vec,
+        rotation_matrix=[0] * 9,
+        angle_axis_rotation=[0] * 3,
+        homogeneous_transform=[0] * 16,
+    )
+
+    assert coordinate_system.to_raillabel()[1] == {
+        "type": "radar",
+        "uri": "/talker1/Nvt/Cartesian",
+        "stream_properties": {
+            "intrinsics_radar": {
+                "resolution_px_per_m": 2.856,
+                "width_px": 2856,
+                "height_px": 1428
+            }
+        }
+    }
+
+
 if __name__ == "__main__":
+    import os
     os.system("clear")
-    pytest.main([__file__, "--disable-pytest-warnings", "--cache-clear"])
+    pytest.main([__file__, "--disable-pytest-warnings", "--cache-clear", "-v"])

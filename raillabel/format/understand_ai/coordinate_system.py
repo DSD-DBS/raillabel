@@ -44,10 +44,10 @@ class CoordinateSystem:
     rotation_quaternion: t.List[float]
     rotation_matrix: t.List[float]
     angle_axis_rotation: t.List[float]
-    homogeneous_transform: t.Optional[t.List[float]]
-    measured_position: t.Optional[t.List[float]]
-    camera_matrix: t.Optional[t.List[float]]
-    dist_coeffs: t.Optional[t.List[float]]
+    homogeneous_transform: t.Optional[t.List[float]] = None
+    measured_position: t.Optional[t.List[float]] = None
+    camera_matrix: t.Optional[t.List[float]] = None
+    dist_coeffs: t.Optional[t.List[float]] = None
 
     @property
     def translated_uid(self) -> str:

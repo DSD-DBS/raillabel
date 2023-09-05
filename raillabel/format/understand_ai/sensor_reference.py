@@ -58,6 +58,6 @@ class SensorReference:
             self.type,
             {
                 "stream_properties": {"sync": {"timestamp": str(self.timestamp)}},
-                "uri": self.uri,
+                "uri": self.uri.split("/")[-1],
             },
         )
