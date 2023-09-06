@@ -61,9 +61,17 @@ Release
 ## 2.3.0
 - Support for additional, undefined attributes in raillabel.format.Metadata
 
-# Unreleased
-- FrameInterval.from_frame_uids(): create FrameIntervals by providing a list of frame uids
-- Object.object_data_pointers(): generate ElementDataPointers
-- Scene.frame_intervals, Object.frame_intervals(): generate FrameIntervals
-- Object.asdict() now provides also frame intervals and object data pointers, if the frames from the scene are provided
-- Scene.fromdict() for loading a scene from a dictionary
+# 3.0.0
+- Removed deprecated features
+- Annotation classes now contain information about the object they annotate
+- Removed ```ObjectData``` - frames now directly contain the annotations
+- ```name``` field in annotation classes now is automatically generated
+- Separated ```frame_data``` and ```object_data``` in the schema and devkit
+  - ```frame_data``` can only contain ```Num``` instances
+  - ```object_data``` can not contain ```Num``` instances anymore
+- Major restructuring of the project directories
+- ```FrameInterval.from_frame_uids()```: create ```FrameIntervals``` by providing a list of frame uids
+- ```Object.object_data_pointers()```: generate ```ElementDataPointers```
+- ```Scene.frame_intervals()```, ```Object.frame_intervals()```: generate ```FrameIntervals```
+- ```Object.asdict()``` now provides also frame intervals and object data pointers, if the frames from the scene are provided
+- ```Scene.fromdict()``` for loading a scene from a dictionary

@@ -1,0 +1,937 @@
+{
+    "$id": "https://openlabel.asam.net/V1-0-0/schema#",
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "version": "3.0.0",
+    "description": "This schema is a sub-set of the OpenLABEL schema, that more accurately describes the usage by raillabel. Every JSON file, that is valid in this schema, is also valid in the OpenLABEL schema.",
+    "additionalProperties": false,
+    "definitions": {
+        "attributes": {
+            "additionalProperties": false,
+            "description": "Attributes is the alias of element data that can be nested inside geometric object data. For example, a certain bounding box can have attributes related to its score, visibility, etc. These values can be nested inside the bounding box as attributes.",
+            "properties": {
+                "boolean": {
+                    "items": {
+                        "$ref": "#/definitions/boolean_attribute"
+                    },
+                    "type": "array"
+                },
+                "num": {
+                    "items": {
+                        "$ref": "#/definitions/num_attribute"
+                    },
+                    "type": "array"
+                },
+                "text": {
+                    "items": {
+                        "$ref": "#/definitions/text_attribute"
+                    },
+                    "type": "array"
+                },
+                "vec": {
+                    "items": {
+                        "$ref": "#/definitions/vec_attribute"
+                    },
+                    "type": "array"
+                }
+            },
+            "type": "object"
+        },
+        "bbox": {
+            "additionalProperties": false,
+            "description": "A 2D bounding box is defined as a 4-dimensional vector [x, y, w, h], where [x, y] is the center of the bounding box and [w, h] represent the width (horizontal, x-coordinate dimension) and height (vertical, y-coordinate dimension), respectively.",
+            "properties": {
+                "attributes": {
+                    "$ref": "#/definitions/attributes"
+                },
+                "coordinate_system": {
+                    "description": "Name of the coordinate system in respect of which this object data is expressed.",
+                    "type": "string"
+                },
+                "name": {
+                    "description": "This is a string encoding the name of this object data. It is used as index inside the corresponding object data pointers.",
+                    "type": "string"
+                },
+                "val": {
+                    "description": "The array of 4 values that define the [x, y, w, h] values of the bbox.",
+                    "items": {
+                        "type": "number"
+                    },
+                    "maxItems": 4,
+                    "minItems": 4,
+                    "type": "array"
+                },
+                "uid": {
+                    "description": "This is a string encoding the Universal Unique identifyer of the annotation.",
+                    "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12})$",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "name",
+                "val"
+            ],
+            "type": "object"
+        },
+        "boolean_attribute": {
+            "additionalProperties": false,
+            "description": "A boolean attribute.",
+            "properties": {
+                "name": {
+                    "description": "Friendly identifier describing the attribute. Used to track the attribute throughout annotations and frames.",
+                    "type": "string"
+                },
+                "val": {
+                    "description": "The boolean value.",
+                    "type": "boolean"
+                }
+            },
+            "required": [
+                "val"
+            ],
+            "type": "object"
+        },
+        "coordinate_system": {
+            "additionalProperties": false,
+            "description": "A coordinate system is a 3D reference frame. Spatial information on objects and their properties can be defined with respect to coordinate systems.",
+            "properties": {
+                "children": {
+                    "description": "List of children of this coordinate system.",
+                    "items": {
+                        "description": "This is the string UID of this child coordinate system.",
+                        "type": "string"
+                    },
+                    "type": "array"
+                },
+                "parent": {
+                    "description": "This is the string UID of the parent coordinate system this coordinate system is referring to.",
+                    "type": "string",
+                    "enum": [
+                        "base",
+                        ""
+                    ]
+                },
+                "pose_wrt_parent": {
+                    "$ref": "#/definitions/transform_data"
+                },
+                "type": {
+                    "description": "This is a string that describes the type of the coordinate system, for example, \"local\", \"geo\").",
+                    "type": "string",
+                    "enum": [
+                        "sensor",
+                        "local"
+                    ]
+                }
+            },
+            "required": [
+                "type",
+                "parent"
+            ]
+        },
+        "coordinate_systems": {
+            "additionalProperties": false,
+            "description": "This is a JSON object which contains OpenLABEL coordinate systems. Coordinate system keys can be any string, for example, a friendly coordinate system name.",
+            "patternProperties": {
+                "^": {
+                    "$ref": "#/definitions/coordinate_system"
+                }
+            },
+            "type": "object"
+        },
+        "cuboid": {
+            "additionalProperties": false,
+            "description": "A cuboid or 3D bounding box. It is defined by the position of its center, the rotation in 3D, and its dimensions.",
+            "properties": {
+                "attributes": {
+                    "$ref": "#/definitions/attributes"
+                },
+                "coordinate_system": {
+                    "description": "Name of the coordinate system in respect of which this object data is expressed.",
+                    "type": "string"
+                },
+                "name": {
+                    "description": "This is a string encoding the name of this object data. It is used as index inside the corresponding object data pointers.",
+                    "type": "string"
+                },
+                "val": {
+                    "description": "List of values encoding the position, rotation and dimensions. Two options are supported, using 9 or 10 values. If 9 values are used, the format is (x, y, z, rx, ry, rz, sx, sy, sz), where (x, y, z) encodes the position, (rx, ry, rz) encodes the Euler angles that encode the rotation, and (sx, sy, sz) are the dimensions of the cuboid in its object coordinate system. If 10 values are used, then the format is (x, y, z, qx, qy, qz, qw, sx, sy, sz) with the only difference of the rotation values which are the 4 values of a quaternion.",
+                    "oneOf": [
+                        {
+                            "items": {
+                                "type": "number"
+                            },
+                            "maxItems": 10,
+                            "minItems": 9,
+                            "type": "array"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ]
+                },
+                "uid": {
+                    "description": "This is a string encoding the Universal Unique identifyer of the annotation.",
+                    "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12})$",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "name",
+                "val"
+            ],
+            "type": "object"
+        },
+        "element_data_pointer": {
+            "description": "This item contains pointers to element data of elements, indexed by \"name\", and containing information about the element data type, for example, bounding box, cuboid, and the frame intervals in which this element_data exists within an element. That means, these pointers can be used to explore element data dynamic information within the JSON content.",
+            "properties": {
+                "attribute_pointers": {
+                    "description": "This is a JSON object which contains pointers to the attributes of the element data pointed by this pointer. The attributes pointer keys shall be the \"name\" of the attribute of the element data this pointer points to.",
+                    "patternProperties": {
+                        "^": {
+                            "description": "The attribute pointer values are strings which define the type of the attribute.",
+                            "enum": [
+                                "num",
+                                "text",
+                                "boolean",
+                                "vec"
+                            ],
+                            "type": "string"
+                        }
+                    },
+                    "type": "object"
+                },
+                "frame_intervals": {
+                    "description": "List of frame intervals of the element data pointed by this pointer.",
+                    "items": {
+                        "$ref": "#/definitions/frame_interval"
+                    },
+                    "type": "array"
+                },
+                "type": {
+                    "description": "Type of the element data pointed by this pointer.",
+                    "enum": [
+                        "bbox",
+                        "num",
+                        "poly2d",
+                        "poly3d",
+                        "cuboid",
+                        "vec"
+                    ],
+                    "type": "string"
+                }
+            },
+            "required": [
+                "attribute_pointers",
+                "frame_intervals",
+                "type"
+            ],
+            "additionalProperties": false
+        },
+        "element_data_pointers": {
+            "additionalProperties": false,
+            "description": "This is a JSON object which contains OpenLABEL element data pointers. Element data pointer keys shall be the \"name\" of the element data this pointer points to.",
+            "patternProperties": {
+                "^": {
+                    "$ref": "#/definitions/element_data_pointer"
+                }
+            },
+            "type": "object"
+        },
+        "frame": {
+            "additionalProperties": false,
+            "description": "A frame is a container of dynamic, timewise, information.",
+            "properties": {
+                "frame_properties": {
+                    "additionalProperties": false,
+                    "description": "This is a JSON object which contains information about this frame.",
+                    "properties": {
+                        "streams": {
+                            "additionalProperties": false,
+                            "description": "Streams is a JSON object which contains OpenLABEL streams with specific information for this frame. Stream keys can be any string, for example, a friendly stream name.",
+                            "patternProperties": {
+                                "^": {
+                                    "$ref": "#/definitions/stream_sync"
+                                }
+                            },
+                            "type": "object"
+                        },
+                        "timestamp": {
+                            "anyOf": [
+                                {
+                                    "type": "string"
+                                },
+                                {
+                                    "type": "number"
+                                }
+                            ],
+                            "description": "The timestamp indicates a time instant as a UTC string or numerical value to describe this frame."
+                        },
+                        "frame_data": {
+                            "additionalProperties": false,
+                            "description": "Additional data to describe attributes of the frame.",
+                            "properties": {
+                                "num": {
+                                    "description": "List of \"num\" that describe this frame.",
+                                    "items": {
+                                        "$ref": "#/definitions/num"
+                                    },
+                                    "type": "array"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    },
+                    "type": "object"
+                },
+                "objects": {
+                    "additionalProperties": false,
+                    "description": "This is a JSON object that contains dynamic information on OpenLABEL objects. Object keys are strings containing numerical UIDs or 32 bytes UUIDs. Object values may contain an \"object_data\" JSON object.",
+                    "patternProperties": {
+                        "^(-?[0-9]+|[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12})$": {
+                            "additionalProperties": false,
+                            "properties": {
+                                "object_data": {
+                                    "$ref": "#/definitions/object_data"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    },
+                    "type": "object"
+                }
+            },
+            "type": "object"
+        },
+        "frame_interval": {
+            "additionalProperties": false,
+            "description": "A frame interval defines a starting and ending frame number as a closed interval. That means the interval includes the limit frame numbers.",
+            "properties": {
+                "frame_end": {
+                    "description": "Ending frame number of the interval.",
+                    "type": "integer"
+                },
+                "frame_start": {
+                    "description": "Initial frame number of the interval.",
+                    "type": "integer"
+                }
+            },
+            "type": "object"
+        },
+        "metadata": {
+            "additionalProperties": true,
+            "description": "This JSON object contains information, that is, metadata, about the annotation file itself.",
+            "properties": {
+                "comment": {
+                    "description": "Additional information or description about the annotation content.",
+                    "type": "string"
+                },
+                "file_version": {
+                    "description": "Version number of the OpenLABEL annotation content.",
+                    "pattern": "^(0|[1-9]\\d*)\\.(0|[1-9]\\d*)\\.(0|[1-9]\\d*)$",
+                    "type": "string"
+                },
+                "name": {
+                    "description": "Name of the OpenLABEL annotation content.",
+                    "type": "string"
+                },
+                "schema_version": {
+                    "description": "Version number of the OpenLABEL schema this annotation JSON object follows.",
+                    "enum": [
+                        "1.0.0"
+                    ],
+                    "type": "string"
+                },
+                "tagged_file": {
+                    "description": "File name or URI of the data file being tagged.",
+                    "type": "string"
+                },
+                "exporter_version": {
+                    "description": "Version number of the exporter software.",
+                    "type": "string"
+                },
+                "subschema_version": {
+                    "description": "Version number of the RailLabel subschema this annotation JSON object follows.",
+                    "pattern": "^(0|[1-9]\\d*)\\.(0|[1-9]\\d*)\\.(0|[1-9]\\d*)$",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "schema_version"
+            ],
+            "type": "object"
+        },
+        "num": {
+            "additionalProperties": false,
+            "description": "A number.",
+            "properties": {
+                "coordinate_system": {
+                    "description": "Name of the coordinate system in respect of which this object data is expressed.",
+                    "type": "string"
+                },
+                "name": {
+                    "description": "This is a string encoding the name of this object data.",
+                    "type": "string"
+                },
+                "val": {
+                    "description": "The numerical value of the number.",
+                    "type": "number"
+                },
+                "uid": {
+                    "description": "This is a string encoding the Universal Unique identifyer of the annotation.",
+                    "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12})$",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "name",
+                "val"
+            ],
+            "type": "object"
+        },
+        "num_attribute": {
+            "additionalProperties": false,
+            "description": "A number attribute.",
+            "properties": {
+                "name": {
+                    "description": "Friendly identifier describing the attribute. Used to track the attribute throughout annotations and frames.",
+                    "type": "string"
+                },
+                "val": {
+                    "description": "The numerical value of the number.",
+                    "type": "number"
+                }
+            },
+            "required": [
+                "val"
+            ],
+            "type": "object"
+        },
+        "object": {
+            "additionalProperties": false,
+            "description": "An object is the main type of annotation element. Object is designed to represent spatiotemporal entities, such as physical objects in the real world. Objects shall have a name and type. Objects may have static and dynamic data. Objects are the only type of elements that may have geometric data, such as bounding boxes, cuboids, polylines, images, etc.",
+            "properties": {
+                "frame_intervals": {
+                    "description": "The array of frame intervals where this object exists or is defined.",
+                    "items": {
+                        "$ref": "#/definitions/frame_interval"
+                    },
+                    "type": "array"
+                },
+                "name": {
+                    "description": "Name of the object. It is a friendly name and not used for indexing.",
+                    "type": "string"
+                },
+                "object_data_pointers": {
+                    "$ref": "#/definitions/element_data_pointers"
+                },
+                "type": {
+                    "description": "The type of an object defines the class the object corresponds to.",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "name",
+                "type"
+            ],
+            "type": "object"
+        },
+        "object_data": {
+            "additionalProperties": false,
+            "description": "Additional data to describe attributes of the object.",
+            "properties": {
+                "bbox": {
+                    "description": "List of \"bbox\" that describe this object.",
+                    "items": {
+                        "$ref": "#/definitions/bbox"
+                    },
+                    "type": "array"
+                },
+                "cuboid": {
+                    "description": "List of \"cuboid\" that describe this object.",
+                    "items": {
+                        "$ref": "#/definitions/cuboid"
+                    },
+                    "type": "array"
+                },
+                "poly2d": {
+                    "description": "List of \"poly2d\" that describe this object.",
+                    "items": {
+                        "$ref": "#/definitions/poly2d"
+                    },
+                    "type": "array"
+                },
+                "poly3d": {
+                    "description": "List of \"poly3d\" that describe this object.",
+                    "items": {
+                        "$ref": "#/definitions/poly3d"
+                    },
+                    "type": "array"
+                },
+                "vec": {
+                    "description": "List of \"vec\" that describe this object.",
+                    "items": {
+                        "$ref": "#/definitions/vec"
+                    },
+                    "type": "array"
+                }
+            },
+            "type": "object"
+        },
+        "openlabel": {
+            "additionalProperties": false,
+            "description": "The OpenLABEL root JSON object, which contains all other JSON objects.",
+            "properties": {
+                "coordinate_systems": {
+                    "$ref": "#/definitions/coordinate_systems"
+                },
+                "frame_intervals": {
+                    "description": "This is an array of frame intervals.",
+                    "item": {
+                        "$ref": "#/definitions/frame_interval"
+                    },
+                    "type": "array"
+                },
+                "frames": {
+                    "additionalProperties": false,
+                    "description": "This is the JSON object of frames that contain the dynamic, timewise, annotations. Keys are strings containing numerical frame identifiers, which are denoted as master frame numbers.",
+                    "patternProperties": {
+                        "^[0-9]+$": {
+                            "$ref": "#/definitions/frame"
+                        }
+                    },
+                    "type": "object"
+                },
+                "metadata": {
+                    "$ref": "#/definitions/metadata"
+                },
+                "objects": {
+                    "additionalProperties": false,
+                    "description": "This is the JSON object of OpenLABEL objects. Object keys are strings containing numerical UIDs or 32 bytes UUIDs.",
+                    "patternProperties": {
+                        "^(-?[0-9]+|[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12})$": {
+                            "$ref": "#/definitions/object"
+                        }
+                    },
+                    "type": "object"
+                },
+                "streams": {
+                    "$ref": "#/definitions/streams"
+                }
+            },
+            "required": [
+                "metadata"
+            ],
+            "type": "object"
+        },
+        "poly2d": {
+            "additionalProperties": false,
+            "description": "A 2D polyline defined as a sequence of 2D points.",
+            "properties": {
+                "attributes": {
+                    "$ref": "#/definitions/attributes"
+                },
+                "closed": {
+                    "description": "A boolean that defines whether the polyline is closed or not. In case it is closed, it is assumed that the last point of the sequence is connected with the first one.",
+                    "type": "boolean"
+                },
+                "coordinate_system": {
+                    "description": "Name of the coordinate system in respect of which this object data is expressed.",
+                    "type": "string"
+                },
+                "mode": {
+                    "description": "Mode of the polyline list of values: \"MODE_POLY2D_ABSOLUTE\" determines that the poly2d list contains the sequence of (x, y) values of all points of the polyline. \"MODE_POLY2D_RELATIVE\" specifies that only the first point of the sequence is defined with its (x, y) values, while all the rest are defined relative to it. \"MODE_POLY2D_SRF6DCC\" specifies that SRF6DCC chain code method is used. \"MODE_POLY2D_RS6FCC\" specifies that the RS6FCC method is used.",
+                    "type": "string"
+                },
+                "name": {
+                    "description": "This is a string encoding the name of this object data. It is used as index inside the corresponding object data pointers.",
+                    "type": "string"
+                },
+                "val": {
+                    "description": "List of numerical values of the polyline, according to its mode.",
+                    "anyOf": [
+                        {
+                            "items": {
+                                "type": "string"
+                            },
+                            "type": "array"
+                        },
+                        {
+                            "items": {
+                                "type": "number"
+                            },
+                            "type": "array"
+                        }
+                    ]
+                },
+                "uid": {
+                    "description": "This is a string encoding the Universal Unique identifyer of the annotation.",
+                    "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12})$",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "name",
+                "val",
+                "mode",
+                "closed"
+            ],
+            "type": "object"
+        },
+        "poly3d": {
+            "additionalProperties": false,
+            "description": "A 3D polyline defined as a sequence of 3D points.",
+            "properties": {
+                "attributes": {
+                    "$ref": "#/definitions/attributes"
+                },
+                "closed": {
+                    "type": "boolean",
+                    "description": "A boolean that defines whether the polyline is closed or not. In case it is closed, it is assumed that the last point of the sequence is connected with the first one."
+                },
+                "coordinate_system": {
+                    "description": "Name of the coordinate system in respect of which this object data is expressed.",
+                    "type": "string"
+                },
+                "name": {
+                    "description": "This is a string encoding the name of this object data. It is used as index inside the corresponding object data pointers.",
+                    "type": "string"
+                },
+                "val": {
+                    "description": "List of numerical values of the polyline, according to its mode.",
+                    "items": {
+                        "type": "number"
+                    },
+                    "type": "array"
+                },
+                "uid": {
+                    "description": "This is a string encoding the Universal Unique identifyer of the annotation.",
+                    "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12})$",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "name",
+                "val",
+                "closed"
+            ],
+            "type": "object"
+        },
+        "stream_camera": {
+            "additionalProperties": false,
+            "description": "A stream describes the source of a data sequence, usually a sensor. This specific object contains the intrinsics of a camera sensor.",
+            "properties": {
+                "description": {
+                    "description": "Description of the stream.",
+                    "type": "string"
+                },
+                "stream_properties": {
+                    "additionalProperties": false,
+                    "description": "Additional properties of the stream.",
+                    "properties": {
+                        "intrinsics_pinhole": {
+                            "additionalProperties": false,
+                            "description": "This JSON object defines an instance of the intrinsic parameters of a pinhole camera.",
+                            "properties": {
+                                "camera_matrix": {
+                                    "description": "This is a 3x4 camera matrix which projects 3D homogeneous points (4x1) from a camera coordinate system into the image plane (3x1). This is the usual K matrix for camera projection as in OpenCV. It is extended from 3x3 to 3x4 to enable its direct utilisation to project 4x1 homogeneous 3D points. The matrix is defined to follow the camera model: x-to-right, y-down, z-forward. The following equation applies: x_img = camera_matrix * X_ccs.",
+                                    "items": {
+                                        "type": "number"
+                                    },
+                                    "maxItems": 12,
+                                    "minItems": 12,
+                                    "type": "array"
+                                },
+                                "distortion_coeffs": {
+                                    "description": "This is the array 1xN radial and tangential distortion coefficients.",
+                                    "items": {
+                                        "type": "number"
+                                    },
+                                    "maxItems": 14,
+                                    "minItems": 5,
+                                    "type": "array"
+                                },
+                                "height_px": {
+                                    "type": "integer"
+                                },
+                                "width_px": {
+                                    "type": "integer"
+                                }
+                            },
+                            "type": "object",
+                            "required": [
+                                "camera_matrix",
+                                "distortion_coeffs",
+                                "height_px",
+                                "width_px"
+                            ]
+                        }
+                    }
+                },
+                "type": {
+                    "description": "A string encoding the type of the stream.",
+                    "enum": [
+                        "camera"
+                    ],
+                    "type": "string"
+                },
+                "uri": {
+                    "description": "A string encoding the subdirectory containing the sensor files.",
+                    "type": "string"
+                }
+            },
+            "type": "object"
+        },
+        "stream_radar": {
+            "additionalProperties": false,
+            "description": "A stream describes the source of a data sequence, usually a sensor. This specific object contains the intrinsics of a camera sensor.",
+            "properties": {
+                "description": {
+                    "description": "Description of the stream.",
+                    "type": "string"
+                },
+                "stream_properties": {
+                    "additionalProperties": false,
+                    "description": "Additional properties of the stream.",
+                    "properties": {
+                        "intrinsics_radar": {
+                            "additionalProperties": false,
+                            "description": "This JSON object defines an instance of the intrinsic parameters of a radar.",
+                            "properties": {
+                                "resolution_px_per_m": {
+                                    "type": "number"
+                                },
+                                "height_px": {
+                                    "type": "integer"
+                                },
+                                "width_px": {
+                                    "type": "integer"
+                                }
+                            },
+                            "type": "object",
+                            "required": [
+                                "resolution_px_per_m",
+                                "height_px",
+                                "width_px"
+                            ]
+                        }
+                    }
+                },
+                "type": {
+                    "description": "A string encoding the type of the stream.",
+                    "enum": [
+                        "radar"
+                    ],
+                    "type": "string"
+                },
+                "uri": {
+                    "description": "A string encoding the subdirectory containing the sensor files.",
+                    "type": "string"
+                }
+            },
+            "type": "object"
+        },
+        "stream_other": {
+            "additionalProperties": false,
+            "description": "A stream describes the source of a data sequence, usually a sensor. This specific object is used for streams without intrinsic calibration.",
+            "properties": {
+                "description": {
+                    "description": "Description of the stream.",
+                    "type": "string"
+                },
+                "type": {
+                    "description": "A string encoding the type of the stream.",
+                    "enum": [
+                        "lidar",
+                        "gps_imu",
+                        "other"
+                    ],
+                    "type": "string"
+                },
+                "uri": {
+                    "description": "A string encoding the subdirectory containing the sensor files.",
+                    "type": "string"
+                }
+            },
+            "type": "object"
+        },
+        "stream_sync": {
+            "additionalProperties": false,
+            "description": "Syncronization information of a stream in a frame.",
+            "properties": {
+                "stream_properties": {
+                    "additionalProperties": false,
+                    "properties": {
+                        "sync": {
+                            "additionalProperties": false,
+                            "properties": {
+                                "timestamp": {
+                                    "anyOf": [
+                                        {
+                                            "type": "string"
+                                        },
+                                        {
+                                            "type": "number"
+                                        }
+                                    ],
+                                    "description": "The timestamp indicates a time instant as a UTC string or numerical value to describe this frame."
+                                }
+                            },
+                            "type": "object"
+                        }
+                    },
+                    "type": "object"
+                },
+                "uri": {
+                    "description": "A string encoding the URI, for example, a URL, or file name, for example, a video file name, the stream corresponds to.",
+                    "type": "string"
+                }
+            },
+            "type": "object"
+        },
+        "streams": {
+            "additionalProperties": false,
+            "description": "This is a JSON object which contains OpenLABEL streams. Stream keys can be any string, for example, a friendly stream name.",
+            "patternProperties": {
+                "^": {
+                    "oneOf": [
+                        { "$ref": "#/definitions/stream_camera" },
+                        { "$ref": "#/definitions/stream_radar" },
+                        { "$ref": "#/definitions/stream_other" }
+                    ]
+                }
+            },
+            "type": "object"
+        },
+        "text_attribute": {
+            "additionalProperties": false,
+            "description": "A text attribute.",
+            "properties": {
+                "name": {
+                    "description": "Friendly identifier describing the attribute. Used to track the attribute throughout annotations and frames.",
+                    "type": "string"
+                },
+                "val": {
+                    "description": "The characters of the text.",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "val"
+            ],
+            "type": "object"
+        },
+        "transform_data": {
+            "additionalProperties": false,
+            "description": "A transform can be defined with a quaternion to encode the rotation of a coordinate system with respect to another, and a translation.",
+            "properties": {
+                "quaternion": {
+                    "description": "List of 4 values encoding a quaternion (x, y, z, w).",
+                    "items": {
+                        "type": "number"
+                    },
+                    "maxItems": 4,
+                    "minItems": 4,
+                    "type": "array"
+                },
+                "translation": {
+                    "description": "List of 3 values encoding the translation vector (x, y, z)",
+                    "items": {
+                        "type": "number"
+                    },
+                    "maxItems": 3,
+                    "minItems": 3,
+                    "type": "array"
+                }
+            },
+            "required": [
+                "quaternion",
+                "translation"
+            ],
+            "type": "object"
+        },
+        "vec": {
+            "additionalProperties": false,
+            "description": "A vector (list) of numbers or strings.",
+            "properties": {
+                "attributes": {
+                    "$ref": "#/definitions/attributes"
+                },
+                "coordinate_system": {
+                    "description": "Name of the coordinate system in respect of which this object data is expressed.",
+                    "type": "string"
+                },
+                "name": {
+                    "description": "This is a string encoding the name of this object data. It is used as index inside the corresponding object data pointers.",
+                    "type": "string"
+                },
+                "type": {
+                    "description": "This attribute specifies whether the vector shall be considered as a descriptor of individual values or as a definition of a range.",
+                    "enum": [
+                        "values",
+                        "range"
+                    ],
+                    "type": "string"
+                },
+                "val": {
+                    "description": "The numerical values of the vector (list) of numbers.",
+                    "items": {
+                        "oneOf": [
+                            {
+                                "type": "number"
+                            },
+                            {
+                                "type": "string"
+                            }
+                        ]
+                    },
+                    "type": "array"
+                },
+                "uid": {
+                    "description": "This is a string encoding the Universal Unique identifyer of the annotation.",
+                    "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12})$",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "val"
+            ],
+            "type": "object"
+        },
+        "vec_attribute": {
+            "additionalProperties": false,
+            "description": "A vector attribute.",
+            "properties": {
+                "name": {
+                    "description": "Friendly identifier describing the attribute. Used to track the attribute throughout annotations and frames.",
+                    "type": "string"
+                },
+                "val": {
+                    "description": "The numerical values of the vector (list) of numbers.",
+                    "items": {
+                        "oneOf": [
+                            {
+                                "type": "number"
+                            },
+                            {
+                                "type": "string"
+                            }
+                        ]
+                    },
+                    "type": "array"
+                }
+            },
+            "required": [
+                "val"
+            ],
+            "type": "object"
+        }
+    },
+    "properties": {
+        "openlabel": {
+            "$ref": "#/definitions/openlabel"
+        }
+    },
+    "required": [
+        "openlabel"
+    ],
+    "type": "object"
+}

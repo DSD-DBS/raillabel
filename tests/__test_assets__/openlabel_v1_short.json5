@@ -1,0 +1,1267 @@
+{
+    "openlabel": {
+        "metadata": {
+            "annotator": "test_annotator",
+            "schema_version": "1.0.0",
+            "comment": "test_comment",
+            "name": "test_project",
+            "subschema_version": "3.0.0",
+            "tagged_file": "test_folder"
+        },
+        "streams": {
+            "rgb_middle": {
+                "type": "camera",
+                "uri": "/S1206063/image",
+                "stream_properties": {
+                    "intrinsics_pinhole": {
+                        "camera_matrix": [
+                            0.48,
+                            0,
+                            0.81,
+                            0,
+                            0,
+                            0.16,
+                            0.83,
+                            0,
+                            0,
+                            0,
+                            1,
+                            0
+                        ],
+                        "distortion_coeffs": [
+                            0.49,
+                            0.69,
+                            0.31,
+                            0.81,
+                            0.99
+                        ],
+                        "width_px": 2464,
+                        "height_px": 1600
+                    }
+                }
+            },
+            "ir_middle": {
+                "type": "camera",
+                "uri": "/A0001781/image",
+                "stream_properties": {
+                    "intrinsics_pinhole": {
+                        "camera_matrix": [
+                            0.47,
+                            0,
+                            0.85,
+                            0,
+                            0,
+                            0.15,
+                            0.23,
+                            0,
+                            0,
+                            0,
+                            1,
+                            0
+                        ],
+                        "distortion_coeffs": [
+                            0.19,
+                            0.66,
+                            0.31,
+                            0.21,
+                            0.99
+                        ],
+                        "width_px": 640,
+                        "height_px": 480
+                    }
+                }
+            },
+            "lidar": {
+                "type": "lidar",
+                "uri": "/lidar_merged"
+            },
+            "radar": {
+                "type": "radar",
+                "uri": "/talker1/Nvt/Cartesian",
+                "stream_properties": {
+                    "intrinsics_radar": {
+                        "resolution_px_per_m": 2.856,
+                        "width_px": 2856,
+                        "height_px": 1428
+                    }
+                }
+            }
+        },
+        "coordinate_systems": {
+            "rgb_middle": {
+                "type": "sensor",
+                "parent": "base",
+                "pose_wrt_parent": {
+                    "translation": [
+                        0,
+                        1,
+                        2
+                    ],
+                    "quaternion": [
+                        0.97518507,
+                        -0.18529384,
+                        -0.05469746,
+                        -0.10811315
+                    ]
+                }
+            },
+            "ir_middle": {
+                "type": "sensor",
+                "parent": "base",
+                "pose_wrt_parent": {
+                    "translation": [
+                        0,
+                        2,
+                        1
+                    ],
+                    "quaternion": [
+                        -0.64984101,
+                        -0.72563166,
+                        0.18784818,
+                        -0.12600959
+                    ]
+                }
+            },
+            "lidar": {
+                "type": "sensor",
+                "parent": "base",
+                "pose_wrt_parent": {
+                    "translation": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "quaternion": [
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                }
+            },
+            "radar": {
+                "type": "sensor",
+                "parent": "base",
+                "pose_wrt_parent": {
+                    "translation": [
+                        2,
+                        0,
+                        1
+                    ],
+                    "quaternion": [
+                        -0.64984101,
+                        0.18784818,
+                        -0.72563166,
+                        -0.12600959
+                    ]
+                }
+            },
+            "base": {
+                "type": "local",
+                "parent": "",
+                "children": [
+                    "rgb_middle",
+                    "ir_middle",
+                    "lidar",
+                    "radar"
+                ]
+            }
+        },
+        "objects": {
+            "b40ba3ad-0327-46ff-9c28-2506cfd6d934": {
+                "name": "person_0000",
+                "type": "person",
+                "frame_intervals": [
+                    {
+                        "frame_start": 0,
+                        "frame_end": 0
+                    }
+                ],
+                "object_data_pointers": {
+                    "rgb_middle__bbox__person": {
+                        "type": "bbox",
+                        "frame_intervals": [
+                            {
+                                "frame_start": 0,
+                                "frame_end": 0
+                            }
+                        ],
+                        "attribute_pointers": {
+                            "test_text_attr0": "text",
+                            "test_text_attr1": "text",
+                            "test_num_attr0": "num",
+                            "test_num_attr1": "num",
+                            "test_bool_attr0": "boolean",
+                            "test_vec_attr0": "vec",
+                            "test_vec_attr1": "vec",
+                            "test_vec_attr2": "vec"
+                        }
+                    },
+                    "ir_middle__bbox__person": {
+                        "type": "bbox",
+                        "frame_intervals": [
+                            {
+                                "frame_start": 0,
+                                "frame_end": 0
+                            }
+                        ],
+                        "attribute_pointers": {
+                            "test_bool_attr0": "boolean"
+                        }
+                    },
+                    "rgb_middle__poly2d__person": {
+                        "type": "poly2d",
+                        "frame_intervals": [
+                            {
+                                "frame_start": 0,
+                                "frame_end": 0
+                            }
+                        ],
+                        "attribute_pointers": {
+                            "test_text_attr0": "text",
+                            "test_text_attr1": "text",
+                            "test_bool_attr0": "boolean",
+                            "test_num_attr0": "num",
+                            "test_num_attr1": "num",
+                            "test_vec_attr0": "vec",
+                            "test_vec_attr1": "vec",
+                            "test_vec_attr2": "vec"
+                        }
+                    },
+                    "ir_middle__poly2d__person": {
+                        "type": "poly2d",
+                        "frame_intervals": [
+                            {
+                                "frame_start": 0,
+                                "frame_end": 0
+                            }
+                        ],
+                        "attribute_pointers": {
+                            "test_bool_attr0": "boolean"
+                        }
+                    },
+                    "lidar__cuboid__person": {
+                        "type": "cuboid",
+                        "frame_intervals": [
+                            {
+                                "frame_start": 0,
+                                "frame_end": 0
+                            }
+                        ],
+                        "attribute_pointers": {
+                            "test_text_attr0": "text",
+                            "test_text_attr1": "text",
+                            "test_bool_attr0": "boolean",
+                            "test_num_attr0": "num",
+                            "test_num_attr1": "num",
+                            "test_vec_attr0": "vec",
+                            "test_vec_attr1": "vec",
+                            "test_vec_attr2": "vec"
+                        }
+                    },
+                    "lidar__vec__person": {
+                        "type": "vec",
+                        "frame_intervals": [
+                            {
+                                "frame_start": 0,
+                                "frame_end": 0
+                            }
+                        ],
+                        "attribute_pointers": {
+                            "test_text_attr0": "text",
+                            "test_text_attr1": "text",
+                            "test_bool_attr0": "boolean",
+                            "test_num_attr0": "num",
+                            "test_num_attr1": "num",
+                            "test_vec_attr0": "vec",
+                            "test_vec_attr1": "vec",
+                            "test_vec_attr2": "vec"
+                        }
+                    }
+                }
+            },
+            "6fe55546-0dd7-4e40-b6b4-bb7ea3445772": {
+                "name": "person_0001",
+                "type": "person",
+                "frame_intervals": [
+                    {
+                        "frame_start": 1,
+                        "frame_end": 1
+                    }
+                ],
+                "object_data_pointers": {
+                    "rgb_middle__bbox__person": {
+                        "type": "bbox",
+                        "frame_intervals": [
+                            {
+                                "frame_start": 1,
+                                "frame_end": 1
+                            }
+                        ],
+                        "attribute_pointers": {
+                            "test_text_attr0": "text",
+                            "test_text_attr1": "text",
+                            "test_bool_attr0": "boolean",
+                            "test_num_attr0": "num",
+                            "test_num_attr1": "num",
+                            "test_vec_attr0": "vec",
+                            "test_vec_attr1": "vec",
+                            "test_vec_attr2": "vec"
+                        }
+                    },
+                    "ir_middle__bbox__person": {
+                        "type": "bbox",
+                        "frame_intervals": [
+                            {
+                                "frame_start": 1,
+                                "frame_end": 1
+                            }
+                        ],
+                        "attribute_pointers": {
+                            "test_bool_attr0": "boolean"
+                        }
+                    },
+                    "rgb_middle__poly2d__person": {
+                        "type": "poly2d",
+                        "frame_intervals": [
+                            {
+                                "frame_start": 1,
+                                "frame_end": 1
+                            }
+                        ],
+                        "attribute_pointers": {
+                            "test_text_attr0": "text",
+                            "test_text_attr1": "text",
+                            "test_bool_attr0": "boolean",
+                            "test_num_attr0": "num",
+                            "test_num_attr1": "num",
+                            "test_vec_attr0": "vec",
+                            "test_vec_attr1": "vec",
+                            "test_vec_attr2": "vec"
+                        }
+                    }
+                }
+            },
+            "22dedd49-6dcb-413b-87ef-00ccfb532e98": {
+                "name": "train_0000",
+                "type": "train",
+                "frame_intervals": [
+                    {
+                        "frame_start": 0,
+                        "frame_end": 1
+                    }
+                ],
+                "object_data_pointers": {
+                    "lidar__poly3d__train": {
+                        "type": "poly3d",
+                        "frame_intervals": [
+                            {
+                                "frame_start": 0,
+                                "frame_end": 0
+                            }
+                        ],
+                        "attribute_pointers": {}
+                    },
+                    "lidar__cuboid__train": {
+                        "type": "cuboid",
+                        "frame_intervals": [
+                            {
+                                "frame_start": 1,
+                                "frame_end": 1
+                            }
+                        ],
+                        "attribute_pointers": {
+                            "test_text_attr0": "text",
+                            "test_text_attr1": "text",
+                            "test_bool_attr0": "boolean",
+                            "test_num_attr0": "num",
+                            "test_num_attr1": "num",
+                            "test_vec_attr0": "vec",
+                            "test_vec_attr1": "vec",
+                            "test_vec_attr2": "vec"
+                        }
+                    },
+                    "lidar__vec__train": {
+                        "type": "vec",
+                        "frame_intervals": [
+                            {
+                                "frame_start": 1,
+                                "frame_end": 1
+                            }
+                        ],
+                        "attribute_pointers": {
+                            "test_text_attr0": "text",
+                            "test_text_attr1": "text",
+                            "test_bool_attr0": "boolean",
+                            "test_num_attr0": "num",
+                            "test_num_attr1": "num",
+                            "test_vec_attr0": "vec",
+                            "test_vec_attr1": "vec",
+                            "test_vec_attr2": "vec"
+                        }
+                    }
+                }
+            }
+        },
+        "frames": {
+            "0": {
+                "frame_properties": {
+                    "timestamp": "1632321743.134149",
+                    "streams": {
+                        "rgb_middle": {
+                            "stream_properties": {
+                                "sync": {
+                                    "timestamp": "1632321743.100000072"
+                                }
+                            },
+                            "uri": "rgb_test0.png"
+                        },
+                        "ir_middle": {
+                            "stream_properties": {
+                                "sync": {
+                                    "timestamp": "1632321743.106000004"
+                                }
+                            },
+                            "uri": "ir_test0.png"
+                        },
+                        "lidar": {
+                            "stream_properties": {
+                                "sync": {
+                                    "timestamp": "1632321743.134149"
+                                }
+                            },
+                            "uri": "lidar_test0.pcd"
+                        }
+                    },
+                    "frame_data": {
+                        "num": [
+                            {
+                                "uid": "a06fe567-29c7-475b-92a4-fbca64e671a7",
+                                "name": "test_frame_data0",
+                                "val": 53.1,
+                                "coordinate_system": "rgb_middle"
+                            },
+                            {
+                                "uid": "4bb95df7-a051-48a9-b77e-72f27ca43f64",
+                                "name": "test_frame_data1",
+                                "val": 10,
+                                "coordinate_system": "lidar"
+                            }
+                        ]
+                    }
+                },
+                "objects": {
+                    "b40ba3ad-0327-46ff-9c28-2506cfd6d934": {
+                        "object_data": {
+                            "bbox": [
+                                {
+                                    "uid": "78f0ad89-2750-4a30-9d66-44c9da73a714",
+                                    "name": "rgb_middle__bbox__person",
+                                    "val": [
+                                        0.0,
+                                        1.0,
+                                        2.0,
+                                        3.0
+                                    ],
+                                    "coordinate_system": "rgb_middle",
+                                    "attributes": {
+                                        "text": [
+                                            {
+                                                "name": "test_text_attr0",
+                                                "val": "test_text_attr0_val"
+                                            },
+                                            {
+                                                "name": "test_text_attr1",
+                                                "val": "test_text_attr1_val"
+                                            }
+                                        ],
+                                        "num": [
+                                            {
+                                                "name": "test_num_attr0",
+                                                "val": 0
+                                            },
+                                            {
+                                                "name": "test_num_attr1",
+                                                "val": 1
+                                            }
+                                        ],
+                                        "boolean": [
+                                            {
+                                                "name": "test_bool_attr0",
+                                                "val": true
+                                            }
+                                        ],
+                                        "vec": [
+                                            {
+                                                "name": "test_vec_attr0",
+                                                "val": [
+                                                    "0",
+                                                    "1"
+                                                ]
+                                            },
+                                            {
+                                                "name": "test_vec_attr1",
+                                                "val": [
+                                                    0,
+                                                    1,
+                                                    2
+                                                ]
+                                            },
+                                            {
+                                                "name": "test_vec_attr2",
+                                                "val": [
+                                                    "a",
+                                                    "b",
+                                                    "c"
+                                                ]
+                                            }
+                                        ]
+                                    }
+                                },
+                                {
+                                    "uid": "68b4e02c-40c8-4de0-89ad-bc00ed05a043",
+                                    "name": "ir_middle__bbox__person",
+                                    "val": [
+                                        3.0,
+                                        2.0,
+                                        1.0,
+                                        0.0
+                                    ],
+                                    "coordinate_system": "ir_middle",
+                                    "attributes": {
+                                        "boolean": [
+                                            {
+                                                "name": "test_bool_attr0",
+                                                "val": false
+                                            }
+                                        ]
+                                    }
+                                }
+                            ],
+                            "poly2d": [
+                                {
+                                    "uid": "bebfbae4-61a2-4758-993c-efa846b050a5",
+                                    "name": "rgb_middle__poly2d__person",
+                                    "closed": false,
+                                    "val": [
+                                        1.0,
+                                        2.0,
+                                        3.0,
+                                        4.0
+                                    ],
+                                    "mode": "MODE_POLY2D_ABSOLUTE",
+                                    "coordinate_system": "rgb_middle",
+                                    "attributes": {
+                                        "text": [
+                                            {
+                                                "name": "test_text_attr0",
+                                                "val": "test_text_attr0_val"
+                                            },
+                                            {
+                                                "name": "test_text_attr1",
+                                                "val": "test_text_attr1_val"
+                                            }
+                                        ],
+                                        "boolean": [
+                                            {
+                                                "name": "test_bool_attr0",
+                                                "val": true
+                                            }
+                                        ],
+                                        "num": [
+                                            {
+                                                "name": "test_num_attr0",
+                                                "val": 2
+                                            },
+                                            {
+                                                "name": "test_num_attr1",
+                                                "val": 1
+                                            }
+                                        ],
+                                        "vec": [
+                                            {
+                                                "name": "test_vec_attr0",
+                                                "val": [
+                                                    "0",
+                                                    "1"
+                                                ]
+                                            },
+                                            {
+                                                "name": "test_vec_attr1",
+                                                "val": [
+                                                    0,
+                                                    1,
+                                                    2
+                                                ]
+                                            },
+                                            {
+                                                "name": "test_vec_attr2",
+                                                "val": [
+                                                    "a",
+                                                    "b",
+                                                    "c"
+                                                ]
+                                            }
+                                        ]
+                                    }
+                                },
+                                {
+                                    "uid": "3f63201c-fb33-4487-aff6-ae0aa5fa976c",
+                                    "name": "ir_middle__poly2d__person",
+                                    "closed": true,
+                                    "val": [
+                                        7.0,
+                                        6.0,
+                                        5.0,
+                                        4.0,
+                                        3.0,
+                                        2.0,
+                                        1.0,
+                                        0.0
+                                    ],
+                                    "mode": "MODE_POLY2D_ABSOLUTE",
+                                    "coordinate_system": "ir_middle",
+                                    "attributes": {
+                                        "boolean": [
+                                            {
+                                                "name": "test_bool_attr0",
+                                                "val": false
+                                            }
+                                        ]
+                                    }
+                                }
+                            ],
+                            "cuboid": [
+                                {
+                                    "uid": "dc2be700-8ee4-45c4-9256-920b5d55c917",
+                                    "name": "lidar__cuboid__person",
+                                    "val": [
+                                        0.49,
+                                        0.04,
+                                        0.73,
+                                        0.0,
+                                        0.0,
+                                        0.0,
+                                        0.0,
+                                        0.75,
+                                        0.01,
+                                        0.1
+                                    ],
+                                    "coordinate_system": "lidar",
+                                    "attributes": {
+                                        "text": [
+                                            {
+                                                "name": "test_text_attr0",
+                                                "val": "test_text_attr0_val"
+                                            },
+                                            {
+                                                "name": "test_text_attr1",
+                                                "val": "test_text_attr1_val"
+                                            }
+                                        ],
+                                        "boolean": [
+                                            {
+                                                "name": "test_bool_attr0",
+                                                "val": true
+                                            }
+                                        ],
+                                        "num": [
+                                            {
+                                                "name": "test_num_attr0",
+                                                "val": 0
+                                            },
+                                            {
+                                                "name": "test_num_attr1",
+                                                "val": 1
+                                            }
+                                        ],
+                                        "vec": [
+                                            {
+                                                "name": "test_vec_attr0",
+                                                "val": [
+                                                    "0",
+                                                    "1"
+                                                ]
+                                            },
+                                            {
+                                                "name": "test_vec_attr1",
+                                                "val": [
+                                                    0,
+                                                    1,
+                                                    2
+                                                ]
+                                            },
+                                            {
+                                                "name": "test_vec_attr2",
+                                                "val": [
+                                                    "a",
+                                                    "b",
+                                                    "c"
+                                                ]
+                                            }
+                                        ]
+                                    }
+                                },
+                                {
+                                    "uid": "450ceb81-9778-4e63-bf89-42f3ed9f6747",
+                                    "name": "lidar__cuboid__person",
+                                    "val": [
+                                        0.0,
+                                        1.0,
+                                        2.0,
+                                        3.0,
+                                        4.0,
+                                        5.0,
+                                        6.0,
+                                        7.0,
+                                        8.0,
+                                        9.0
+                                    ],
+                                    "coordinate_system": "lidar",
+                                    "attributes": {
+                                        "boolean": [
+                                            {
+                                                "name": "test_bool_attr0",
+                                                "val": false
+                                            }
+                                        ]
+                                    }
+                                }
+                            ],
+                            "vec": [
+                                {
+                                    "uid": "c1087f1d-7271-4dee-83ad-519a4e3b78a8",
+                                    "name": "lidar__vec__person",
+                                    "val": [
+                                        0,
+                                        1,
+                                        2,
+                                        3,
+                                        4,
+                                        5,
+                                        6,
+                                        7,
+                                        8,
+                                        9
+                                    ],
+                                    "coordinate_system": "lidar",
+                                    "attributes": {
+                                        "text": [
+                                            {
+                                                "name": "test_text_attr0",
+                                                "val": "test_text_attr0_val"
+                                            },
+                                            {
+                                                "name": "test_text_attr1",
+                                                "val": "test_text_attr1_val"
+                                            }
+                                        ],
+                                        "boolean": [
+                                            {
+                                                "name": "test_bool_attr0",
+                                                "val": true
+                                            }
+                                        ],
+                                        "num": [
+                                            {
+                                                "name": "test_num_attr0",
+                                                "val": 0
+                                            },
+                                            {
+                                                "name": "test_num_attr1",
+                                                "val": 1
+                                            }
+                                        ],
+                                        "vec": [
+                                            {
+                                                "name": "test_vec_attr0",
+                                                "val": [
+                                                    "0",
+                                                    "1"
+                                                ]
+                                            },
+                                            {
+                                                "name": "test_vec_attr1",
+                                                "val": [
+                                                    0,
+                                                    1,
+                                                    2
+                                                ]
+                                            },
+                                            {
+                                                "name": "test_vec_attr2",
+                                                "val": [
+                                                    "a",
+                                                    "b",
+                                                    "c"
+                                                ]
+                                            }
+                                        ]
+                                    }
+                                },
+                                {
+                                    "uid": "50be7fe3-1f43-47ca-b65a-930e6cfacfeb",
+                                    "name": "lidar__vec__person",
+                                    "val": [
+                                        9,
+                                        8,
+                                        7,
+                                        6,
+                                        5,
+                                        4,
+                                        3,
+                                        2,
+                                        1,
+                                        0
+                                    ],
+                                    "coordinate_system": "lidar",
+                                    "attributes": {
+                                        "boolean": [
+                                            {
+                                                "name": "test_bool_attr0",
+                                                "val": false
+                                            }
+                                        ]
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "22dedd49-6dcb-413b-87ef-00ccfb532e98": {
+                        "object_data": {
+                            "poly3d": [
+                                {
+                                    "uid": "14f58fb0-add7-4ed9-85b3-74615986d854",
+                                    "name": "lidar__poly3d__train",
+                                    "closed": false,
+                                    "val": [
+                                        9.0,
+                                        8.0,
+                                        7.0,
+                                        6.0,
+                                        5.0,
+                                        4.0,
+                                        3.0,
+                                        2.0,
+                                        1.0
+                                    ],
+                                    "coordinate_system": "lidar"
+                                }
+                            ]
+                        }
+                    }
+                }
+            },
+            "1": {
+                "frame_properties": {
+                    "timestamp": "1632321743.233263",
+                    "streams": {
+                        "rgb_middle": {
+                            "stream_properties": {
+                                "sync": {
+                                    "timestamp": "1632321743.2"
+                                }
+                            },
+                            "uri": "rgb_test1.png"
+                        },
+                        "ir_middle": {
+                            "stream_properties": {
+                                "sync": {
+                                    "timestamp": "1632321743.208000004"
+                                }
+                            },
+                            "uri": "ir_test1.png"
+                        },
+                        "lidar": {
+                            "stream_properties": {
+                                "sync": {
+                                    "timestamp": "1632321743.233263"
+                                }
+                            },
+                            "uri": "lidar_test1.pcd"
+                        }
+                    },
+                    "frame_data": {
+                        "num": [
+                            {
+                                "uid": "558697df-61f5-41b0-b112-3d6fcbd7d6c9",
+                                "name": "test_frame_data0",
+                                "val": 53,
+                                "coordinate_system": "rgb_middle"
+                            },
+                            {
+                                "uid": "843e07a0-aac5-4f62-8200-1468dbd3055d",
+                                "name": "test_frame_data1",
+                                "val": 10.1,
+                                "coordinate_system": "lidar"
+                            }
+                        ]
+                    }
+                },
+                "objects": {
+                    "6fe55546-0dd7-4e40-b6b4-bb7ea3445772": {
+                        "object_data": {
+                            "bbox": [
+                                {
+                                    "uid": "6ba42cbc-484e-4b8d-a022-b23c2bb6643c",
+                                    "name": "rgb_middle__bbox__person",
+                                    "val": [
+                                        0.0,
+                                        1.0,
+                                        2.0,
+                                        3.0
+                                    ],
+                                    "coordinate_system": "rgb_middle",
+                                    "attributes": {
+                                        "text": [
+                                            {
+                                                "name": "test_text_attr0",
+                                                "val": "test_text_attr0_val"
+                                            },
+                                            {
+                                                "name": "test_text_attr1",
+                                                "val": "test_text_attr1_val"
+                                            }
+                                        ],
+                                        "boolean": [
+                                            {
+                                                "name": "test_bool_attr0",
+                                                "val": true
+                                            }
+                                        ],
+                                        "num": [
+                                            {
+                                                "name": "test_num_attr0",
+                                                "val": 0
+                                            },
+                                            {
+                                                "name": "test_num_attr1",
+                                                "val": 1
+                                            }
+                                        ],
+                                        "vec": [
+                                            {
+                                                "name": "test_vec_attr0",
+                                                "val": [
+                                                    "0",
+                                                    "1"
+                                                ]
+                                            },
+                                            {
+                                                "name": "test_vec_attr1",
+                                                "val": [
+                                                    0,
+                                                    1,
+                                                    2
+                                                ]
+                                            },
+                                            {
+                                                "name": "test_vec_attr2",
+                                                "val": [
+                                                    "a",
+                                                    "b",
+                                                    "c"
+                                                ]
+                                            }
+                                        ]
+                                    }
+                                },
+                                {
+                                    "uid": "5f28fa18-8f2a-4a40-a0b6-c0bbedc00f2e",
+                                    "name": "ir_middle__bbox__person",
+                                    "val": [
+                                        3.0,
+                                        2.0,
+                                        1.0,
+                                        0.0
+                                    ],
+                                    "coordinate_system": "ir_middle",
+                                    "attributes": {
+                                        "boolean": [
+                                            {
+                                                "name": "test_bool_attr0",
+                                                "val": false
+                                            }
+                                        ]
+                                    }
+                                }
+                            ],
+                            "poly2d": [
+                                {
+                                    "uid": "e2503c5d-9fe4-4666-b510-ef644c5a766b",
+                                    "name": "rgb_middle__poly2d__person",
+                                    "closed": false,
+                                    "val": [
+                                        1.0,
+                                        2.0,
+                                        3.0,
+                                        4.0
+                                    ],
+                                    "mode": "MODE_POLY2D_ABSOLUTE",
+                                    "coordinate_system": "rgb_middle",
+                                    "attributes": {
+                                        "text": [
+                                            {
+                                                "name": "test_text_attr0",
+                                                "val": "test_text_attr0_val"
+                                            },
+                                            {
+                                                "name": "test_text_attr1",
+                                                "val": "test_text_attr1_val"
+                                            }
+                                        ],
+                                        "boolean": [
+                                            {
+                                                "name": "test_bool_attr0",
+                                                "val": true
+                                            }
+                                        ],
+                                        "num": [
+                                            {
+                                                "name": "test_num_attr0",
+                                                "val": 0
+                                            },
+                                            {
+                                                "name": "test_num_attr1",
+                                                "val": 1
+                                            }
+                                        ],
+                                        "vec": [
+                                            {
+                                                "name": "test_vec_attr0",
+                                                "val": [
+                                                    "0",
+                                                    "1"
+                                                ]
+                                            },
+                                            {
+                                                "name": "test_vec_attr1",
+                                                "val": [
+                                                    0,
+                                                    1,
+                                                    2
+                                                ]
+                                            },
+                                            {
+                                                "name": "test_vec_attr2",
+                                                "val": [
+                                                    "a",
+                                                    "b",
+                                                    "c"
+                                                ]
+                                            }
+                                        ]
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "22dedd49-6dcb-413b-87ef-00ccfb532e98": {
+                        "object_data": {
+                            "cuboid": [
+                                {
+                                    "uid": "536ac83a-32c8-4fce-8499-ef32716c64a6",
+                                    "name": "lidar__cuboid__train",
+                                    "val": [
+                                        0.0,
+                                        1.0,
+                                        2.0,
+                                        3.0,
+                                        4.0,
+                                        5.0,
+                                        6.0,
+                                        7.0,
+                                        8.0,
+                                        9.0
+                                    ],
+                                    "coordinate_system": "lidar",
+                                    "attributes": {
+                                        "text": [
+                                            {
+                                                "name": "test_text_attr0",
+                                                "val": "test_text_attr0_val"
+                                            },
+                                            {
+                                                "name": "test_text_attr1",
+                                                "val": "test_text_attr1_val"
+                                            }
+                                        ],
+                                        "boolean": [
+                                            {
+                                                "name": "test_bool_attr0",
+                                                "val": true
+                                            }
+                                        ],
+                                        "num": [
+                                            {
+                                                "name": "test_num_attr0",
+                                                "val": 0
+                                            },
+                                            {
+                                                "name": "test_num_attr1",
+                                                "val": 1
+                                            }
+                                        ],
+                                        "vec": [
+                                            {
+                                                "name": "test_vec_attr0",
+                                                "val": [
+                                                    "0",
+                                                    "1"
+                                                ]
+                                            },
+                                            {
+                                                "name": "test_vec_attr1",
+                                                "val": [
+                                                    0,
+                                                    1,
+                                                    2
+                                                ]
+                                            },
+                                            {
+                                                "name": "test_vec_attr2",
+                                                "val": [
+                                                    "a",
+                                                    "b",
+                                                    "c"
+                                                ]
+                                            }
+                                        ]
+                                    }
+                                },
+                                {
+                                    "uid": "e53bd5e3-980a-4fa7-a0f9-5a2e59ba663c",
+                                    "name": "lidar__cuboid__train",
+                                    "val": [
+                                        0.0,
+                                        1.0,
+                                        2.0,
+                                        3.0,
+                                        4.0,
+                                        5.0,
+                                        6.0,
+                                        7.0,
+                                        8.0,
+                                        9.0
+                                    ],
+                                    "coordinate_system": "lidar",
+                                    "attributes": {
+                                        "boolean": [
+                                            {
+                                                "name": "test_bool_attr0",
+                                                "val": false
+                                            }
+                                        ]
+                                    }
+                                }
+                            ],
+                            "vec": [
+                                {
+                                    "uid": "550df2c3-0e66-483e-bcc6-f3013b7e581b",
+                                    "name": "lidar__vec__train",
+                                    "val": [
+                                        0,
+                                        1,
+                                        2,
+                                        3,
+                                        4,
+                                        5,
+                                        6,
+                                        7,
+                                        8,
+                                        9
+                                    ],
+                                    "coordinate_system": "lidar",
+                                    "attributes": {
+                                        "text": [
+                                            {
+                                                "name": "test_text_attr0",
+                                                "val": "test_text_attr0_val"
+                                            },
+                                            {
+                                                "name": "test_text_attr1",
+                                                "val": "test_text_attr1_val"
+                                            }
+                                        ],
+                                        "boolean": [
+                                            {
+                                                "name": "test_bool_attr0",
+                                                "val": true
+                                            }
+                                        ],
+                                        "num": [
+                                            {
+                                                "name": "test_num_attr0",
+                                                "val": 0
+                                            },
+                                            {
+                                                "name": "test_num_attr1",
+                                                "val": 1
+                                            }
+                                        ],
+                                        "vec": [
+                                            {
+                                                "name": "test_vec_attr0",
+                                                "val": [
+                                                    "0",
+                                                    "1"
+                                                ]
+                                            },
+                                            {
+                                                "name": "test_vec_attr1",
+                                                "val": [
+                                                    0,
+                                                    1,
+                                                    2
+                                                ]
+                                            },
+                                            {
+                                                "name": "test_vec_attr2",
+                                                "val": [
+                                                    "a",
+                                                    "b",
+                                                    "c"
+                                                ]
+                                            }
+                                        ]
+                                    }
+                                },
+                                {
+                                    "uid": "12b21c52-06ea-4269-9805-e7167e7a74ed",
+                                    "name": "lidar__vec__train",
+                                    "val": [
+                                        9,
+                                        8,
+                                        7,
+                                        6,
+                                        5,
+                                        4,
+                                        3,
+                                        2,
+                                        1,
+                                        0
+                                    ],
+                                    "coordinate_system": "lidar",
+                                    "attributes": {
+                                        "boolean": [
+                                            {
+                                                "name": "test_bool_attr0",
+                                                "val": false
+                                            }
+                                        ]
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            }
+        },
+        "frame_intervals": [
+            {
+                "frame_start": 0,
+                "frame_end": 1
+            }
+        ]
+    }
+}
