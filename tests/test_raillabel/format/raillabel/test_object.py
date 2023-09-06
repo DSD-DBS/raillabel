@@ -385,7 +385,7 @@ def build_annotation(name: str, object: Object, attributes: dict={}) -> t.Union[
 
     if ann_type == "bbox":
         return Bbox(
-            uid=uuid4(),
+            uid=str(uuid4()),
             object=object,
             attributes=attributes,
             sensor=sensor,
@@ -395,7 +395,7 @@ def build_annotation(name: str, object: Object, attributes: dict={}) -> t.Union[
 
     elif ann_type == "cuboid":
         return Cuboid(
-            uid=uuid4(),
+            uid=str(uuid4()),
             object=object,
             attributes=attributes,
             sensor=sensor,
@@ -417,7 +417,7 @@ def build_frame(uid: int, raw_object_data: t.Dict[Object, t.List[t.Union[Bbox, C
 
 def build_object(type: str) -> Object:
     return Object(
-        uid=uuid4(),
+        uid=str(uuid4()),
         name=f"{type}_{str(random.randint(0, 9999)).zfill(4)}",
         type=type
     )

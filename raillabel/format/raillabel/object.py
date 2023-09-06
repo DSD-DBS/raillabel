@@ -3,7 +3,6 @@
 
 import typing as t
 from dataclasses import dataclass
-from uuid import UUID
 
 from _collections_abc import dict_values
 
@@ -143,7 +142,7 @@ class Object:
         }
 
     def _is_object_in_frame(self, frame: "Frame") -> bool:
-        return UUID(self.uid) in frame.object_data or str(self.uid) in frame.object_data
+        return self.uid in frame.object_data
 
     def _filtered_annotations(self, frame: "Frame") -> dict_values:
         return [ann for ann in frame.annotations.values() if ann.object.uid == self.uid]

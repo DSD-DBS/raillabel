@@ -36,19 +36,19 @@ class Frame:
 
     Read-Only Attributes
     --------------------
-    object_data: dict[str, dict[UUID, _ObjectAnnotation subclass]]
+    object_data: dict[str, dict[str, _ObjectAnnotation subclass]]
         Annotations categorized by object. Keys are object uids and values are the annotations
-        as a dict, that have the object.
+        as a dict, that are part of the object.
     """
 
     uid: int
     timestamp: t.Optional[decimal.Decimal] = None
     sensors: t.Dict[str, SensorReference] = field(default_factory=dict)
     frame_data: t.Dict[str, Num] = field(default_factory=dict)
-    annotations: t.Dict[uuid.UUID, t.Type[_ObjectAnnotation]] = field(default_factory=dict)
+    annotations: t.Dict[str, t.Type[_ObjectAnnotation]] = field(default_factory=dict)
 
     @property
-    def object_data(self) -> t.Dict[str, t.Dict[uuid.UUID, t.Type[_ObjectAnnotation]]]:
+    def object_data(self) -> t.Dict[str, t.Dict[str, t.Type[_ObjectAnnotation]]]:
         """Return annotations categorized by Object-Id.
 
         Returns
@@ -221,7 +221,7 @@ class Frame:
             for annotation in object_annotations:
                 if annotation.uid in annotations:
                     cls._issue_duplicate_annotation_uid_warning(annotation.uid, frame_id)
-                    annotation.uid = uuid.uuid4()
+                    annotation.uid = str(uuid.uuid4())
 
                 annotations[annotation.uid] = annotation
 

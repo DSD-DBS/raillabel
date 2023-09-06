@@ -2,7 +2,6 @@
 # SPDX-License-Identifier: Apache-2.0
 
 import typing as t
-import uuid
 from dataclasses import dataclass, field
 
 from ... import exceptions
@@ -37,7 +36,7 @@ class Scene:
 
     metadata: Metadata
     sensors: t.Dict[str, Sensor] = field(default_factory=dict)
-    objects: t.Dict[uuid.UUID, Object] = field(default_factory=dict)
+    objects: t.Dict[str, Object] = field(default_factory=dict)
     frames: t.Dict[int, Frame] = field(default_factory=dict)
 
     @property
@@ -223,7 +222,7 @@ class Scene:
 
         return coordinate_systems
 
-    def _objects_asdict(self, objects: t.Dict[uuid.UUID, Object], calculate_pointers: bool) -> dict:
+    def _objects_asdict(self, objects: t.Dict[str, Object], calculate_pointers: bool) -> dict:
 
         if calculate_pointers:
             return {str(uid): object.asdict(self.frames) for uid, object in objects.items()}
