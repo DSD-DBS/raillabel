@@ -358,7 +358,7 @@ def test_asdict_frames(
             "coordinate_systems": coordinate_systems_dict,
             "objects": objects_dict,
             "frames": {
-                frame.uid: frame_dict,
+                str(frame.uid): frame_dict,
             },
             "frame_intervals": [
                 {
