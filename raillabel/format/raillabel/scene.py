@@ -230,7 +230,7 @@ class Scene:
             return {str(uid): object.asdict() for uid, object in objects.items()}
 
     def _frames_asdict(self, frames: t.Dict[int, Frame]) -> dict:
-        return {uid: frame.asdict() for uid, frame in frames.items()}
+        return {str(uid): frame.asdict() for uid, frame in frames.items()}
 
     def _frame_intervals_asdict(self, frame_intervals: t.List[FrameInterval]) -> t.List[dict]:
         return [fi.asdict() for fi in frame_intervals]
