@@ -31,7 +31,7 @@ class LoaderUnderstandAi(LoaderABC):
         / "understand_ai_t4_schema.json"
     )
 
-    def load(self, data: dict, validate: bool = True) -> uai_format.Scene:
+    def load(self, data: dict, validate: bool = False) -> uai_format.Scene:
         """Load the data into a UAIScene and return it.
 
         Parameters
@@ -41,7 +41,7 @@ class LoaderUnderstandAi(LoaderABC):
         validate: bool
             If True, the annotation data is validated via the respective schema. This is highly
             recommended, as not validating the data may lead to Errors during loading or while
-            handling the scene. However, validating may increase the loading time. Default is True.
+            handling the scene. However, validating may increase the loading time. Default is False.
 
         Returns
         -------
