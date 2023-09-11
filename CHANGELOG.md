@@ -75,3 +75,7 @@ Release
 - ```Scene.frame_intervals()```, ```Object.frame_intervals()```: generate ```FrameIntervals```
 - ```Object.asdict()``` now provides also frame intervals and object data pointers, if the frames from the scene are provided
 - ```Scene.fromdict()``` for loading a scene from a dictionary
+
+## 3.0.1
+- ```LoaderUnderstandAi``` now passes the warnings from the ```LoaderRaillabel``` onto the user
+- ```LoaderUnderstandAi.load()``` ```validate``` parameter defaults to ```False``` now
