@@ -7,7 +7,7 @@ from pathlib import Path
 
 import pytest
 
-sys.path.insert(1, str(Path(__file__).parent.parent.parent.parent))
+sys.path.insert(1, str(Path(__file__).parent.parent.parent.parent.parent))
 
 import raillabel
 
@@ -56,6 +56,62 @@ def remove_non_parsed_fields(raillabel_data: dict) -> dict:
 
     return raillabel_data
 
+
+def test_raillabel_loader_warnings(loader):
+    scene_dict = {
+        "metadata": {
+            "clip_id": "db_3_2021-09-22-14-28-01_2021-09-22-14-44-03",
+            "external_clip_id": "2021-09-22-14-28-01_2021-09-22-14-44-03",
+            "project_id": "trains_4",
+            "export_time": "2023-04-20 01:38 UTC",
+            "exporter_version": "1.0.0",
+            "coordinate_system_3d": "FLU",
+            "coordinate_system_reference": "SENSOR",
+            "folder_name": "2021-09-22-14-28-01_2021-09-22-14-44-03"
+        },
+        "coordinateSystems": [],
+        "frames": [
+            {
+                "frameId": "000",
+                "timestamp": "1632321743.134149",
+                "annotations": {
+                    "2D_BOUNDING_BOX": [
+                        {
+                            "id": "78f0ad89-2750-4a30-9d66-44c9da73a714",
+                            "objectId": "b40ba3ad-0327-46ff-9c28-2506cfd6d934",
+                            "className": "2D_person",
+                            "geometry": {
+                                "xMin": -1.0,
+                                "yMin": -0.5,
+                                "xMax": 1,
+                                "yMax": 2.5
+                            },
+                            "attributes": {},
+                            "sensor": {
+                                "type": "NON_EXISTENT_SENSOR",  # <-- relevant line
+                                "uri": "S1206063/rgb_test0.png",
+                                "timestamp": "1632321743.100000072"
+                            }
+                        }
+                    ],
+                    "2D_POLYLINE": [],
+                    "2D_POLYGON": [],
+                    "3D_BOUNDING_BOX": [],
+                    "3D_SEGMENTATION": []
+                }
+            }
+        ]
+    }
+
+    loader.load(scene_dict, validate=True)
+
+    assert len(loader.warnings) == 2
+
+    assert "NON_EXISTENT_SENSOR" in loader.warnings[0]
+    assert "frame 0" in loader.warnings[0]
+
+    assert "NON_EXISTENT_SENSOR" in loader.warnings[1]
+    assert "78f0ad89-2750-4a30-9d66-44c9da73a714" in loader.warnings[1]
 
 # Executes the test if the file is called
 if __name__ == "__main__":
