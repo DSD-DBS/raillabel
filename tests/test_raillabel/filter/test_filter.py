@@ -79,27 +79,52 @@ def test_filter_frames():
     )
 
 
-def test_filter_start(json_paths, json_data, loader):
-    data = json_data["openlabel_v1_short"]
+def test_filter_start():
+    scene = raillabel.Scene(
+        metadata=metadata,
+        frames=build_frames([
+            raillabel.format.Frame(
+                uid=0,
+                timestamp=100,
+            ),
+            raillabel.format.Frame(
+                uid=1,
+                timestamp=150,
+            ),
+            raillabel.format.Frame(
+                uid=2,
+                timestamp=200,
+            ),
+        ])
+    )
 
-    # Loads scene
-    scene = raillabel.load(json_paths["openlabel_v1_short"], validate=False)
+    assert raillabel.filter(scene, start_frame=1) == raillabel.Scene(
+        metadata=metadata,
+        frames=build_frames([
+            raillabel.format.Frame(
+                uid=1,
+                timestamp=150,
+            ),
+            raillabel.format.Frame(
+                uid=2,
+                timestamp=200,
+            ),
+        ])
+    )
 
-    # Deletes the excluded data
-    del data["openlabel"]["frames"]["0"]
-    del data["openlabel"]["objects"]["b40ba3ad-0327-46ff-9c28-2506cfd6d934"]
-    data = delete_sensor_from_data(data, "radar")
-
-    # Loads the ground truth filtered data
-    scene_filtered_ground_truth = loader.load(data)
-
-    # Tests for frame filter
-    scene_filtered = raillabel.filter(scene, start_frame=1)
-    assert scene_filtered == scene_filtered_ground_truth
-
-    # Tests for timestamp filter
-    scene_filtered = raillabel.filter(scene, start_timestamp="1632321743.134150")
-    assert scene_filtered == scene_filtered_ground_truth
+    assert raillabel.filter(scene, start_timestamp=125) == raillabel.Scene(
+        metadata=metadata,
+        frames=build_frames([
+            raillabel.format.Frame(
+                uid=1,
+                timestamp=150,
+            ),
+            raillabel.format.Frame(
+                uid=2,
+                timestamp=200,
+            ),
+        ])
+    )
 
 
 def test_filter_end(json_paths, json_data, loader):
