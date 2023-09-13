@@ -106,27 +106,30 @@ def test_filter_start():
     )
 
 
-def test_filter_end(json_paths, json_data, loader):
-    data = json_data["openlabel_v1_short"]
+def test_filter_end():
+    scene = raillabel.Scene(
+        metadata=metadata,
+        frames=build_frames([
+            raillabel.format.Frame(uid=0, timestamp=100),
+            raillabel.format.Frame(uid=1, timestamp=150),
+            raillabel.format.Frame(uid=2, timestamp=200),
+        ])
+    )
 
-    # Loads scene
-    scene = raillabel.load(json_paths["openlabel_v1_short"], validate=False)
+    assert raillabel.filter(scene, end_frame=1) == raillabel.Scene(
+        metadata=metadata,
+        frames=build_frames([
+            raillabel.format.Frame(uid=0, timestamp=100),
+            raillabel.format.Frame(uid=1, timestamp=150),
+        ])
+    )
 
-    # Deletes the excluded data
-    del data["openlabel"]["frames"]["1"]
-    del data["openlabel"]["objects"]["6fe55546-0dd7-4e40-b6b4-bb7ea3445772"]
-    data = delete_sensor_from_data(data, "radar")
-
-    # Loads the ground truth filtered data
-    scene_filtered_ground_truth = loader.load(data)
-
-    # Tests for frame filter
-    scene_filtered = raillabel.filter(scene, end_frame=0)
-    assert scene_filtered == scene_filtered_ground_truth
-
-    # Tests for timestamp filter
-    scene_filtered = raillabel.filter(scene, end_timestamp="1632321743.233250")
-    assert scene_filtered == scene_filtered_ground_truth
+    assert raillabel.filter(scene, end_timestamp=125) == raillabel.Scene(
+        metadata=metadata,
+        frames=build_frames([
+            raillabel.format.Frame(uid=0, timestamp=100),
+        ])
+    )
 
 
 def test_filter_object_ids(json_paths, json_data, loader):
