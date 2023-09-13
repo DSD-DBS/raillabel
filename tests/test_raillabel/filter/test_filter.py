@@ -83,46 +83,25 @@ def test_filter_start():
     scene = raillabel.Scene(
         metadata=metadata,
         frames=build_frames([
-            raillabel.format.Frame(
-                uid=0,
-                timestamp=100,
-            ),
-            raillabel.format.Frame(
-                uid=1,
-                timestamp=150,
-            ),
-            raillabel.format.Frame(
-                uid=2,
-                timestamp=200,
-            ),
+            raillabel.format.Frame(uid=0, timestamp=100),
+            raillabel.format.Frame(uid=1, timestamp=150),
+            raillabel.format.Frame(uid=2, timestamp=200),
         ])
     )
 
     assert raillabel.filter(scene, start_frame=1) == raillabel.Scene(
         metadata=metadata,
         frames=build_frames([
-            raillabel.format.Frame(
-                uid=1,
-                timestamp=150,
-            ),
-            raillabel.format.Frame(
-                uid=2,
-                timestamp=200,
-            ),
+            raillabel.format.Frame(uid=1, timestamp=150),
+            raillabel.format.Frame(uid=2, timestamp=200),
         ])
     )
 
     assert raillabel.filter(scene, start_timestamp=125) == raillabel.Scene(
         metadata=metadata,
         frames=build_frames([
-            raillabel.format.Frame(
-                uid=1,
-                timestamp=150,
-            ),
-            raillabel.format.Frame(
-                uid=2,
-                timestamp=200,
-            ),
+            raillabel.format.Frame(uid=1, timestamp=150),
+            raillabel.format.Frame(uid=2, timestamp=200),
         ])
     )
 
