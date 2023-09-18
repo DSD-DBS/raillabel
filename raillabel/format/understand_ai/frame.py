@@ -2,9 +2,11 @@
 # SPDX-License-Identifier: Apache-2.0
 
 import typing as t
+import uuid
 from dataclasses import dataclass
 from decimal import Decimal
 
+from ..._util._warning import _warning
 from ._annotation import _Annotation
 from ._translation import translate_class_id, translate_sensor_id
 from .bounding_box_2d import BoundingBox2d
@@ -37,6 +39,8 @@ class Frame:
     polygon_2ds: t.Dict[str, Polygon2d]
     polyline_2ds: t.Dict[str, Polyline2d]
     segmentation_3ds: t.Dict[str, Segmentation3d]
+
+    _annotation_uids: t.Set[str] = None
 
     @property
     def annotations(self) -> dict:
@@ -96,6 +100,8 @@ class Frame:
             Converted frame.
         """
 
+        cls._annotation_uids = set()
+
         return Frame(
             id=int(data_dict["frameId"]),
             timestamp=Decimal(data_dict["timestamp"]),
@@ -136,7 +142,25 @@ class Frame:
     def _annotation_fromdict(
         cls, data_dict: dict, annotation_class: t.Type[_Annotation]
     ) -> t.Dict[str, t.Type[_Annotation]]:
+
+        annotations = {}
+        for annotation_dict in data_dict:
+            annotation_dict["id"] = cls._check_duplicate_annotation_uid(annotation_dict["id"])
+            annotations[annotation_dict["id"]] = annotation_class.fromdict(annotation_dict)
+
         return {ann["id"]: annotation_class.fromdict(ann) for ann in data_dict}
+
+    @classmethod
+    def _check_duplicate_annotation_uid(cls, uid: str) -> str:
+
+        if uid in cls._annotation_uids:
+            _warning(
+                f"Annotation uid {uid} is contained more than once. A new uid will be assigned."
+            )
+            return str(uuid.uuid4())
+
+        cls._annotation_uids.add(uid)
+        return uid
 
     def _frame_properties_to_raillabel(self) -> dict:
 

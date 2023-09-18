@@ -10,6 +10,7 @@ import pytest
 sys.path.insert(1, str(Path(__file__).parent.parent.parent.parent.parent))
 
 import raillabel.format.understand_ai as uai_format
+from raillabel._util._warning import _WarningsLogger
 
 # == Fixtures =========================
 
@@ -180,6 +181,32 @@ def test_to_raillabel(
             },
         }
     }
+
+
+def test_warning_duplicate_annotation_id(
+    bounding_box_2d_uai_dict, polyline_2d_uai_dict,
+    sensor_lidar_uai_dict
+):
+    polyline_2d_uai_dict["id"] = bounding_box_2d_uai_dict["id"]
+
+    frame_dict = {
+        "frameId": "000",
+        "timestamp": sensor_lidar_uai_dict["timestamp"],
+        "annotations": {
+            "2D_BOUNDING_BOX": [bounding_box_2d_uai_dict],
+            "2D_POLYLINE": [polyline_2d_uai_dict],
+            "2D_POLYGON": [],
+            "3D_BOUNDING_BOX": [],
+            "3D_SEGMENTATION": [],
+        }
+    }
+
+    with _WarningsLogger() as logger:
+        uai_format.Frame.fromdict(frame_dict)
+
+    assert len(logger.warnings) == 1
+    assert bounding_box_2d_uai_dict["id"] in logger.warnings[0]
+
 
 if __name__ == "__main__":
     import os
