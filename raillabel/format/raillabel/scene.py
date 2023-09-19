@@ -6,6 +6,7 @@ from dataclasses import dataclass, field
 
 from ... import exceptions
 from ..._util._clean_dict import _clean_dict
+from ..._util._warning import _warning
 from .frame import Frame
 from .frame_interval import FrameInterval
 from .metadata import Metadata
@@ -200,7 +201,16 @@ class Scene:
 
         frames = {}
         for frame_uid, frame_dict in frames_dict.items():
-            frames[int(frame_uid)] = Frame.fromdict(frame_uid, frame_dict, objects, sensors)
+            frame_uid = int(frame_uid)
+
+            if frame_uid in frames:
+                _warning(
+                    f"Frame UID {frame_uid} is contained more than once in the scene. "
+                    + "The duplicate frame will be omitted."
+                )
+                continue
+
+            frames[frame_uid] = Frame.fromdict(frame_uid, frame_dict, objects, sensors)
 
         return frames
 
