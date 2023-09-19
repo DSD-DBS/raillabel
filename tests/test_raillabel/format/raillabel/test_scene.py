@@ -10,6 +10,7 @@ import pytest
 sys.path.insert(1, str(Path(__file__).parent.parent.parent.parent.parent))
 
 from raillabel import exceptions
+from raillabel._util._warning import _WarningsLogger
 from raillabel.format import Frame, FrameInterval, Scene
 
 # == Fixtures =========================
@@ -272,6 +273,24 @@ def test_fromdict_frames(
     assert scene.frames == {
          frame.uid: frame,
     }
+
+def test_fromdict_duplicate_frame_id(metadata_full_dict):
+    with _WarningsLogger() as logger:
+        scene = Scene.fromdict(
+            {
+                "openlabel": {
+                    "metadata": metadata_full_dict,
+                    "frames": {
+                        "0": {},
+                        "00": {},
+                    }
+                }
+            }
+        )
+
+    assert len(logger.warnings) == 1
+    assert "0" in logger.warnings[0]
+    assert len(scene.frames) == 1
 
 
 def test_asdict_sensors(
