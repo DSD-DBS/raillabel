@@ -9,6 +9,7 @@ import pytest
 sys.path.insert(1, str(Path(__file__).parent.parent.parent.parent.parent))
 
 import raillabel.format.understand_ai as uai_format
+from raillabel._util._warning import _WarningsLogger
 
 # == Fixtures =========================
 
@@ -89,6 +90,30 @@ def test_fromdict(
     assert scene.frames == {
         frame_uai.id: frame_uai
     }
+
+def test_fromdict_duplicate_frame_id_warning(
+    metadata_uai_dict,
+    coordinate_system_camera_uai_dict,
+    coordinate_system_lidar_uai_dict,
+    coordinate_system_radar_uai_dict,
+    frame_uai_dict,
+):
+    with _WarningsLogger() as logger:
+        scene = uai_format.Scene.fromdict(
+            {
+                "metadata": metadata_uai_dict,
+                "coordinateSystems": [
+                    coordinate_system_camera_uai_dict,
+                    coordinate_system_lidar_uai_dict,
+                    coordinate_system_radar_uai_dict,
+                ],
+                "frames": [frame_uai_dict, frame_uai_dict]
+            }
+        )
+
+    assert len(logger.warnings) == 1
+    assert "0" in logger.warnings[0]
+    assert len(scene.frames) == 1
 
 
 def test_to_raillabel__metadata(metadata_uai, metadata_raillabel_dict):

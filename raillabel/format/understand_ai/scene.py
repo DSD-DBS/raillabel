@@ -4,6 +4,7 @@
 import typing as t
 from dataclasses import dataclass
 
+from ..._util._warning import _warning
 from .coordinate_system import CoordinateSystem
 from .frame import Frame
 from .metadata import Metadata
@@ -77,7 +78,16 @@ class Scene:
     def _frames_fromdict(cls, data_dict: t.List[dict]) -> t.Dict[int, Frame]:
         frames = {}
         for frame in data_dict:
-            frames[int(frame["frameId"])] = Frame.fromdict(frame)
+            frame_id = int(frame["frameId"])
+
+            if frame_id in frames:
+                _warning(
+                    f"Frame UID {frame_id} is contained more than once in the scene. "
+                    + "The duplicate frame will be omitted."
+                )
+                continue
+
+            frames[frame_id] = Frame.fromdict(frame)
 
         return frames
 
