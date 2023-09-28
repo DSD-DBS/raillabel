@@ -1,0 +1,21 @@
+raillabel.stats package
+=======================
+
+Submodules
+----------
+
+raillabel.stats.generate\_timespan module
+-----------------------------------------
+
+.. automodule:: raillabel.stats.generate_timespan
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Module contents
+---------------
+
+.. automodule:: raillabel.stats
+   :members:
+   :undoc-members:
+   :show-inheritance:

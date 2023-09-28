@@ -1,0 +1,189 @@
+raillabel.format.raillabel package
+==================================
+
+Submodules
+----------
+
+raillabel.format.raillabel.bbox module
+--------------------------------------
+
+.. automodule:: raillabel.format.raillabel.bbox
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+raillabel.format.raillabel.cuboid module
+----------------------------------------
+
+.. automodule:: raillabel.format.raillabel.cuboid
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+raillabel.format.raillabel.element\_data\_pointer module
+--------------------------------------------------------
+
+.. automodule:: raillabel.format.raillabel.element_data_pointer
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+raillabel.format.raillabel.frame module
+---------------------------------------
+
+.. automodule:: raillabel.format.raillabel.frame
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+raillabel.format.raillabel.frame\_interval module
+-------------------------------------------------
+
+.. automodule:: raillabel.format.raillabel.frame_interval
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+raillabel.format.raillabel.intrinsics\_pinhole module
+-----------------------------------------------------
+
+.. automodule:: raillabel.format.raillabel.intrinsics_pinhole
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+raillabel.format.raillabel.intrinsics\_radar module
+---------------------------------------------------
+
+.. automodule:: raillabel.format.raillabel.intrinsics_radar
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+raillabel.format.raillabel.metadata module
+------------------------------------------
+
+.. automodule:: raillabel.format.raillabel.metadata
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+raillabel.format.raillabel.num module
+-------------------------------------
+
+.. automodule:: raillabel.format.raillabel.num
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+raillabel.format.raillabel.object module
+----------------------------------------
+
+.. automodule:: raillabel.format.raillabel.object
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+raillabel.format.raillabel.point2d module
+-----------------------------------------
+
+.. automodule:: raillabel.format.raillabel.point2d
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+raillabel.format.raillabel.point3d module
+-----------------------------------------
+
+.. automodule:: raillabel.format.raillabel.point3d
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+raillabel.format.raillabel.poly2d module
+----------------------------------------
+
+.. automodule:: raillabel.format.raillabel.poly2d
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+raillabel.format.raillabel.poly3d module
+----------------------------------------
+
+.. automodule:: raillabel.format.raillabel.poly3d
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+raillabel.format.raillabel.quaternion module
+--------------------------------------------
+
+.. automodule:: raillabel.format.raillabel.quaternion
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+raillabel.format.raillabel.scene module
+---------------------------------------
+
+.. automodule:: raillabel.format.raillabel.scene
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+raillabel.format.raillabel.seg3d module
+---------------------------------------
+
+.. automodule:: raillabel.format.raillabel.seg3d
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+raillabel.format.raillabel.sensor module
+----------------------------------------
+
+.. automodule:: raillabel.format.raillabel.sensor
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+raillabel.format.raillabel.sensor\_reference module
+---------------------------------------------------
+
+.. automodule:: raillabel.format.raillabel.sensor_reference
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+raillabel.format.raillabel.size2d module
+----------------------------------------
+
+.. automodule:: raillabel.format.raillabel.size2d
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+raillabel.format.raillabel.size3d module
+----------------------------------------
+
+.. automodule:: raillabel.format.raillabel.size3d
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+raillabel.format.raillabel.transform module
+-------------------------------------------
+
+.. automodule:: raillabel.format.raillabel.transform
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Module contents
+---------------
+
+.. automodule:: raillabel.format.raillabel
+   :members:
+   :undoc-members:
+   :show-inheritance:
