@@ -1,4 +1,4 @@
-# Copyright DB Netz AG and contributors
+# Copyright DB InfraGO AG and contributors
 # SPDX-License-Identifier: Apache-2.0
 
 from test_uai_attributes import attributes_raillabel_dict, attributes_uai, attributes_uai_dict

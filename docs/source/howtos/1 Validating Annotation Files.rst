@@ -1,5 +1,5 @@
 ..
-   Copyright DB Netz AG and contributors
+   Copyright DB InfraGO AG and contributors
    SPDX-License-Identifier: Apache-2.0
 
 =============================

@@ -1,4 +1,4 @@
-Copyright DB Netz AG and contributors
+Copyright DB InfraGO AG and contributors
 SPDX-License-Identifier: CC0-1.0
 
 node: $Format:%H$
