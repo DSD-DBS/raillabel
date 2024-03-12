@@ -93,7 +93,11 @@
         "S1206064": "rgb_right",
         "A0001780": "ir_left",
         "A0001781": "ir_middle",
-        "A0001782": "ir_right"
+        "A0001782": "ir_right",
+
+        "camera_infrared_rectified": "ir_middle",
+        "camera_long_range_rectified": "rgb_longrange_middle",
+        "camera_mid_range_rectified": "rgb_middle"
     },
     "streams": {
         "new_left_rect": "rgb_highres_left",
@@ -140,7 +144,11 @@
         "S1206064": "rgb_right",
         "A0001780": "ir_left",
         "A0001781": "ir_middle",
-        "A0001782": "ir_right"
+        "A0001782": "ir_right",
+
+        "camera_infrared_rectified": "ir_midrange",
+        "camera_long_range_rectified": "rgb_longrange",
+        "camera_mid_range_rectified": "rgb_midrange"
     },
     "stream_types": {
         "rgb_highres_left": "camera",
@@ -154,7 +162,11 @@
         "ir_right": "camera",
         "radar": "radar",
         "lidar": "lidar",
-        "gps_imu": "gps_imu"
+        "gps_imu": "gps_imu",
+
+        "ir_midrange": "camera",
+        "rgb_longrange": "camera",
+        "rgb_midrange": "camera"
     },
     "stream_rostopics": {
         "rgb_highres_left": "/S1213751/image",
