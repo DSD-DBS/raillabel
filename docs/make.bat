@@ -1,5 +1,5 @@
 @ECHO OFF
-REM Copyright DB Netz AG and contributors
+REM Copyright DB InfraGO AG and contributors
 REM SPDX-License-Identifier: CC0-1.0
 
 pushd %~dp0
