@@ -1,0 +1,29 @@
+raillabel.load\_ package
+========================
+
+Subpackages
+-----------
+
+.. toctree::
+   :maxdepth: 4
+
+   raillabel.load_.loader_classes
+
+Submodules
+----------
+
+raillabel.load\_.load module
+----------------------------
+
+.. automodule:: raillabel.load_.load
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Module contents
+---------------
+
+.. automodule:: raillabel.load_
+   :members:
+   :undoc-members:
+   :show-inheritance:
