@@ -1,0 +1,19 @@
+raillabel.format package
+========================
+
+Subpackages
+-----------
+
+.. toctree::
+   :maxdepth: 4
+
+   raillabel.format.raillabel
+   raillabel.format.understand_ai
+
+Module contents
+---------------
+
+.. automodule:: raillabel.format
+   :members:
+   :undoc-members:
+   :show-inheritance:
