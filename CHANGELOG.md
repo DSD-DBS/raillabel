@@ -83,3 +83,12 @@ Release
 ## 3.1.0
 - ```LoaderUnderstandAi``` now includes warnings for duplicate annotation id and duplicate frame id
 - ```LoaderRaillabel``` now includes a warniing for duplicate frame id
+
+## 3.2.0
+- Introduce support for Python 3.12
+
+### 3.2.1
+- Fix bug related to Python 3.12
+
+## 3.3.0
+- Introduce support for Python 3.13
