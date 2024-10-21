@@ -89,3 +89,6 @@ Release
 
 ### 3.2.1
 - Fix bug related to Python 3.12
+
+## 3.3.0
+- Introduce support for Python 3.13
