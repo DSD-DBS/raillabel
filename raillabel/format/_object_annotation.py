@@ -110,7 +110,7 @@ class _ObjectAnnotation(ABC):
         if "attributes" not in data_dict:
             return {}
 
-        return {a["name"]: a["val"] for l in data_dict["attributes"].values() for a in l}
+        return {a["name"]: a["val"] for type_ in data_dict["attributes"].values() for a in type_}
 
     # === Special Methods ====================================================
 
