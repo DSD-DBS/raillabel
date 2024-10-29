@@ -110,10 +110,10 @@ class Metadata:
 
     @classmethod
     def _set_additional_attributes(cls, metadata: Metadata, data_dict: dict) -> Metadata:
-        PRESET_KEYS = ["schema_version", "subschema_version", "exporter_version"]
+        preset_keys = ["schema_version", "subschema_version", "exporter_version"]
 
         for key, value in data_dict.items():
-            if key in PRESET_KEYS:
+            if key in preset_keys:
                 continue
 
             setattr(metadata, key, value)
