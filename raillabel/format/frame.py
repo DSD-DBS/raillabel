@@ -97,9 +97,9 @@ class Frame:
         frame = Frame(
             uid=int(uid),
             timestamp=cls._timestamp_fromdict(data_dict),
-            sensors=cls._sensors_fromdict(data_dict, int(uid), sensors),
+            sensors=cls._sensors_fromdict(data_dict, sensors),
             frame_data=cls._frame_data_fromdict(data_dict, sensors),
-            annotations=cls._objects_fromdict(data_dict, int(uid), objects, sensors),
+            annotations=cls._objects_fromdict(data_dict, objects, sensors),
         )
         return frame
 
@@ -149,7 +149,7 @@ class Frame:
 
     @classmethod
     def _sensors_fromdict(
-        cls, data_dict: dict, frame_uid: int, scene_sensors: t.Dict[str, Sensor]
+        cls, data_dict: dict, scene_sensors: t.Dict[str, Sensor]
     ) -> t.Dict[str, SensorReference]:
         if "frame_properties" not in data_dict or "streams" not in data_dict["frame_properties"]:
             return {}
@@ -179,7 +179,6 @@ class Frame:
     def _objects_fromdict(
         cls,
         data_dict: dict,
-        frame_id: int,
         objects: t.Dict[str, Object],
         sensors: t.Dict[str, Sensor],
     ) -> t.Dict[uuid.UUID, t.Type[_ObjectAnnotation]]:
