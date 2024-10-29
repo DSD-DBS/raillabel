@@ -7,7 +7,7 @@ from . import _util, format
 from .exceptions import *
 from .filter.filter import filter
 from .format import Scene
-from .load_.load import load
+from .load.load import load
 from .save.save import save
 from .validate.validate import validate
 
