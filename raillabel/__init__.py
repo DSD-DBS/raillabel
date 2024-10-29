@@ -9,6 +9,13 @@ from .format import Scene
 from .load.load import load
 from .save.save import save
 
+__all__ = [
+    "format",
+    "Scene",
+    "load",
+    "save",
+]
+
 try:
     __version__ = metadata.version("raillabel")
 except metadata.PackageNotFoundError:

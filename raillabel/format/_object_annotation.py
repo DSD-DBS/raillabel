@@ -3,7 +3,7 @@
 
 import typing as t
 from abc import ABC, abstractmethod, abstractproperty
-from dataclasses import dataclass, field
+from dataclasses import dataclass
 from importlib import import_module
 from inspect import isclass
 from pathlib import Path

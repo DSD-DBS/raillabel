@@ -25,3 +25,31 @@ from .sensor_reference import SensorReference
 from .size2d import Size2d
 from .size3d import Size3d
 from .transform import Transform
+
+__all__ = [
+    "_ObjectAnnotation",
+    "annotation_classes",
+    "Bbox",
+    "Cuboid",
+    "ElementDataPointer",
+    "Frame",
+    "FrameInterval",
+    "IntrinsicsPinhole",
+    "IntrinsicsRadar",
+    "Metadata",
+    "Num",
+    "Object",
+    "Point2d",
+    "Point3d",
+    "Poly2d",
+    "Poly3d",
+    "Quaternion",
+    "Scene",
+    "Seg3d",
+    "Sensor",
+    "SensorType",
+    "SensorReference",
+    "Size2d",
+    "Size3d",
+    "Transform",
+]

@@ -3,7 +3,6 @@
 
 import typing as t
 from dataclasses import dataclass
-from typing import ClassVar
 
 from ._object_annotation import _ObjectAnnotation
 from .object import Object

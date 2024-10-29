@@ -2,7 +2,6 @@
 # SPDX-License-Identifier: Apache-2.0
 
 from dataclasses import dataclass
-from typing import ClassVar
 
 from ._object_annotation import _ObjectAnnotation
 from .object import Object
