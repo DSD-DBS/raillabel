@@ -21,7 +21,7 @@ class Seg3d(_ObjectAnnotation):
         The list of point indices.
     object: raillabel.format.Object
         A reference to the object, this annotation belongs to.
-    sensor: raillabel.format.Sensor, optional
+    sensor: raillabel.format.Sensor
         A reference to the sensor, this annotation is labeled in. Default is None.
     attributes: dict, optional
         Attributes of the annotation. Dict keys are the name str of the attribute, values are the
@@ -34,10 +34,9 @@ class Seg3d(_ObjectAnnotation):
 
     """
 
-    point_ids: t.List[int] = None
+    point_ids: t.List[int]
 
     OPENLABEL_ID = "vec"
-    _REQ_FIELDS: ClassVar = ["point_ids"]
 
     @classmethod
     def fromdict(cls, data_dict: dict, sensors: dict, object: Object) -> "Seg3d":

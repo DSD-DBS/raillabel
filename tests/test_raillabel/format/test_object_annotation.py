@@ -37,24 +37,6 @@ def all_annotations(
 # == Tests ============================
 
 
-def test_post_init_happy(object_person, point2d, size2d):
-    raillabel.format.Bbox(
-        uid="d2764400-8560-4991-a491-ada598b345c8",
-        object=object_person,
-        pos=point2d,
-        size=size2d,
-    )
-
-
-def test_post_init_unhappy(object_person, point2d):
-    with pytest.raises(TypeError):
-        raillabel.format.Bbox(
-            uid="d2764400-8560-4991-a491-ada598b345c8",
-            object=object_person,
-            pos=point2d,
-        )
-
-
 def test_annotation_classes():
     assert annotation_classes() == {
         "bbox": raillabel.format.Bbox,

@@ -22,7 +22,7 @@ class Num:
     attributes: dict, optional
         Attributes of the annotation. Dict keys are the uid str of the attribute, values are the
         attribute values. Default is {}.
-    sensor: raillabel.format.Sensor, optional
+    sensor: raillabel.format.Sensor
         A reference to the sensor, this value is represented in. Default is None.
 
     """

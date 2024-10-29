@@ -24,7 +24,7 @@ class Bbox(_ObjectAnnotation):
         The dimensions of the bbox in pixels from the top left corner to the bottom right corner.
     object: raillabel.format.Object
         A reference to the object, this annotation belongs to.
-    sensor: raillabel.format.Sensor, optional
+    sensor: raillabel.format.Sensor
         A reference to the sensor, this annotation is labeled in. Default is None.
     attributes: dict, optional
         Attributes of the annotation. Dict keys are the name str of the attribute, values are the
@@ -37,11 +37,10 @@ class Bbox(_ObjectAnnotation):
 
     """
 
-    pos: Point2d = None
-    size: Size2d = None
+    pos: Point2d
+    size: Size2d
 
     OPENLABEL_ID = "bbox"
-    _REQ_FIELDS: ClassVar = ["pos", "size"]
 
     @classmethod
     def fromdict(cls, data_dict: dict, sensors: dict, object: Object) -> "Bbox":

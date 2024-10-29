@@ -18,23 +18,12 @@ from .sensor import Sensor
 class _ObjectAnnotation(ABC):
     uid: str
     object: Object
-    sensor: t.Optional[Sensor] = None
-    attributes: t.Dict[str, t.Union[int, float, bool, str, list]] = field(default_factory=dict)
+    sensor: Sensor
+    attributes: t.Dict[str, t.Union[int, float, bool, str, list]]
 
     @property
     def name(self) -> str:
-        if self.sensor is None:
-            raise AttributeError(
-                f"Annotation {self.uid} does not have a 'sensor', which is required "
-                + "to create the name."
-            )
-
         return f"{self.sensor.uid}__{self.OPENLABEL_ID}__{self.object.type}"
-
-    @property
-    @abstractproperty
-    def _REQ_FIELDS(self) -> t.List[str]:
-        raise NotImplementedError
 
     @property
     @abstractproperty
@@ -111,26 +100,6 @@ class _ObjectAnnotation(ABC):
             return {}
 
         return {a["name"]: a["val"] for type_ in data_dict["attributes"].values() for a in type_}
-
-    # === Special Methods ====================================================
-
-    def __post_init__(self) -> None:
-        """Check for required arguments after __init__.
-
-        Inheritance in dataclasses has the flaw, that when the parent class has fields with
-        defaults and the child class has fields without, a TypeError is raised due to required
-        fields following optional ones. This is solved by making all fields in the child
-        optional and checking for required fields in __post_init__().
-
-        Raises
-        ------
-        TypeError
-            If a required field has not been set.
-
-        """
-        for f in self._REQ_FIELDS:
-            if getattr(self, f) is None:
-                raise TypeError(f"{f} is a required argument for {self.__class__.__name__}")
 
 
 def annotation_classes() -> t.Dict[str, t.Type[_ObjectAnnotation]]:

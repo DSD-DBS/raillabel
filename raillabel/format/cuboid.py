@@ -28,7 +28,7 @@ class Cuboid(_ObjectAnnotation):
         The size of the cuboid in meters.
     object: raillabel.format.Object
         A reference to the object, this annotation belongs to.
-    sensor: raillabel.format.Sensor, optional
+    sensor: raillabel.format.Sensor
         A reference to the sensor, this annotation is labeled in. Default is None.
     attributes: dict, optional
         Attributes of the annotation. Dict keys are the name str of the attribute, values are the
@@ -41,12 +41,11 @@ class Cuboid(_ObjectAnnotation):
 
     """
 
-    pos: Point3d = None
-    quat: Quaternion = None
-    size: Size3d = None
+    pos: Point3d
+    quat: Quaternion
+    size: Size3d
 
     OPENLABEL_ID = "cuboid"
-    _REQ_FIELDS: ClassVar = ["pos", "size", "quat"]
 
     @classmethod
     def fromdict(cls, data_dict: dict, sensors: dict, object: Object) -> "Cuboid":

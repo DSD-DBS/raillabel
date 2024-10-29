@@ -25,7 +25,7 @@ class Poly3d(_ObjectAnnotation):
         open line.
     object: raillabel.format.Object
         A reference to the object, this annotation belongs to.
-    sensor: raillabel.format.Sensor, optional
+    sensor: raillabel.format.Sensor
         A reference to the sensor, this annotation is labeled in. Default is None.
     attributes: dict, optional
         Attributes of the annotation. Dict keys are the name str of the attribute, values are the
@@ -38,11 +38,10 @@ class Poly3d(_ObjectAnnotation):
 
     """
 
-    points: t.List[Point3d] = None
-    closed: bool = None
+    points: t.List[Point3d]
+    closed: bool
 
     OPENLABEL_ID = "poly3d"
-    _REQ_FIELDS: ClassVar = ["points", "closed"]
 
     @classmethod
     def fromdict(cls, data_dict: dict, sensors: dict, object: Object) -> "Poly3d":
