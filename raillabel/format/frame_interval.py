@@ -63,11 +63,10 @@ class FrameInterval:
         sorted_frame_uids = sorted(frame_uids)
         frame_uid_intervals = cls._slice_into_intervals(sorted_frame_uids)
 
-        frame_intervals = []
-        for interval in frame_uid_intervals:
-            frame_intervals.append(FrameInterval(frame_start=interval[0], frame_end=interval[-1]))
-
-        return frame_intervals
+        return [
+            FrameInterval(frame_start=interval[0], frame_end=interval[-1])
+            for interval in frame_uid_intervals
+        ]
 
     def asdict(self) -> dict:
         """Export self as a dict compatible with the OpenLABEL schema.

@@ -98,9 +98,7 @@ class Poly3d(_ObjectAnnotation):
 
     @classmethod
     def _points_fromdict(cls, data_dict: dict) -> t.List[Point3d]:
-        points = []
-        for i in range(0, len(data_dict["val"]), 3):
-            points.append(
-                Point3d(x=data_dict["val"][i], y=data_dict["val"][i + 1], z=data_dict["val"][i + 2])
-            )
-        return points
+        return [
+            Point3d(x=data_dict["val"][i], y=data_dict["val"][i + 1], z=data_dict["val"][i + 2])
+            for i in range(0, len(data_dict["val"]), 3)
+        ]

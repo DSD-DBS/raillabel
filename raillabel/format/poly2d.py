@@ -108,7 +108,7 @@ class Poly2d(_ObjectAnnotation):
 
     @classmethod
     def _points_fromdict(cls, data_dict: dict) -> t.List[Point2d]:
-        points = []
-        for i in range(0, len(data_dict["val"]), 2):
-            points.append(Point2d(x=data_dict["val"][i], y=data_dict["val"][i + 1]))
-        return points
+        return [
+            Point2d(x=data_dict["val"][i], y=data_dict["val"][i + 1])
+            for i in range(0, len(data_dict["val"]), 2)
+        ]
