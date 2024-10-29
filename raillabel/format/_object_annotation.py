@@ -151,7 +151,7 @@ def _collect_annotation_classes():
     package_dir = str(Path(__file__).resolve().parent)
     for _, module_name, _ in iter_modules([package_dir]):
 
-        module = import_module(f"raillabel.format.raillabel.{module_name}")
+        module = import_module(f"raillabel.format.{module_name}")
         for attribute_name in dir(module):
             attribute = getattr(module, attribute_name)
 

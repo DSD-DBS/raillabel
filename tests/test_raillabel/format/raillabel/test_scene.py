@@ -11,7 +11,7 @@ sys.path.insert(1, str(Path(__file__).parent.parent.parent.parent.parent))
 
 from raillabel import exceptions
 from raillabel.format import Frame, FrameInterval, Scene
-from raillabel.format.raillabel.scene import _clean_dict
+from raillabel.format.scene import _clean_dict
 
 # == Fixtures =========================
 

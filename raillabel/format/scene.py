@@ -4,7 +4,7 @@
 import typing as t
 from dataclasses import dataclass, field
 
-from ... import exceptions
+from .. import exceptions
 from .frame import Frame
 from .frame_interval import FrameInterval
 from .metadata import Metadata
