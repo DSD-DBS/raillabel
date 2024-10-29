@@ -4,7 +4,6 @@
 from __future__ import annotations
 
 import typing as t
-from _collections_abc import dict_values
 from dataclasses import dataclass
 
 from .element_data_pointer import AttributeType, ElementDataPointer
@@ -133,7 +132,9 @@ class Object:
 
     # --- Private Methods -------------
 
-    def _frame_intervals_asdict(self, frame_intervals: list[FrameInterval]) -> dict:
+    def _frame_intervals_asdict(
+        self, frame_intervals: list[FrameInterval]
+    ) -> list[dict[str, t.Any]]:
         return [fi.asdict() for fi in frame_intervals]
 
     def _object_data_pointers_asdict(
@@ -144,23 +145,23 @@ class Object:
     def _is_object_in_frame(self, frame: Frame) -> bool:
         return self.uid in frame.object_data
 
-    def _filtered_annotations(self, frame: Frame) -> dict_values:
+    def _filtered_annotations(self, frame: Frame) -> list[t.Any]:
         return [ann for ann in frame.annotations.values() if ann.object.uid == self.uid]
 
     def _collect_pointer_ids_per_frame(self, frames: dict[int, Frame]) -> dict[int, set[str]]:
-        pointer_ids_per_frame = {}
+        pointer_ids_per_frame: dict[int, set[str]] = {}
         for frame in frames.values():
             pointer_ids_per_frame[frame.uid] = set()
 
             for annotation in self._filtered_annotations(frame):
-                pointer_ids_per_frame[frame.uid].add(annotation.name)
+                pointer_ids_per_frame[frame.uid].add(annotation.name)  # type: ignore
 
         return pointer_ids_per_frame
 
     def _reverse_frame_pointer_ids(
         self, pointer_ids_per_frame: dict[int, set[str]]
     ) -> dict[str, set[int]]:
-        frame_uids_per_pointer_id = {}
+        frame_uids_per_pointer_id: dict[str, set[int]] = {}
         for frame_uid, pointer_ids in pointer_ids_per_frame.items():
             for pointer_id in pointer_ids:
                 if pointer_id not in frame_uids_per_pointer_id:
@@ -182,13 +183,13 @@ class Object:
     def _collect_attributes_per_pointer_id(
         self, frames: dict[int, Frame]
     ) -> dict[str, dict[str, t.Any]]:
-        attributes_per_pointer_id = {}
+        attributes_per_pointer_id: dict[str, dict[str, t.Any]] = {}
         for frame in frames.values():
             for annotation in self._filtered_annotations(frame):
-                if annotation.name not in attributes_per_pointer_id:
-                    attributes_per_pointer_id[annotation.name] = {}
+                if annotation.name not in attributes_per_pointer_id:  # type: ignore
+                    attributes_per_pointer_id[annotation.name] = {}  # type: ignore
 
-                attributes_per_pointer_id[annotation.name].update(annotation.attributes)
+                attributes_per_pointer_id[annotation.name].update(annotation.attributes)  # type: ignore
 
         return attributes_per_pointer_id
 

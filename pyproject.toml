@@ -70,6 +70,9 @@ ignore = [
   "TCH003", # same as TCH001
 
   "SIM103", # less readable in some cases imo
+
+  # Should be removed in the future
+  "PGH003",
 ]
 
 [tool.mypy]
@@ -79,11 +82,7 @@ show_error_codes = true
 warn_redundant_casts = true
 warn_unreachable = true
 python_version = "3.12"
-
-[[tool.mypy.overrides]]
-module = ["tests.*"]
-allow_incomplete_defs = true
-allow_untyped_defs = true
+disable_error_code = ["override"]
 
 [tool.pytest.ini_options]
 addopts = """

@@ -31,7 +31,7 @@ class Num:
     uid: str
     name: str
     val: int | float
-    sensor: Sensor = None
+    sensor: Sensor
 
     @classmethod
     def fromdict(cls, data_dict: dict, sensors: dict) -> Num:
@@ -79,12 +79,5 @@ class Num:
         }
 
     @classmethod
-    def _coordinate_system_fromdict(cls, data_dict: dict, sensors: dict) -> Sensor | None:
-        is_coordinate_system_in_data = (
-            "coordinate_system" in data_dict and data_dict["coordinate_system"] != ""
-        )
-
-        if not is_coordinate_system_in_data:
-            return None
-
+    def _coordinate_system_fromdict(cls, data_dict: dict, sensors: dict) -> Sensor:
         return sensors[data_dict["coordinate_system"]]

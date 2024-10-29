@@ -40,7 +40,7 @@ class Transform:
             quat=Quaternion.fromdict(data_dict["quaternion"]),
         )
 
-    def asdict(self) -> dict:
+    def asdict(self) -> dict[str, list[float]]:
         """Export self as a dict compatible with the OpenLABEL schema.
 
         Returns

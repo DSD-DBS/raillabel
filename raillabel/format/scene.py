@@ -4,6 +4,7 @@
 from __future__ import annotations
 
 from dataclasses import dataclass, field
+from typing import Any
 
 from .frame import Frame
 from .frame_interval import FrameInterval
@@ -181,11 +182,13 @@ class Scene:
     def _streams_asdict(self, sensors: dict[str, Sensor]) -> dict:
         return {uid: sensor.asdict()["stream"] for uid, sensor in sensors.items()}
 
-    def _coordinate_systems_asdict(self, sensors: dict[str, Sensor]) -> dict:
+    def _coordinate_systems_asdict(self, sensors: dict[str, Sensor]) -> dict[str, Any] | None:
         if len(sensors) == 0:
             return None
 
-        coordinate_systems = {"base": {"type": "local", "parent": "", "children": []}}
+        coordinate_systems: dict[str, Any] = {
+            "base": {"type": "local", "parent": "", "children": []}
+        }
 
         for uid, sensor in sensors.items():
             coordinate_systems[uid] = sensor.asdict()["coordinate_system"]

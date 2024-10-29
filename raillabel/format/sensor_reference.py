@@ -5,6 +5,7 @@ from __future__ import annotations
 
 import decimal
 from dataclasses import dataclass
+from typing import Any
 
 from .sensor import Sensor
 
@@ -53,7 +54,7 @@ class SensorReference:
             uri=data_dict.get("uri"),
         )
 
-    def asdict(self) -> dict:
+    def asdict(self) -> dict[str, Any]:
         """Export self as a dict compatible with the OpenLABEL schema.
 
         Returns
@@ -67,7 +68,9 @@ class SensorReference:
             if an attribute can not be converted to the type required by the OpenLabel schema.
 
         """
-        dict_repr = {"stream_properties": {"sync": {"timestamp": str(self.timestamp)}}}
+        dict_repr: dict[str, Any] = {
+            "stream_properties": {"sync": {"timestamp": str(self.timestamp)}}
+        }
 
         if self.uri is not None:
             dict_repr["uri"] = self.uri

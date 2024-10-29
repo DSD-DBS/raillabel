@@ -35,6 +35,26 @@ repos:
         name: Run Linter
         args: [ --fix ]
 
+  - repo: https://github.com/pre-commit/mirrors-mypy
+    rev: v1.12.1
+    hooks:
+    - id: mypy
+      name: Run Type Checker
+      types_or: [python, pyi, toml, yaml]
+      pass_filenames: false
+      args: [raillabel]
+
+  - repo: local
+    hooks:
+    - id: pytest
+      name: Run Unit Tests
+      stages: [commit]
+      types: [python]
+      entry: ./.venv/bin/pytest
+      language: system
+      pass_filenames: false
+      always_run: true
+
   - repo: https://github.com/Lucas-C/pre-commit-hooks
     rev: v1.5.5
     hooks:
@@ -88,14 +108,3 @@ repos:
     rev: v2.6.7
     hooks:
       - id: conventional-commits
-
-  - repo: local
-    hooks:
-    - id: pytest
-      name: Run Unit Tests
-      stages: [commit]
-      types: [python]
-      entry: ./.venv/bin/pytest
-      language: system
-      pass_filenames: false
-      always_run: true

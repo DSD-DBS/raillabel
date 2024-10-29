@@ -37,18 +37,6 @@ class Point2d:
             y=data_dict[1],
         )
 
-    def asdict(self) -> dict:
-        """Export self as a dict compatible with the OpenLABEL schema.
-
-        Returns
-        -------
-        dict_repr: dict
-            Dict representation of this class instance.
-
-        Raises
-        ------
-        ValueError
-            if an attribute can not be converted to the type required by the OpenLabel schema.
-
-        """
+    def asdict(self) -> list[float]:
+        """Export self as a dict compatible with the OpenLABEL schema."""
         return [float(self.x), float(self.y)]

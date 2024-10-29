@@ -5,6 +5,7 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 from enum import Enum
+from typing import Any
 
 from .intrinsics_pinhole import IntrinsicsPinhole
 from .intrinsics_radar import IntrinsicsRadar
@@ -91,16 +92,16 @@ class Sensor:
             "stream": self._as_stream_dict(),
         }
 
-    def _as_coordinate_system_dict(self) -> dict:
-        coordinate_system_repr = {"type": "sensor", "parent": "base"}
+    def _as_coordinate_system_dict(self) -> dict[str, Any]:
+        coordinate_system_repr: dict[str, Any] = {"type": "sensor", "parent": "base"}
 
         if self.extrinsics is not None:
             coordinate_system_repr["pose_wrt_parent"] = self.extrinsics.asdict()
 
         return coordinate_system_repr
 
-    def _as_stream_dict(self) -> dict:
-        stream_repr = {}
+    def _as_stream_dict(self) -> dict[str, Any]:
+        stream_repr: dict[str, Any] = {}
 
         if self.type is not None:
             stream_repr["type"] = str(self.type.value)
@@ -141,7 +142,7 @@ class Sensor:
     @classmethod
     def _intrinsics_fromdict(
         cls, data_dict: dict, sensor_type: SensorType | None
-    ) -> IntrinsicsPinhole | None:
+    ) -> IntrinsicsPinhole | IntrinsicsRadar | None:
         if "stream_properties" not in data_dict:
             return None
 

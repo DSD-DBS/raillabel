@@ -9,6 +9,7 @@ from importlib import import_module
 from inspect import isclass
 from pathlib import Path
 from pkgutil import iter_modules
+from typing import Any
 
 from ._attribute_type import AttributeType
 from .object import Object
@@ -28,7 +29,7 @@ class _ObjectAnnotation(ABC):
 
     @property
     @abstractproperty
-    def OPENLABEL_ID(self) -> list[str]:
+    def OPENLABEL_ID(self) -> list[str] | str:
         raise NotImplementedError
 
     # === Public Methods =====================================================
@@ -56,9 +57,9 @@ class _ObjectAnnotation(ABC):
             "name": str(self.name),
         }
 
-    def _annotation_optional_fields_asdict(self) -> dict:
+    def _annotation_optional_fields_asdict(self) -> dict[str, Any]:
         """Return the optional fields from the parent class to dict."""
-        dict_repr = {}
+        dict_repr: dict[str, Any] = {}
 
         if self.sensor is not None:
             dict_repr["coordinate_system"] = str(self.sensor.uid)
@@ -68,8 +69,8 @@ class _ObjectAnnotation(ABC):
 
         return dict_repr
 
-    def _attributes_asdict(self, attributes: dict) -> dict:
-        attributes_dict = {}
+    def _attributes_asdict(self, attributes: dict[str, Any]) -> dict[str, Any]:
+        attributes_dict: dict[str, Any] = {}
 
         for attr_name, attr_value in attributes.items():
             attr_type = AttributeType.from_value(type(attr_value)).value
@@ -82,14 +83,7 @@ class _ObjectAnnotation(ABC):
         return attributes_dict
 
     @classmethod
-    def _coordinate_system_fromdict(cls, data_dict: dict, sensors: dict) -> Sensor | None:
-        is_coordinate_system_in_data = (
-            "coordinate_system" in data_dict and data_dict["coordinate_system"] != ""
-        )
-
-        if not is_coordinate_system_in_data:
-            return None
-
+    def _coordinate_system_fromdict(cls, data_dict: dict, sensors: dict) -> Sensor:
         return sensors[data_dict["coordinate_system"]]
 
     @classmethod
@@ -120,4 +114,4 @@ def annotation_classes() -> dict[str, type[_ObjectAnnotation]]:
             ):
                 out[attribute.OPENLABEL_ID] = attribute
 
-    return out
+    return out  # type: ignore

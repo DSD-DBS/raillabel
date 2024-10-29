@@ -1,13 +1,15 @@
 # Copyright DB InfraGO AG and contributors
 # SPDX-License-Identifier: Apache-2.0
 
+from __future__ import annotations
+
 import json
 from pathlib import Path
 
 from raillabel.format import Scene
 
 
-def save(scene: Scene, path: str, prettify_json: bool = False) -> None:
+def save(scene: Scene, path: Path | str, prettify_json: bool = False) -> None:
     """Save a raillabel.Scene in a JSON file.
 
     Parameters
@@ -27,7 +29,7 @@ def save(scene: Scene, path: str, prettify_json: bool = False) -> None:
 
     data = scene.asdict()
 
-    with path.open("w") as save_file:
+    with Path(path).open("w") as save_file:
         if prettify_json:
             json.dump(data, save_file, indent=4)
         else:

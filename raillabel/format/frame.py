@@ -5,7 +5,6 @@ from __future__ import annotations
 
 import decimal
 import typing as t
-import uuid
 from dataclasses import dataclass, field
 
 from ._object_annotation import _ObjectAnnotation, annotation_classes
@@ -60,7 +59,7 @@ class Frame:
             contained in the object.
 
         """
-        object_data = {}
+        object_data: dict[str, dict[str, type[_ObjectAnnotation]]] = {}
         for ann_id, annotation in self.annotations.items():
             if annotation.object.uid not in object_data:
                 object_data[annotation.object.uid] = {}
@@ -104,7 +103,7 @@ class Frame:
             annotations=cls._objects_fromdict(data_dict, objects, sensors),
         )
 
-    def asdict(self) -> dict:
+    def asdict(self) -> dict[str, t.Any]:
         """Export self as a dict compatible with the OpenLABEL schema.
 
         Returns
@@ -118,7 +117,7 @@ class Frame:
             if an attribute can not be converted to the type required by the OpenLabel schema.
 
         """
-        dict_repr = {}
+        dict_repr: dict[str, t.Any] = {}
 
         if self.timestamp is not None or self.sensors != {} or self.frame_data != {}:
             dict_repr["frame_properties"] = {}
@@ -182,7 +181,7 @@ class Frame:
         data_dict: dict,
         objects: dict[str, Object],
         sensors: dict[str, Sensor],
-    ) -> dict[uuid.UUID, type[_ObjectAnnotation]]:
+    ) -> dict[str, type[_ObjectAnnotation]]:
         if "objects" not in data_dict:
             return {}
 
@@ -211,8 +210,8 @@ class Frame:
             for ann_raw in annotations_raw:
                 yield annotation_classes()[ann_type].fromdict(ann_raw, sensors, object)
 
-    def _annotations_asdict(self) -> dict:
-        annotations_dict = {}
+    def _annotations_asdict(self) -> dict[str, t.Any]:
+        annotations_dict: dict[str, t.Any] = {}
         for object_id, annotations_ in self.object_data.items():
             annotations_dict[object_id] = {"object_data": {}}
 
@@ -221,7 +220,7 @@ class Frame:
                     annotations_dict[object_id]["object_data"][annotation.OPENLABEL_ID] = []
 
                 annotations_dict[object_id]["object_data"][annotation.OPENLABEL_ID].append(
-                    annotation.asdict()
+                    annotation.asdict()  # type: ignore
                 )
 
         return annotations_dict
