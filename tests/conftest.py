@@ -15,7 +15,6 @@ import raillabel
 
 json_data_directories = [
     Path(__file__).parent / "__test_assets__",
-    Path(__file__).parent.parent / "raillabel" / "validate" / "schemas"
 ]
 
 @pytest.fixture(scope="session", autouse=True)

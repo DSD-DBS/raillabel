@@ -9,7 +9,6 @@ from .filter.filter import filter
 from .format import Scene
 from .load.load import load
 from .save.save import save
-from .validate.validate import validate
 
 try:
     __version__ = metadata.version("raillabel")
