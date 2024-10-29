@@ -65,6 +65,7 @@ ignore = [
     "SIM103", # less readable in some cases imo
 
     # Will be removed gradually
+    "C901",
     "E721",
     "SLF001",
     "ISC003",
@@ -93,8 +94,6 @@ ignore = [
     "A002",
     "RUF012",
     "ANN204",
-    "SIM110",
-    "C901",
 ]
 
 [tool.mypy]

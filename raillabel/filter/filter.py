@@ -209,11 +209,7 @@ def _remove_unused_sensor_references(frame: format.Frame, used_sensors: t.Set[st
 
 
 def _passes_filters(data, filters):
-    for f in filters:
-        if not f.passes_filter(data):
-            return False
-
-    return True
+    return all(f.passes_filter(data) for f in filters)
 
 
 def _copy(object):
