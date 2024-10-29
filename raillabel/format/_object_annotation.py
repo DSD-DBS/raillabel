@@ -104,12 +104,7 @@ class _ObjectAnnotation(ABC):
 
 def annotation_classes() -> t.Dict[str, t.Type[_ObjectAnnotation]]:
     """Return dictionary with _Annotation child classes."""
-    return ANNOTATION_CLASSES
-
-
-def _collect_annotation_classes():
-    """Collect annotation child classes and store them."""
-    global ANNOTATION_CLASSES
+    out = {}
 
     package_dir = str(Path(__file__).resolve().parent)
     for _, module_name, _ in iter_modules([package_dir]):
@@ -122,8 +117,6 @@ def _collect_annotation_classes():
                 and issubclass(attribute, _ObjectAnnotation)
                 and attribute != _ObjectAnnotation
             ):
-                ANNOTATION_CLASSES[attribute.OPENLABEL_ID] = attribute
+                out[attribute.OPENLABEL_ID] = attribute
 
-
-ANNOTATION_CLASSES = {}
-_collect_annotation_classes()
+    return out
