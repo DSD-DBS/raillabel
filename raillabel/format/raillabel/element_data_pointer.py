@@ -4,7 +4,7 @@
 import typing as t
 from dataclasses import dataclass
 
-from ..._util._attribute_type import AttributeType
+from ._attribute_type import AttributeType
 from .frame_interval import FrameInterval
 
 

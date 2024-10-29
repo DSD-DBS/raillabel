@@ -9,7 +9,7 @@ from inspect import isclass
 from pathlib import Path
 from pkgutil import iter_modules
 
-from ..._util._attribute_type import AttributeType
+from ._attribute_type import AttributeType
 from .object import Object
 from .sensor import Sensor
 
