@@ -88,11 +88,6 @@ def test_fromdict_additional_arg_valid():
     assert metadata.additional_argument == "Some Value"
 
 
-def test_fromdict_additional_arg_invalid():
-    with pytest.raises(KeyError):
-        Metadata.fromdict({"schema_version": "1.0.0", "invalid python variable": "Some Value"})
-
-
 def test_asdict_minimal():
     metadata_dict = Metadata(schema_version="1.0.0").asdict()
 

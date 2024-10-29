@@ -9,7 +9,6 @@ import pytest
 
 sys.path.insert(1, str(Path(__file__).parent.parent.parent.parent.parent))
 
-from raillabel import exceptions
 from raillabel.format import Frame, FrameInterval, Scene
 from raillabel.format.scene import _clean_dict
 
@@ -147,98 +146,6 @@ def test_fromdict_sensors(
         sensor_camera.uid: sensor_camera,
         sensor_radar.uid: sensor_radar,
     }
-
-
-def test_fromdict_missing_coordinate_system(
-    metadata_full_dict,
-    sensor_camera_dict,
-    sensor_lidar_dict,
-    sensor_radar_dict,
-):
-    with pytest.raises(exceptions.MissingCoordinateSystemError):
-        Scene.fromdict(
-            {
-                "openlabel": {
-                    "metadata": metadata_full_dict,
-                    "streams": {
-                        sensor_camera_dict["uid"]: sensor_camera_dict["stream"],
-                        sensor_lidar_dict["uid"]: sensor_lidar_dict["stream"],
-                    },
-                    "coordinate_systems": {
-                        "base": {
-                            "type": "local",
-                            "parent": "",
-                            "children": [
-                                sensor_camera_dict["uid"],
-                            ],
-                        },
-                        sensor_camera_dict["uid"]: sensor_camera_dict["coordinate_system"],
-                    },
-                }
-            }
-        )
-
-
-def test_fromdict_missing_stream(
-    metadata_full_dict,
-    sensor_camera_dict,
-    sensor_lidar_dict,
-    sensor_radar_dict,
-):
-    with pytest.raises(exceptions.MissingStreamError):
-        Scene.fromdict(
-            {
-                "openlabel": {
-                    "metadata": metadata_full_dict,
-                    "streams": {
-                        sensor_camera_dict["uid"]: sensor_camera_dict["stream"],
-                    },
-                    "coordinate_systems": {
-                        "base": {
-                            "type": "local",
-                            "parent": "",
-                            "children": [
-                                sensor_lidar_dict["uid"],
-                                sensor_camera_dict["uid"],
-                            ],
-                        },
-                        sensor_camera_dict["uid"]: sensor_camera_dict["coordinate_system"],
-                        sensor_lidar_dict["uid"]: sensor_lidar_dict["coordinate_system"],
-                    },
-                }
-            }
-        )
-
-
-def test_fromdict_unsupported_parent(
-    metadata_full_dict,
-    sensor_camera_dict,
-    sensor_lidar_dict,
-    sensor_radar_dict,
-):
-    sensor_camera_dict["coordinate_system"]["parent"] = "unsupported_parent"
-
-    with pytest.raises(exceptions.UnsupportedParentError):
-        Scene.fromdict(
-            {
-                "openlabel": {
-                    "metadata": metadata_full_dict,
-                    "streams": {
-                        sensor_camera_dict["uid"]: sensor_camera_dict["stream"],
-                    },
-                    "coordinate_systems": {
-                        "base": {
-                            "type": "local",
-                            "parent": "",
-                            "children": [
-                                sensor_camera_dict["uid"],
-                            ],
-                        },
-                        sensor_camera_dict["uid"]: sensor_camera_dict["coordinate_system"],
-                    },
-                }
-            }
-        )
 
 
 def test_fromdict_objects(

@@ -115,11 +115,6 @@ class Metadata:
             if key in PRESET_KEYS:
                 continue
 
-            is_key_a_valid_python_attribute = isinstance(key, str) and key.isidentifier()
-
-            if not is_key_a_valid_python_attribute:
-                raise KeyError(f"'{key}' is not a valid python attribute")
-
             setattr(metadata, key, value)
 
         return metadata

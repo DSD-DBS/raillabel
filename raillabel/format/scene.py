@@ -4,7 +4,6 @@
 import typing as t
 from dataclasses import dataclass, field
 
-from .. import exceptions
 from .frame import Frame
 from .frame_interval import FrameInterval
 from .metadata import Metadata
@@ -151,8 +150,6 @@ class Scene:
     def _sensors_fromdict(
         cls, streams_dict: dict, coordinate_systems_dict: dict
     ) -> t.Dict[str, Sensor]:
-        cls._check_sensor_completeness(streams_dict, coordinate_systems_dict)
-
         sensors = {}
 
         for stream_id in streams_dict:
@@ -163,29 +160,6 @@ class Scene:
             )
 
         return sensors
-
-    @classmethod
-    def _check_sensor_completeness(cls, streams_dict: dict, coordinate_systems_dict: dict):
-        for stream_uid in streams_dict:
-            if stream_uid not in coordinate_systems_dict:
-                raise exceptions.MissingCoordinateSystemError(
-                    f"Stream {stream_uid} has no corresponding coordinate system."
-                )
-
-        for cs_uid in coordinate_systems_dict:
-            if cs_uid == "base":
-                continue
-
-            if coordinate_systems_dict[cs_uid]["parent"] != "base":
-                raise exceptions.UnsupportedParentError(
-                    f"Only 'base' is permitted as a parent for coordinate system {cs_uid}, "
-                    + f"not {coordinate_systems_dict[cs_uid]['parent']}."
-                )
-
-            if cs_uid not in streams_dict:
-                raise exceptions.MissingStreamError(
-                    f"Coordinate sytem {cs_uid} has no corresponding stream."
-                )
 
     @classmethod
     def _objects_fromdict(cls, object_dict: dict) -> t.Dict[str, Object]:
