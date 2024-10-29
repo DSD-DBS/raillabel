@@ -74,7 +74,6 @@ ignore = [
     # Will be removed gradually
     "C901",
     "E721",
-    "SLF001",
 ]
 
 [tool.mypy]
