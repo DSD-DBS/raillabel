@@ -88,3 +88,14 @@ repos:
     rev: v2.6.7
     hooks:
       - id: conventional-commits
+
+  - repo: local
+    hooks:
+    - id: pytest
+      name: Run Unit Tests
+      stages: [commit]
+      types: [python]
+      entry: ./.venv/bin/pytest
+      language: system
+      pass_filenames: false
+      always_run: true
