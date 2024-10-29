@@ -22,12 +22,13 @@ jobs:
       - name: Upgrade pip
         run: |-
           pip install -U pip
+      - name: Install packages
+        run: |-
+          pip install '.[test]'
+          ls .venv/bin
       - name: Install pre-commit
         run: |-
           pip install pre-commit types-docutils
-      - name: Install pytest
-        run: |-
-          pip install pytest
       - name: Run Pre-Commit
         run: |-
           pre-commit run --all-files

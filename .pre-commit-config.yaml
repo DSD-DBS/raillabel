@@ -50,7 +50,7 @@ repos:
       name: Run Unit Tests
       stages: [commit]
       types: [python]
-      entry: ./.venv/bin/pytest
+      entry: .venv/bin/pytest
       language: system
       pass_filenames: false
       always_run: true
