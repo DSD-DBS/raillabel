@@ -150,9 +150,10 @@ class Sensor:
                     data_dict["stream_properties"]["intrinsics_pinhole"]
                 )
 
-        elif sensor_type == SensorType.RADAR:
-            if "intrinsics_radar" in data_dict["stream_properties"]:
-                return IntrinsicsRadar.fromdict(data_dict["stream_properties"]["intrinsics_radar"])
+        elif (
+            sensor_type == SensorType.RADAR and "intrinsics_radar" in data_dict["stream_properties"]
+        ):
+            return IntrinsicsRadar.fromdict(data_dict["stream_properties"]["intrinsics_radar"])
 
         return None
 

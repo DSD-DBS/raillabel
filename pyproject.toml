@@ -82,7 +82,6 @@ ignore = [
     "F403",
     "EM102",
     "F401",
-    "SIM102",
 ]
 
 [tool.mypy]
