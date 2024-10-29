@@ -12,6 +12,7 @@ sys.path.insert(1, str(Path(__file__).parent.parent.parent.parent.parent))
 from raillabel import exceptions
 from raillabel._util._warning import _WarningsLogger
 from raillabel.format import Frame, FrameInterval, Scene
+from raillabel.format.raillabel.scene import _clean_dict
 
 # == Fixtures =========================
 
@@ -412,6 +413,18 @@ def test_integration(json_data):
 
     del actual["openlabel"]["metadata"]["exporter_version"]
     assert actual == scene_dict
+    
+
+def test_clean_dict():
+    input_dict = {
+        "non_empty_field": "non_empty_value",
+        "none_field": None,
+        "field_with_len_0": []
+    }
+
+    assert _clean_dict(input_dict) == {
+        "non_empty_field": "non_empty_value",
+    }
 
 
 if __name__ == "__main__":

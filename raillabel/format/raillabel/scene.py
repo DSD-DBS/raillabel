@@ -5,7 +5,6 @@ import typing as t
 from dataclasses import dataclass, field
 
 from ... import exceptions
-from ..._util._clean_dict import _clean_dict
 from ..._util._warning import _warning
 from .frame import Frame
 from .frame_interval import FrameInterval
@@ -244,3 +243,21 @@ class Scene:
 
     def _frame_intervals_asdict(self, frame_intervals: t.List[FrameInterval]) -> t.List[dict]:
         return [fi.asdict() for fi in frame_intervals]
+
+
+
+def _clean_dict(input_dict: dict) -> dict:
+    """Remove all fields from a dict that are None or have a length of 0."""
+
+    empty_keys = []
+    for key, value in input_dict.items():
+
+        is_field_empty = value is None or (hasattr(value, "__len__") and len(value) == 0)
+
+        if is_field_empty:
+            empty_keys.append(key)
+
+    for key in empty_keys:
+        del input_dict[key]
+
+    return input_dict
