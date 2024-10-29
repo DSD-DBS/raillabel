@@ -61,6 +61,8 @@ ignore = [
 
     "ISC001", # conflicts with ruff formatter
 
+    "N802",   # does not allow constant abstractproperties
+
     "TCH001", # adds hard to understand compexity without providing a benefit for smaller projects
     "TCH002", # same as TCH001
     "TCH003", # same as TCH001
@@ -85,7 +87,6 @@ ignore = [
     "ANN202",
     "A001",
     "PLW0602",
-    "N802",
 ]
 
 [tool.mypy]
