@@ -31,7 +31,7 @@ class _FilterABC(ABC):
     def LEVELS(self) -> t.List[str]:
         raise NotImplementedError
 
-    def __init__(self, kwargs):
+    def __init__(self, kwargs) -> None:
         set_parameter = None
         for param in self.PARAMETERS:
             if param in kwargs and param is not None:

@@ -114,7 +114,7 @@ class _ObjectAnnotation(ABC):
 
     # === Special Methods ====================================================
 
-    def __post_init__(self):
+    def __post_init__(self) -> None:
         """Check for required arguments after __init__.
 
         Inheritance in dataclasses has the flaw, that when the parent class has fields with
