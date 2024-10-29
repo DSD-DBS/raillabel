@@ -34,13 +34,13 @@ class AttributeType(Enum):
             if attribute value class does not correspond to an Attribute Type.
 
         """
-        if attribute_value_class == str:
+        if attribute_value_class is str:
             return AttributeType.TEXT
 
         if attribute_value_class in [float, int]:
             return AttributeType.NUM
 
-        if attribute_value_class == bool:
+        if attribute_value_class is bool:
             return AttributeType.BOOLEAN
 
         if attribute_value_class in [list, tuple]:

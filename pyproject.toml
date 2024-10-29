@@ -73,7 +73,6 @@ ignore = [
 
     # Will be removed gradually
     "C901",
-    "E721",
 ]
 
 [tool.mypy]
