@@ -44,17 +44,6 @@ repos:
       pass_filenames: false
       args: [raillabel]
 
-  - repo: local
-    hooks:
-    - id: pytest
-      name: Run Unit Tests
-      stages: [commit]
-      types: [python]
-      entry: .venv/bin/python -m pytest
-      language: system
-      pass_filenames: false
-      always_run: true
-
   - repo: https://github.com/Lucas-C/pre-commit-hooks
     rev: v1.5.5
     hooks:
