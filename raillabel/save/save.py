@@ -7,7 +7,7 @@ from pathlib import Path
 from ..format import Scene
 
 
-def save(scene: Scene, path: str, prettify_json: bool = False):
+def save(scene: Scene, path: str, prettify_json: bool = False) -> None:
     """Save a raillabel.Scene in a JSON file.
 
     Parameters
