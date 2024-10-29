@@ -4,7 +4,7 @@
 import json
 from pathlib import Path
 
-from ..format import Scene
+from raillabel.format import Scene
 
 
 def save(scene: Scene, path: str, prettify_json: bool = False) -> None:

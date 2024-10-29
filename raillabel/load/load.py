@@ -3,7 +3,7 @@
 
 import json
 
-from ..format import Scene
+from raillabel.format import Scene
 
 
 def load(path: str) -> Scene:
