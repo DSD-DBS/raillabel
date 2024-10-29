@@ -94,14 +94,13 @@ class Frame:
             Converted Frame object.
 
         """
-        frame = Frame(
+        return Frame(
             uid=int(uid),
             timestamp=cls._timestamp_fromdict(data_dict),
             sensors=cls._sensors_fromdict(data_dict, sensors),
             frame_data=cls._frame_data_fromdict(data_dict, sensors),
             annotations=cls._objects_fromdict(data_dict, objects, sensors),
         )
-        return frame
 
     def asdict(self) -> dict:
         """Export self as a dict compatible with the OpenLABEL schema.

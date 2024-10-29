@@ -68,11 +68,9 @@ class IntrinsicsPinhole:
             if an attribute can not be converted to the type required by the OpenLabel schema.
 
         """
-        dict_repr = {
+        return {
             "camera_matrix": list(self.camera_matrix),
             "distortion_coeffs": list(self.distortion),
             "width_px": int(self.width_px),
             "height_px": int(self.height_px),
         }
-
-        return dict_repr

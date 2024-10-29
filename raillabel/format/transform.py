@@ -52,9 +52,7 @@ class Transform:
             if an attribute can not be converted to the type required by the OpenLabel schema.
 
         """
-        dict_repr = {
+        return {
             "translation": self.pos.asdict(),
             "quaternion": self.quat.asdict(),
         }
-
-        return dict_repr
