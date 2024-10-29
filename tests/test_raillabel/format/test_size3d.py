@@ -13,20 +13,22 @@ from raillabel.format import Size3d
 
 # == Fixtures =========================
 
+
 @pytest.fixture
 def size3d_dict() -> dict:
     return [0.35, 0.7, 1.92]
+
 
 @pytest.fixture
 def size3d() -> dict:
     return Size3d(0.35, 0.7, 1.92)
 
+
 # == Tests ============================
 
+
 def test_fromdict():
-    size3d = Size3d.fromdict(
-        [0.35, 0.7, 1.92]
-    )
+    size3d = Size3d.fromdict([0.35, 0.7, 1.92])
 
     assert size3d.x == 0.35
     assert size3d.y == 0.7
@@ -34,11 +36,7 @@ def test_fromdict():
 
 
 def test_asdict():
-    size3d = Size3d(
-        x=0.35,
-        y=0.7,
-        z=1.92
-    )
+    size3d = Size3d(x=0.35, y=0.7, z=1.92)
 
     assert size3d.asdict() == [0.35, 0.7, 1.92]
 

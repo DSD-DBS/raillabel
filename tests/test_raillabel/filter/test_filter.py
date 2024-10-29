@@ -16,9 +16,7 @@ def delete_sensor_from_data(data: dict, sensor_id: str) -> dict:
     del data["openlabel"]["streams"][sensor_id]
     del data["openlabel"]["coordinate_systems"][sensor_id]
     del data["openlabel"]["coordinate_systems"]["base"]["children"][
-        data["openlabel"]["coordinate_systems"]["base"]["children"].index(
-            sensor_id
-        )
+        data["openlabel"]["coordinate_systems"]["base"]["children"].index(sensor_id)
     ]
 
     for frame_id in data["openlabel"]["frames"]:
@@ -123,12 +121,8 @@ def test_filter_object_ids(json_paths, json_data):
 
     # Deletes the excluded data
     del data["openlabel"]["objects"]["22dedd49-6dcb-413b-87ef-00ccfb532e98"]
-    del data["openlabel"]["frames"]["0"]["objects"][
-        "22dedd49-6dcb-413b-87ef-00ccfb532e98"
-    ]
-    del data["openlabel"]["frames"]["1"]["objects"][
-        "22dedd49-6dcb-413b-87ef-00ccfb532e98"
-    ]
+    del data["openlabel"]["frames"]["0"]["objects"]["22dedd49-6dcb-413b-87ef-00ccfb532e98"]
+    del data["openlabel"]["frames"]["1"]["objects"]["22dedd49-6dcb-413b-87ef-00ccfb532e98"]
     data = delete_sensor_from_data(data, "radar")
 
     # Loads the ground truth filtered data
@@ -160,12 +154,8 @@ def test_filter_object_types(json_paths, json_data):
 
     # Deletes the excluded data
     del data["openlabel"]["objects"]["22dedd49-6dcb-413b-87ef-00ccfb532e98"]
-    del data["openlabel"]["frames"]["0"]["objects"][
-        "22dedd49-6dcb-413b-87ef-00ccfb532e98"
-    ]
-    del data["openlabel"]["frames"]["1"]["objects"][
-        "22dedd49-6dcb-413b-87ef-00ccfb532e98"
-    ]
+    del data["openlabel"]["frames"]["0"]["objects"]["22dedd49-6dcb-413b-87ef-00ccfb532e98"]
+    del data["openlabel"]["frames"]["1"]["objects"]["22dedd49-6dcb-413b-87ef-00ccfb532e98"]
     data = delete_sensor_from_data(data, "radar")
 
     # Loads the ground truth filtered data
@@ -188,12 +178,8 @@ def test_filter_annotation_ids(json_paths, json_data):
 
     # Deletes the excluded data
     del data["openlabel"]["objects"]["22dedd49-6dcb-413b-87ef-00ccfb532e98"]
-    del data["openlabel"]["frames"]["0"]["objects"][
-        "22dedd49-6dcb-413b-87ef-00ccfb532e98"
-    ]
-    del data["openlabel"]["frames"]["1"]["objects"][
-        "22dedd49-6dcb-413b-87ef-00ccfb532e98"
-    ]
+    del data["openlabel"]["frames"]["0"]["objects"]["22dedd49-6dcb-413b-87ef-00ccfb532e98"]
+    del data["openlabel"]["frames"]["1"]["objects"]["22dedd49-6dcb-413b-87ef-00ccfb532e98"]
     data = delete_sensor_from_data(data, "radar")
 
     # Loads the ground truth filtered data
@@ -242,19 +228,15 @@ def test_filter_annotation_types(json_paths, json_data):
     # Deletes the excluded data
     del data["openlabel"]["objects"]["22dedd49-6dcb-413b-87ef-00ccfb532e98"]
 
-    del data["openlabel"]["frames"]["0"]["objects"][
-        "b40ba3ad-0327-46ff-9c28-2506cfd6d934"
-    ]["object_data"]["cuboid"]
-    del data["openlabel"]["frames"]["0"]["objects"][
-        "b40ba3ad-0327-46ff-9c28-2506cfd6d934"
-    ]["object_data"]["vec"]
-    del data["openlabel"]["frames"]["0"]["objects"][
-        "22dedd49-6dcb-413b-87ef-00ccfb532e98"
-    ]
+    del data["openlabel"]["frames"]["0"]["objects"]["b40ba3ad-0327-46ff-9c28-2506cfd6d934"][
+        "object_data"
+    ]["cuboid"]
+    del data["openlabel"]["frames"]["0"]["objects"]["b40ba3ad-0327-46ff-9c28-2506cfd6d934"][
+        "object_data"
+    ]["vec"]
+    del data["openlabel"]["frames"]["0"]["objects"]["22dedd49-6dcb-413b-87ef-00ccfb532e98"]
 
-    del data["openlabel"]["frames"]["1"]["objects"][
-        "22dedd49-6dcb-413b-87ef-00ccfb532e98"
-    ]
+    del data["openlabel"]["frames"]["1"]["objects"]["22dedd49-6dcb-413b-87ef-00ccfb532e98"]
     data = delete_sensor_from_data(data, "radar")
 
     # Loads the ground truth filtered data
@@ -282,25 +264,17 @@ def test_filter_sensors(json_paths, json_data):
     data = delete_sensor_from_data(data, "lidar")
     data = delete_sensor_from_data(data, "radar")
 
-    del data["openlabel"]["frames"]["0"]["frame_properties"]["frame_data"][
-        "num"
-    ][-1]
-    del data["openlabel"]["frames"]["0"]["objects"][
-        "b40ba3ad-0327-46ff-9c28-2506cfd6d934"
-    ]["object_data"]["cuboid"]
-    del data["openlabel"]["frames"]["0"]["objects"][
-        "b40ba3ad-0327-46ff-9c28-2506cfd6d934"
-    ]["object_data"]["vec"]
-    del data["openlabel"]["frames"]["0"]["objects"][
-        "22dedd49-6dcb-413b-87ef-00ccfb532e98"
-    ]
+    del data["openlabel"]["frames"]["0"]["frame_properties"]["frame_data"]["num"][-1]
+    del data["openlabel"]["frames"]["0"]["objects"]["b40ba3ad-0327-46ff-9c28-2506cfd6d934"][
+        "object_data"
+    ]["cuboid"]
+    del data["openlabel"]["frames"]["0"]["objects"]["b40ba3ad-0327-46ff-9c28-2506cfd6d934"][
+        "object_data"
+    ]["vec"]
+    del data["openlabel"]["frames"]["0"]["objects"]["22dedd49-6dcb-413b-87ef-00ccfb532e98"]
 
-    del data["openlabel"]["frames"]["1"]["frame_properties"]["frame_data"][
-        "num"
-    ][-1]
-    del data["openlabel"]["frames"]["1"]["objects"][
-        "22dedd49-6dcb-413b-87ef-00ccfb532e98"
-    ]
+    del data["openlabel"]["frames"]["1"]["frame_properties"]["frame_data"]["num"][-1]
+    del data["openlabel"]["frames"]["1"]["objects"]["22dedd49-6dcb-413b-87ef-00ccfb532e98"]
 
     # Loads the ground truth filtered data
     scene_filtered_ground_truth = raillabel.Scene.fromdict(data)
@@ -322,31 +296,29 @@ def test_filter_include_attribute_ids(json_paths, json_data):
     scene = raillabel.load(json_paths["openlabel_v1_short"])
 
     # Deletes the excluded data
-    del data["openlabel"]["frames"]["0"]["objects"][
-        "22dedd49-6dcb-413b-87ef-00ccfb532e98"
-    ]
-    del data["openlabel"]["frames"]["0"]["objects"][
-        "b40ba3ad-0327-46ff-9c28-2506cfd6d934"
-    ]["object_data"]["bbox"][1]
-    del data["openlabel"]["frames"]["0"]["objects"][
-        "b40ba3ad-0327-46ff-9c28-2506cfd6d934"
-    ]["object_data"]["poly2d"][1]
-    del data["openlabel"]["frames"]["0"]["objects"][
-        "b40ba3ad-0327-46ff-9c28-2506cfd6d934"
-    ]["object_data"]["cuboid"][1]
-    del data["openlabel"]["frames"]["0"]["objects"][
-        "b40ba3ad-0327-46ff-9c28-2506cfd6d934"
-    ]["object_data"]["vec"][1]
+    del data["openlabel"]["frames"]["0"]["objects"]["22dedd49-6dcb-413b-87ef-00ccfb532e98"]
+    del data["openlabel"]["frames"]["0"]["objects"]["b40ba3ad-0327-46ff-9c28-2506cfd6d934"][
+        "object_data"
+    ]["bbox"][1]
+    del data["openlabel"]["frames"]["0"]["objects"]["b40ba3ad-0327-46ff-9c28-2506cfd6d934"][
+        "object_data"
+    ]["poly2d"][1]
+    del data["openlabel"]["frames"]["0"]["objects"]["b40ba3ad-0327-46ff-9c28-2506cfd6d934"][
+        "object_data"
+    ]["cuboid"][1]
+    del data["openlabel"]["frames"]["0"]["objects"]["b40ba3ad-0327-46ff-9c28-2506cfd6d934"][
+        "object_data"
+    ]["vec"][1]
 
-    del data["openlabel"]["frames"]["1"]["objects"][
-        "6fe55546-0dd7-4e40-b6b4-bb7ea3445772"
-    ]["object_data"]["bbox"][1]
-    del data["openlabel"]["frames"]["1"]["objects"][
-        "22dedd49-6dcb-413b-87ef-00ccfb532e98"
-    ]["object_data"]["cuboid"][1]
-    del data["openlabel"]["frames"]["1"]["objects"][
-        "22dedd49-6dcb-413b-87ef-00ccfb532e98"
-    ]["object_data"]["vec"][1]
+    del data["openlabel"]["frames"]["1"]["objects"]["6fe55546-0dd7-4e40-b6b4-bb7ea3445772"][
+        "object_data"
+    ]["bbox"][1]
+    del data["openlabel"]["frames"]["1"]["objects"]["22dedd49-6dcb-413b-87ef-00ccfb532e98"][
+        "object_data"
+    ]["cuboid"][1]
+    del data["openlabel"]["frames"]["1"]["objects"]["22dedd49-6dcb-413b-87ef-00ccfb532e98"][
+        "object_data"
+    ]["vec"][1]
 
     data = delete_sensor_from_data(data, "ir_middle")
     data = delete_sensor_from_data(data, "radar")
@@ -367,31 +339,31 @@ def test_filter_exclude_attribute_ids(json_paths, json_data):
     scene = raillabel.load(json_paths["openlabel_v1_short"])
 
     # Deletes the excluded data
-    del data["openlabel"]["frames"]["0"]["objects"][
-        "b40ba3ad-0327-46ff-9c28-2506cfd6d934"
-    ]["object_data"]["bbox"][0]
-    del data["openlabel"]["frames"]["0"]["objects"][
-        "b40ba3ad-0327-46ff-9c28-2506cfd6d934"
-    ]["object_data"]["poly2d"][0]
-    del data["openlabel"]["frames"]["0"]["objects"][
-        "b40ba3ad-0327-46ff-9c28-2506cfd6d934"
-    ]["object_data"]["cuboid"][0]
-    del data["openlabel"]["frames"]["0"]["objects"][
-        "b40ba3ad-0327-46ff-9c28-2506cfd6d934"
-    ]["object_data"]["vec"][0]
+    del data["openlabel"]["frames"]["0"]["objects"]["b40ba3ad-0327-46ff-9c28-2506cfd6d934"][
+        "object_data"
+    ]["bbox"][0]
+    del data["openlabel"]["frames"]["0"]["objects"]["b40ba3ad-0327-46ff-9c28-2506cfd6d934"][
+        "object_data"
+    ]["poly2d"][0]
+    del data["openlabel"]["frames"]["0"]["objects"]["b40ba3ad-0327-46ff-9c28-2506cfd6d934"][
+        "object_data"
+    ]["cuboid"][0]
+    del data["openlabel"]["frames"]["0"]["objects"]["b40ba3ad-0327-46ff-9c28-2506cfd6d934"][
+        "object_data"
+    ]["vec"][0]
 
-    del data["openlabel"]["frames"]["1"]["objects"][
-        "6fe55546-0dd7-4e40-b6b4-bb7ea3445772"
-    ]["object_data"]["bbox"][0]
-    del data["openlabel"]["frames"]["1"]["objects"][
-        "6fe55546-0dd7-4e40-b6b4-bb7ea3445772"
-    ]["object_data"]["poly2d"][0]
-    del data["openlabel"]["frames"]["1"]["objects"][
-        "22dedd49-6dcb-413b-87ef-00ccfb532e98"
-    ]["object_data"]["cuboid"][0]
-    del data["openlabel"]["frames"]["1"]["objects"][
-        "22dedd49-6dcb-413b-87ef-00ccfb532e98"
-    ]["object_data"]["vec"][0]
+    del data["openlabel"]["frames"]["1"]["objects"]["6fe55546-0dd7-4e40-b6b4-bb7ea3445772"][
+        "object_data"
+    ]["bbox"][0]
+    del data["openlabel"]["frames"]["1"]["objects"]["6fe55546-0dd7-4e40-b6b4-bb7ea3445772"][
+        "object_data"
+    ]["poly2d"][0]
+    del data["openlabel"]["frames"]["1"]["objects"]["22dedd49-6dcb-413b-87ef-00ccfb532e98"][
+        "object_data"
+    ]["cuboid"][0]
+    del data["openlabel"]["frames"]["1"]["objects"]["22dedd49-6dcb-413b-87ef-00ccfb532e98"][
+        "object_data"
+    ]["vec"][0]
     data = delete_sensor_from_data(data, "radar")
 
     # Loads the ground truth filtered data
@@ -409,9 +381,9 @@ def test_filter_exclude_attribute_values(json_paths, json_data):
     scene = raillabel.load(json_paths["openlabel_v1_short"])
 
     # Deletes the excluded data
-    del data["openlabel"]["frames"]["0"]["objects"][
-        "b40ba3ad-0327-46ff-9c28-2506cfd6d934"
-    ]["object_data"]["poly2d"][0]
+    del data["openlabel"]["frames"]["0"]["objects"]["b40ba3ad-0327-46ff-9c28-2506cfd6d934"][
+        "object_data"
+    ]["poly2d"][0]
     data = delete_sensor_from_data(data, "radar")
 
     # Loads the ground truth filtered data

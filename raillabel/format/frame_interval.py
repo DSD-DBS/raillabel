@@ -15,6 +15,7 @@ class FrameInterval:
         Initial frame number of the interval (inclusive).
     frame_end: int
         Ending frame number of the interval (inclusive).
+
     """
 
     frame_start: int
@@ -28,8 +29,8 @@ class FrameInterval:
         ----------
         data_dict: dict
             RailLabel format snippet containing the relevant data.
-        """
 
+        """
         return FrameInterval(
             frame_start=data_dict["frame_start"],
             frame_end=data_dict["frame_end"],
@@ -57,8 +58,8 @@ class FrameInterval:
             FrameInterval(9, 9),
             FrameInterval(12, 14),
         ]
-        """
 
+        """
         sorted_frame_uids = sorted(frame_uids)
         frame_uid_intervals = cls._slice_into_intervals(sorted_frame_uids)
 
@@ -80,8 +81,8 @@ class FrameInterval:
         ------
         ValueError
             if an attribute can not be converted to the type required by the OpenLabel schema.
-        """
 
+        """
         return {
             "frame_start": int(self.frame_start),
             "frame_end": int(self.frame_end),
@@ -93,7 +94,6 @@ class FrameInterval:
 
     @classmethod
     def _slice_into_intervals(cls, sorted_frame_uids: t.List[int]) -> t.List[t.List[int]]:
-
         if len(sorted_frame_uids) == 0:
             return []
 

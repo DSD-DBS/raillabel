@@ -1,6 +1,7 @@
 # Copyright DB InfraGO AG and contributors
 # SPDX-License-Identifier: Apache-2.0
 """Devkit for working with recorded and annotated train ride data from DB."""
+
 from importlib import metadata
 
 from . import format

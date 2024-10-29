@@ -14,6 +14,7 @@ from raillabel.format import ElementDataPointer
 
 # == Fixtures =========================
 
+
 @pytest.fixture
 def element_data_pointer_minimal_dict() -> dict:
     return {
@@ -22,12 +23,11 @@ def element_data_pointer_minimal_dict() -> dict:
         "attribute_pointers": {},
     }
 
+
 @pytest.fixture
 def element_data_pointer_minimal():
     return ElementDataPointer(
-        uid="rgb_middle__bbox__person",
-        frame_intervals=[],
-        attribute_pointers={}
+        uid="rgb_middle__bbox__person", frame_intervals=[], attribute_pointers={}
     )
 
 
@@ -35,9 +35,7 @@ def element_data_pointer_minimal():
 def element_data_pointer_full_dict(frame_interval_dict) -> dict:
     return {
         "type": "bbox",
-        "frame_intervals": [
-            frame_interval_dict
-        ],
+        "frame_intervals": [frame_interval_dict],
         "attribute_pointers": {
             "text_attr": "text",
             "num_attr": "num",
@@ -46,29 +44,27 @@ def element_data_pointer_full_dict(frame_interval_dict) -> dict:
         },
     }
 
+
 @pytest.fixture
 def element_data_pointer_full(sensor_camera, object_person, frame_interval):
     return ElementDataPointer(
         uid="rgb_middle__bbox__person",
-        frame_intervals=[
-            frame_interval
-        ],
+        frame_intervals=[frame_interval],
         attribute_pointers={
             "text_attr": AttributeType.TEXT,
             "num_attr": AttributeType.NUM,
             "bool_attr": AttributeType.BOOLEAN,
             "vec_attr": AttributeType.VEC,
-        }
+        },
     )
+
 
 # == Tests ============================
 
 
 def test_asdict_minimal(sensor_camera, object_person):
     element_data_pointer = ElementDataPointer(
-        uid="rgb_middle__bbox__person",
-        frame_intervals=[],
-        attribute_pointers={}
+        uid="rgb_middle__bbox__person", frame_intervals=[], attribute_pointers={}
     )
 
     assert element_data_pointer.asdict() == {
@@ -77,25 +73,22 @@ def test_asdict_minimal(sensor_camera, object_person):
         "attribute_pointers": {},
     }
 
+
 def test_asdict_full(sensor_camera, object_person, frame_interval, frame_interval_dict):
     element_data_pointer = ElementDataPointer(
         uid="rgb_middle__bbox__person",
-        frame_intervals=[
-            frame_interval
-        ],
+        frame_intervals=[frame_interval],
         attribute_pointers={
             "text_attr": AttributeType.TEXT,
             "num_attr": AttributeType.NUM,
             "bool_attr": AttributeType.BOOLEAN,
             "vec_attr": AttributeType.VEC,
-        }
+        },
     )
 
     assert element_data_pointer.asdict() == {
         "type": "bbox",
-        "frame_intervals": [
-            frame_interval_dict
-        ],
+        "frame_intervals": [frame_interval_dict],
         "attribute_pointers": {
             "text_attr": "text",
             "num_attr": "num",

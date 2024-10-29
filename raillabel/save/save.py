@@ -4,7 +4,6 @@
 import json
 from pathlib import Path
 
-from .. import exceptions
 from ..format import Scene
 
 
@@ -22,14 +21,13 @@ def save(scene: Scene, path: str, prettify_json: bool = False):
     prettify_json: bool, optional
         If true, the JSON is saved with linebreaks and indents. This increases readibility but
         also the file size. Default is False.
-    """
 
+    """
     path = Path(path)
-    
+
     data = scene.asdict()
 
     with path.open("w") as save_file:
-
         if prettify_json:
             json.dump(data, save_file, indent=4)
         else:

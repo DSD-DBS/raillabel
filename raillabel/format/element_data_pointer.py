@@ -27,6 +27,7 @@ class ElementDataPointer:
     ----------------------
     uid: str
         Unique identifier of the ElementDataPointer built from the attributes.
+
     """
 
     uid: str
@@ -50,8 +51,8 @@ class ElementDataPointer:
         ------
         ValueError
             if an attribute can not be converted to the type required by the OpenLabel schema.
-        """
 
+        """
         return {
             "type": self.annotation_type,
             "frame_intervals": self._frame_intervals_asdict(),

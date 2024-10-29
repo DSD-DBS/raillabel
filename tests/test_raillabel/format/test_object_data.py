@@ -11,6 +11,7 @@ sys.path.insert(1, str(Path(__file__).parent.parent.parent.parent.parent))
 
 # == Fixtures =========================
 
+
 @pytest.fixture
 def object_data_person_dict(bbox_dict, poly2d_dict, cuboid_dict, poly3d_dict, seg3d_dict) -> dict:
     return {
@@ -22,6 +23,7 @@ def object_data_person_dict(bbox_dict, poly2d_dict, cuboid_dict, poly3d_dict, se
             "vec": [seg3d_dict],
         }
     }
+
 
 @pytest.fixture
 def object_data_train_dict(bbox_train_dict) -> dict:

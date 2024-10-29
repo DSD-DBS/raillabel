@@ -14,9 +14,11 @@ from raillabel.format import annotation_classes
 
 # == Fixtures =========================
 
+
 @pytest.fixture
 def all_annotations(
-    bbox, bbox_train,
+    bbox,
+    bbox_train,
     cuboid,
     poly2d,
     poly3d,
@@ -31,7 +33,9 @@ def all_annotations(
         seg3d.uid: seg3d,
     }
 
+
 # == Tests ============================
+
 
 def test_post_init_happy(object_person, point2d, size2d):
     raillabel.format.Bbox(
@@ -40,6 +44,7 @@ def test_post_init_happy(object_person, point2d, size2d):
         pos=point2d,
         size=size2d,
     )
+
 
 def test_post_init_unhappy(object_person, point2d):
     with pytest.raises(TypeError):

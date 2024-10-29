@@ -32,11 +32,9 @@ class _FilterABC(ABC):
         raise NotImplementedError
 
     def __init__(self, kwargs):
-
         set_parameter = None
         for param in self.PARAMETERS:
             if param in kwargs and param is not None:
-
                 if set_parameter is None:
                     setattr(self, param, self._process_filter_args(kwargs[param]))
                     set_parameter = param

@@ -18,6 +18,7 @@ class Quaternion:
         The z component of the quaternion.
     w: float or int
         The w component of the quaternion.
+
     """
 
     x: float
@@ -33,8 +34,8 @@ class Quaternion:
         ----------
         data_dict: dict
             RailLabel format snippet containing the relevant data.
-        """
 
+        """
         return Quaternion(
             x=data_dict[0],
             y=data_dict[1],
@@ -54,6 +55,6 @@ class Quaternion:
         ------
         ValueError
             if an attribute can not be converted to the type required by the OpenLabel schema.
-        """
 
+        """
         return [float(self.x), float(self.y), float(self.z), float(self.w)]

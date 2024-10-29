@@ -37,6 +37,7 @@ class Cuboid(_ObjectAnnotation):
     ----------------------
     name: str
         Name of the annotation used by the VCD player for indexing in the object data pointers.
+
     """
 
     pos: Point3d = None
@@ -63,8 +64,8 @@ class Cuboid(_ObjectAnnotation):
         -------
         annotation: Cuboid
             Converted annotation.
-        """
 
+        """
         return Cuboid(
             uid=str(data_dict["uid"]),
             pos=Point3d(
@@ -100,8 +101,8 @@ class Cuboid(_ObjectAnnotation):
         ------
         ValueError
             if an attribute can not be converted to the type required by the OpenLabel schema.
-        """
 
+        """
         dict_repr = self._annotation_required_fields_asdict()
 
         dict_repr["val"] = [

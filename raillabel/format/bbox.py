@@ -33,6 +33,7 @@ class Bbox(_ObjectAnnotation):
     ----------------------
     name: str
         Name of the annotation used by the VCD player for indexing in the object data pointers.
+
     """
 
     pos: Point2d = None
@@ -58,8 +59,8 @@ class Bbox(_ObjectAnnotation):
         -------
         annotation: Bbox
             Converted annotation.
-        """
 
+        """
         return Bbox(
             uid=str(data_dict["uid"]),
             pos=Point2d(x=data_dict["val"][0], y=data_dict["val"][1]),
@@ -81,8 +82,8 @@ class Bbox(_ObjectAnnotation):
         ------
         ValueError
             if an attribute can not be converted to the type required by the OpenLabel schema.
-        """
 
+        """
         dict_repr = self._annotation_required_fields_asdict()
 
         dict_repr["val"] = [

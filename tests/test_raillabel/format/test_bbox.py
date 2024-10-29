@@ -13,6 +13,7 @@ from raillabel.format import Bbox
 
 # == Fixtures =========================
 
+
 @pytest.fixture
 def bbox_dict(
     sensor_camera,
@@ -25,8 +26,9 @@ def bbox_dict(
         "name": "rgb_middle__bbox__person",
         "val": point2d_dict + size2d_dict,
         "coordinate_system": sensor_camera.uid,
-        "attributes": attributes_multiple_types_dict
+        "attributes": attributes_multiple_types_dict,
     }
+
 
 @pytest.fixture
 def bbox(
@@ -53,8 +55,9 @@ def bbox_train_dict(sensor_camera, attributes_single_type_dict, point2d_dict, si
         "name": "rgb_middle__bbox__train",
         "val": point2d_dict + size2d_dict,
         "coordinate_system": sensor_camera.uid,
-        "attributes": attributes_single_type_dict
+        "attributes": attributes_single_type_dict,
     }
+
 
 @pytest.fixture
 def bbox_train(
@@ -73,14 +76,20 @@ def bbox_train(
         object=object_train,
     )
 
+
 # == Tests ============================
 
+
 def test_fromdict(
-    point2d, point2d_dict,
-    size2d, size2d_dict,
-    sensor_camera, sensors,
+    point2d,
+    point2d_dict,
+    size2d,
+    size2d_dict,
+    sensor_camera,
+    sensors,
     object_person,
-    attributes_multiple_types, attributes_multiple_types_dict,
+    attributes_multiple_types,
+    attributes_multiple_types_dict,
 ):
     bbox = Bbox.fromdict(
         {
@@ -88,10 +97,10 @@ def test_fromdict(
             "name": "rgb_middle__bbox__person",
             "val": point2d_dict + size2d_dict,
             "coordinate_system": sensor_camera.uid,
-            "attributes": attributes_multiple_types_dict
+            "attributes": attributes_multiple_types_dict,
         },
         sensors,
-        object_person
+        object_person,
     )
 
     assert bbox.uid == "78f0ad89-2750-4a30-9d66-44c9da73a714"
@@ -104,11 +113,14 @@ def test_fromdict(
 
 
 def test_asdict(
-    point2d, point2d_dict,
-    size2d, size2d_dict,
+    point2d,
+    point2d_dict,
+    size2d,
+    size2d_dict,
     sensor_camera,
     object_person,
-    attributes_multiple_types, attributes_multiple_types_dict,
+    attributes_multiple_types,
+    attributes_multiple_types_dict,
 ):
     bbox = Bbox(
         uid="78f0ad89-2750-4a30-9d66-44c9da73a714",
@@ -124,7 +136,7 @@ def test_asdict(
         "name": "rgb_middle__bbox__person",
         "val": point2d_dict + size2d_dict,
         "coordinate_system": sensor_camera.uid,
-        "attributes": attributes_multiple_types_dict
+        "attributes": attributes_multiple_types_dict,
     }
 
 

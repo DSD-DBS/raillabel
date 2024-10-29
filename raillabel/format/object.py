@@ -2,9 +2,8 @@
 # SPDX-License-Identifier: Apache-2.0
 
 import typing as t
-from dataclasses import dataclass
-
 from _collections_abc import dict_values
+from dataclasses import dataclass
 
 from .element_data_pointer import AttributeType, ElementDataPointer
 from .frame_interval import FrameInterval
@@ -26,6 +25,7 @@ class Object:
         name is used followed by an underscore and an integer (i.e. person_0032).
     type: str
         The type of an object defines the class the object corresponds to.
+
     """
 
     uid: str
@@ -49,6 +49,7 @@ class Object:
         -------
         object: raillabel.format.Object
             Converted object.
+
         """
         return Object(uid=object_uid, type=data_dict["type"], name=data_dict["name"])
 
@@ -67,20 +68,19 @@ class Object:
         ------
         ValueError
             if an attribute can not be converted to the type required by the OpenLabel schema.
-        """
 
+        """
         if frames is None:
             return {"name": str(self.name), "type": str(self.type)}
 
-        else:
-            return {
-                "name": str(self.name),
-                "type": str(self.type),
-                "frame_intervals": self._frame_intervals_asdict(self.frame_intervals(frames)),
-                "object_data_pointers": self._object_data_pointers_asdict(
-                    self.object_data_pointers(frames)
-                ),
-            }
+        return {
+            "name": str(self.name),
+            "type": str(self.type),
+            "frame_intervals": self._frame_intervals_asdict(self.frame_intervals(frames)),
+            "object_data_pointers": self._object_data_pointers_asdict(
+                self.object_data_pointers(frames)
+            ),
+        }
 
     def frame_intervals(self, frames: t.Dict[int, "Frame"]) -> t.List[FrameInterval]:
         """Return frame intervals in which this object is present.
@@ -94,8 +94,8 @@ class Object:
         -------
         list[FrameInterval]
             List of the FrameIntervals, where this object is contained.
-        """
 
+        """
         frame_uids_containing_object = [
             frame.uid for frame in frames.values() if self._is_object_in_frame(frame)
         ]
@@ -114,8 +114,8 @@ class Object:
         -------
         dict[str, ElementDataPointer]
             ObjectDataPointers dict as required by WebLABEL. Keys are the ObjectDataPointer uids.
-        """
 
+        """
         pointer_ids_per_frame = self._collect_pointer_ids_per_frame(frames)
         frame_uids_per_pointer_id = self._reverse_frame_pointer_ids(pointer_ids_per_frame)
         frame_intervals_per_pointer_id = self._convert_to_intervals(frame_uids_per_pointer_id)
@@ -137,9 +137,7 @@ class Object:
     def _object_data_pointers_asdict(
         self, object_data_pointers: t.Dict[str, ElementDataPointer]
     ) -> dict:
-        return {
-            pointer_id: pointer.asdict() for pointer_id, pointer in object_data_pointers.items()
-        }
+        return {pointer_id: pointer.asdict() for pointer_id, pointer in object_data_pointers.items()}
 
     def _is_object_in_frame(self, frame: "Frame") -> bool:
         return self.uid in frame.object_data
@@ -150,7 +148,6 @@ class Object:
     def _collect_pointer_ids_per_frame(
         self, frames: t.Dict[int, "Frame"]
     ) -> t.Dict[int, t.Set[str]]:
-
         pointer_ids_per_frame = {}
         for frame in frames.values():
             pointer_ids_per_frame[frame.uid] = set()
@@ -163,11 +160,9 @@ class Object:
     def _reverse_frame_pointer_ids(
         self, pointer_ids_per_frame: t.Dict[int, t.Set[str]]
     ) -> t.Dict[str, t.Set[int]]:
-
         frame_uids_per_pointer_id = {}
         for frame_uid, pointer_ids in pointer_ids_per_frame.items():
             for pointer_id in pointer_ids:
-
                 if pointer_id not in frame_uids_per_pointer_id:
                     frame_uids_per_pointer_id[pointer_id] = set()
 
@@ -178,7 +173,6 @@ class Object:
     def _convert_to_intervals(
         self, frame_uids_per_pointer_id: t.Dict[str, t.Set[int]]
     ) -> t.Dict[str, t.List[FrameInterval]]:
-
         frame_intervals = {}
         for pointer_id, frame_uids in frame_uids_per_pointer_id.items():
             frame_intervals[pointer_id] = FrameInterval.from_frame_uids(list(frame_uids))
@@ -188,7 +182,6 @@ class Object:
     def _collect_attributes_per_pointer_id(
         self, frames: t.Dict[int, "Frame"]
     ) -> t.Dict[str, t.Dict[str, t.Any]]:
-
         attributes_per_pointer_id = {}
         for frame in frames.values():
             for annotation in self._filtered_annotations(frame):
@@ -213,7 +206,6 @@ class Object:
         frame_intervals_per_pointer_id: t.Dict[str, t.List[FrameInterval]],
         attribute_pointers_per_pointer_id: t.Dict[str, t.Dict[str, AttributeType]],
     ) -> t.Dict[str, ElementDataPointer]:
-
         object_data_pointers = {}
         for pointer_id in frame_intervals_per_pointer_id:
             object_data_pointers[pointer_id] = ElementDataPointer(

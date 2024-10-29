@@ -13,12 +13,11 @@ from raillabel.format import FrameInterval
 
 # == Fixtures =========================
 
+
 @pytest.fixture
 def frame_interval_dict() -> dict:
-    return {
-        "frame_start": 12,
-        "frame_end": 16
-    }
+    return {"frame_start": 12, "frame_end": 16}
+
 
 @pytest.fixture
 def frame_interval() -> dict:
@@ -27,7 +26,9 @@ def frame_interval() -> dict:
         frame_end=16,
     )
 
+
 # == Tests ============================
+
 
 def test_fromdict():
     frame_interval = FrameInterval.fromdict(
@@ -67,19 +68,18 @@ def test_from_frame_uids_empty():
 
     assert FrameInterval.from_frame_uids(frame_uids) == []
 
+
 def test_from_frame_uids_one_frame():
     frame_uids = [1]
 
-    assert FrameInterval.from_frame_uids(frame_uids) == [
-        FrameInterval(1, 1)
-    ]
+    assert FrameInterval.from_frame_uids(frame_uids) == [FrameInterval(1, 1)]
+
 
 def test_from_frame_uids_one_interval():
     frame_uids = [1, 2, 3, 4]
 
-    assert FrameInterval.from_frame_uids(frame_uids) == [
-        FrameInterval(1, 4)
-    ]
+    assert FrameInterval.from_frame_uids(frame_uids) == [FrameInterval(1, 4)]
+
 
 def test_from_frame_uids_multiple_intervals():
     frame_uids = [0, 1, 2, 3, 6, 7, 9, 12, 13, 14]
@@ -90,6 +90,7 @@ def test_from_frame_uids_multiple_intervals():
         FrameInterval(9, 9),
         FrameInterval(12, 14),
     ]
+
 
 def test_from_frame_uids_unsorted():
     frame_uids = [5, 2, 1, 3]

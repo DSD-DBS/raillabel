@@ -34,6 +34,7 @@ class Poly3d(_ObjectAnnotation):
     ----------------------
     name: str
         Name of the annotation used by the VCD player for indexing in the object data pointers.
+
     """
 
     points: t.List[Point3d] = None
@@ -59,8 +60,8 @@ class Poly3d(_ObjectAnnotation):
         -------
         annotation: Poly3d
             Converted annotation.
-        """
 
+        """
         return Poly3d(
             uid=str(data_dict["uid"]),
             closed=data_dict["closed"],
@@ -82,8 +83,8 @@ class Poly3d(_ObjectAnnotation):
         ------
         ValueError
             if an attribute can not be converted to the type required by the OpenLabel schema.
-        """
 
+        """
         dict_repr = self._annotation_required_fields_asdict()
 
         dict_repr["closed"] = bool(self.closed)

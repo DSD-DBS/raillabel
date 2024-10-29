@@ -17,6 +17,7 @@ class Transform:
         Translation with regards to the parent coordinate system.
     quat: raillabel.format.Quaternion
         Rotation quaternion with regards to the parent coordinate system.
+
     """
 
     pos: Point3d
@@ -30,8 +31,8 @@ class Transform:
         ----------
         data_dict: dict
             RailLabel format snippet containing the relevant data.
-        """
 
+        """
         return Transform(
             pos=Point3d.fromdict(data_dict["translation"]),
             quat=Quaternion.fromdict(data_dict["quaternion"]),
@@ -49,8 +50,8 @@ class Transform:
         ------
         ValueError
             if an attribute can not be converted to the type required by the OpenLabel schema.
-        """
 
+        """
         dict_repr = {
             "translation": self.pos.asdict(),
             "quaternion": self.quat.asdict(),

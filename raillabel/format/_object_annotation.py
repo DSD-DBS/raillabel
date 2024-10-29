@@ -16,7 +16,6 @@ from .sensor import Sensor
 
 @dataclass
 class _ObjectAnnotation(ABC):
-
     uid: str
     object: Object
     sensor: t.Optional[Sensor] = None
@@ -69,7 +68,6 @@ class _ObjectAnnotation(ABC):
 
     def _annotation_optional_fields_asdict(self) -> t.Dict:
         """Return the optional fields from the parent class to dict."""
-
         dict_repr = {}
 
         if self.sensor is not None:
@@ -84,7 +82,6 @@ class _ObjectAnnotation(ABC):
         attributes_dict = {}
 
         for attr_name, attr_value in attributes.items():
-
             attr_type = AttributeType.from_value(type(attr_value)).value
 
             if attr_type not in attributes_dict:
@@ -96,7 +93,6 @@ class _ObjectAnnotation(ABC):
 
     @classmethod
     def _coordinate_system_fromdict(cls, data_dict: dict, sensors: dict) -> t.Optional[Sensor]:
-
         is_coordinate_system_in_data = (
             "coordinate_system" in data_dict and data_dict["coordinate_system"] != ""
         )
@@ -111,7 +107,6 @@ class _ObjectAnnotation(ABC):
         cls,
         data_dict: dict,
     ) -> t.Dict[str, t.Union[int, float, bool, str, list]]:
-
         if "attributes" not in data_dict:
             return {}
 
@@ -131,8 +126,8 @@ class _ObjectAnnotation(ABC):
         ------
         TypeError
             If a required field has not been set.
-        """
 
+        """
         for f in self._REQ_FIELDS:
             if getattr(self, f) is None:
                 raise TypeError(f"{f} is a required argument for {self.__class__.__name__}")
@@ -145,12 +140,10 @@ def annotation_classes() -> t.Dict[str, t.Type[_ObjectAnnotation]]:
 
 def _collect_annotation_classes():
     """Collect annotation child classes and store them."""
-
     global ANNOTATION_CLASSES
 
     package_dir = str(Path(__file__).resolve().parent)
     for _, module_name, _ in iter_modules([package_dir]):
-
         module = import_module(f"raillabel.format.{module_name}")
         for attribute_name in dir(module):
             attribute = getattr(module, attribute_name)

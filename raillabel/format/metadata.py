@@ -48,6 +48,7 @@ class Metadata:
         Version number of the RailLabel schema this annotation object follows. Default is None.
     tagged_file: str, optional
         Directory with the exported data_dict (e.g. images, point clouds). Default is None.
+
     """
 
     schema_version: str
@@ -75,8 +76,8 @@ class Metadata:
         -------
         metadata: Metadata
             Converted metadata.
-        """
 
+        """
         metadata = Metadata(
             schema_version=data_dict["schema_version"],
             subschema_version=subschema_version,
@@ -92,13 +93,12 @@ class Metadata:
         -------
         dict_repr: dict
             Dict representation of this class instance.
-        """
 
+        """
         return self._remove_empty_fields(vars(self))
 
     @classmethod
     def _collect_exporter_version(cls) -> t.Optional[str]:
-
         try:
             exporter_version = importlib_metadata.version("raillabel")
         except importlib_metadata.PackageNotFoundError:
@@ -109,7 +109,6 @@ class Metadata:
 
     @classmethod
     def _set_additional_attributes(cls, metadata: "Metadata", data_dict: dict) -> "Metadata":
-
         PRESET_KEYS = ["schema_version", "subschema_version", "exporter_version"]
 
         for key, value in data_dict.items():

@@ -16,6 +16,7 @@ class Point3d:
         The y-coordinate of the point.
     z: float or int
         The z-coordinate of the point.
+
     """
 
     x: float
@@ -30,8 +31,8 @@ class Point3d:
         ----------
         data_dict: dict
             RailLabel format snippet containing the relevant data.
-        """
 
+        """
         return Point3d(
             x=data_dict[0],
             y=data_dict[1],
@@ -50,6 +51,6 @@ class Point3d:
         ------
         ValueError
             if an attribute can not be converted to the type required by the OpenLabel schema.
-        """
 
+        """
         return [float(self.x), float(self.y), float(self.z)]

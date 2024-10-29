@@ -13,20 +13,16 @@ from raillabel.format import _ObjectAnnotation
 
 # == Fixtures =========================
 
+
 @pytest.fixture
 def attributes_single_type_dict() -> dict:
     return {
         "text": [
-            {
-                "name": "test_text_attr0",
-                "val": "test_text_attr0_val"
-            },
-            {
-                "name": "test_text_attr1",
-                "val": "test_text_attr1_val"
-            }
+            {"name": "test_text_attr0", "val": "test_text_attr0_val"},
+            {"name": "test_text_attr1", "val": "test_text_attr1_val"},
         ]
     }
+
 
 @pytest.fixture
 def attributes_single_type() -> dict:
@@ -39,23 +35,12 @@ def attributes_single_type() -> dict:
 @pytest.fixture
 def attributes_multiple_types_dict() -> dict:
     return {
-        "text": [{
-            "name": "text_attr",
-            "val": "text_val"
-        }],
-        "num": [{
-            "name": "num_attr",
-            "val": 0
-        }],
-        "boolean": [{
-            "name": "bool_attr",
-            "val": True
-        }],
-        "vec": [{
-            "name": "vec_attr",
-            "val": [0, 1, 2]
-        }],
+        "text": [{"name": "text_attr", "val": "text_val"}],
+        "num": [{"name": "num_attr", "val": 0}],
+        "boolean": [{"name": "bool_attr", "val": True}],
+        "vec": [{"name": "vec_attr", "val": [0, 1, 2]}],
     }
+
 
 @pytest.fixture
 def attributes_multiple_types() -> dict:
@@ -66,20 +51,16 @@ def attributes_multiple_types() -> dict:
         "vec_attr": [0, 1, 2],
     }
 
+
 # == Tests ============================
+
 
 def test_fromdict__single_type():
     attributes_dict = {
         "attributes": {
             "text": [
-                {
-                    "name": "test_text_attr0",
-                    "val": "test_text_attr0_val"
-                },
-                {
-                    "name": "test_text_attr1",
-                    "val": "test_text_attr1_val"
-                }
+                {"name": "test_text_attr0", "val": "test_text_attr0_val"},
+                {"name": "test_text_attr1", "val": "test_text_attr1_val"},
             ]
         }
     }
@@ -89,25 +70,14 @@ def test_fromdict__single_type():
         "test_text_attr1": "test_text_attr1_val",
     }
 
+
 def test_fromdict__multiple_types():
     attributes_dict = {
         "attributes": {
-            "text": [{
-                "name": "text_attr",
-                "val": "text_val"
-            }],
-            "num": [{
-                "name": "num_attr",
-                "val": 0
-            }],
-            "boolean": [{
-                "name": "bool_attr",
-                "val": True
-            }],
-            "vec": [{
-                "name": "vec_attr",
-                "val": [0, 1, 2]
-            }],
+            "text": [{"name": "text_attr", "val": "text_val"}],
+            "num": [{"name": "num_attr", "val": 0}],
+            "boolean": [{"name": "bool_attr", "val": True}],
+            "vec": [{"name": "vec_attr", "val": [0, 1, 2]}],
         }
     }
 
@@ -127,16 +97,11 @@ def test_asdict__single_type():
 
     assert _ObjectAnnotation._attributes_asdict(None, attributes) == {
         "text": [
-            {
-                "name": "test_text_attr0",
-                "val": "test_text_attr0_val"
-            },
-            {
-                "name": "test_text_attr1",
-                "val": "test_text_attr1_val"
-            }
+            {"name": "test_text_attr0", "val": "test_text_attr0_val"},
+            {"name": "test_text_attr1", "val": "test_text_attr1_val"},
         ]
     }
+
 
 def test_asdict__multiple_types():
     attributes = {
@@ -147,22 +112,10 @@ def test_asdict__multiple_types():
     }
 
     assert _ObjectAnnotation._attributes_asdict(None, attributes) == {
-        "text": [{
-            "name": "text_attr",
-            "val": "text_val"
-        }],
-        "num": [{
-            "name": "num_attr",
-            "val": 0
-        }],
-        "boolean": [{
-            "name": "bool_attr",
-            "val": True
-        }],
-        "vec": [{
-            "name": "vec_attr",
-            "val": [0, 1, 2]
-        }],
+        "text": [{"name": "text_attr", "val": "text_val"}],
+        "num": [{"name": "num_attr", "val": 0}],
+        "boolean": [{"name": "bool_attr", "val": True}],
+        "vec": [{"name": "vec_attr", "val": [0, 1, 2]}],
     }
 
 

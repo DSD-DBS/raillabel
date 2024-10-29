@@ -24,6 +24,7 @@ class IntrinsicsPinhole:
         Width of the image frame in pixels.
     height_px: int
         Height of the image frame in pixels.
+
     """
 
     camera_matrix: t.Tuple[float, ...]
@@ -44,8 +45,8 @@ class IntrinsicsPinhole:
         -------
         raillabel.format.IntrinsicsPinhole
             Converted IntrinsicsPinhole object.
-        """
 
+        """
         return IntrinsicsPinhole(
             camera_matrix=tuple(data_dict["camera_matrix"]),
             distortion=tuple(data_dict["distortion_coeffs"]),
@@ -65,8 +66,8 @@ class IntrinsicsPinhole:
         ------
         ValueError
             if an attribute can not be converted to the type required by the OpenLabel schema.
-        """
 
+        """
         dict_repr = {
             "camera_matrix": list(self.camera_matrix),
             "distortion_coeffs": list(self.distortion),

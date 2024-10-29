@@ -22,6 +22,7 @@ class SensorReference:
     uri: str, optional
         URI to the file corresponding to the frame recording in the particular frame. Default is
         None.
+
     """
 
     sensor: Sensor
@@ -43,8 +44,8 @@ class SensorReference:
         -------
         sensor_reference: raillabel.format.SensorReference
             Converted SensorReference object.
-        """
 
+        """
         return SensorReference(
             sensor=sensor,
             timestamp=cls._timestamp_fromdict(data_dict["stream_properties"]),
@@ -63,8 +64,8 @@ class SensorReference:
         ------
         ValueError
             if an attribute can not be converted to the type required by the OpenLabel schema.
-        """
 
+        """
         dict_repr = {"stream_properties": {"sync": {"timestamp": str(self.timestamp)}}}
 
         if self.uri is not None:

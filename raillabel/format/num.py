@@ -24,6 +24,7 @@ class Num:
         attribute values. Default is {}.
     sensor: raillabel.format.Sensor, optional
         A reference to the sensor, this value is represented in. Default is None.
+
     """
 
     uid: str
@@ -46,8 +47,8 @@ class Num:
         -------
         annotation: Num
             Converted annotation.
-        """
 
+        """
         return Num(
             uid=str(data_dict["uid"]),
             name=str(data_dict["name"]),
@@ -67,8 +68,8 @@ class Num:
         ------
         ValueError
             if an attribute can not be converted to the type required by the OpenLabel schema.
-        """
 
+        """
         return {
             "uid": str(self.uid),
             "name": str(self.name),
@@ -78,7 +79,6 @@ class Num:
 
     @classmethod
     def _coordinate_system_fromdict(cls, data_dict: dict, sensors: dict) -> t.Optional[Sensor]:
-
         is_coordinate_system_in_data = (
             "coordinate_system" in data_dict and data_dict["coordinate_system"] != ""
         )

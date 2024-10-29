@@ -17,6 +17,7 @@ class IntrinsicsRadar:
         Width of the cartesian image frame in pixels.
     height_px: int
         Height of the cartesian image frame in pixels.
+
     """
 
     resolution_px_per_m: float
@@ -36,8 +37,8 @@ class IntrinsicsRadar:
         -------
         raillabel.format.IntrinsicsRadar
             Converted IntrinsicsRadar object.
-        """
 
+        """
         return IntrinsicsRadar(
             resolution_px_per_m=data_dict["resolution_px_per_m"],
             width_px=data_dict["width_px"],
@@ -56,8 +57,8 @@ class IntrinsicsRadar:
         ------
         ValueError
             if an attribute can not be converted to the type required by the OpenLabel schema.
-        """
 
+        """
         return {
             "resolution_px_per_m": float(self.resolution_px_per_m),
             "width_px": int(self.width_px),

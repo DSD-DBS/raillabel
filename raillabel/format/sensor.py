@@ -36,6 +36,7 @@ class Sensor:
         Name of the subdirectory containing the sensor files. Default is None.
     description: str, optional
         Description of the sensor. Default is None.
+
     """
 
     uid: str
@@ -62,8 +63,8 @@ class Sensor:
         -------
         sensor: raillabel.format.Sensor
             Converted Sensor object.
-        """
 
+        """
         return Sensor(
             uid=uid,
             extrinsics=cls._extrinsics_fromdict(cs_data_dict),
@@ -82,15 +83,14 @@ class Sensor:
         -------
         dict_repr: dict
             Dict representation of this class instance.
-        """
 
+        """
         return {
             "coordinate_system": self._as_coordinate_system_dict(),
             "stream": self._as_stream_dict(),
         }
 
     def _as_coordinate_system_dict(self) -> dict:
-
         coordinate_system_repr = {"type": "sensor", "parent": "base"}
 
         if self.extrinsics is not None:
@@ -99,7 +99,6 @@ class Sensor:
         return coordinate_system_repr
 
     def _as_stream_dict(self) -> dict:
-
         stream_repr = {}
 
         if self.type is not None:
@@ -121,7 +120,6 @@ class Sensor:
 
     @classmethod
     def _extrinsics_fromdict(cls, data_dict) -> t.Optional[Transform]:
-
         if "pose_wrt_parent" not in data_dict:
             return None
 
@@ -143,19 +141,16 @@ class Sensor:
     def _intrinsics_fromdict(
         cls, data_dict, sensor_type: t.Optional["SensorType"]
     ) -> t.Optional[IntrinsicsPinhole]:
-
         if "stream_properties" not in data_dict:
             return None
 
         if sensor_type == SensorType.CAMERA:
-
             if "intrinsics_pinhole" in data_dict["stream_properties"]:
                 return IntrinsicsPinhole.fromdict(
                     data_dict["stream_properties"]["intrinsics_pinhole"]
                 )
 
         elif sensor_type == SensorType.RADAR:
-
             if "intrinsics_radar" in data_dict["stream_properties"]:
                 return IntrinsicsRadar.fromdict(data_dict["stream_properties"]["intrinsics_radar"])
 
@@ -163,7 +158,6 @@ class Sensor:
 
     @classmethod
     def _type_fromdict(cls, data_dict) -> t.Optional["SensorType"]:
-
         if "type" not in data_dict:
             return None
 

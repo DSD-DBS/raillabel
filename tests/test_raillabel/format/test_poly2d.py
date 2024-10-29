@@ -13,11 +13,10 @@ from raillabel.format import Poly2d
 
 # == Fixtures =========================
 
+
 @pytest.fixture
 def poly2d_dict(
-    sensor_camera,
-    attributes_multiple_types_dict,
-    point2d_dict, point2d_another_dict
+    sensor_camera, attributes_multiple_types_dict, point2d_dict, point2d_another_dict
 ) -> dict:
     return {
         "uid": "d73b5988-767B-47ef-979c-022af60c6ab2",
@@ -29,12 +28,10 @@ def poly2d_dict(
         "mode": "MODE_POLY2D_ABSOLUTE",
     }
 
+
 @pytest.fixture
 def poly2d(
-    point2d, point2d_another,
-    sensor_camera,
-    attributes_multiple_types,
-    object_person
+    point2d, point2d_another, sensor_camera, attributes_multiple_types, object_person
 ) -> dict:
     return Poly2d(
         uid="d73b5988-767B-47ef-979c-022af60c6ab2",
@@ -46,14 +43,20 @@ def poly2d(
         mode="MODE_POLY2D_ABSOLUTE",
     )
 
+
 # == Tests ============================
 
+
 def test_fromdict(
-    point2d, point2d_dict,
-    point2d_another, point2d_another_dict,
-    sensor_camera, sensors,
+    point2d,
+    point2d_dict,
+    point2d_another,
+    point2d_another_dict,
+    sensor_camera,
+    sensors,
     object_person,
-    attributes_multiple_types, attributes_multiple_types_dict,
+    attributes_multiple_types,
+    attributes_multiple_types_dict,
 ):
     poly2d = Poly2d.fromdict(
         {
@@ -66,7 +69,7 @@ def test_fromdict(
             "mode": "MODE_POLY2D_ABSOLUTE",
         },
         sensors,
-        object_person
+        object_person,
     )
 
     assert poly2d.uid == "d73b5988-767B-47ef-979c-022af60c6ab2"
@@ -80,10 +83,14 @@ def test_fromdict(
 
 
 def test_asdict(
-    point2d, point2d_dict,
-    point2d_another, point2d_another_dict,
-    sensor_camera, object_person,
-    attributes_multiple_types, attributes_multiple_types_dict,
+    point2d,
+    point2d_dict,
+    point2d_another,
+    point2d_another_dict,
+    sensor_camera,
+    object_person,
+    attributes_multiple_types,
+    attributes_multiple_types_dict,
 ):
     poly2d = Poly2d(
         uid="d73b5988-767B-47ef-979c-022af60c6ab2",

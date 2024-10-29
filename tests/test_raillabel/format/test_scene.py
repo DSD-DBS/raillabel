@@ -15,12 +15,17 @@ from raillabel.format.scene import _clean_dict
 
 # == Fixtures =========================
 
+
 @pytest.fixture
 def scene_dict(
     metadata_full_dict,
-    sensor_camera_dict, sensor_lidar_dict, sensor_radar_dict,
-    object_person_dict, object_train_dict,
-    frame, frame_dict,
+    sensor_camera_dict,
+    sensor_lidar_dict,
+    sensor_radar_dict,
+    object_person_dict,
+    object_train_dict,
+    frame,
+    frame_dict,
 ) -> dict:
     return {
         "openlabel": {
@@ -38,7 +43,7 @@ def scene_dict(
                         sensor_lidar_dict["uid"],
                         sensor_camera_dict["uid"],
                         sensor_radar_dict["uid"],
-                    ]
+                    ],
                 },
                 sensor_camera_dict["uid"]: sensor_camera_dict["coordinate_system"],
                 sensor_lidar_dict["uid"]: sensor_lidar_dict["coordinate_system"],
@@ -56,16 +61,14 @@ def scene_dict(
                     "frame_start": 0,
                     "frame_end": 0,
                 }
-            ]
+            ],
         }
     }
 
+
 @pytest.fixture
 def scene(
-    metadata_full,
-    sensor_camera, sensor_lidar, sensor_radar,
-    object_person, object_train,
-    frame
+    metadata_full, sensor_camera, sensor_lidar, sensor_radar, object_person, object_train, frame
 ) -> Scene:
     return Scene(
         metadata=metadata_full,
@@ -78,13 +81,16 @@ def scene(
             object_person.uid: object_person,
             object_train.uid: object_train,
         },
-        frames={frame.uid: frame}
+        frames={frame.uid: frame},
     )
+
 
 # == Tests ============================
 
+
 def test_fromdict_metadata(
-    metadata_full, metadata_full_dict,
+    metadata_full,
+    metadata_full_dict,
 ):
     scene = Scene.fromdict(
         {
@@ -99,10 +105,15 @@ def test_fromdict_metadata(
 
     assert scene.metadata == metadata_full
 
+
 def test_fromdict_sensors(
     metadata_full_dict,
-    sensor_camera, sensor_lidar, sensor_radar,
-    sensor_camera_dict, sensor_lidar_dict, sensor_radar_dict,
+    sensor_camera,
+    sensor_lidar,
+    sensor_radar,
+    sensor_camera_dict,
+    sensor_lidar_dict,
+    sensor_radar_dict,
 ):
     scene = Scene.fromdict(
         {
@@ -121,7 +132,7 @@ def test_fromdict_sensors(
                             sensor_lidar_dict["uid"],
                             sensor_camera_dict["uid"],
                             sensor_radar_dict["uid"],
-                        ]
+                        ],
                     },
                     sensor_camera_dict["uid"]: sensor_camera_dict["coordinate_system"],
                     sensor_lidar_dict["uid"]: sensor_lidar_dict["coordinate_system"],
@@ -137,9 +148,12 @@ def test_fromdict_sensors(
         sensor_radar.uid: sensor_radar,
     }
 
+
 def test_fromdict_missing_coordinate_system(
     metadata_full_dict,
-    sensor_camera_dict, sensor_lidar_dict, sensor_radar_dict,
+    sensor_camera_dict,
+    sensor_lidar_dict,
+    sensor_radar_dict,
 ):
     with pytest.raises(exceptions.MissingCoordinateSystemError):
         Scene.fromdict(
@@ -156,7 +170,7 @@ def test_fromdict_missing_coordinate_system(
                             "parent": "",
                             "children": [
                                 sensor_camera_dict["uid"],
-                            ]
+                            ],
                         },
                         sensor_camera_dict["uid"]: sensor_camera_dict["coordinate_system"],
                     },
@@ -164,9 +178,12 @@ def test_fromdict_missing_coordinate_system(
             }
         )
 
+
 def test_fromdict_missing_stream(
     metadata_full_dict,
-    sensor_camera_dict, sensor_lidar_dict, sensor_radar_dict,
+    sensor_camera_dict,
+    sensor_lidar_dict,
+    sensor_radar_dict,
 ):
     with pytest.raises(exceptions.MissingStreamError):
         Scene.fromdict(
@@ -183,7 +200,7 @@ def test_fromdict_missing_stream(
                             "children": [
                                 sensor_lidar_dict["uid"],
                                 sensor_camera_dict["uid"],
-                            ]
+                            ],
                         },
                         sensor_camera_dict["uid"]: sensor_camera_dict["coordinate_system"],
                         sensor_lidar_dict["uid"]: sensor_lidar_dict["coordinate_system"],
@@ -192,9 +209,12 @@ def test_fromdict_missing_stream(
             }
         )
 
+
 def test_fromdict_unsupported_parent(
     metadata_full_dict,
-    sensor_camera_dict, sensor_lidar_dict, sensor_radar_dict,
+    sensor_camera_dict,
+    sensor_lidar_dict,
+    sensor_radar_dict,
 ):
     sensor_camera_dict["coordinate_system"]["parent"] = "unsupported_parent"
 
@@ -212,7 +232,7 @@ def test_fromdict_unsupported_parent(
                             "parent": "",
                             "children": [
                                 sensor_camera_dict["uid"],
-                            ]
+                            ],
                         },
                         sensor_camera_dict["uid"]: sensor_camera_dict["coordinate_system"],
                     },
@@ -220,10 +240,14 @@ def test_fromdict_unsupported_parent(
             }
         )
 
+
 def test_fromdict_objects(
-    metadata_full, metadata_full_dict,
-    object_person, object_train,
-    object_person_dict, object_train_dict,
+    metadata_full,
+    metadata_full_dict,
+    object_person,
+    object_train,
+    object_person_dict,
+    object_train_dict,
 ):
     scene = Scene.fromdict(
         {
@@ -243,11 +267,15 @@ def test_fromdict_objects(
         object_train.uid: object_train,
     }
 
+
 def test_fromdict_frames(
-    metadata_full, metadata_full_dict,
-    streams_dict, coordinate_systems_dict,
+    metadata_full,
+    metadata_full_dict,
+    streams_dict,
+    coordinate_systems_dict,
     objects_dict,
-    frame, frame_dict,
+    frame,
+    frame_dict,
 ):
     scene = Scene.fromdict(
         {
@@ -264,21 +292,26 @@ def test_fromdict_frames(
                         "frame_start": 0,
                         "frame_end": 0,
                     }
-                ]
+                ],
             }
         },
         subschema_version=metadata_full.subschema_version,
     )
 
     assert scene.frames == {
-         frame.uid: frame,
+        frame.uid: frame,
     }
 
 
 def test_asdict_sensors(
-    metadata_full, metadata_full_dict,
-    sensor_camera, sensor_lidar, sensor_radar,
-    sensor_camera_dict, sensor_lidar_dict, sensor_radar_dict,
+    metadata_full,
+    metadata_full_dict,
+    sensor_camera,
+    sensor_lidar,
+    sensor_radar,
+    sensor_camera_dict,
+    sensor_lidar_dict,
+    sensor_radar_dict,
 ):
     scene = Scene(
         metadata=metadata_full,
@@ -286,7 +319,7 @@ def test_asdict_sensors(
             sensor_lidar.uid: sensor_lidar,
             sensor_camera.uid: sensor_camera,
             sensor_radar.uid: sensor_radar,
-        }
+        },
     )
 
     assert scene.asdict() == {
@@ -305,7 +338,7 @@ def test_asdict_sensors(
                         sensor_lidar_dict["uid"],
                         sensor_camera_dict["uid"],
                         sensor_radar_dict["uid"],
-                    ]
+                    ],
                 },
                 sensor_camera_dict["uid"]: sensor_camera_dict["coordinate_system"],
                 sensor_lidar_dict["uid"]: sensor_lidar_dict["coordinate_system"],
@@ -314,10 +347,14 @@ def test_asdict_sensors(
         }
     }
 
+
 def test_asdict_objects(
-    metadata_full, metadata_full_dict,
-    object_person, object_train,
-    object_person_dict, object_train_dict,
+    metadata_full,
+    metadata_full_dict,
+    object_person,
+    object_train,
+    object_person_dict,
+    object_train_dict,
 ):
     scene = Scene(
         metadata=metadata_full,
@@ -337,11 +374,17 @@ def test_asdict_objects(
         }
     }
 
+
 def test_asdict_frames(
-    metadata_full, metadata_full_dict,
-    sensors, streams_dict, coordinate_systems_dict,
-    objects, objects_dict,
-    frame, frame_dict,
+    metadata_full,
+    metadata_full_dict,
+    sensors,
+    streams_dict,
+    coordinate_systems_dict,
+    objects,
+    objects_dict,
+    frame,
+    frame_dict,
 ):
     scene = Scene(
         metadata=metadata_full,
@@ -349,7 +392,7 @@ def test_asdict_frames(
         objects=objects,
         frames={
             frame.uid: frame,
-        }
+        },
     )
 
     assert scene.asdict(calculate_pointers=False) == {
@@ -366,7 +409,7 @@ def test_asdict_frames(
                     "frame_start": 0,
                     "frame_end": 0,
                 }
-            ]
+            ],
         }
     }
 
@@ -379,13 +422,14 @@ def test_frame_intervals(metadata_minimal):
             2: Frame(2),
             3: Frame(3),
             8: Frame(8),
-        }
+        },
     )
 
     assert scene.frame_intervals == [
         FrameInterval(1, 3),
         FrameInterval(8, 8),
     ]
+
 
 def test_integration(json_data):
     scene_dict = json_data["openlabel_v1_short"]
@@ -394,14 +438,10 @@ def test_integration(json_data):
 
     del actual["openlabel"]["metadata"]["exporter_version"]
     assert actual == scene_dict
-    
+
 
 def test_clean_dict():
-    input_dict = {
-        "non_empty_field": "non_empty_value",
-        "none_field": None,
-        "field_with_len_0": []
-    }
+    input_dict = {"non_empty_field": "non_empty_value", "none_field": None, "field_with_len_0": []}
 
     assert _clean_dict(input_dict) == {
         "non_empty_field": "non_empty_value",

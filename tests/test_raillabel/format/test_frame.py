@@ -14,58 +14,50 @@ from raillabel.format import Frame
 
 # == Fixtures =========================
 
+
 @pytest.fixture
 def frame_dict(
     sensor_reference_camera_dict,
     num_dict,
-    object_person, object_data_person_dict,
-    object_train, object_data_train_dict,
+    object_person,
+    object_data_person_dict,
+    object_train,
+    object_data_train_dict,
 ) -> dict:
     return {
         "frame_properties": {
             "timestamp": "1632321743.100000072",
-            "streams": {
-                "rgb_middle": sensor_reference_camera_dict
-            },
-            "frame_data": {
-                "num": [num_dict]
-            },
+            "streams": {"rgb_middle": sensor_reference_camera_dict},
+            "frame_data": {"num": [num_dict]},
         },
         "objects": {
             object_person.uid: object_data_person_dict,
             object_train.uid: object_data_train_dict,
-        }
+        },
     }
 
+
 @pytest.fixture
-def frame(
-    sensor_reference_camera,
-    num,
-    all_annotations
-) -> dict:
+def frame(sensor_reference_camera, num, all_annotations) -> dict:
     return Frame(
         uid=0,
         timestamp=Decimal("1632321743.100000072"),
         sensors={sensor_reference_camera.sensor.uid: sensor_reference_camera},
         frame_data={num.name: num},
-        annotations=all_annotations
+        annotations=all_annotations,
     )
+
 
 # == Tests ============================
 
-def test_fromdict_sensors(
-    sensor_reference_camera_dict,
-    sensor_reference_camera,
-    sensor_camera
-):
+
+def test_fromdict_sensors(sensor_reference_camera_dict, sensor_reference_camera, sensor_camera):
     frame = Frame.fromdict(
         uid=0,
         data_dict={
             "frame_properties": {
                 "timestamp": "1632321743.100000072",
-                "streams": {
-                    "rgb_middle": sensor_reference_camera_dict
-                }
+                "streams": {"rgb_middle": sensor_reference_camera_dict},
             }
         },
         sensors={sensor_camera.uid: sensor_camera},
@@ -76,28 +68,23 @@ def test_fromdict_sensors(
     assert frame.timestamp == Decimal("1632321743.100000072")
     assert frame.sensors == {sensor_reference_camera.sensor.uid: sensor_reference_camera}
 
-def test_fromdict_frame_data(
-    num, num_dict,
-    sensor_camera
-):
+
+def test_fromdict_frame_data(num, num_dict, sensor_camera):
     frame = Frame.fromdict(
         uid=1,
-        data_dict={
-            "frame_properties": {
-                "frame_data": {
-                    "num": [num_dict]
-                }
-            }
-        },
+        data_dict={"frame_properties": {"frame_data": {"num": [num_dict]}}},
         sensors={sensor_camera.uid: sensor_camera},
         objects={},
     )
 
     assert frame.frame_data == {num.name: num}
 
+
 def test_fromdict_annotations(
-    object_data_person_dict, object_person,
-    object_data_train_dict, object_train,
+    object_data_person_dict,
+    object_person,
+    object_data_train_dict,
+    object_train,
     sensors,
     all_annotations,
 ):
@@ -132,35 +119,21 @@ def test_asdict_sensors(
     assert frame.asdict() == {
         "frame_properties": {
             "timestamp": "1632321743.100000072",
-            "streams": {
-                "rgb_middle": sensor_reference_camera_dict
-            }
+            "streams": {"rgb_middle": sensor_reference_camera_dict},
         }
     }
+
 
 def test_asdict_frame_data(num, num_dict):
-    frame = Frame(
-        uid=0,
-        frame_data={num.name: num}
-    )
+    frame = Frame(uid=0, frame_data={num.name: num})
 
-    assert frame.asdict() == {
-        "frame_properties": {
-            "frame_data": {
-                "num": [num_dict]
-            }
-        }
-    }
+    assert frame.asdict() == {"frame_properties": {"frame_data": {"num": [num_dict]}}}
+
 
 def test_asdict_object_data(
-    object_data_person_dict, object_person,
-    object_data_train_dict, object_train,
-    all_annotations
+    object_data_person_dict, object_person, object_data_train_dict, object_train, all_annotations
 ):
-    frame = Frame(
-        uid=0,
-        annotations=all_annotations
-    )
+    frame = Frame(uid=0, annotations=all_annotations)
 
     assert frame.asdict() == {
         "objects": {
@@ -170,11 +143,7 @@ def test_asdict_object_data(
     }
 
 
-def test_object_data(
-    object_person, object_train,
-    bbox, cuboid, poly2d, poly3d, seg3d,
-    bbox_train
-):
+def test_object_data(object_person, object_train, bbox, cuboid, poly2d, poly3d, seg3d, bbox_train):
     frame = Frame(
         uid=2,
         annotations={
@@ -184,7 +153,7 @@ def test_object_data(
             poly3d.uid: poly3d,
             seg3d.uid: seg3d,
             bbox_train.uid: bbox_train,
-        }
+        },
     )
 
     assert frame.object_data == {
@@ -195,9 +164,7 @@ def test_object_data(
             poly3d.uid: poly3d,
             seg3d.uid: seg3d,
         },
-        object_train.uid: {
-            bbox_train.uid: bbox_train
-        }
+        object_train.uid: {bbox_train.uid: bbox_train},
     }
 
 

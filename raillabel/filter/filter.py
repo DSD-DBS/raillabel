@@ -82,8 +82,8 @@ def filter(scene: format.Scene, **kwargs) -> format.Scene:
         if two mutually exclusive parameters are set.
     TypeError
         if an unexpected keyword argument has been set.
-    """
 
+    """
     filters_by_level = _collect_filter_classes(kwargs)
     filtered_scene, used_sensors, used_objects = _filter_scene(_copy(scene), filters_by_level)
     filtered_scene = _remove_unused(filtered_scene, used_sensors, used_objects)
@@ -138,18 +138,15 @@ def _seperate_filters_by_level(filters: t.List[t.Type]) -> t.Dict[str, t.List[t.
 def _filter_scene(
     scene: format.Scene, filters_by_level: t.Dict[str, t.List[t.Type]]
 ) -> t.Tuple[format.Scene, t.Set[str], t.Set[str]]:
-
     used_sensors = set()
     used_objects = set()
 
     for frame_id, frame in list(scene.frames.items()):
-
         if not _passes_filters(frame, filters_by_level["frame"]):
             del scene.frames[frame_id]
             continue
 
         for frame_data_id, frame_data in list(frame.frame_data.items()):
-
             if _passes_filters(frame_data, filters_by_level["frame_data"]):
                 used_sensors.add(frame_data.sensor.uid)
 
@@ -157,7 +154,6 @@ def _filter_scene(
                 del scene.frames[frame_id].frame_data[frame_data_id]
 
         for annotation_id, annotation in list(frame.annotations.items()):
-
             if _passes_filters(annotation, filters_by_level["annotation"]):
                 used_objects.add(annotation.object.uid)
                 used_sensors.add(annotation.sensor.uid)
@@ -174,12 +170,10 @@ def _filter_scene(
 def _remove_unused(
     scene: format.Scene, used_sensors: t.Set[str], used_objects: t.Set[str]
 ) -> format.Scene:
-
     scene = _remove_unused_sensors(scene, used_sensors)
     scene = _remove_unused_objects(scene, used_objects)
 
     for frame_id in scene.frames:
-
         scene.frames[frame_id] = _remove_unused_sensor_references(
             scene.frames[frame_id], used_sensors
         )

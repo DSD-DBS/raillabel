@@ -31,6 +31,7 @@ class Scene:
     ----------------------
     frame_intervals: list[FrameIntervals]
         List of frame intervals describing the frames present in this scene.
+
     """
 
     metadata: Metadata
@@ -69,8 +70,8 @@ class Scene:
             if a coordinate system has no corresponding stream.
         raillabel.exceptions.UnsupportedParentError
             if a coordinate system has no corresponding stream.
-        """
 
+        """
         data_dict = cls._prepare_data(data_dict)
 
         sensors = cls._sensors_fromdict(data_dict["streams"], data_dict["coordinate_systems"])
@@ -98,8 +99,8 @@ class Scene:
         ------
         ValueError
             if an attribute can not be converted to the type required by the OpenLabel schema.
-        """
 
+        """
         return {
             "openlabel": _clean_dict(
                 {
@@ -130,8 +131,8 @@ class Scene:
         -------
         dict
             Enhanced JSON data.
-        """
 
+        """
         if "coordinate_systems" not in data["openlabel"]:
             data["openlabel"]["coordinate_systems"] = {}
 
@@ -150,7 +151,6 @@ class Scene:
     def _sensors_fromdict(
         cls, streams_dict: dict, coordinate_systems_dict: dict
     ) -> t.Dict[str, Sensor]:
-
         cls._check_sensor_completeness(streams_dict, coordinate_systems_dict)
 
         sensors = {}
@@ -166,7 +166,6 @@ class Scene:
 
     @classmethod
     def _check_sensor_completeness(cls, streams_dict: dict, coordinate_systems_dict: dict):
-
         for stream_uid in streams_dict:
             if stream_uid not in coordinate_systems_dict:
                 raise exceptions.MissingCoordinateSystemError(
@@ -196,7 +195,6 @@ class Scene:
     def _frames_fromdict(
         cls, frames_dict: dict, sensors: t.Dict[str, Sensor], objects: t.Dict[str, Object]
     ) -> t.Dict[int, Frame]:
-
         frames = {}
         for frame_uid, frame_dict in frames_dict.items():
             frames[int(frame_uid)] = Frame.fromdict(frame_uid, frame_dict, objects, sensors)
@@ -209,7 +207,6 @@ class Scene:
         return {uid: sensor.asdict()["stream"] for uid, sensor in sensors.items()}
 
     def _coordinate_systems_asdict(self, sensors: t.Dict[str, Sensor]) -> dict:
-
         if len(sensors) == 0:
             return None
 
@@ -222,11 +219,9 @@ class Scene:
         return coordinate_systems
 
     def _objects_asdict(self, objects: t.Dict[str, Object], calculate_pointers: bool) -> dict:
-
         if calculate_pointers:
             return {str(uid): object.asdict(self.frames) for uid, object in objects.items()}
-        else:
-            return {str(uid): object.asdict() for uid, object in objects.items()}
+        return {str(uid): object.asdict() for uid, object in objects.items()}
 
     def _frames_asdict(self, frames: t.Dict[int, Frame]) -> dict:
         return {str(uid): frame.asdict() for uid, frame in frames.items()}
@@ -235,13 +230,10 @@ class Scene:
         return [fi.asdict() for fi in frame_intervals]
 
 
-
 def _clean_dict(input_dict: dict) -> dict:
     """Remove all fields from a dict that are None or have a length of 0."""
-
     empty_keys = []
     for key, value in input_dict.items():
-
         is_field_empty = value is None or (hasattr(value, "__len__") and len(value) == 0)
 
         if is_field_empty:

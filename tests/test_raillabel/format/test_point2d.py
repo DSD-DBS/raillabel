@@ -13,9 +13,11 @@ from raillabel.format import Point2d
 
 # == Fixtures =========================
 
+
 @pytest.fixture
 def point2d_dict() -> dict:
     return [1.5, 222]
+
 
 @pytest.fixture
 def point2d() -> dict:
@@ -26,16 +28,17 @@ def point2d() -> dict:
 def point2d_another_dict() -> dict:
     return [19, 84]
 
+
 @pytest.fixture
 def point2d_another() -> dict:
     return Point2d(19, 84)
 
+
 # == Tests ============================
 
+
 def test_fromdict():
-    point2d = Point2d.fromdict(
-        [1.5, 222]
-    )
+    point2d = Point2d.fromdict([1.5, 222])
 
     assert point2d.x == 1.5
     assert point2d.y == 222

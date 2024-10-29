@@ -18,6 +18,7 @@ def load(path: str) -> Scene:
     -------
     scene: raillabel.Scene
         Scene with the loaded data.
+
     """
     with path.open() as scene_file:
         raw_scene = json.load(scene_file)

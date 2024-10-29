@@ -13,11 +13,10 @@ from raillabel.format import Poly3d
 
 # == Fixtures =========================
 
+
 @pytest.fixture
 def poly3d_dict(
-    sensor_lidar,
-    attributes_multiple_types_dict,
-    point3d_dict, point3d_another_dict
+    sensor_lidar, attributes_multiple_types_dict, point3d_dict, point3d_another_dict
 ) -> dict:
     return {
         "uid": "9a9a30f5-D334-4f11-aa3f-c3c83f2935eb",
@@ -28,13 +27,9 @@ def poly3d_dict(
         "closed": True,
     }
 
+
 @pytest.fixture
-def poly3d(
-    point3d, point3d_another,
-    sensor_lidar,
-    object_person,
-    attributes_multiple_types
-) -> dict:
+def poly3d(point3d, point3d_another, sensor_lidar, object_person, attributes_multiple_types) -> dict:
     return Poly3d(
         uid="9a9a30f5-D334-4f11-aa3f-c3c83f2935eb",
         points=[point3d, point3d_another],
@@ -44,14 +39,20 @@ def poly3d(
         closed=True,
     )
 
+
 # == Tests ============================
 
+
 def test_fromdict(
-    point3d, point3d_dict,
-    point3d_another, point3d_another_dict,
-    sensor_lidar, sensors,
+    point3d,
+    point3d_dict,
+    point3d_another,
+    point3d_another_dict,
+    sensor_lidar,
+    sensors,
     object_person,
-    attributes_multiple_types, attributes_multiple_types_dict,
+    attributes_multiple_types,
+    attributes_multiple_types_dict,
 ):
     poly3d = Poly3d.fromdict(
         {
@@ -63,7 +64,7 @@ def test_fromdict(
             "closed": True,
         },
         sensors,
-        object_person
+        object_person,
     )
 
     assert poly3d.uid == "9a9a30f5-D334-4f11-aa3f-c3c83f2935eb"
@@ -76,11 +77,14 @@ def test_fromdict(
 
 
 def test_asdict(
-    point3d, point3d_dict,
-    point3d_another, point3d_another_dict,
+    point3d,
+    point3d_dict,
+    point3d_another,
+    point3d_another_dict,
     sensor_lidar,
     object_person,
-    attributes_multiple_types, attributes_multiple_types_dict,
+    attributes_multiple_types,
+    attributes_multiple_types_dict,
 ):
     poly3d = Poly3d(
         uid="9a9a30f5-D334-4f11-aa3f-c3c83f2935eb",

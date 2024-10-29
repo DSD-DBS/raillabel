@@ -38,6 +38,7 @@ class Frame:
     object_data: dict[str, dict[str, _ObjectAnnotation subclass]]
         Annotations categorized by object. Keys are object uids and values are the annotations
         as a dict, that are part of the object.
+
     """
 
     uid: int
@@ -55,8 +56,8 @@ class Frame:
         dict[str, dict[UUID, _ObjectAnnotation subclass]]
             Dictionary of annotations. Keys are object uids and values are annotations, that are
             contained in the object.
-        """
 
+        """
         object_data = {}
         for ann_id, annotation in self.annotations.items():
             if annotation.object.uid not in object_data:
@@ -91,6 +92,7 @@ class Frame:
         -------
         frame: raillabel.format.Frame
             Converted Frame object.
+
         """
         frame = Frame(
             uid=int(uid),
@@ -113,8 +115,8 @@ class Frame:
         ------
         ValueError
             if an attribute can not be converted to the type required by the OpenLabel schema.
-        """
 
+        """
         dict_repr = {}
 
         if self.timestamp is not None or self.sensors != {} or self.frame_data != {}:
@@ -140,7 +142,6 @@ class Frame:
 
     @classmethod
     def _timestamp_fromdict(cls, data_dict: dict) -> t.Optional[decimal.Decimal]:
-
         if "frame_properties" not in data_dict or "timestamp" not in data_dict["frame_properties"]:
             return None
 
@@ -150,7 +151,6 @@ class Frame:
     def _sensors_fromdict(
         cls, data_dict: dict, frame_uid: int, scene_sensors: t.Dict[str, Sensor]
     ) -> t.Dict[str, SensorReference]:
-
         if "frame_properties" not in data_dict or "streams" not in data_dict["frame_properties"]:
             return {}
 
@@ -164,10 +164,7 @@ class Frame:
         return sensors
 
     @classmethod
-    def _frame_data_fromdict(
-        cls, data_dict: dict, sensors: t.Dict[str, Sensor]
-    ) -> t.Dict[str, Num]:
-
+    def _frame_data_fromdict(cls, data_dict: dict, sensors: t.Dict[str, Sensor]) -> t.Dict[str, Num]:
         if "frame_properties" not in data_dict or "frame_data" not in data_dict["frame_properties"]:
             return {}
 
@@ -186,7 +183,6 @@ class Frame:
         objects: t.Dict[str, Object],
         sensors: t.Dict[str, Sensor],
     ) -> t.Dict[uuid.UUID, t.Type[_ObjectAnnotation]]:
-
         if "objects" not in data_dict:
             return {}
 
@@ -211,11 +207,9 @@ class Frame:
         object: Object,
         sensors: t.Dict[str, Sensor],
     ) -> t.Iterator[t.Type[_ObjectAnnotation]]:
-
         for ann_type, annotations_raw in data_dict.items():
             for ann_raw in annotations_raw:
                 yield annotation_classes()[ann_type].fromdict(ann_raw, sensors, object)
-
 
     def _annotations_asdict(self) -> dict:
         annotations_dict = {}
@@ -234,7 +228,6 @@ class Frame:
 
     def __eq__(self, other) -> bool:
         """Handel equal comparisons."""
-
         if not hasattr(other, "__dict__"):
             return False
 
@@ -242,13 +235,11 @@ class Frame:
             return False
 
         for attr in self.__dict__:
-
             if type(getattr(self, attr)) == type(self):
                 if getattr(self, attr).uid != getattr(other, attr).uid:
                     return False
 
-            else:
-                if getattr(self, attr) != getattr(other, attr):
-                    return False
+            elif getattr(self, attr) != getattr(other, attr):
+                return False
 
         return True

@@ -14,6 +14,7 @@ class Point2d:
         The x-coordinate of the point in the image.
     y: float or int
         The y-coordinate of the point in the image.
+
     """
 
     x: float
@@ -27,8 +28,8 @@ class Point2d:
         ----------
         data_dict: dict
             RailLabel format snippet containing the relevant data.
-        """
 
+        """
         return Point2d(
             x=data_dict[0],
             y=data_dict[1],
@@ -46,6 +47,6 @@ class Point2d:
         ------
         ValueError
             if an attribute can not be converted to the type required by the OpenLabel schema.
-        """
 
+        """
         return [float(self.x), float(self.y)]

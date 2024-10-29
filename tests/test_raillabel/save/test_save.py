@@ -17,7 +17,6 @@ import raillabel
 
 def test_save_scene(json_paths):
     with tempfile.TemporaryDirectory("w") as temp_dir:
-
         scene_orig = raillabel.load(json_paths["openlabel_v1_short"])
 
         raillabel.save(scene_orig, Path(temp_dir) / "test_save_file.json")
@@ -28,7 +27,6 @@ def test_save_scene(json_paths):
 
 def test_save_json(json_data):
     with tempfile.TemporaryDirectory("w") as temp_dir:
-
         stripped_input_data = deepcopy(json_data["openlabel_v1_short"])
 
         # Removes the object data pointers from the example file so that it needs to be generated from the data

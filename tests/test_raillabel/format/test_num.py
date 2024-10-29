@@ -13,14 +13,16 @@ from raillabel.format import Num
 
 # == Fixtures =========================
 
+
 @pytest.fixture
 def num_dict(sensor_camera) -> dict:
     return {
         "uid": "4e86c449-3B19-410c-aa64-603d46da3b26",
         "name": "some_number",
         "val": 24,
-        "coordinate_system": sensor_camera.uid
+        "coordinate_system": sensor_camera.uid,
     }
+
 
 @pytest.fixture
 def num(sensor_camera) -> dict:
@@ -31,7 +33,9 @@ def num(sensor_camera) -> dict:
         sensor=sensor_camera,
     )
 
+
 # == Tests ============================
+
 
 def test_fromdict(sensor_camera):
     num = Num.fromdict(
@@ -41,9 +45,7 @@ def test_fromdict(sensor_camera):
             "val": 24,
             "coordinate_system": sensor_camera.uid,
         },
-        {
-            sensor_camera.uid: sensor_camera
-        }
+        {sensor_camera.uid: sensor_camera},
     )
 
     assert num.uid == "4e86c449-3B19-410c-aa64-603d46da3b26"

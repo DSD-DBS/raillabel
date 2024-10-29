@@ -13,28 +13,23 @@ from raillabel.format import Cuboid
 
 # == Fixtures =========================
 
+
 @pytest.fixture
 def cuboid_dict(
-    sensor_lidar,
-    attributes_multiple_types_dict,
-    point3d_dict,
-    size3d_dict,
-    quaternion_dict
+    sensor_lidar, attributes_multiple_types_dict, point3d_dict, size3d_dict, quaternion_dict
 ) -> dict:
     return {
         "uid": "2c6b3de0-86c2-4684-b576-4cfd4f50d6ad",
         "name": "lidar__cuboid__person",
         "val": point3d_dict + quaternion_dict + size3d_dict,
         "coordinate_system": sensor_lidar.uid,
-        "attributes": attributes_multiple_types_dict
+        "attributes": attributes_multiple_types_dict,
     }
+
 
 @pytest.fixture
 def cuboid(
-    point3d, size3d, quaternion,
-    sensor_lidar,
-    attributes_multiple_types,
-    object_person
+    point3d, size3d, quaternion, sensor_lidar, attributes_multiple_types, object_person
 ) -> dict:
     return Cuboid(
         uid="2c6b3de0-86c2-4684-b576-4cfd4f50d6ad",
@@ -46,15 +41,22 @@ def cuboid(
         attributes=attributes_multiple_types,
     )
 
+
 # == Tests ============================
 
+
 def test_fromdict(
-    point3d, point3d_dict,
-    size3d, size3d_dict,
-    quaternion, quaternion_dict,
-    sensor_lidar, sensors,
+    point3d,
+    point3d_dict,
+    size3d,
+    size3d_dict,
+    quaternion,
+    quaternion_dict,
+    sensor_lidar,
+    sensors,
     object_person,
-    attributes_multiple_types, attributes_multiple_types_dict,
+    attributes_multiple_types,
+    attributes_multiple_types_dict,
 ):
     cuboid = Cuboid.fromdict(
         {
@@ -62,10 +64,10 @@ def test_fromdict(
             "name": "lidar__cuboid__person",
             "val": point3d_dict + quaternion_dict + size3d_dict,
             "coordinate_system": sensor_lidar.uid,
-            "attributes": attributes_multiple_types_dict
+            "attributes": attributes_multiple_types_dict,
         },
         sensors,
-        object_person
+        object_person,
     )
 
     assert cuboid.uid == "2c6b3de0-86c2-4684-b576-4cfd4f50d6ad"
@@ -79,12 +81,16 @@ def test_fromdict(
 
 
 def test_asdict(
-    point3d, point3d_dict,
-    size3d, size3d_dict,
-    quaternion, quaternion_dict,
+    point3d,
+    point3d_dict,
+    size3d,
+    size3d_dict,
+    quaternion,
+    quaternion_dict,
     sensor_lidar,
     object_person,
-    attributes_multiple_types, attributes_multiple_types_dict,
+    attributes_multiple_types,
+    attributes_multiple_types_dict,
 ):
     cuboid = Cuboid(
         uid="2c6b3de0-86c2-4684-b576-4cfd4f50d6ad",
@@ -101,7 +107,7 @@ def test_asdict(
         "name": "lidar__cuboid__person",
         "val": point3d_dict + quaternion_dict + size3d_dict,
         "coordinate_system": sensor_lidar.uid,
-        "attributes": attributes_multiple_types_dict
+        "attributes": attributes_multiple_types_dict,
     }
 
 

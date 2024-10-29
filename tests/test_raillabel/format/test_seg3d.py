@@ -13,6 +13,7 @@ from raillabel.format import Seg3d
 
 # == Fixtures =========================
 
+
 @pytest.fixture
 def seg3d_dict(sensor_lidar, attributes_multiple_types_dict) -> dict:
     return {
@@ -20,8 +21,9 @@ def seg3d_dict(sensor_lidar, attributes_multiple_types_dict) -> dict:
         "name": "lidar__vec__person",
         "val": [586, 789, 173],
         "coordinate_system": sensor_lidar.uid,
-        "attributes": attributes_multiple_types_dict
+        "attributes": attributes_multiple_types_dict,
     }
+
 
 @pytest.fixture
 def seg3d(sensor_lidar, attributes_multiple_types, object_person) -> dict:
@@ -33,12 +35,16 @@ def seg3d(sensor_lidar, attributes_multiple_types, object_person) -> dict:
         attributes=attributes_multiple_types,
     )
 
+
 # == Tests ============================
 
+
 def test_fromdict(
-    sensor_lidar, sensors,
+    sensor_lidar,
+    sensors,
     object_person,
-    attributes_multiple_types, attributes_multiple_types_dict,
+    attributes_multiple_types,
+    attributes_multiple_types_dict,
 ):
     seg3d = Seg3d.fromdict(
         {
@@ -46,10 +52,10 @@ def test_fromdict(
             "name": "lidar__vec__person",
             "val": [586, 789, 173],
             "coordinate_system": sensor_lidar.uid,
-            "attributes": attributes_multiple_types_dict
+            "attributes": attributes_multiple_types_dict,
         },
         sensors,
-        object_person
+        object_person,
     )
 
     assert seg3d.uid == "db4e4a77-B926-4a6c-a2a6-e0ecf9d8734a"
@@ -61,9 +67,11 @@ def test_fromdict(
 
 
 def test_asdict(
-    sensor_lidar, sensors,
+    sensor_lidar,
+    sensors,
     object_person,
-    attributes_multiple_types, attributes_multiple_types_dict,
+    attributes_multiple_types,
+    attributes_multiple_types_dict,
 ):
     seg3d = Seg3d(
         uid="db4e4a77-B926-4a6c-a2a6-e0ecf9d8734a",
@@ -78,7 +86,7 @@ def test_asdict(
         "name": "lidar__vec__person",
         "val": [586, 789, 173],
         "coordinate_system": sensor_lidar.uid,
-        "attributes": attributes_multiple_types_dict
+        "attributes": attributes_multiple_types_dict,
     }
 
 

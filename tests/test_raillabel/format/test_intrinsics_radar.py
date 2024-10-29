@@ -13,6 +13,7 @@ from raillabel.format import IntrinsicsRadar
 
 # == Fixtures =========================
 
+
 @pytest.fixture
 def intrinsics_radar_dict() -> dict:
     return {
@@ -20,6 +21,7 @@ def intrinsics_radar_dict() -> dict:
         "width_px": 2856,
         "height_px": 1428,
     }
+
 
 @pytest.fixture
 def intrinsics_radar() -> dict:
@@ -29,7 +31,9 @@ def intrinsics_radar() -> dict:
         height_px=1428,
     )
 
+
 # == Tests ============================
+
 
 def test_fromdict():
     intrinsics_radar = IntrinsicsRadar.fromdict(

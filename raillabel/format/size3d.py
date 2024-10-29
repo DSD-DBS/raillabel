@@ -16,6 +16,7 @@ class Size3d:
         The size along the y-axis.
     z: float or int
         The size along the z-axis.
+
     """
 
     x: float
@@ -30,8 +31,8 @@ class Size3d:
         ----------
         data_dict: dict
             RailLabel format snippet containing the relevant data.
-        """
 
+        """
         return Size3d(
             x=data_dict[0],
             y=data_dict[1],
@@ -50,6 +51,6 @@ class Size3d:
         ------
         ValueError
             if an attribute can not be converted to the type required by the OpenLabel schema.
-        """
 
+        """
         return [float(self.x), float(self.y), float(self.z)]

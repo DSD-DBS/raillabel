@@ -14,6 +14,7 @@ class Size2d:
         The size along the x-axis.
     y: float or int
         The size along the y-axis.
+
     """
 
     x: float
@@ -27,8 +28,8 @@ class Size2d:
         ----------
         data_dict: dict
             RailLabel format snippet containing the relevant data.
-        """
 
+        """
         return Size2d(
             x=data_dict[0],
             y=data_dict[1],
@@ -46,6 +47,6 @@ class Size2d:
         ------
         ValueError
             if an attribute can not be converted to the type required by the OpenLabel schema.
-        """
 
+        """
         return [float(self.x), float(self.y)]
