@@ -54,6 +54,7 @@ ignore = [
     "D107",   # __init__ docstrings are not necessary
     "D203",   # incompatible with D211
     "D213",   # incompatible with D212
+    "D417",   # kwargs can not be typed for the filter function
 
     "FBT001", # flags in functions are not bad practice
     "FBT002", # flags in functions are not bad practice
@@ -92,7 +93,6 @@ ignore = [
     "S301",
     "ANN206",
     "TRY003",
-    "D417",
 ]
 
 [tool.mypy]
