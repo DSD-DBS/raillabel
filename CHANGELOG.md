@@ -92,3 +92,14 @@ Release
 
 ## 3.3.0
 - Introduce support for Python 3.13
+
+# 4.0.0
+New Major changes to RailLabel! Over the time two major use cases for this package have crystalized. The first one are the users of the data sets published by Deutsche Bahn. The second one are the contractors providing the annotations. Since the two groups have vastly different requirements for this package, we decided to split it accordingly.
+
+If you just want to work with out data, then you are in luck. You can just continue using this package with even more focus on your needs.
+
+If you are building raillabel scenes yourself or want to manipulate the data in a safe way, then the [raillabel_providerkit](https://github.com/DSD-DBS/raillabel-providerkit) is for you. All functionality you may be missing in this new raillabel version will be provided over there with even better APIs.
+
+Functionality, that has been **moved** to the `raillabel_providerkit`:
+- loading annotations in formats other than raillabel itself
+- validating the content of files
