@@ -21,10 +21,13 @@ jobs:
           source .venv/bin/activate
       - name: Upgrade pip
         run: |-
-          python -m pip install -U pip
+          pip install -U pip
       - name: Install pre-commit
         run: |-
-          python -m pip install pre-commit types-docutils
+          pip install pre-commit types-docutils
+      - name: Install pytest
+        run: |-
+          pip install pytest
       - name: Run Pre-Commit
         run: |-
           pre-commit run --all-files
