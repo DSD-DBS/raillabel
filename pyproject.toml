@@ -16,17 +16,17 @@ license = { text = "Apache-2.0" }
 authors = [{ name = "DB InfraGO AG" }]
 keywords = []
 classifiers = [
-    "Development Status :: 1 - Planning",
-    "License :: OSI Approved :: Apache Software License",
-    "Natural Language :: English",
-    "Operating System :: OS Independent",
-    "Programming Language :: Python :: 3 :: Only",
-    "Programming Language :: Python :: 3.8",
-    "Programming Language :: Python :: 3.9",
-    "Programming Language :: Python :: 3.10",
-    "Programming Language :: Python :: 3.11",
-    "Programming Language :: Python :: 3.12",
-    "Programming Language :: Python :: 3.13",
+  "Development Status :: 1 - Planning",
+  "License :: OSI Approved :: Apache Software License",
+  "Natural Language :: English",
+  "Operating System :: OS Independent",
+  "Programming Language :: Python :: 3 :: Only",
+  "Programming Language :: Python :: 3.8",
+  "Programming Language :: Python :: 3.9",
+  "Programming Language :: Python :: 3.10",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "Programming Language :: Python :: 3.13",
 ]
 dependencies = ["jsonschema>=4.4.0", "fastjsonschema>=2.16.2"]
 
@@ -46,33 +46,30 @@ line-length = 101
 exclude = ["tests/*", "docs/*"]
 select = ["ALL"]
 ignore = [
-    "A002",   # objects from OpenLABEL conflict with a Python builtin, but staying consistent with the domain is more important
+  "A002",   # objects from OpenLABEL conflict with a Python builtin, but staying consistent with the domain is more important
 
-    "COM812", # conflicts with ruff formatter
+  "COM812", # conflicts with ruff formatter
 
-    "D100",   # imo no docstrings are necessary in public modules
-    "D107",   # __init__ docstrings are not necessary
-    "D203",   # incompatible with D211
-    "D213",   # incompatible with D212
-    "D417",   # kwargs can not be typed for the filter function
+  "D100",   # imo no docstrings are necessary in public modules
+  "D107",   # __init__ docstrings are not necessary
+  "D203",   # incompatible with D211
+  "D213",   # incompatible with D212
+  "D417",   # kwargs can not be typed for the filter function
 
-    "FBT001", # flags in functions are not bad practice
-    "FBT002", # flags in functions are not bad practice
+  "FBT001", # flags in functions are not bad practice
+  "FBT002", # flags in functions are not bad practice
 
-    "INP001", # load and save are not meant as packages and are only folders for consistency
+  "INP001", # load and save are not meant as packages and are only folders for consistency
 
-    "ISC001", # conflicts with ruff formatter
+  "ISC001", # conflicts with ruff formatter
 
-    "N802",   # does not allow constant abstractproperties
+  "N802",   # does not allow constant abstractproperties
 
-    "TCH001", # adds hard to understand compexity without providing a benefit for smaller projects
-    "TCH002", # same as TCH001
-    "TCH003", # same as TCH001
+  "TCH001", # adds hard to understand compexity without providing a benefit for smaller projects
+  "TCH002", # same as TCH001
+  "TCH003", # same as TCH001
 
-    "SIM103", # less readable in some cases imo
-
-    # Will be removed gradually
-    "C901",
+  "SIM103", # less readable in some cases imo
 ]
 
 [tool.mypy]
