@@ -92,7 +92,6 @@ ignore = [
     "TRY003",
     "D417",
     "A002",
-    "RUF012",
 ]
 
 [tool.mypy]

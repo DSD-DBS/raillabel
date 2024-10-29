@@ -2,13 +2,14 @@
 # SPDX-License-Identifier: Apache-2.0
 
 import typing as t
+from typing import ClassVar
 
 from ._filter_abc import _FilterABC, _ObjectAnnotation
 
 
 class _FilterAnnotationIds(_FilterABC):
-    PARAMETERS = ["include_annotation_ids", "exclude_annotation_ids"]
-    LEVELS = ["annotation"]
+    PARAMETERS: ClassVar = ["include_annotation_ids", "exclude_annotation_ids"]
+    LEVELS: ClassVar = ["annotation"]
 
     def passes_filter(self, annotation: t.Type[_ObjectAnnotation]) -> bool:
         if self.include_annotation_ids is not None:

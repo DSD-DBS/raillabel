@@ -2,13 +2,14 @@
 # SPDX-License-Identifier: Apache-2.0
 
 from decimal import Decimal
+from typing import ClassVar
 
 from ._filter_abc import Frame, _FilterABC
 
 
 class _FilterEnd(_FilterABC):
-    PARAMETERS = ["end_frame", "end_timestamp"]
-    LEVELS = ["frame"]
+    PARAMETERS: ClassVar = ["end_frame", "end_timestamp"]
+    LEVELS: ClassVar = ["frame"]
 
     def passes_filter(self, frame: Frame) -> bool:
         if self.end_frame is not None:

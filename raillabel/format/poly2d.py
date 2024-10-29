@@ -3,6 +3,7 @@
 
 import typing as t
 from dataclasses import dataclass
+from typing import ClassVar
 
 from ._object_annotation import _ObjectAnnotation
 from .object import Object
@@ -49,7 +50,7 @@ class Poly2d(_ObjectAnnotation):
     mode: str = "MODE_POLY2D_ABSOLUTE"
 
     OPENLABEL_ID = "poly2d"
-    _REQ_FIELDS = ["points", "closed"]
+    _REQ_FIELDS: ClassVar = ["points", "closed"]
 
     @classmethod
     def fromdict(cls, data_dict: dict, sensors: dict, object: Object) -> "Poly2d":

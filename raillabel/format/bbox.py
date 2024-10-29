@@ -2,6 +2,7 @@
 # SPDX-License-Identifier: Apache-2.0
 
 from dataclasses import dataclass
+from typing import ClassVar
 
 from ._object_annotation import _ObjectAnnotation
 from .object import Object
@@ -40,7 +41,7 @@ class Bbox(_ObjectAnnotation):
     size: Size2d = None
 
     OPENLABEL_ID = "bbox"
-    _REQ_FIELDS = ["pos", "size"]
+    _REQ_FIELDS: ClassVar = ["pos", "size"]
 
     @classmethod
     def fromdict(cls, data_dict: dict, sensors: dict, object: Object) -> "Bbox":

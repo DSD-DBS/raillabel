@@ -3,6 +3,7 @@
 
 import typing as t
 from dataclasses import dataclass
+from typing import ClassVar
 
 from ._object_annotation import _ObjectAnnotation
 from .object import Object
@@ -41,7 +42,7 @@ class Poly3d(_ObjectAnnotation):
     closed: bool = None
 
     OPENLABEL_ID = "poly3d"
-    _REQ_FIELDS = ["points", "closed"]
+    _REQ_FIELDS: ClassVar = ["points", "closed"]
 
     @classmethod
     def fromdict(cls, data_dict: dict, sensors: dict, object: Object) -> "Poly3d":

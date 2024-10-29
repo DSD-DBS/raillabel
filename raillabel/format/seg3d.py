@@ -3,6 +3,7 @@
 
 import typing as t
 from dataclasses import dataclass
+from typing import ClassVar
 
 from ._object_annotation import _ObjectAnnotation
 from .object import Object
@@ -36,7 +37,7 @@ class Seg3d(_ObjectAnnotation):
     point_ids: t.List[int] = None
 
     OPENLABEL_ID = "vec"
-    _REQ_FIELDS = ["point_ids"]
+    _REQ_FIELDS: ClassVar = ["point_ids"]
 
     @classmethod
     def fromdict(cls, data_dict: dict, sensors: dict, object: Object) -> "Seg3d":
