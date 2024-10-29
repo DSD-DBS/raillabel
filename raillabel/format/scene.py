@@ -163,7 +163,7 @@ class Scene:
 
     @classmethod
     def _objects_fromdict(cls, object_dict: dict) -> t.Dict[str, Object]:
-        return {uid: Object.fromdict(object, uid) for uid, object in object_dict.items()}
+        return {uid: Object.fromdict(object_, uid) for uid, object_ in object_dict.items()}
 
     @classmethod
     def _frames_fromdict(
@@ -194,8 +194,8 @@ class Scene:
 
     def _objects_asdict(self, objects: t.Dict[str, Object], calculate_pointers: bool) -> dict:
         if calculate_pointers:
-            return {str(uid): object.asdict(self.frames) for uid, object in objects.items()}
-        return {str(uid): object.asdict() for uid, object in objects.items()}
+            return {str(uid): object_.asdict(self.frames) for uid, object_ in objects.items()}
+        return {str(uid): object_.asdict() for uid, object_ in objects.items()}
 
     def _frames_asdict(self, frames: t.Dict[int, Frame]) -> dict:
         return {str(uid): frame.asdict() for uid, frame in frames.items()}
