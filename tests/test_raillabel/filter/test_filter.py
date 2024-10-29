@@ -32,7 +32,7 @@ def delete_sensor_from_data(data: dict, sensor_id: str) -> dict:
 
 def test_filter_unexpected_kwarg(json_paths):
     # Loads scene
-    scene = raillabel.load(json_paths["openlabel_v1_short"], validate=False)
+    scene = raillabel.load(json_paths["openlabel_v1_short"])
 
     with pytest.raises(TypeError):
         raillabel.filter(scene, unsupported_kwarg=[])
@@ -40,7 +40,7 @@ def test_filter_unexpected_kwarg(json_paths):
 
 def test_mutual_exclusivity(json_paths):
     # Loads scene
-    scene = raillabel.load(json_paths["openlabel_v1_short"], validate=False)
+    scene = raillabel.load(json_paths["openlabel_v1_short"])
 
     with pytest.raises(ValueError):
         raillabel.filter(scene, include_frames=[0], exclude_frames=[1, 2])
@@ -50,7 +50,7 @@ def test_filter_frames(json_paths, json_data):
     data = json_data["openlabel_v1_short"]
 
     # Loads scene
-    scene = raillabel.load(json_paths["openlabel_v1_short"], validate=False)
+    scene = raillabel.load(json_paths["openlabel_v1_short"])
 
     # Deletes the excluded data
     del data["openlabel"]["frames"]["1"]
@@ -73,7 +73,7 @@ def test_filter_start(json_paths, json_data):
     data = json_data["openlabel_v1_short"]
 
     # Loads scene
-    scene = raillabel.load(json_paths["openlabel_v1_short"], validate=False)
+    scene = raillabel.load(json_paths["openlabel_v1_short"])
 
     # Deletes the excluded data
     del data["openlabel"]["frames"]["0"]
@@ -96,7 +96,7 @@ def test_filter_end(json_paths, json_data):
     data = json_data["openlabel_v1_short"]
 
     # Loads scene
-    scene = raillabel.load(json_paths["openlabel_v1_short"], validate=False)
+    scene = raillabel.load(json_paths["openlabel_v1_short"])
 
     # Deletes the excluded data
     del data["openlabel"]["frames"]["1"]
@@ -119,7 +119,7 @@ def test_filter_object_ids(json_paths, json_data):
     data = json_data["openlabel_v1_short"]
 
     # Loads scene
-    scene = raillabel.load(json_paths["openlabel_v1_short"], validate=False)
+    scene = raillabel.load(json_paths["openlabel_v1_short"])
 
     # Deletes the excluded data
     del data["openlabel"]["objects"]["22dedd49-6dcb-413b-87ef-00ccfb532e98"]
@@ -156,7 +156,7 @@ def test_filter_object_types(json_paths, json_data):
     data = json_data["openlabel_v1_short"]
 
     # Loads scene
-    scene = raillabel.load(json_paths["openlabel_v1_short"], validate=False)
+    scene = raillabel.load(json_paths["openlabel_v1_short"])
 
     # Deletes the excluded data
     del data["openlabel"]["objects"]["22dedd49-6dcb-413b-87ef-00ccfb532e98"]
@@ -184,7 +184,7 @@ def test_filter_annotation_ids(json_paths, json_data):
     data = json_data["openlabel_v1_short"]
 
     # Loads scene
-    scene = raillabel.load(json_paths["openlabel_v1_short"], validate=False)
+    scene = raillabel.load(json_paths["openlabel_v1_short"])
 
     # Deletes the excluded data
     del data["openlabel"]["objects"]["22dedd49-6dcb-413b-87ef-00ccfb532e98"]
@@ -237,7 +237,7 @@ def test_filter_annotation_types(json_paths, json_data):
     data = json_data["openlabel_v1_short"]
 
     # Loads scene
-    scene = raillabel.load(json_paths["openlabel_v1_short"], validate=False)
+    scene = raillabel.load(json_paths["openlabel_v1_short"])
 
     # Deletes the excluded data
     del data["openlabel"]["objects"]["22dedd49-6dcb-413b-87ef-00ccfb532e98"]
@@ -274,7 +274,7 @@ def test_filter_sensors(json_paths, json_data):
     data = json_data["openlabel_v1_short"]
 
     # Loads scene
-    scene = raillabel.load(json_paths["openlabel_v1_short"], validate=False)
+    scene = raillabel.load(json_paths["openlabel_v1_short"])
 
     # Deletes the excluded data
     del data["openlabel"]["objects"]["22dedd49-6dcb-413b-87ef-00ccfb532e98"]
@@ -319,7 +319,7 @@ def test_filter_include_attribute_ids(json_paths, json_data):
     data = json_data["openlabel_v1_short"]
 
     # Loads scene
-    scene = raillabel.load(json_paths["openlabel_v1_short"], validate=False)
+    scene = raillabel.load(json_paths["openlabel_v1_short"])
 
     # Deletes the excluded data
     del data["openlabel"]["frames"]["0"]["objects"][
@@ -364,7 +364,7 @@ def test_filter_exclude_attribute_ids(json_paths, json_data):
     data = json_data["openlabel_v1_short"]
 
     # Loads scene
-    scene = raillabel.load(json_paths["openlabel_v1_short"], validate=False)
+    scene = raillabel.load(json_paths["openlabel_v1_short"])
 
     # Deletes the excluded data
     del data["openlabel"]["frames"]["0"]["objects"][
@@ -406,7 +406,7 @@ def test_filter_exclude_attribute_values(json_paths, json_data):
     data = json_data["openlabel_v1_short"]
 
     # Loads scene
-    scene = raillabel.load(json_paths["openlabel_v1_short"], validate=False)
+    scene = raillabel.load(json_paths["openlabel_v1_short"])
 
     # Deletes the excluded data
     del data["openlabel"]["frames"]["0"]["objects"][

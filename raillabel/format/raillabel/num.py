@@ -4,7 +4,6 @@
 import typing as t
 from dataclasses import dataclass
 
-from ..._util._warning import _warning
 from .sensor import Sensor
 
 
@@ -85,13 +84,6 @@ class Num:
         )
 
         if not is_coordinate_system_in_data:
-            return None
-
-        if data_dict["coordinate_system"] not in sensors:
-            _warning(
-                f"'{data_dict['coordinate_system']}' does not exist as a sensor, "
-                + f"but is referenced for the annotation {data_dict['uid']}."
-            )
             return None
 
         return sensors[data_dict["coordinate_system"]]

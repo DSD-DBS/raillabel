@@ -6,7 +6,7 @@ import json
 from ..format import Scene
 
 
-def load(path: str, validate: bool = False, show_warnings: bool = True) -> Scene:
+def load(path: str) -> Scene:
     """Load an annotation file of any supported type.
 
     Parameters

@@ -5,7 +5,6 @@ import decimal
 import typing as t
 from dataclasses import dataclass
 
-from ..._util._warning import _warning
 from .sensor import Sensor
 
 
@@ -75,12 +74,4 @@ class SensorReference:
 
     @classmethod
     def _timestamp_fromdict(cls, data_dict: dict) -> decimal.Decimal:
-
-        if "stream_sync" in data_dict:
-            _warning(
-                "Deprecated field 'stream_sync' identified. "
-                + "Please update file with raillabel.save()."
-            )
-            return decimal.Decimal(data_dict["stream_sync"]["timestamp"])
-
         return decimal.Decimal(data_dict["sync"]["timestamp"])

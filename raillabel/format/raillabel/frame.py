@@ -6,7 +6,6 @@ import typing as t
 import uuid
 from dataclasses import dataclass, field
 
-from ..._util._warning import _warning
 from ._object_annotation import _ObjectAnnotation, annotation_classes
 from .num import Num
 from .object import Object
@@ -93,7 +92,6 @@ class Frame:
         frame: raillabel.format.Frame
             Converted Frame object.
         """
-
         frame = Frame(
             uid=int(uid),
             timestamp=cls._timestamp_fromdict(data_dict),
@@ -101,8 +99,6 @@ class Frame:
             frame_data=cls._frame_data_fromdict(data_dict, sensors),
             annotations=cls._objects_fromdict(data_dict, int(uid), objects, sensors),
         )
-
-        frame = cls._fix_sensor_uri_attribute(frame)
         return frame
 
     def asdict(self) -> dict:
@@ -161,13 +157,6 @@ class Frame:
         sensors = {}
 
         for sensor_id, sensor_dict in data_dict["frame_properties"]["streams"].items():
-            if sensor_id not in scene_sensors:
-                _warning(
-                    f"{sensor_id} does not exist as a stream, but is referenced in the "
-                    + f"sync of frame {frame_uid}."
-                )
-                continue
-
             sensors[sensor_id] = SensorReference.fromdict(
                 data_dict=sensor_dict, sensor=scene_sensors[sensor_id]
             )
@@ -204,14 +193,6 @@ class Frame:
         annotations = {}
 
         for obj_id, obj_ann in data_dict["objects"].items():
-
-            if obj_id not in objects:
-                _warning(
-                    f"{obj_id} does not exist as an object, but is referenced in the object"
-                    + f" annotation of frame {frame_id}."
-                )
-                continue
-
             object_annotations = cls._object_annotations_fromdict(
                 data_dict=obj_ann["object_data"],
                 object=objects[obj_id],
@@ -219,10 +200,6 @@ class Frame:
             )
 
             for annotation in object_annotations:
-                if annotation.uid in annotations:
-                    cls._issue_duplicate_annotation_uid_warning(annotation.uid, frame_id)
-                    annotation.uid = str(uuid.uuid4())
-
                 annotations[annotation.uid] = annotation
 
         return annotations
@@ -237,50 +214,8 @@ class Frame:
 
         for ann_type, annotations_raw in data_dict.items():
             for ann_raw in annotations_raw:
-
-                ann_raw = cls._fix_deprecated_annotation_name(ann_raw, ann_type, object.type)
-
                 yield annotation_classes()[ann_type].fromdict(ann_raw, sensors, object)
 
-    @classmethod
-    def _fix_sensor_uri_attribute(cls, frame: "Frame") -> "Frame":
-
-        for ann_id, ann in list(frame.annotations.items()):
-            for attr_name, attr_val in ann.attributes.items():
-
-                if attr_name != "uri":
-                    continue
-
-                _warning(
-                    f"Deprecated attribute 'uri' detected in annotation {ann_id}. The error has"
-                    + " been fixed. Please update the file via 'raillabel.save()'."
-                )
-
-                frame.sensors[ann.sensor.uid].uri = attr_val
-                del frame.annotations[ann_id].attributes[attr_name]
-                break
-
-        return frame
-
-    @classmethod
-    def _fix_deprecated_annotation_name(cls, ann_raw: dict, ann_type: str, obj_type: str) -> dict:
-
-        if "uid" not in ann_raw:
-            try:
-                ann_raw["uid"] = str(uuid.UUID(ann_raw["name"]))
-            except ValueError:
-                ann_raw["uid"] = str(uuid.uuid4())
-
-        ann_raw["name"] = f"{ann_raw['coordinate_system']}__{ann_type}__{obj_type}"
-
-        return ann_raw
-
-    @classmethod
-    def _issue_duplicate_annotation_uid_warning(cls, ann_uid: str, frame_id: int):
-        _warning(
-            f"Annotation UID '{ann_uid}' is contained more than once in frame {frame_id}. "
-            + "A new uid will be assigned."
-        )
 
     def _annotations_asdict(self) -> dict:
         annotations_dict = {}

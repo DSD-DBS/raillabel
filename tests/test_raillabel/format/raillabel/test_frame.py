@@ -10,7 +10,6 @@ import pytest
 
 sys.path.insert(1, str(Path(__file__).parent.parent.parent.parent.parent))
 
-from raillabel._util._warning import _WarningsLogger
 from raillabel.format import Frame
 
 # == Fixtures =========================
@@ -118,74 +117,6 @@ def test_fromdict_annotations(
     )
 
     assert frame.annotations == all_annotations
-
-def test_fromdict_uri_attribute(
-    bbox_dict,
-    sensor_reference_camera_dict, sensors,
-    object_person, objects,
-):
-    bbox_with_uri_attribute = bbox_dict
-    bbox_with_uri_attribute["attributes"]["text"].append({
-        "name": "uri",
-        "val": "test_uri.png"
-    })
-
-    with _WarningsLogger() as logger:
-        frame = Frame.fromdict(
-            uid=0,
-            data_dict={
-                "frame_properties": {
-                    "streams": {
-                        "rgb_middle": sensor_reference_camera_dict
-                    }
-                },
-                "objects": {
-                    object_person.uid: {
-                        "object_data": {
-                            "bbox": [bbox_with_uri_attribute]
-                        }
-                    }
-                }
-            },
-            sensors=sensors,
-            objects=objects,
-        )
-
-    assert len(logger.warnings) == 1
-    assert "uri" in logger.warnings[0]
-    assert bbox_with_uri_attribute["uid"] in logger.warnings[0]
-    assert "raillabel.save()" in logger.warnings[0]
-
-    assert frame.sensors["rgb_middle"].uri == "test_uri.png"
-    assert "uri" not in frame.annotations[bbox_with_uri_attribute["uid"]].attributes
-
-def test_fromdict_duplicate_annotation_uid_warning(
-    sensors,
-    object_person, objects,
-    bbox_dict, cuboid_dict
-):
-    cuboid_dict["uid"] = bbox_dict["uid"]
-
-    with _WarningsLogger() as logger:
-        frame = Frame.fromdict(
-            uid=2,
-            data_dict={
-                "objects": {
-                    object_person.uid: {
-                        "object_data": {
-                            "bbox": [bbox_dict],
-                            "cuboid": [cuboid_dict],
-                        }
-                    }
-                }
-            },
-            sensors=sensors,
-            objects=objects,
-        )
-
-    assert len(logger.warnings) == 1
-    assert bbox_dict["uid"] in logger.warnings[0]
-    assert list(frame.annotations.values())[0].uid != list(frame.annotations.values())[1].uid
 
 
 def test_asdict_sensors(

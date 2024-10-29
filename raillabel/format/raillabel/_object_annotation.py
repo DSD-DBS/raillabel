@@ -10,7 +10,6 @@ from pathlib import Path
 from pkgutil import iter_modules
 
 from ..._util._attribute_type import AttributeType
-from ..._util._warning import _warning
 from .object import Object
 from .sensor import Sensor
 
@@ -103,13 +102,6 @@ class _ObjectAnnotation(ABC):
         )
 
         if not is_coordinate_system_in_data:
-            return None
-
-        if data_dict["coordinate_system"] not in sensors:
-            _warning(
-                f"'{data_dict['coordinate_system']}' does not exist as a sensor, "
-                + f"but is referenced for the annotation {data_dict['uid']}."
-            )
             return None
 
         return sensors[data_dict["coordinate_system"]]

@@ -18,10 +18,10 @@ import raillabel
 def test_save_scene(json_paths):
     with tempfile.TemporaryDirectory("w") as temp_dir:
 
-        scene_orig = raillabel.load(json_paths["openlabel_v1_short"], False, False)
+        scene_orig = raillabel.load(json_paths["openlabel_v1_short"])
 
         raillabel.save(scene_orig, Path(temp_dir) / "test_save_file.json")
-        scene_saved = raillabel.load(Path(temp_dir) / "test_save_file.json", False, False)
+        scene_saved = raillabel.load(Path(temp_dir) / "test_save_file.json")
 
     assert scene_orig == scene_saved
 
@@ -39,7 +39,7 @@ def test_save_json(json_data):
         with (Path(temp_dir) / "stripped_input_data.json").open("w") as f:
             json.dump(stripped_input_data, f)
 
-        scene = raillabel.load(Path(temp_dir) / "stripped_input_data.json", False, False)
+        scene = raillabel.load(Path(temp_dir) / "stripped_input_data.json")
         raillabel.save(scene, Path(temp_dir) / "test_save_file.json")
 
         with (Path(temp_dir) / "test_save_file.json").open() as f:
