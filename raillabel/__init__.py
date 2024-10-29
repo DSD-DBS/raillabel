@@ -6,7 +6,6 @@ from importlib import metadata
 
 from . import format
 from .exceptions import *
-from .filter.filter import filter
 from .format import Scene
 from .load.load import load
 from .save.save import save
