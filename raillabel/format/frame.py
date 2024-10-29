@@ -225,21 +225,3 @@ class Frame:
                 )
 
         return annotations_dict
-
-    def __eq__(self, other) -> bool:
-        """Handel equal comparisons."""
-        if not hasattr(other, "__dict__"):
-            return False
-
-        if len(self.__dict__) != len(other.__dict__):
-            return False
-
-        for attr in self.__dict__:
-            if type(getattr(self, attr)) == type(self):
-                if getattr(self, attr).uid != getattr(other, attr).uid:
-                    return False
-
-            elif getattr(self, attr) != getattr(other, attr):
-                return False
-
-        return True

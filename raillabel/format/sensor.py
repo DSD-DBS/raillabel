@@ -119,7 +119,7 @@ class Sensor:
         return stream_repr
 
     @classmethod
-    def _extrinsics_fromdict(cls, data_dict) -> t.Optional[Transform]:
+    def _extrinsics_fromdict(cls, data_dict: t.Dict) -> t.Optional[Transform]:
         if "pose_wrt_parent" not in data_dict:
             return None
 
@@ -139,7 +139,7 @@ class Sensor:
 
     @classmethod
     def _intrinsics_fromdict(
-        cls, data_dict, sensor_type: t.Optional["SensorType"]
+        cls, data_dict: t.Dict, sensor_type: t.Optional["SensorType"]
     ) -> t.Optional[IntrinsicsPinhole]:
         if "stream_properties" not in data_dict:
             return None
@@ -157,7 +157,7 @@ class Sensor:
         return None
 
     @classmethod
-    def _type_fromdict(cls, data_dict) -> t.Optional["SensorType"]:
+    def _type_fromdict(cls, data_dict: t.Dict) -> t.Optional["SensorType"]:
         if "type" not in data_dict:
             return None
 
