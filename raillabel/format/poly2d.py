@@ -1,7 +1,8 @@
 # Copyright DB InfraGO AG and contributors
 # SPDX-License-Identifier: Apache-2.0
 
-import typing as t
+from __future__ import annotations
+
 from dataclasses import dataclass
 
 from ._object_annotation import _ObjectAnnotation
@@ -44,14 +45,14 @@ class Poly2d(_ObjectAnnotation):
 
     """
 
-    points: t.List[Point2d]
+    points: list[Point2d]
     closed: bool
     mode: str = "MODE_POLY2D_ABSOLUTE"
 
     OPENLABEL_ID = "poly2d"
 
     @classmethod
-    def fromdict(cls, data_dict: dict, sensors: dict, object: Object) -> "Poly2d":
+    def fromdict(cls, data_dict: dict, sensors: dict, object: Object) -> Poly2d:
         """Generate a Poly2d object from a dict.
 
         Parameters
@@ -106,7 +107,7 @@ class Poly2d(_ObjectAnnotation):
         return dict_repr
 
     @classmethod
-    def _points_fromdict(cls, data_dict: dict) -> t.List[Point2d]:
+    def _points_fromdict(cls, data_dict: dict) -> list[Point2d]:
         return [
             Point2d(x=data_dict["val"][i], y=data_dict["val"][i + 1])
             for i in range(0, len(data_dict["val"]), 2)

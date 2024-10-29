@@ -1,6 +1,8 @@
 # Copyright DB InfraGO AG and contributors
 # SPDX-License-Identifier: Apache-2.0
 
+from __future__ import annotations
+
 from dataclasses import dataclass
 
 
@@ -25,7 +27,7 @@ class IntrinsicsRadar:
     height_px: int
 
     @classmethod
-    def fromdict(cls, data_dict: dict) -> "IntrinsicsRadar":
+    def fromdict(cls, data_dict: dict) -> IntrinsicsRadar:
         """Generate a IntrinsicsRadar object from a dict.
 
         Parameters

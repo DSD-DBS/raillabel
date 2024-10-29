@@ -1,6 +1,8 @@
 # Copyright DB InfraGO AG and contributors
 # SPDX-License-Identifier: Apache-2.0
 
+from __future__ import annotations
+
 from dataclasses import dataclass
 
 from .point3d import Point3d
@@ -24,7 +26,7 @@ class Transform:
     quat: Quaternion
 
     @classmethod
-    def fromdict(cls, data_dict: dict) -> "Transform":
+    def fromdict(cls, data_dict: dict) -> Transform:
         """Generate a Transform object from a dict.
 
         Parameters

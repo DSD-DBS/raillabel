@@ -32,7 +32,7 @@ def compile_uncommented_test_file():
 
 
 @pytest.fixture
-def json_paths(request) -> t.Dict[str, Path]:
+def json_paths(request) -> dict[str, Path]:
     json_paths = _fetch_json_paths_from_cache(request)
 
     if json_paths is None:
@@ -41,11 +41,11 @@ def json_paths(request) -> t.Dict[str, Path]:
     return json_paths
 
 
-def _fetch_json_paths_from_cache(request) -> t.Optional[t.Dict[str, Path]]:
+def _fetch_json_paths_from_cache(request) -> dict[str, Path] | None:
     return request.config.cache.get("json_paths", None)
 
 
-def _collect_json_paths() -> t.List[Path]:
+def _collect_json_paths() -> list[Path]:
     json_paths = []
 
     for dir in json_data_directories:
@@ -72,7 +72,7 @@ def _get_file_identifier(path: Path) -> str:
 
 
 @pytest.fixture
-def json_data(request) -> t.Dict[str, dict]:
+def json_data(request) -> dict[str, dict]:
     json_data = _fetch_json_data_from_cache(request)
 
     if json_data is None:
@@ -81,7 +81,7 @@ def json_data(request) -> t.Dict[str, dict]:
     return json_data
 
 
-def _fetch_json_data_from_cache(request) -> t.Optional[t.Dict[str, Path]]:
+def _fetch_json_data_from_cache(request) -> dict[str, Path] | None:
     return request.config.cache.get("json_data", None)
 
 

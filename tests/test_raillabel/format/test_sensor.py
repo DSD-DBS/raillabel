@@ -16,7 +16,7 @@ from raillabel.format import Sensor, SensorType
 
 
 @pytest.fixture
-def sensors(sensor_lidar, sensor_camera, sensor_radar) -> t.Dict[str, Sensor]:
+def sensors(sensor_lidar, sensor_camera, sensor_radar) -> dict[str, Sensor]:
     return {
         sensor_lidar.uid: sensor_lidar,
         sensor_camera.uid: sensor_camera,

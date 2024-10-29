@@ -1,6 +1,8 @@
 # Copyright DB InfraGO AG and contributors
 # SPDX-License-Identifier: Apache-2.0
 
+from __future__ import annotations
+
 from dataclasses import dataclass
 
 from ._object_annotation import _ObjectAnnotation
@@ -42,7 +44,7 @@ class Bbox(_ObjectAnnotation):
     OPENLABEL_ID = "bbox"
 
     @classmethod
-    def fromdict(cls, data_dict: dict, sensors: dict, object: Object) -> "Bbox":
+    def fromdict(cls, data_dict: dict, sensors: dict, object: Object) -> Bbox:
         """Generate a Bbox object from a dict.
 
         Parameters

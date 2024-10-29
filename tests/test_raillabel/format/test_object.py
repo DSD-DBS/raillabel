@@ -39,7 +39,7 @@ def objects_dict(object_person_dict, object_train_dict) -> dict:
 
 
 @pytest.fixture
-def objects(object_person, object_train) -> t.Dict[str, Object]:
+def objects(object_person, object_train) -> dict[str, Object]:
     return {
         object_person.uid: object_person,
         object_train.uid: object_train,
@@ -401,7 +401,7 @@ def build_annotation(name: str, object: Object, attributes: dict = {}) -> t.Unio
         raise ValueError()
 
 
-def build_frame(uid: int, raw_object_data: t.Dict[Object, t.List[t.Union[Bbox, Cuboid]]]) -> Frame:
+def build_frame(uid: int, raw_object_data: dict[Object, list[t.Union[Bbox, Cuboid]]]) -> Frame:
     annotations = {}
     for object, object_data in raw_object_data.items():
         for annotation in object_data:

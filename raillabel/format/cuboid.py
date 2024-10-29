@@ -1,6 +1,8 @@
 # Copyright DB InfraGO AG and contributors
 # SPDX-License-Identifier: Apache-2.0
 
+from __future__ import annotations
+
 from dataclasses import dataclass
 
 from ._object_annotation import _ObjectAnnotation
@@ -47,7 +49,7 @@ class Cuboid(_ObjectAnnotation):
     OPENLABEL_ID = "cuboid"
 
     @classmethod
-    def fromdict(cls, data_dict: dict, sensors: dict, object: Object) -> "Cuboid":
+    def fromdict(cls, data_dict: dict, sensors: dict, object: Object) -> Cuboid:
         """Generate a Cuboid object from a dict.
 
         Parameters

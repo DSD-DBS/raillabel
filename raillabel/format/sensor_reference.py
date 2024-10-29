@@ -1,8 +1,9 @@
 # Copyright DB InfraGO AG and contributors
 # SPDX-License-Identifier: Apache-2.0
 
+from __future__ import annotations
+
 import decimal
-import typing as t
 from dataclasses import dataclass
 
 from .sensor import Sensor
@@ -27,10 +28,10 @@ class SensorReference:
 
     sensor: Sensor
     timestamp: decimal.Decimal
-    uri: t.Optional[str] = None
+    uri: str | None = None
 
     @classmethod
-    def fromdict(cls, data_dict: dict, sensor: Sensor) -> "SensorReference":
+    def fromdict(cls, data_dict: dict, sensor: Sensor) -> SensorReference:
         """Generate a SensorReference object from a dict.
 
         Parameters

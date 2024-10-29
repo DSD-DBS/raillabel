@@ -1,7 +1,8 @@
 # Copyright DB InfraGO AG and contributors
 # SPDX-License-Identifier: Apache-2.0
 
-import typing as t
+from __future__ import annotations
+
 from dataclasses import dataclass
 
 
@@ -22,7 +23,7 @@ class FrameInterval:
     frame_end: int
 
     @classmethod
-    def fromdict(cls, data_dict: dict) -> "FrameInterval":
+    def fromdict(cls, data_dict: dict) -> FrameInterval:
         """Generate a FrameInterval object from a dict.
 
         Parameters
@@ -37,7 +38,7 @@ class FrameInterval:
         )
 
     @classmethod
-    def from_frame_uids(cls, frame_uids: t.List[int]) -> t.List["FrameInterval"]:
+    def from_frame_uids(cls, frame_uids: list[int]) -> list[FrameInterval]:
         """Convert a list of frame uids into FrameIntervals.
 
         Parameters
@@ -92,7 +93,7 @@ class FrameInterval:
         return abs(self.frame_start - self.frame_end) + 1
 
     @classmethod
-    def _slice_into_intervals(cls, sorted_frame_uids: t.List[int]) -> t.List[t.List[int]]:
+    def _slice_into_intervals(cls, sorted_frame_uids: list[int]) -> list[list[int]]:
         if len(sorted_frame_uids) == 0:
             return []
 

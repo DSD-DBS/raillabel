@@ -1,7 +1,8 @@
 # Copyright DB InfraGO AG and contributors
 # SPDX-License-Identifier: Apache-2.0
 
-import typing as t
+from __future__ import annotations
+
 from dataclasses import dataclass
 
 from ._object_annotation import _ObjectAnnotation
@@ -37,13 +38,13 @@ class Poly3d(_ObjectAnnotation):
 
     """
 
-    points: t.List[Point3d]
+    points: list[Point3d]
     closed: bool
 
     OPENLABEL_ID = "poly3d"
 
     @classmethod
-    def fromdict(cls, data_dict: dict, sensors: dict, object: Object) -> "Poly3d":
+    def fromdict(cls, data_dict: dict, sensors: dict, object: Object) -> Poly3d:
         """Generate a Poly3d object from a dict.
 
         Parameters
@@ -96,7 +97,7 @@ class Poly3d(_ObjectAnnotation):
         return dict_repr
 
     @classmethod
-    def _points_fromdict(cls, data_dict: dict) -> t.List[Point3d]:
+    def _points_fromdict(cls, data_dict: dict) -> list[Point3d]:
         return [
             Point3d(x=data_dict["val"][i], y=data_dict["val"][i + 1], z=data_dict["val"][i + 2])
             for i in range(0, len(data_dict["val"]), 3)

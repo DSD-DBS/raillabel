@@ -1,7 +1,8 @@
 # Copyright DB InfraGO AG and contributors
 # SPDX-License-Identifier: Apache-2.0
 
-import typing as t
+from __future__ import annotations
+
 from dataclasses import dataclass
 
 from ._attribute_type import AttributeType
@@ -31,8 +32,8 @@ class ElementDataPointer:
     """
 
     uid: str
-    frame_intervals: t.List[FrameInterval]
-    attribute_pointers: t.Dict[str, AttributeType]
+    frame_intervals: list[FrameInterval]
+    attribute_pointers: dict[str, AttributeType]
 
     @property
     def annotation_type(self) -> str:
@@ -59,10 +60,10 @@ class ElementDataPointer:
             "attribute_pointers": self._attribute_pointers_asdict(),
         }
 
-    def _frame_intervals_asdict(self) -> t.List[t.Dict[str, int]]:
+    def _frame_intervals_asdict(self) -> list[dict[str, int]]:
         return [fi.asdict() for fi in self.frame_intervals]
 
-    def _attribute_pointers_asdict(self) -> t.Dict[str, str]:
+    def _attribute_pointers_asdict(self) -> dict[str, str]:
         return {
             attr_name: attr_type.value for attr_name, attr_type in self.attribute_pointers.items()
         }

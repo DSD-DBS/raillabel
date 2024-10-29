@@ -1,6 +1,8 @@
 # Copyright DB InfraGO AG and contributors
 # SPDX-License-Identifier: Apache-2.0
 
+from __future__ import annotations
+
 from dataclasses import dataclass
 
 
@@ -24,7 +26,7 @@ class Size3d:
     z: float
 
     @classmethod
-    def fromdict(cls, data_dict: dict) -> "Size3d":
+    def fromdict(cls, data_dict: dict) -> Size3d:
         """Generate a Size3d object from a dict.
 
         Parameters

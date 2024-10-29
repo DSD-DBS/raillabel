@@ -1,6 +1,8 @@
 # Copyright DB InfraGO AG and contributors
 # SPDX-License-Identifier: Apache-2.0
 
+from __future__ import annotations
+
 from dataclasses import dataclass
 
 
@@ -21,7 +23,7 @@ class Point2d:
     y: float
 
     @classmethod
-    def fromdict(cls, data_dict: dict) -> "Point2d":
+    def fromdict(cls, data_dict: dict) -> Point2d:
         """Generate a Point2d object from a dict.
 
         Parameters

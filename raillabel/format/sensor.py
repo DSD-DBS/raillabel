@@ -1,7 +1,8 @@
 # Copyright DB InfraGO AG and contributors
 # SPDX-License-Identifier: Apache-2.0
 
-import typing as t
+from __future__ import annotations
+
 from dataclasses import dataclass
 from enum import Enum
 
@@ -40,14 +41,14 @@ class Sensor:
     """
 
     uid: str
-    extrinsics: t.Optional[Transform] = None
-    intrinsics: t.Optional[t.Union[IntrinsicsPinhole, IntrinsicsRadar]] = None
-    type: t.Optional["SensorType"] = None
-    uri: t.Optional[str] = None
-    description: t.Optional[str] = None
+    extrinsics: Transform | None = None
+    intrinsics: IntrinsicsPinhole | IntrinsicsRadar | None = None
+    type: SensorType | None = None
+    uri: str | None = None
+    description: str | None = None
 
     @classmethod
-    def fromdict(cls, uid: str, cs_data_dict: dict, stream_data_dict: dict) -> "Sensor":
+    def fromdict(cls, uid: str, cs_data_dict: dict, stream_data_dict: dict) -> Sensor:
         """Generate a Sensor object from a dict.
 
         Parameters
@@ -119,7 +120,7 @@ class Sensor:
         return stream_repr
 
     @classmethod
-    def _extrinsics_fromdict(cls, data_dict: t.Dict) -> t.Optional[Transform]:
+    def _extrinsics_fromdict(cls, data_dict: dict) -> Transform | None:
         if "pose_wrt_parent" not in data_dict:
             return None
 
@@ -139,8 +140,8 @@ class Sensor:
 
     @classmethod
     def _intrinsics_fromdict(
-        cls, data_dict: t.Dict, sensor_type: t.Optional["SensorType"]
-    ) -> t.Optional[IntrinsicsPinhole]:
+        cls, data_dict: dict, sensor_type: SensorType | None
+    ) -> IntrinsicsPinhole | None:
         if "stream_properties" not in data_dict:
             return None
 
@@ -158,7 +159,7 @@ class Sensor:
         return None
 
     @classmethod
-    def _type_fromdict(cls, data_dict: t.Dict) -> t.Optional["SensorType"]:
+    def _type_fromdict(cls, data_dict: dict) -> SensorType | None:
         if "type" not in data_dict:
             return None
 

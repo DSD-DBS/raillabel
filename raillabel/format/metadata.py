@@ -1,7 +1,8 @@
 # Copyright DB InfraGO AG and contributors
 # SPDX-License-Identifier: Apache-2.0
 
-import typing as t
+from __future__ import annotations
+
 from dataclasses import dataclass
 from importlib import metadata as importlib_metadata
 
@@ -52,16 +53,16 @@ class Metadata:
     """
 
     schema_version: str
-    annotator: t.Optional[str] = None
-    comment: t.Optional[str] = None
-    exporter_version: t.Optional[str] = None
-    file_version: t.Optional[str] = None
-    name: t.Optional[str] = None
-    subschema_version: t.Optional[str] = None
-    tagged_file: t.Optional[str] = None
+    annotator: str | None = None
+    comment: str | None = None
+    exporter_version: str | None = None
+    file_version: str | None = None
+    name: str | None = None
+    subschema_version: str | None = None
+    tagged_file: str | None = None
 
     @classmethod
-    def fromdict(cls, data_dict: dict, subschema_version: t.Optional[str] = None) -> "Metadata":
+    def fromdict(cls, data_dict: dict, subschema_version: str | None = None) -> Metadata:
         """Generate a Metadata object from a dict.
 
         Parameters
@@ -98,7 +99,7 @@ class Metadata:
         return self._remove_empty_fields(vars(self))
 
     @classmethod
-    def _collect_exporter_version(cls) -> t.Optional[str]:
+    def _collect_exporter_version(cls) -> str | None:
         try:
             exporter_version = importlib_metadata.version("raillabel")
         except importlib_metadata.PackageNotFoundError:
@@ -108,7 +109,7 @@ class Metadata:
         return exporter_version[: version_number_length - 1]
 
     @classmethod
-    def _set_additional_attributes(cls, metadata: "Metadata", data_dict: dict) -> "Metadata":
+    def _set_additional_attributes(cls, metadata: Metadata, data_dict: dict) -> Metadata:
         PRESET_KEYS = ["schema_version", "subschema_version", "exporter_version"]
 
         for key, value in data_dict.items():

@@ -1,7 +1,8 @@
 # Copyright DB InfraGO AG and contributors
 # SPDX-License-Identifier: Apache-2.0
 
-import typing as t
+from __future__ import annotations
+
 from dataclasses import dataclass
 
 from .sensor import Sensor
@@ -29,11 +30,11 @@ class Num:
 
     uid: str
     name: str
-    val: t.Union[int, float]
+    val: int | float
     sensor: Sensor = None
 
     @classmethod
-    def fromdict(cls, data_dict: dict, sensors: dict) -> "Num":
+    def fromdict(cls, data_dict: dict, sensors: dict) -> Num:
         """Generate a Num object from a dict.
 
         Parameters
@@ -78,7 +79,7 @@ class Num:
         }
 
     @classmethod
-    def _coordinate_system_fromdict(cls, data_dict: dict, sensors: dict) -> t.Optional[Sensor]:
+    def _coordinate_system_fromdict(cls, data_dict: dict, sensors: dict) -> Sensor | None:
         is_coordinate_system_in_data = (
             "coordinate_system" in data_dict and data_dict["coordinate_system"] != ""
         )

@@ -1,6 +1,8 @@
 # Copyright DB InfraGO AG and contributors
 # SPDX-License-Identifier: Apache-2.0
 
+from __future__ import annotations
+
 import typing as t
 from _collections_abc import dict_values
 from dataclasses import dataclass
@@ -35,7 +37,7 @@ class Object:
     # --- Public Methods --------------
 
     @classmethod
-    def fromdict(cls, data_dict: dict, object_uid: str) -> "Object":
+    def fromdict(cls, data_dict: dict, object_uid: str) -> Object:
         """Generate a Object from a dict.
 
         Parameters
@@ -53,7 +55,7 @@ class Object:
         """
         return Object(uid=object_uid, type=data_dict["type"], name=data_dict["name"])
 
-    def asdict(self, frames: t.Optional[t.Dict[int, "Frame"]] = None) -> dict:
+    def asdict(self, frames: dict[int, Frame] | None = None) -> dict:
         """Export self as a dict compatible with the OpenLABEL schema.
 
         Returns
@@ -82,7 +84,7 @@ class Object:
             ),
         }
 
-    def frame_intervals(self, frames: t.Dict[int, "Frame"]) -> t.List[FrameInterval]:
+    def frame_intervals(self, frames: dict[int, Frame]) -> list[FrameInterval]:
         """Return frame intervals in which this object is present.
 
         Parameters
@@ -102,7 +104,7 @@ class Object:
 
         return FrameInterval.from_frame_uids(frame_uids_containing_object)
 
-    def object_data_pointers(self, frames: t.Dict[int, "Frame"]) -> t.Dict[str, ElementDataPointer]:
+    def object_data_pointers(self, frames: dict[int, Frame]) -> dict[str, ElementDataPointer]:
         """Create object data pointers used in WebLABEL visualization.
 
         Parameters
@@ -131,23 +133,21 @@ class Object:
 
     # --- Private Methods -------------
 
-    def _frame_intervals_asdict(self, frame_intervals: t.List[FrameInterval]) -> dict:
+    def _frame_intervals_asdict(self, frame_intervals: list[FrameInterval]) -> dict:
         return [fi.asdict() for fi in frame_intervals]
 
     def _object_data_pointers_asdict(
-        self, object_data_pointers: t.Dict[str, ElementDataPointer]
+        self, object_data_pointers: dict[str, ElementDataPointer]
     ) -> dict:
         return {pointer_id: pointer.asdict() for pointer_id, pointer in object_data_pointers.items()}
 
-    def _is_object_in_frame(self, frame: "Frame") -> bool:
+    def _is_object_in_frame(self, frame: Frame) -> bool:
         return self.uid in frame.object_data
 
-    def _filtered_annotations(self, frame: "Frame") -> dict_values:
+    def _filtered_annotations(self, frame: Frame) -> dict_values:
         return [ann for ann in frame.annotations.values() if ann.object.uid == self.uid]
 
-    def _collect_pointer_ids_per_frame(
-        self, frames: t.Dict[int, "Frame"]
-    ) -> t.Dict[int, t.Set[str]]:
+    def _collect_pointer_ids_per_frame(self, frames: dict[int, Frame]) -> dict[int, set[str]]:
         pointer_ids_per_frame = {}
         for frame in frames.values():
             pointer_ids_per_frame[frame.uid] = set()
@@ -158,8 +158,8 @@ class Object:
         return pointer_ids_per_frame
 
     def _reverse_frame_pointer_ids(
-        self, pointer_ids_per_frame: t.Dict[int, t.Set[str]]
-    ) -> t.Dict[str, t.Set[int]]:
+        self, pointer_ids_per_frame: dict[int, set[str]]
+    ) -> dict[str, set[int]]:
         frame_uids_per_pointer_id = {}
         for frame_uid, pointer_ids in pointer_ids_per_frame.items():
             for pointer_id in pointer_ids:
@@ -171,8 +171,8 @@ class Object:
         return frame_uids_per_pointer_id
 
     def _convert_to_intervals(
-        self, frame_uids_per_pointer_id: t.Dict[str, t.Set[int]]
-    ) -> t.Dict[str, t.List[FrameInterval]]:
+        self, frame_uids_per_pointer_id: dict[str, set[int]]
+    ) -> dict[str, list[FrameInterval]]:
         frame_intervals = {}
         for pointer_id, frame_uids in frame_uids_per_pointer_id.items():
             frame_intervals[pointer_id] = FrameInterval.from_frame_uids(list(frame_uids))
@@ -180,8 +180,8 @@ class Object:
         return frame_intervals
 
     def _collect_attributes_per_pointer_id(
-        self, frames: t.Dict[int, "Frame"]
-    ) -> t.Dict[str, t.Dict[str, t.Any]]:
+        self, frames: dict[int, Frame]
+    ) -> dict[str, dict[str, t.Any]]:
         attributes_per_pointer_id = {}
         for frame in frames.values():
             for annotation in self._filtered_annotations(frame):
@@ -193,8 +193,8 @@ class Object:
         return attributes_per_pointer_id
 
     def _convert_to_attribute_pointers(
-        self, attributes_per_pointer_id: t.Dict[str, t.Dict[str, t.Any]]
-    ) -> t.Dict[str, t.Dict[str, AttributeType]]:
+        self, attributes_per_pointer_id: dict[str, dict[str, t.Any]]
+    ) -> dict[str, dict[str, AttributeType]]:
         for attributes in attributes_per_pointer_id.values():
             for attribute_name, attribute_value in attributes.items():
                 attributes[attribute_name] = AttributeType.from_value(type(attribute_value))
@@ -203,9 +203,9 @@ class Object:
 
     def _create_object_data_pointers(
         self,
-        frame_intervals_per_pointer_id: t.Dict[str, t.List[FrameInterval]],
-        attribute_pointers_per_pointer_id: t.Dict[str, t.Dict[str, AttributeType]],
-    ) -> t.Dict[str, ElementDataPointer]:
+        frame_intervals_per_pointer_id: dict[str, list[FrameInterval]],
+        attribute_pointers_per_pointer_id: dict[str, dict[str, AttributeType]],
+    ) -> dict[str, ElementDataPointer]:
         object_data_pointers = {}
         for pointer_id in frame_intervals_per_pointer_id:
             object_data_pointers[pointer_id] = ElementDataPointer(

@@ -1,6 +1,8 @@
 # Copyright DB InfraGO AG and contributors
 # SPDX-License-Identifier: Apache-2.0
 
+from __future__ import annotations
+
 import decimal
 import typing as t
 import uuid
@@ -42,13 +44,13 @@ class Frame:
     """
 
     uid: int
-    timestamp: t.Optional[decimal.Decimal] = None
-    sensors: t.Dict[str, SensorReference] = field(default_factory=dict)
-    frame_data: t.Dict[str, Num] = field(default_factory=dict)
-    annotations: t.Dict[str, t.Type[_ObjectAnnotation]] = field(default_factory=dict)
+    timestamp: decimal.Decimal | None = None
+    sensors: dict[str, SensorReference] = field(default_factory=dict)
+    frame_data: dict[str, Num] = field(default_factory=dict)
+    annotations: dict[str, type[_ObjectAnnotation]] = field(default_factory=dict)
 
     @property
-    def object_data(self) -> t.Dict[str, t.Dict[str, t.Type[_ObjectAnnotation]]]:
+    def object_data(self) -> dict[str, dict[str, type[_ObjectAnnotation]]]:
         """Return annotations categorized by Object-Id.
 
         Returns
@@ -72,9 +74,9 @@ class Frame:
         cls,
         uid: str,
         data_dict: dict,
-        objects: t.Dict[str, Object],
-        sensors: t.Dict[str, Sensor],
-    ) -> "Frame":
+        objects: dict[str, Object],
+        sensors: dict[str, Sensor],
+    ) -> Frame:
         """Generate a Frame object from a dict.
 
         Parameters
@@ -140,7 +142,7 @@ class Frame:
         return dict_repr
 
     @classmethod
-    def _timestamp_fromdict(cls, data_dict: dict) -> t.Optional[decimal.Decimal]:
+    def _timestamp_fromdict(cls, data_dict: dict) -> decimal.Decimal | None:
         if "frame_properties" not in data_dict or "timestamp" not in data_dict["frame_properties"]:
             return None
 
@@ -148,8 +150,8 @@ class Frame:
 
     @classmethod
     def _sensors_fromdict(
-        cls, data_dict: dict, scene_sensors: t.Dict[str, Sensor]
-    ) -> t.Dict[str, SensorReference]:
+        cls, data_dict: dict, scene_sensors: dict[str, Sensor]
+    ) -> dict[str, SensorReference]:
         if "frame_properties" not in data_dict or "streams" not in data_dict["frame_properties"]:
             return {}
 
@@ -163,7 +165,7 @@ class Frame:
         return sensors
 
     @classmethod
-    def _frame_data_fromdict(cls, data_dict: dict, sensors: t.Dict[str, Sensor]) -> t.Dict[str, Num]:
+    def _frame_data_fromdict(cls, data_dict: dict, sensors: dict[str, Sensor]) -> dict[str, Num]:
         if "frame_properties" not in data_dict or "frame_data" not in data_dict["frame_properties"]:
             return {}
 
@@ -178,9 +180,9 @@ class Frame:
     def _objects_fromdict(
         cls,
         data_dict: dict,
-        objects: t.Dict[str, Object],
-        sensors: t.Dict[str, Sensor],
-    ) -> t.Dict[uuid.UUID, t.Type[_ObjectAnnotation]]:
+        objects: dict[str, Object],
+        sensors: dict[str, Sensor],
+    ) -> dict[uuid.UUID, type[_ObjectAnnotation]]:
         if "objects" not in data_dict:
             return {}
 
@@ -203,18 +205,18 @@ class Frame:
         cls,
         data_dict: dict,
         object: Object,
-        sensors: t.Dict[str, Sensor],
-    ) -> t.Iterator[t.Type[_ObjectAnnotation]]:
+        sensors: dict[str, Sensor],
+    ) -> t.Iterator[type[_ObjectAnnotation]]:
         for ann_type, annotations_raw in data_dict.items():
             for ann_raw in annotations_raw:
                 yield annotation_classes()[ann_type].fromdict(ann_raw, sensors, object)
 
     def _annotations_asdict(self) -> dict:
         annotations_dict = {}
-        for object_id, annotations in self.object_data.items():
+        for object_id, annotations_ in self.object_data.items():
             annotations_dict[object_id] = {"object_data": {}}
 
-            for annotation in annotations.values():
+            for annotation in annotations_.values():
                 if annotation.OPENLABEL_ID not in annotations_dict[object_id]["object_data"]:
                     annotations_dict[object_id]["object_data"][annotation.OPENLABEL_ID] = []
 

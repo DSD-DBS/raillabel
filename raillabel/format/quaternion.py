@@ -1,6 +1,8 @@
 # Copyright DB InfraGO AG and contributors
 # SPDX-License-Identifier: Apache-2.0
 
+from __future__ import annotations
+
 from dataclasses import dataclass
 
 
@@ -27,7 +29,7 @@ class Quaternion:
     w: float
 
     @classmethod
-    def fromdict(cls, data_dict: dict) -> "Quaternion":
+    def fromdict(cls, data_dict: dict) -> Quaternion:
         """Generate a Quaternion object from a dict.
 
         Parameters

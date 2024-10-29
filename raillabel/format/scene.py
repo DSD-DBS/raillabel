@@ -1,7 +1,8 @@
 # Copyright DB InfraGO AG and contributors
 # SPDX-License-Identifier: Apache-2.0
 
-import typing as t
+from __future__ import annotations
+
 from dataclasses import dataclass, field
 
 from .frame import Frame
@@ -34,19 +35,19 @@ class Scene:
     """
 
     metadata: Metadata
-    sensors: t.Dict[str, Sensor] = field(default_factory=dict)
-    objects: t.Dict[str, Object] = field(default_factory=dict)
-    frames: t.Dict[int, Frame] = field(default_factory=dict)
+    sensors: dict[str, Sensor] = field(default_factory=dict)
+    objects: dict[str, Object] = field(default_factory=dict)
+    frames: dict[int, Frame] = field(default_factory=dict)
 
     @property
-    def frame_intervals(self) -> t.List[FrameInterval]:
+    def frame_intervals(self) -> list[FrameInterval]:
         """Return frame intervals of the present frames."""
         return FrameInterval.from_frame_uids(list(self.frames.keys()))
 
     # === Public Methods ==========================================================================
 
     @classmethod
-    def fromdict(cls, data_dict: dict, subschema_version: t.Optional[str] = None) -> "Scene":
+    def fromdict(cls, data_dict: dict, subschema_version: str | None = None) -> Scene:
         """Generate a Scene object from a RailLABEL-dict.
 
         Parameters
@@ -149,7 +150,7 @@ class Scene:
     @classmethod
     def _sensors_fromdict(
         cls, streams_dict: dict, coordinate_systems_dict: dict
-    ) -> t.Dict[str, Sensor]:
+    ) -> dict[str, Sensor]:
         sensors = {}
 
         for stream_id in streams_dict:
@@ -162,13 +163,13 @@ class Scene:
         return sensors
 
     @classmethod
-    def _objects_fromdict(cls, object_dict: dict) -> t.Dict[str, Object]:
+    def _objects_fromdict(cls, object_dict: dict) -> dict[str, Object]:
         return {uid: Object.fromdict(object_, uid) for uid, object_ in object_dict.items()}
 
     @classmethod
     def _frames_fromdict(
-        cls, frames_dict: dict, sensors: t.Dict[str, Sensor], objects: t.Dict[str, Object]
-    ) -> t.Dict[int, Frame]:
+        cls, frames_dict: dict, sensors: dict[str, Sensor], objects: dict[str, Object]
+    ) -> dict[int, Frame]:
         frames = {}
         for frame_uid, frame_dict in frames_dict.items():
             frames[int(frame_uid)] = Frame.fromdict(frame_uid, frame_dict, objects, sensors)
@@ -177,10 +178,10 @@ class Scene:
 
     # --- asdict() ------------------------------
 
-    def _streams_asdict(self, sensors: t.Dict[str, Sensor]) -> dict:
+    def _streams_asdict(self, sensors: dict[str, Sensor]) -> dict:
         return {uid: sensor.asdict()["stream"] for uid, sensor in sensors.items()}
 
-    def _coordinate_systems_asdict(self, sensors: t.Dict[str, Sensor]) -> dict:
+    def _coordinate_systems_asdict(self, sensors: dict[str, Sensor]) -> dict:
         if len(sensors) == 0:
             return None
 
@@ -192,15 +193,15 @@ class Scene:
 
         return coordinate_systems
 
-    def _objects_asdict(self, objects: t.Dict[str, Object], calculate_pointers: bool) -> dict:
+    def _objects_asdict(self, objects: dict[str, Object], calculate_pointers: bool) -> dict:
         if calculate_pointers:
             return {str(uid): object_.asdict(self.frames) for uid, object_ in objects.items()}
         return {str(uid): object_.asdict() for uid, object_ in objects.items()}
 
-    def _frames_asdict(self, frames: t.Dict[int, Frame]) -> dict:
+    def _frames_asdict(self, frames: dict[int, Frame]) -> dict:
         return {str(uid): frame.asdict() for uid, frame in frames.items()}
 
-    def _frame_intervals_asdict(self, frame_intervals: t.List[FrameInterval]) -> t.List[dict]:
+    def _frame_intervals_asdict(self, frame_intervals: list[FrameInterval]) -> list[dict]:
         return [fi.asdict() for fi in frame_intervals]
 
 

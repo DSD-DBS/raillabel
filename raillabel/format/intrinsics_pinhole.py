@@ -1,7 +1,8 @@
 # Copyright DB InfraGO AG and contributors
 # SPDX-License-Identifier: Apache-2.0
 
-import typing as t
+from __future__ import annotations
+
 from dataclasses import dataclass
 
 
@@ -27,13 +28,13 @@ class IntrinsicsPinhole:
 
     """
 
-    camera_matrix: t.Tuple[float, ...]
-    distortion: t.Tuple[float, ...]
+    camera_matrix: tuple[float, ...]
+    distortion: tuple[float, ...]
     width_px: int
     height_px: int
 
     @classmethod
-    def fromdict(cls, data_dict: dict) -> "IntrinsicsPinhole":
+    def fromdict(cls, data_dict: dict) -> IntrinsicsPinhole:
         """Generate a IntrinsicsPinhole object from a dict.
 
         Parameters

@@ -1,7 +1,8 @@
 # Copyright DB InfraGO AG and contributors
 # SPDX-License-Identifier: Apache-2.0
 
-import typing as t
+from __future__ import annotations
+
 from abc import ABC, abstractmethod, abstractproperty
 from dataclasses import dataclass
 from importlib import import_module
@@ -19,7 +20,7 @@ class _ObjectAnnotation(ABC):
     uid: str
     object: Object
     sensor: Sensor
-    attributes: t.Dict[str, t.Union[int, float, bool, str, list]]
+    attributes: dict[str, int | float | bool | str | list]
 
     @property
     def name(self) -> str:
@@ -27,35 +28,35 @@ class _ObjectAnnotation(ABC):
 
     @property
     @abstractproperty
-    def OPENLABEL_ID(self) -> t.List[str]:
+    def OPENLABEL_ID(self) -> list[str]:
         raise NotImplementedError
 
     # === Public Methods =====================================================
 
     @abstractmethod
-    def asdict(self) -> t.Dict:
+    def asdict(self) -> dict:
         raise NotImplementedError
 
     @classmethod
     @abstractmethod
     def fromdict(
         cls,
-        data_dict: t.Dict,
-        sensors: t.Dict,
+        data_dict: dict,
+        sensors: dict,
         object: Object,
-    ) -> t.Type["_ObjectAnnotation"]:
+    ) -> type[_ObjectAnnotation]:
         raise NotImplementedError
 
     # === Private Methods ====================================================
 
-    def _annotation_required_fields_asdict(self) -> t.Dict:
+    def _annotation_required_fields_asdict(self) -> dict:
         """Return the required fields from the parent class to dict."""
         return {
             "uid": str(self.uid),
             "name": str(self.name),
         }
 
-    def _annotation_optional_fields_asdict(self) -> t.Dict:
+    def _annotation_optional_fields_asdict(self) -> dict:
         """Return the optional fields from the parent class to dict."""
         dict_repr = {}
 
@@ -81,7 +82,7 @@ class _ObjectAnnotation(ABC):
         return attributes_dict
 
     @classmethod
-    def _coordinate_system_fromdict(cls, data_dict: dict, sensors: dict) -> t.Optional[Sensor]:
+    def _coordinate_system_fromdict(cls, data_dict: dict, sensors: dict) -> Sensor | None:
         is_coordinate_system_in_data = (
             "coordinate_system" in data_dict and data_dict["coordinate_system"] != ""
         )
@@ -95,14 +96,14 @@ class _ObjectAnnotation(ABC):
     def _attributes_fromdict(
         cls,
         data_dict: dict,
-    ) -> t.Dict[str, t.Union[int, float, bool, str, list]]:
+    ) -> dict[str, int | float | bool | str | list]:
         if "attributes" not in data_dict:
             return {}
 
         return {a["name"]: a["val"] for type_ in data_dict["attributes"].values() for a in type_}
 
 
-def annotation_classes() -> t.Dict[str, t.Type[_ObjectAnnotation]]:
+def annotation_classes() -> dict[str, type[_ObjectAnnotation]]:
     """Return dictionary with _Annotation child classes."""
     out = {}
 
