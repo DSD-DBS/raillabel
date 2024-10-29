@@ -59,6 +59,8 @@ ignore = [
     "FBT001", # flags in functions are not bad practice
     "FBT002", # flags in functions are not bad practice
 
+    "INP001", # load and save are not meant as packages and are only folders for consistency
+
     "ISC001", # conflicts with ruff formatter
 
     "N802",   # does not allow constant abstractproperties
@@ -82,7 +84,6 @@ ignore = [
     "F401",
     "SIM102",
     "RET504",
-    "INP001",
 ]
 
 [tool.mypy]
