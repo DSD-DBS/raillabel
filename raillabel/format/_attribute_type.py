@@ -30,7 +30,7 @@ class AttributeType(Enum):
 
         Raises
         ------
-        ValueError
+        UnsupportedAttributeTypeError
             if attribute value class does not correspond to an Attribute Type.
 
         """
@@ -46,7 +46,12 @@ class AttributeType(Enum):
         if attribute_value_class in [list, tuple]:
             return AttributeType.VEC
 
-        raise ValueError(
+        raise UnsupportedAttributeTypeError(attribute_value_class)
+
+
+class UnsupportedAttributeTypeError(ValueError):
+    def __init__(self, attribute_value_class: type) -> None:
+        super().__init__(
             f"Type {attribute_value_class} does not correspond to a valid RailLabel attribute "
-            + "type. Supported types are str, float, int, bool, list, tuple."
+            "type. Supported types are str, float, int, bool, list, tuple."
         )
