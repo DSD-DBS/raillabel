@@ -45,9 +45,12 @@ def test_save_json(json_data):
         with (Path(temp_dir) / "test_save_file.json").open() as f:
             saved_and_loaded_data = json.load(f)
 
-    # Removes the exporter version from the generated file as these are hard to test for
+    # Removes the exporter version and subschema version from the generated file as these are hard to test for
     if "exporter_version" in saved_and_loaded_data["openlabel"]["metadata"]:
         del saved_and_loaded_data["openlabel"]["metadata"]["exporter_version"]
+
+    if "subschema_version" in saved_and_loaded_data["openlabel"]["metadata"]:
+        del saved_and_loaded_data["openlabel"]["metadata"]["subschema_version"]
 
     assert saved_and_loaded_data == json_data["openlabel_v1_short"]
 
@@ -67,7 +70,7 @@ def test_frame_intervals():
         }
     }
 
-    scene = raillabel.load_.loader_classes.LoaderRailLabel().load(data)
+    scene = raillabel.Scene.fromdict(data)
     dict_repr = scene.asdict()["openlabel"]
 
     assert "frame_intervals" in dict_repr
@@ -81,4 +84,4 @@ def test_frame_intervals():
 # Executes the test if the file is called
 if __name__ == "__main__":
     os.system("clear")
-    pytest.main([__file__, "--disable-pytest-warnings", "--cache-clear"])
+    pytest.main([__file__, "--disable-pytest-warnings", "--cache-clear", "-vv"])

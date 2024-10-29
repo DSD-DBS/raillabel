@@ -2,20 +2,17 @@
 # SPDX-License-Identifier: Apache-2.0
 
 import os
-import sys
-from pathlib import Path
 
 import pytest
-
-sys.path.insert(1, str(Path(__file__).parent.parent.parent.parent))
 
 import raillabel
 
 
-def test_load_raillabel(json_paths):
-    data_path = json_paths["openlabel_v1_short"]
-    scene = raillabel.load(data_path)
-    assert len(scene.frames) != 0
+def test_load__contains_all_elements(json_paths):
+    actual = raillabel.load(json_paths["openlabel_v1_short"])
+    assert len(actual.sensors) == 4
+    assert len(actual.objects) == 3
+    assert len(actual.frames) == 2
 
 
 # Executes the test if the file is called

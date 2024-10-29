@@ -405,7 +405,15 @@ def test_frame_intervals(metadata_minimal):
         FrameInterval(8, 8),
     ]
 
+def test_integration(json_data):
+    scene_dict = json_data["openlabel_v1_short"]
+
+    actual = Scene.fromdict(scene_dict).asdict()
+
+    del actual["openlabel"]["metadata"]["exporter_version"]
+    assert actual == scene_dict
+
 
 if __name__ == "__main__":
     os.system("clear")
-    pytest.main([__file__, "--disable-pytest-warnings", "--cache-clear", "-v"])
+    pytest.main([__file__, "--disable-pytest-warnings", "--cache-clear", "-vv"])

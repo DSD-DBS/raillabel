@@ -29,10 +29,6 @@ def delete_sensor_from_data(data: dict, sensor_id: str) -> dict:
 
     return data
 
-@pytest.fixture
-def loader():
-    return raillabel.load_.loader_classes.LoaderRailLabel()
-
 
 def test_filter_unexpected_kwarg(json_paths):
     # Loads scene
@@ -50,7 +46,7 @@ def test_mutual_exclusivity(json_paths):
         raillabel.filter(scene, include_frames=[0], exclude_frames=[1, 2])
 
 
-def test_filter_frames(json_paths, json_data, loader):
+def test_filter_frames(json_paths, json_data):
     data = json_data["openlabel_v1_short"]
 
     # Loads scene
@@ -62,7 +58,7 @@ def test_filter_frames(json_paths, json_data, loader):
     data = delete_sensor_from_data(data, "radar")
 
     # Loads the ground truth filtered data
-    scene_filtered_ground_truth = loader.load(data)
+    scene_filtered_ground_truth = raillabel.Scene.fromdict(data)
 
     # Tests for include filter
     scene_filtered = raillabel.filter(scene, include_frames=[0])
@@ -73,7 +69,7 @@ def test_filter_frames(json_paths, json_data, loader):
     assert scene_filtered == scene_filtered_ground_truth
 
 
-def test_filter_start(json_paths, json_data, loader):
+def test_filter_start(json_paths, json_data):
     data = json_data["openlabel_v1_short"]
 
     # Loads scene
@@ -85,7 +81,7 @@ def test_filter_start(json_paths, json_data, loader):
     data = delete_sensor_from_data(data, "radar")
 
     # Loads the ground truth filtered data
-    scene_filtered_ground_truth = loader.load(data)
+    scene_filtered_ground_truth = raillabel.Scene.fromdict(data)
 
     # Tests for frame filter
     scene_filtered = raillabel.filter(scene, start_frame=1)
@@ -96,7 +92,7 @@ def test_filter_start(json_paths, json_data, loader):
     assert scene_filtered == scene_filtered_ground_truth
 
 
-def test_filter_end(json_paths, json_data, loader):
+def test_filter_end(json_paths, json_data):
     data = json_data["openlabel_v1_short"]
 
     # Loads scene
@@ -108,7 +104,7 @@ def test_filter_end(json_paths, json_data, loader):
     data = delete_sensor_from_data(data, "radar")
 
     # Loads the ground truth filtered data
-    scene_filtered_ground_truth = loader.load(data)
+    scene_filtered_ground_truth = raillabel.Scene.fromdict(data)
 
     # Tests for frame filter
     scene_filtered = raillabel.filter(scene, end_frame=0)
@@ -119,7 +115,7 @@ def test_filter_end(json_paths, json_data, loader):
     assert scene_filtered == scene_filtered_ground_truth
 
 
-def test_filter_object_ids(json_paths, json_data, loader):
+def test_filter_object_ids(json_paths, json_data):
     data = json_data["openlabel_v1_short"]
 
     # Loads scene
@@ -136,7 +132,7 @@ def test_filter_object_ids(json_paths, json_data, loader):
     data = delete_sensor_from_data(data, "radar")
 
     # Loads the ground truth filtered data
-    scene_filtered_ground_truth = loader.load(data)
+    scene_filtered_ground_truth = raillabel.Scene.fromdict(data)
 
     # Tests for include filter
     scene_filtered = raillabel.filter(
@@ -156,7 +152,7 @@ def test_filter_object_ids(json_paths, json_data, loader):
     assert scene_filtered == scene_filtered_ground_truth
 
 
-def test_filter_object_types(json_paths, json_data, loader):
+def test_filter_object_types(json_paths, json_data):
     data = json_data["openlabel_v1_short"]
 
     # Loads scene
@@ -173,7 +169,7 @@ def test_filter_object_types(json_paths, json_data, loader):
     data = delete_sensor_from_data(data, "radar")
 
     # Loads the ground truth filtered data
-    scene_filtered_ground_truth = loader.load(data)
+    scene_filtered_ground_truth = raillabel.Scene.fromdict(data)
 
     # Tests for include filter
     scene_filtered = raillabel.filter(scene, include_object_types=["person"])
@@ -184,7 +180,7 @@ def test_filter_object_types(json_paths, json_data, loader):
     assert scene_filtered == scene_filtered_ground_truth
 
 
-def test_filter_annotation_ids(json_paths, json_data, loader):
+def test_filter_annotation_ids(json_paths, json_data):
     data = json_data["openlabel_v1_short"]
 
     # Loads scene
@@ -201,7 +197,7 @@ def test_filter_annotation_ids(json_paths, json_data, loader):
     data = delete_sensor_from_data(data, "radar")
 
     # Loads the ground truth filtered data
-    scene_filtered_ground_truth = loader.load(data)
+    scene_filtered_ground_truth = raillabel.Scene.fromdict(data)
 
     # Tests for include filter
     scene_filtered = raillabel.filter(
@@ -237,7 +233,7 @@ def test_filter_annotation_ids(json_paths, json_data, loader):
     assert scene_filtered == scene_filtered_ground_truth
 
 
-def test_filter_annotation_types(json_paths, json_data, loader):
+def test_filter_annotation_types(json_paths, json_data):
     data = json_data["openlabel_v1_short"]
 
     # Loads scene
@@ -262,7 +258,7 @@ def test_filter_annotation_types(json_paths, json_data, loader):
     data = delete_sensor_from_data(data, "radar")
 
     # Loads the ground truth filtered data
-    scene_filtered_ground_truth = loader.load(data)
+    scene_filtered_ground_truth = raillabel.Scene.fromdict(data)
 
     # Tests for include filter
     scene_filtered = raillabel.filter(scene, include_annotation_types=["bbox", "poly2d", "Num"])
@@ -274,7 +270,7 @@ def test_filter_annotation_types(json_paths, json_data, loader):
     assert scene_filtered == scene_filtered_ground_truth
 
 
-def test_filter_sensors(json_paths, json_data, loader):
+def test_filter_sensors(json_paths, json_data):
     data = json_data["openlabel_v1_short"]
 
     # Loads scene
@@ -307,7 +303,7 @@ def test_filter_sensors(json_paths, json_data, loader):
     ]
 
     # Loads the ground truth filtered data
-    scene_filtered_ground_truth = loader.load(data)
+    scene_filtered_ground_truth = raillabel.Scene.fromdict(data)
 
     # Tests for include filter
     scene_filtered = raillabel.filter(scene, include_sensors=["rgb_middle", "ir_middle"])
@@ -319,7 +315,7 @@ def test_filter_sensors(json_paths, json_data, loader):
     assert scene_filtered == scene_filtered_ground_truth
 
 
-def test_filter_include_attribute_ids(json_paths, json_data, loader):
+def test_filter_include_attribute_ids(json_paths, json_data):
     data = json_data["openlabel_v1_short"]
 
     # Loads scene
@@ -356,7 +352,7 @@ def test_filter_include_attribute_ids(json_paths, json_data, loader):
     data = delete_sensor_from_data(data, "radar")
 
     # Loads the ground truth filtered data
-    scene_filtered_ground_truth = loader.load(data)
+    scene_filtered_ground_truth = raillabel.Scene.fromdict(data)
 
     # Tests for include filter
     scene_filtered = raillabel.filter(scene, include_attributes={"test_text_attr0": None})
@@ -364,7 +360,7 @@ def test_filter_include_attribute_ids(json_paths, json_data, loader):
     assert scene_filtered == scene_filtered_ground_truth
 
 
-def test_filter_exclude_attribute_ids(json_paths, json_data, loader):
+def test_filter_exclude_attribute_ids(json_paths, json_data):
     data = json_data["openlabel_v1_short"]
 
     # Loads scene
@@ -399,14 +395,14 @@ def test_filter_exclude_attribute_ids(json_paths, json_data, loader):
     data = delete_sensor_from_data(data, "radar")
 
     # Loads the ground truth filtered data
-    scene_filtered_ground_truth = loader.load(data)
+    scene_filtered_ground_truth = raillabel.Scene.fromdict(data)
 
     # Tests for exclude filter
     scene_filtered = raillabel.filter(scene, exclude_attributes={"test_text_attr0": None})
     assert scene_filtered == scene_filtered_ground_truth
 
 
-def test_filter_exclude_attribute_values(json_paths, json_data, loader):
+def test_filter_exclude_attribute_values(json_paths, json_data):
     data = json_data["openlabel_v1_short"]
 
     # Loads scene
@@ -419,7 +415,7 @@ def test_filter_exclude_attribute_values(json_paths, json_data, loader):
     data = delete_sensor_from_data(data, "radar")
 
     # Loads the ground truth filtered data
-    scene_filtered_ground_truth = loader.load(data)
+    scene_filtered_ground_truth = raillabel.Scene.fromdict(data)
 
     # Tests for exclude filter
     scene_filtered = raillabel.filter(scene, exclude_attributes={"test_num_attr0": 2})
