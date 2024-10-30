@@ -6,7 +6,8 @@ from __future__ import annotations
 from typing import Literal
 
 from pydantic import BaseModel
-from transform_data import JSONTransformData
+
+from .transform_data import JSONTransformData
 
 
 class JSONCoordinateSystem(BaseModel):
