@@ -10,4 +10,7 @@ class JSONTransformData(BaseModel):
     """The translation and rotation of one coordinate system to another."""
 
     translation: tuple[float, float, float]
+    "List of 4 values encoding a quaternion (x, y, z, w)."
+
     quaternion: tuple[float, float, float, float]
+    "List of 3 values encoding the translation vector (x, y, z)"

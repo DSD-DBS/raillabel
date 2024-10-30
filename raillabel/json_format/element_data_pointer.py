@@ -20,5 +20,12 @@ class JSONElementDataPointer(BaseModel):
     """
 
     attribute_pointers: dict[str, Literal["num", "text", "boolean", "vec"]]
+    """This is a JSON object which contains pointers to the attributes of the element data pointed by
+    this pointer. The attributes pointer keys shall be the 'name' of the attribute of the element
+    data this pointer points to."""
+
     frame_intervals: list[JSONFrameInterval]
+    "List of frame intervals of the element data pointed by this pointer."
+
     type: Literal["bbox", "num", "poly2d", "poly3d", "cuboid", "vec"]
+    "Type of the element data pointed by this pointer."

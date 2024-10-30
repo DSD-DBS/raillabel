@@ -13,4 +13,7 @@ class JSONFrameInterval(BaseModel):
     """
 
     start: int
+    "Initial frame number of the interval."
+
     end: int
+    "Ending frame number of the interval."
