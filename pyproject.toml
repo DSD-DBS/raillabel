@@ -28,7 +28,7 @@ classifiers = [
   "Programming Language :: Python :: 3.12",
   "Programming Language :: Python :: 3.13",
 ]
-dependencies = ["jsonschema>=4.4.0", "fastjsonschema>=2.16.2"]
+dependencies = ["jsonschema>=4.4.0", "fastjsonschema>=2.16.2", "pydantic<3.0.0"]
 
 [project.urls]
 Homepage = "https://github.com/DSD-DBS/raillabel"
@@ -83,6 +83,8 @@ warn_redundant_casts = true
 warn_unreachable = true
 python_version = "3.12"
 disable_error_code = ["override"]
+plugins = "pydantic.mypy"
+ignore_missing_imports = true
 
 [tool.pytest.ini_options]
 addopts = """

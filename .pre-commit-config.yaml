@@ -43,6 +43,8 @@ repos:
       types_or: [python, pyi, toml, yaml]
       pass_filenames: false
       args: [raillabel]
+      additional_dependencies:
+        - "pydantic<3.0.0"
 
   - repo: https://github.com/Lucas-C/pre-commit-hooks
     rev: v1.5.5
