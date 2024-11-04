@@ -24,8 +24,8 @@ def frame_interval_json() -> JSONFrameInterval:
 @pytest.fixture
 def frame_interval() -> dict:
     return FrameInterval(
-        frame_start=12,
-        frame_end=16,
+        start=12,
+        end=16,
     )
 
 
@@ -45,14 +45,14 @@ def test_fromdict():
         }
     )
 
-    assert frame_interval.frame_start == 12
-    assert frame_interval.frame_end == 16
+    assert frame_interval.start == 12
+    assert frame_interval.end == 16
 
 
 def test_asdict():
     frame_interval = FrameInterval(
-        frame_start=12,
-        frame_end=16,
+        start=12,
+        end=16,
     )
 
     assert frame_interval.asdict() == {
@@ -63,8 +63,8 @@ def test_asdict():
 
 def test_len():
     frame_interval = FrameInterval(
-        frame_start=12,
-        frame_end=16,
+        start=12,
+        end=16,
     )
 
     assert len(frame_interval) == 5

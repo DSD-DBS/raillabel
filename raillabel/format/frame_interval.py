@@ -10,26 +10,20 @@ from raillabel.json_format import JSONFrameInterval
 
 @dataclass
 class FrameInterval:
-    """Closed interval of frames.
+    """Closed interval of frames."""
 
-    Parameters
-    ----------
-    frame_start: int
-        Initial frame number of the interval (inclusive).
-    frame_end: int
-        Ending frame number of the interval (inclusive).
+    start: int
+    "Initial frame number of the interval (inclusive)."
 
-    """
-
-    frame_start: int
-    frame_end: int
+    end: int
+    "Ending frame number of the interval (inclusive)."
 
     @classmethod
     def from_json(cls, json: JSONFrameInterval) -> FrameInterval:
         """Construct an instant of this class from RailLabel JSON data."""
         return FrameInterval(
-            frame_start=json.frame_start,
-            frame_end=json.frame_end,
+            start=json.frame_start,
+            end=json.frame_end,
         )
 
     @classmethod
@@ -43,8 +37,8 @@ class FrameInterval:
 
         """
         return FrameInterval(
-            frame_start=data_dict["frame_start"],
-            frame_end=data_dict["frame_end"],
+            start=data_dict["frame_start"],
+            end=data_dict["frame_end"],
         )
 
     @classmethod
@@ -66,8 +60,7 @@ class FrameInterval:
         frame_uid_intervals = cls._slice_into_intervals(sorted_frame_uids)
 
         return [
-            FrameInterval(frame_start=interval[0], frame_end=interval[-1])
-            for interval in frame_uid_intervals
+            FrameInterval(start=interval[0], end=interval[-1]) for interval in frame_uid_intervals
         ]
 
     def asdict(self) -> dict:
@@ -85,13 +78,13 @@ class FrameInterval:
 
         """
         return {
-            "frame_start": int(self.frame_start),
-            "frame_end": int(self.frame_end),
+            "frame_start": int(self.start),
+            "frame_end": int(self.end),
         }
 
     def __len__(self) -> int:
         """Return the length in frames."""
-        return abs(self.frame_start - self.frame_end) + 1
+        return abs(self.start - self.end) + 1
 
     @classmethod
     def _slice_into_intervals(cls, sorted_frame_uids: list[int]) -> list[list[int]]:
