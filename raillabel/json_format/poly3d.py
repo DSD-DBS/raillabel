@@ -10,7 +10,7 @@ from pydantic import BaseModel
 from .attributes import JSONAttributes
 
 
-class JSONPoly2d(BaseModel):
+class JSONPoly3d(BaseModel):
     """A 3D polyline defined as a sequence of 3D points."""
 
     name: str
