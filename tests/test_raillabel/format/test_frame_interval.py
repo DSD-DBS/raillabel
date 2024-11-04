@@ -3,15 +3,10 @@
 
 from __future__ import annotations
 
-import os
-import sys
-from pathlib import Path
-
 import pytest
 
-sys.path.insert(1, str(Path(__file__).parent.parent.parent.parent.parent))
-
 from raillabel.format import FrameInterval
+from raillabel.json_format import JSONFrameInterval
 
 # == Fixtures =========================
 
@@ -19,6 +14,11 @@ from raillabel.format import FrameInterval
 @pytest.fixture
 def frame_interval_dict() -> dict:
     return {"frame_start": 12, "frame_end": 16}
+
+
+@pytest.fixture
+def frame_interval_json() -> JSONFrameInterval:
+    return JSONFrameInterval(frame_start=12, frame_end=16)
 
 
 @pytest.fixture
@@ -30,6 +30,11 @@ def frame_interval() -> dict:
 
 
 # == Tests ============================
+
+
+def test_from_json(frame_interval, frame_interval_json):
+    actual = FrameInterval.from_json(frame_interval_json)
+    assert actual == frame_interval
 
 
 def test_fromdict():
@@ -104,5 +109,4 @@ def test_from_frame_uids_unsorted():
 
 
 if __name__ == "__main__":
-    os.system("clear")
-    pytest.main([__file__, "--disable-pytest-warnings", "--cache-clear", "-v"])
+    pytest.main([__file__, "-v"])

@@ -5,6 +5,8 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 
+from raillabel.json_format import JSONFrameInterval
+
 
 @dataclass
 class FrameInterval:
@@ -21,6 +23,14 @@ class FrameInterval:
 
     frame_start: int
     frame_end: int
+
+    @classmethod
+    def from_json(cls, json: JSONFrameInterval) -> FrameInterval:
+        """Construct an instant of this class from RailLabel JSON data."""
+        return FrameInterval(
+            frame_start=json.frame_start,
+            frame_end=json.frame_end,
+        )
 
     @classmethod
     def fromdict(cls, data_dict: dict) -> FrameInterval:
@@ -41,24 +51,15 @@ class FrameInterval:
     def from_frame_uids(cls, frame_uids: list[int]) -> list[FrameInterval]:
         """Convert a list of frame uids into FrameIntervals.
 
-        Parameters
-        ----------
-        frame_uids: list[int]
-            List of frame uids, that should be included in the FrameIntervals.
-
-        Returns
+        Example:
         -------
-        list[FrameInterval]
-            FrameIntervals corresponding to the frames ids.
-
-        Example
-        -------
-        FrameInterval.from_frame_uids([0, 1, 2, 3, 6, 7, 9, 12, 13, 14]) == [
+        ```python
+        FrameInterval.from_frame_uids([0, 1, 2, 3, 9, 12, 13, 14]) == [
             FrameInterval(0, 3),
-            FrameInterval(6, 7),
             FrameInterval(9, 9),
             FrameInterval(12, 14),
         ]
+        ```
 
         """
         sorted_frame_uids = sorted(frame_uids)
