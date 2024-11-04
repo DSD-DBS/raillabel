@@ -5,6 +5,8 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 
+from raillabel.json_format import JSONIntrinsicsPinhole
+
 
 @dataclass
 class IntrinsicsPinhole:
@@ -32,6 +34,16 @@ class IntrinsicsPinhole:
     distortion: tuple[float, ...]
     width_px: int
     height_px: int
+
+    @classmethod
+    def from_json(cls, json: JSONIntrinsicsPinhole) -> IntrinsicsPinhole:
+        """Construct an instant of this class from RailLabel JSON data."""
+        return IntrinsicsPinhole(
+            camera_matrix=json.camera_matrix,
+            distortion=json.distortion_coeffs,
+            width_px=json.width_px,
+            height_px=json.height_px,
+        )
 
     @classmethod
     def fromdict(cls, data_dict: dict) -> IntrinsicsPinhole:
