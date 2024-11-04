@@ -13,26 +13,20 @@ from .quaternion import Quaternion
 
 @dataclass
 class Transform:
-    """A transformation between two coordinate systems.
+    """A transformation between two coordinate systems."""
 
-    Parameters
-    ----------
-    pos: raillabel.format.Point3d
-        Translation with regards to the parent coordinate system.
-    quat: raillabel.format.Quaternion
-        Rotation quaternion with regards to the parent coordinate system.
+    position: Point3d
+    "Translation with regards to the parent coordinate system."
 
-    """
-
-    pos: Point3d
-    quat: Quaternion
+    quaternion: Quaternion
+    "Rotation quaternion with regards to the parent coordinate system."
 
     @classmethod
     def from_json(cls, json: JSONTransformData) -> Transform:
         """Construct an instant of this class from RailLabel JSON data."""
         return Transform(
-            pos=Point3d(x=json.translation[0], y=json.translation[1], z=json.translation[2]),
-            quat=Quaternion(
+            position=Point3d(x=json.translation[0], y=json.translation[1], z=json.translation[2]),
+            quaternion=Quaternion(
                 x=json.quaternion[0],
                 y=json.quaternion[1],
                 z=json.quaternion[2],
@@ -51,8 +45,8 @@ class Transform:
 
         """
         return Transform(
-            pos=Point3d.fromdict(data_dict["translation"]),
-            quat=Quaternion.fromdict(data_dict["quaternion"]),
+            position=Point3d.fromdict(data_dict["translation"]),
+            quaternion=Quaternion.fromdict(data_dict["quaternion"]),
         )
 
     def asdict(self) -> dict[str, list[float]]:
@@ -70,6 +64,6 @@ class Transform:
 
         """
         return {
-            "translation": self.pos.asdict(),
-            "quaternion": self.quat.asdict(),
+            "translation": self.position.asdict(),
+            "quaternion": self.quaternion.asdict(),
         }

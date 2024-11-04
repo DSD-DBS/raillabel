@@ -103,3 +103,7 @@ If you are building raillabel scenes yourself or want to manipulate the data in 
 Functionality, that has been **moved** to the `raillabel_providerkit`:
 - loading annotations in formats other than raillabel itself
 - validating the content of files
+
+Other breaking changes:
+- the `fromdict()` and `asdict()` methods in `raillabel.format` classes have been replaced with `from_json()` and `to_json` respectively
+- `raillabel.format.Transform` fields have been changed by `pos -> position` and `quad -> quaternion` to make it more explicit

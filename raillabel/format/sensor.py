@@ -126,12 +126,12 @@ class Sensor:
             return None
 
         return Transform(
-            pos=Point3d(
+            position=Point3d(
                 x=data_dict["pose_wrt_parent"]["translation"][0],
                 y=data_dict["pose_wrt_parent"]["translation"][1],
                 z=data_dict["pose_wrt_parent"]["translation"][2],
             ),
-            quat=Quaternion(
+            quaternion=Quaternion(
                 x=data_dict["pose_wrt_parent"]["quaternion"][0],
                 y=data_dict["pose_wrt_parent"]["quaternion"][1],
                 z=data_dict["pose_wrt_parent"]["quaternion"][2],
