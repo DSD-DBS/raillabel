@@ -3,15 +3,10 @@
 
 from __future__ import annotations
 
-import os
-import sys
-from pathlib import Path
-
 import pytest
 
-sys.path.insert(1, str(Path(__file__).parent.parent.parent.parent.parent))
-
 from raillabel.format import IntrinsicsRadar
+from raillabel.json_format import JSONIntrinsicsRadar
 
 # == Fixtures =========================
 
@@ -26,6 +21,15 @@ def intrinsics_radar_dict() -> dict:
 
 
 @pytest.fixture
+def intrinsics_radar_json() -> dict:
+    return JSONIntrinsicsRadar(
+        resolution_px_per_m=2.856,
+        width_px=2856,
+        height_px=1428,
+    )
+
+
+@pytest.fixture
 def intrinsics_radar() -> dict:
     return IntrinsicsRadar(
         resolution_px_per_m=2.856,
@@ -35,6 +39,11 @@ def intrinsics_radar() -> dict:
 
 
 # == Tests ============================
+
+
+def test_from_json(intrinsics_radar, intrinsics_radar_json):
+    actual = IntrinsicsRadar.from_json(intrinsics_radar_json)
+    assert actual == intrinsics_radar
 
 
 def test_fromdict():
@@ -66,5 +75,4 @@ def test_asdict():
 
 
 if __name__ == "__main__":
-    os.system("clear")
     pytest.main([__file__, "--disable-pytest-warnings", "--cache-clear", "-v"])
