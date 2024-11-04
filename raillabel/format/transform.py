@@ -5,6 +5,8 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 
+from raillabel.json_format import JSONTransformData
+
 from .point3d import Point3d
 from .quaternion import Quaternion
 
@@ -24,6 +26,19 @@ class Transform:
 
     pos: Point3d
     quat: Quaternion
+
+    @classmethod
+    def from_json(cls, json: JSONTransformData) -> Transform:
+        """Construct an instant of this class from RailLabel JSON data."""
+        return Transform(
+            pos=Point3d(x=json.translation[0], y=json.translation[1], z=json.translation[2]),
+            quat=Quaternion(
+                x=json.quaternion[0],
+                y=json.quaternion[1],
+                z=json.quaternion[2],
+                w=json.quaternion[3],
+            ),
+        )
 
     @classmethod
     def fromdict(cls, data_dict: dict) -> Transform:

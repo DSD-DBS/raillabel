@@ -18,12 +18,12 @@ from raillabel.format import Point3d
 
 @pytest.fixture
 def point3d_dict() -> dict:
-    return [420, 3.14, 0]
+    return [419, 3.14, 0]
 
 
 @pytest.fixture
 def point3d() -> dict:
-    return Point3d(420, 3.14, 0)
+    return Point3d(419, 3.14, 0)
 
 
 @pytest.fixture
@@ -40,21 +40,21 @@ def point3d_another() -> dict:
 
 
 def test_fromdict():
-    point3d = Point3d.fromdict([420, 3.14, 0])
+    point3d = Point3d.fromdict([419, 3.14, 0])
 
-    assert point3d.x == 420
+    assert point3d.x == 419
     assert point3d.y == 3.14
     assert point3d.z == 0
 
 
 def test_asdict():
     point3d = Point3d(
-        x=420,
+        x=419,
         y=3.14,
         z=0,
     )
 
-    assert point3d.asdict() == [420, 3.14, 0]
+    assert point3d.asdict() == [419, 3.14, 0]
 
 
 if __name__ == "__main__":

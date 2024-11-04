@@ -3,15 +3,11 @@
 
 from __future__ import annotations
 
-import os
-import sys
-from pathlib import Path
-
 import pytest
 
-sys.path.insert(1, str(Path(__file__).parent.parent.parent.parent.parent))
-
 from raillabel.format import Transform
+from raillabel.json_format import JSONTransformData
+
 
 # == Fixtures =========================
 
@@ -22,11 +18,21 @@ def transform_dict(point3d_dict, quaternion_dict) -> dict:
 
 
 @pytest.fixture
-def transform(point3d, quaternion) -> dict:
+def transform_json(point3d_dict, quaternion_dict) -> JSONTransformData:
+    return JSONTransformData(translation=point3d_dict, quaternion=quaternion_dict)
+
+
+@pytest.fixture
+def transform(point3d, quaternion) -> Transform:
     return Transform(pos=point3d, quat=quaternion)
 
 
 # == Tests ============================
+
+
+def test_from_json(transform_json, transform):
+    actual = Transform.from_json(transform_json)
+    assert actual == transform
 
 
 def test_fromdict(point3d, point3d_dict, quaternion, quaternion_dict):
@@ -43,5 +49,4 @@ def test_asdict(point3d, point3d_dict, quaternion, quaternion_dict):
 
 
 if __name__ == "__main__":
-    os.system("clear")
-    pytest.main([__file__, "--disable-pytest-warnings", "--cache-clear", "-v"])
+    pytest.main([__file__, "-v"])
