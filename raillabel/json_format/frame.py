@@ -14,10 +14,7 @@ from .stream_sync import JSONStreamSync
 
 
 class JSONFrame(BaseModel):
-    """A frame interval defines a starting and ending frame number as a closed interval.
-
-    That means the interval includes the limit frame numbers.
-    """
+    """A frame is a container of dynamic, timewise, information."""
 
     frame_properties: JSONFrameProperties | None
     "Container of frame information other than annotations."
