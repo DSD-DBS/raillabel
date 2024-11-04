@@ -39,6 +39,11 @@ def point2d_another() -> dict:
 # == Tests ============================
 
 
+def test_from_json(point2d, point2d_dict):
+    actual = Point2d.from_json(point2d_dict)
+    assert actual == point2d
+
+
 def test_fromdict():
     point2d = Point2d.fromdict([1.5, 222])
 
