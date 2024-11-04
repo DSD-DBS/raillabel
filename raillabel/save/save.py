@@ -3,13 +3,12 @@
 
 from __future__ import annotations
 
-import json
 from pathlib import Path
 
 from raillabel.format import Scene
 
 
-def save(scene: Scene, path: Path | str, prettify_json: bool = False) -> None:
+def save(_scene: Scene, _path: Path | str, _prettify_json: bool = False) -> None:
     """Save a raillabel.Scene in a JSON file.
 
     Parameters
@@ -25,12 +24,3 @@ def save(scene: Scene, path: Path | str, prettify_json: bool = False) -> None:
         also the file size. Default is False.
 
     """
-    path = Path(path)
-
-    data = scene.asdict()
-
-    with Path(path).open("w") as save_file:
-        if prettify_json:
-            json.dump(data, save_file, indent=4)
-        else:
-            json.dump(data, save_file)

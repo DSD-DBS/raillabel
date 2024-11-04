@@ -6,7 +6,6 @@ from __future__ import annotations
 from dataclasses import dataclass
 
 from ._object_annotation import _ObjectAnnotation
-from .object import Object
 from .point3d import Point3d
 from .quaternion import Quaternion
 from .size3d import Size3d
@@ -47,78 +46,3 @@ class Cuboid(_ObjectAnnotation):
     size: Size3d
 
     OPENLABEL_ID = "cuboid"
-
-    @classmethod
-    def fromdict(cls, data_dict: dict, sensors: dict, object: Object) -> Cuboid:
-        """Generate a Cuboid object from a dict.
-
-        Parameters
-        ----------
-        data_dict: dict
-            RailLabel format snippet containing the relevant data.
-        sensors: dict
-            Dictionary containing all sensors for the scene.
-        object: raillabel.format.Object
-            Object this annotation belongs to.
-
-        Returns
-        -------
-        annotation: Cuboid
-            Converted annotation.
-
-        """
-        return Cuboid(
-            uid=str(data_dict["uid"]),
-            pos=Point3d(
-                x=data_dict["val"][0],
-                y=data_dict["val"][1],
-                z=data_dict["val"][2],
-            ),
-            quat=Quaternion(
-                x=data_dict["val"][3],
-                y=data_dict["val"][4],
-                z=data_dict["val"][5],
-                w=data_dict["val"][6],
-            ),
-            size=Size3d(
-                x=data_dict["val"][7],
-                y=data_dict["val"][8],
-                z=data_dict["val"][9],
-            ),
-            object=object,
-            sensor=cls._coordinate_system_fromdict(data_dict, sensors),
-            attributes=cls._attributes_fromdict(data_dict),
-        )
-
-    def asdict(self) -> dict:
-        """Export self as a dict compatible with the OpenLABEL schema.
-
-        Returns
-        -------
-        dict_repr: dict
-            Dict representation of this class instance.
-
-        Raises
-        ------
-        ValueError
-            if an attribute can not be converted to the type required by the OpenLabel schema.
-
-        """
-        dict_repr = self._annotation_required_fields_asdict()
-
-        dict_repr["val"] = [
-            float(self.pos.x),
-            float(self.pos.y),
-            float(self.pos.z),
-            float(self.quat.x),
-            float(self.quat.y),
-            float(self.quat.z),
-            float(self.quat.w),
-            float(self.size.x),
-            float(self.size.y),
-            float(self.size.z),
-        ]
-
-        dict_repr.update(self._annotation_optional_fields_asdict())
-
-        return dict_repr

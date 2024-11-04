@@ -34,36 +34,3 @@ class ElementDataPointer:
     uid: str
     frame_intervals: list[FrameInterval]
     attribute_pointers: dict[str, AttributeType]
-
-    @property
-    def annotation_type(self) -> str:
-        """Return type of annotation e.g. bbox, cuboid."""
-        return self.uid.split("__")[1]
-
-    def asdict(self) -> dict:
-        """Export self as a dict compatible with the OpenLABEL schema.
-
-        Returns
-        -------
-        dict_repr: dict
-            Dict representation of this class instance.
-
-        Raises
-        ------
-        ValueError
-            if an attribute can not be converted to the type required by the OpenLabel schema.
-
-        """
-        return {
-            "type": self.annotation_type,
-            "frame_intervals": self._frame_intervals_asdict(),
-            "attribute_pointers": self._attribute_pointers_asdict(),
-        }
-
-    def _frame_intervals_asdict(self) -> list[dict[str, int]]:
-        return [fi.asdict() for fi in self.frame_intervals]
-
-    def _attribute_pointers_asdict(self) -> dict[str, str]:
-        return {
-            attr_name: attr_type.value for attr_name, attr_type in self.attribute_pointers.items()
-        }

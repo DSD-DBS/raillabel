@@ -3,7 +3,7 @@
 
 from __future__ import annotations
 
-from abc import ABC, abstractmethod, abstractproperty
+from abc import ABC, abstractproperty
 from dataclasses import dataclass
 from importlib import import_module
 from inspect import isclass
@@ -30,22 +30,6 @@ class _ObjectAnnotation(ABC):
     @property
     @abstractproperty
     def OPENLABEL_ID(self) -> list[str] | str:
-        raise NotImplementedError
-
-    # === Public Methods =====================================================
-
-    @abstractmethod
-    def asdict(self) -> dict:
-        raise NotImplementedError
-
-    @classmethod
-    @abstractmethod
-    def fromdict(
-        cls,
-        data_dict: dict,
-        sensors: dict,
-        object: Object,
-    ) -> type[_ObjectAnnotation]:
         raise NotImplementedError
 
     # === Private Methods ====================================================

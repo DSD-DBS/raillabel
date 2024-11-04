@@ -12,11 +12,6 @@ from raillabel.json_format import JSONFrameInterval
 
 
 @pytest.fixture
-def frame_interval_dict() -> dict:
-    return {"frame_start": 12, "frame_end": 16}
-
-
-@pytest.fixture
 def frame_interval_json() -> JSONFrameInterval:
     return JSONFrameInterval(frame_start=12, frame_end=16)
 
@@ -35,30 +30,6 @@ def frame_interval() -> dict:
 def test_from_json(frame_interval, frame_interval_json):
     actual = FrameInterval.from_json(frame_interval_json)
     assert actual == frame_interval
-
-
-def test_fromdict():
-    frame_interval = FrameInterval.fromdict(
-        {
-            "frame_start": 12,
-            "frame_end": 16,
-        }
-    )
-
-    assert frame_interval.start == 12
-    assert frame_interval.end == 16
-
-
-def test_asdict():
-    frame_interval = FrameInterval(
-        start=12,
-        end=16,
-    )
-
-    assert frame_interval.asdict() == {
-        "frame_start": 12,
-        "frame_end": 16,
-    }
 
 
 def test_len():

@@ -4,7 +4,6 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
-from importlib import metadata as importlib_metadata
 
 
 @dataclass
@@ -60,66 +59,3 @@ class Metadata:
     name: str | None = None
     subschema_version: str | None = None
     tagged_file: str | None = None
-
-    @classmethod
-    def fromdict(cls, data_dict: dict, subschema_version: str | None = None) -> Metadata:
-        """Generate a Metadata object from a dict.
-
-        Parameters
-        ----------
-        data_dict: dict
-            RailLabel format snippet containing the relevant data. Additional (non-defined)
-            arguments can be set and will be added as properties to Metadata.
-        subschema_version: str, optional
-            Version of the RailLabel subschema
-
-        Returns
-        -------
-        metadata: Metadata
-            Converted metadata.
-
-        """
-        metadata = Metadata(
-            schema_version=data_dict["schema_version"],
-            subschema_version=subschema_version,
-            exporter_version=cls._collect_exporter_version(),
-        )
-
-        return cls._set_additional_attributes(metadata, data_dict)
-
-    def asdict(self) -> dict:
-        """Export self as a dict compatible with the OpenLABEL schema.
-
-        Returns
-        -------
-        dict_repr: dict
-            Dict representation of this class instance.
-
-        """
-        return self._remove_empty_fields(vars(self))
-
-    @classmethod
-    def _collect_exporter_version(cls) -> str | None:
-        try:
-            exporter_version = importlib_metadata.version("raillabel")
-        except importlib_metadata.PackageNotFoundError:
-            return None
-
-        version_number_length = len(exporter_version) - len(exporter_version.split(".")[-1])
-        return exporter_version[: version_number_length - 1]
-
-    @classmethod
-    def _set_additional_attributes(cls, metadata: Metadata, data_dict: dict) -> Metadata:
-        preset_keys = ["schema_version", "subschema_version", "exporter_version"]
-
-        for key, value in data_dict.items():
-            if key in preset_keys:
-                continue
-
-            setattr(metadata, key, value)
-
-        return metadata
-
-    def _remove_empty_fields(self, dict_repr: dict) -> dict:
-        """Remove empty fields from a dictionary."""
-        return {k: v for k, v in dict_repr.items() if v is not None}

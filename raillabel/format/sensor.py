@@ -5,12 +5,9 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 from enum import Enum
-from typing import Any
 
 from .intrinsics_pinhole import IntrinsicsPinhole
 from .intrinsics_radar import IntrinsicsRadar
-from .point3d import Point3d
-from .quaternion import Quaternion
 from .transform import Transform
 
 
@@ -47,124 +44,6 @@ class Sensor:
     type: SensorType | None = None
     uri: str | None = None
     description: str | None = None
-
-    @classmethod
-    def fromdict(cls, uid: str, cs_data_dict: dict, stream_data_dict: dict) -> Sensor:
-        """Generate a Sensor object from a dict.
-
-        Parameters
-        ----------
-        uid: str
-            Unique identifier of the sensor.
-        cs_data_dict: dict
-            RailLabel format dict containing the data about the coordinate system.
-        stream_data_dict: dict
-            RailLabel format dict containing the data about the stream.
-
-        Returns
-        -------
-        sensor: raillabel.format.Sensor
-            Converted Sensor object.
-
-        """
-        return Sensor(
-            uid=uid,
-            extrinsics=cls._extrinsics_fromdict(cs_data_dict),
-            intrinsics=cls._intrinsics_fromdict(
-                stream_data_dict, cls._type_fromdict(stream_data_dict)
-            ),
-            type=cls._type_fromdict(stream_data_dict),
-            uri=stream_data_dict.get("uri"),
-            description=stream_data_dict.get("description"),
-        )
-
-    def asdict(self) -> dict:
-        """Export self as a dict compatible with the RailLabel schema.
-
-        Returns
-        -------
-        dict_repr: dict
-            Dict representation of this class instance.
-
-        """
-        return {
-            "coordinate_system": self._as_coordinate_system_dict(),
-            "stream": self._as_stream_dict(),
-        }
-
-    def _as_coordinate_system_dict(self) -> dict[str, Any]:
-        coordinate_system_repr: dict[str, Any] = {"type": "sensor", "parent": "base"}
-
-        if self.extrinsics is not None:
-            coordinate_system_repr["pose_wrt_parent"] = self.extrinsics.asdict()
-
-        return coordinate_system_repr
-
-    def _as_stream_dict(self) -> dict[str, Any]:
-        stream_repr: dict[str, Any] = {}
-
-        if self.type is not None:
-            stream_repr["type"] = str(self.type.value)
-
-        if self.uri is not None:
-            stream_repr["uri"] = str(self.uri)
-
-        if self.description is not None:
-            stream_repr["description"] = str(self.description)
-
-        if isinstance(self.intrinsics, IntrinsicsPinhole):
-            stream_repr["stream_properties"] = {"intrinsics_pinhole": self.intrinsics.asdict()}
-
-        elif isinstance(self.intrinsics, IntrinsicsRadar):
-            stream_repr["stream_properties"] = {"intrinsics_radar": self.intrinsics.asdict()}
-
-        return stream_repr
-
-    @classmethod
-    def _extrinsics_fromdict(cls, data_dict: dict) -> Transform | None:
-        if "pose_wrt_parent" not in data_dict:
-            return None
-
-        return Transform(
-            position=Point3d(
-                x=data_dict["pose_wrt_parent"]["translation"][0],
-                y=data_dict["pose_wrt_parent"]["translation"][1],
-                z=data_dict["pose_wrt_parent"]["translation"][2],
-            ),
-            quaternion=Quaternion(
-                x=data_dict["pose_wrt_parent"]["quaternion"][0],
-                y=data_dict["pose_wrt_parent"]["quaternion"][1],
-                z=data_dict["pose_wrt_parent"]["quaternion"][2],
-                w=data_dict["pose_wrt_parent"]["quaternion"][3],
-            ),
-        )
-
-    @classmethod
-    def _intrinsics_fromdict(
-        cls, data_dict: dict, sensor_type: SensorType | None
-    ) -> IntrinsicsPinhole | IntrinsicsRadar | None:
-        if "stream_properties" not in data_dict:
-            return None
-
-        if sensor_type == SensorType.CAMERA:
-            if "intrinsics_pinhole" in data_dict["stream_properties"]:
-                return IntrinsicsPinhole.fromdict(
-                    data_dict["stream_properties"]["intrinsics_pinhole"]
-                )
-
-        elif (
-            sensor_type == SensorType.RADAR and "intrinsics_radar" in data_dict["stream_properties"]
-        ):
-            return IntrinsicsRadar.fromdict(data_dict["stream_properties"]["intrinsics_radar"])
-
-        return None
-
-    @classmethod
-    def _type_fromdict(cls, data_dict: dict) -> SensorType | None:
-        if "type" not in data_dict:
-            return None
-
-        return SensorType(data_dict["type"])
 
 
 class SensorType(Enum):

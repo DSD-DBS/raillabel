@@ -27,21 +27,6 @@ class FrameInterval:
         )
 
     @classmethod
-    def fromdict(cls, data_dict: dict) -> FrameInterval:
-        """Generate a FrameInterval object from a dict.
-
-        Parameters
-        ----------
-        data_dict: dict
-            RailLabel format snippet containing the relevant data.
-
-        """
-        return FrameInterval(
-            start=data_dict["frame_start"],
-            end=data_dict["frame_end"],
-        )
-
-    @classmethod
     def from_frame_uids(cls, frame_uids: list[int]) -> list[FrameInterval]:
         """Convert a list of frame uids into FrameIntervals.
 
@@ -62,25 +47,6 @@ class FrameInterval:
         return [
             FrameInterval(start=interval[0], end=interval[-1]) for interval in frame_uid_intervals
         ]
-
-    def asdict(self) -> dict:
-        """Export self as a dict compatible with the OpenLABEL schema.
-
-        Returns
-        -------
-        dict_repr: dict
-            Dict representation of this class instance.
-
-        Raises
-        ------
-        ValueError
-            if an attribute can not be converted to the type required by the OpenLabel schema.
-
-        """
-        return {
-            "frame_start": int(self.start),
-            "frame_end": int(self.end),
-        }
 
     def __len__(self) -> int:
         """Return the length in frames."""

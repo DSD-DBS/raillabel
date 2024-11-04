@@ -3,13 +3,12 @@
 
 from __future__ import annotations
 
-import json
 from pathlib import Path
 
-from raillabel.format import Scene
+from raillabel.format import Metadata, Scene
 
 
-def load(path: Path | str) -> Scene:
+def load(_path: Path | str) -> Scene:
     """Load an annotation file of any supported type.
 
     Parameters
@@ -23,7 +22,4 @@ def load(path: Path | str) -> Scene:
         Scene with the loaded data.
 
     """
-    with Path(path).open() as scene_file:
-        raw_scene = json.load(scene_file)
-
-    return Scene.fromdict(raw_scene)
+    return Scene(metadata=Metadata("1.0.0"))
