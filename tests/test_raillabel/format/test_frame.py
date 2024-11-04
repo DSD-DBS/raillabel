@@ -42,7 +42,6 @@ def frame_dict(
 @pytest.fixture
 def frame(sensor_reference_camera, num, all_annotations) -> dict:
     return Frame(
-        uid=0,
         timestamp=Decimal("1632321743.100000072"),
         sensors={sensor_reference_camera.sensor.uid: sensor_reference_camera},
         frame_data={num.name: num},
@@ -55,7 +54,6 @@ def frame(sensor_reference_camera, num, all_annotations) -> dict:
 
 def test_fromdict_sensors(sensor_reference_camera_dict, sensor_reference_camera, sensor_camera):
     frame = Frame.fromdict(
-        uid=0,
         data_dict={
             "frame_properties": {
                 "timestamp": "1632321743.100000072",
@@ -66,14 +64,12 @@ def test_fromdict_sensors(sensor_reference_camera_dict, sensor_reference_camera,
         objects={},
     )
 
-    assert frame.uid == 0
     assert frame.timestamp == Decimal("1632321743.100000072")
     assert frame.sensors == {sensor_reference_camera.sensor.uid: sensor_reference_camera}
 
 
 def test_fromdict_frame_data(num, num_dict, sensor_camera):
     frame = Frame.fromdict(
-        uid=1,
         data_dict={"frame_properties": {"frame_data": {"num": [num_dict]}}},
         sensors={sensor_camera.uid: sensor_camera},
         objects={},
@@ -91,7 +87,6 @@ def test_fromdict_annotations(
     all_annotations,
 ):
     frame = Frame.fromdict(
-        uid=2,
         data_dict={
             "objects": {
                 object_person.uid: object_data_person_dict,
@@ -113,7 +108,6 @@ def test_asdict_sensors(
     sensor_reference_camera,
 ):
     frame = Frame(
-        uid=0,
         timestamp=Decimal("1632321743.100000072"),
         sensors={sensor_reference_camera.sensor.uid: sensor_reference_camera},
     )
@@ -127,7 +121,7 @@ def test_asdict_sensors(
 
 
 def test_asdict_frame_data(num, num_dict):
-    frame = Frame(uid=0, frame_data={num.name: num})
+    frame = Frame(frame_data={num.name: num})
 
     assert frame.asdict() == {"frame_properties": {"frame_data": {"num": [num_dict]}}}
 
@@ -135,7 +129,7 @@ def test_asdict_frame_data(num, num_dict):
 def test_asdict_object_data(
     object_data_person_dict, object_person, object_data_train_dict, object_train, all_annotations
 ):
-    frame = Frame(uid=0, annotations=all_annotations)
+    frame = Frame(annotations=all_annotations)
 
     assert frame.asdict() == {
         "objects": {
@@ -147,7 +141,6 @@ def test_asdict_object_data(
 
 def test_object_data(object_person, object_train, bbox, cuboid, poly2d, poly3d, seg3d, bbox_train):
     frame = Frame(
-        uid=2,
         annotations={
             bbox.uid: bbox,
             poly2d.uid: poly2d,

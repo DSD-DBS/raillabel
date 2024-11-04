@@ -173,7 +173,7 @@ class Scene:
     ) -> dict[int, Frame]:
         frames = {}
         for frame_uid, frame_dict in frames_dict.items():
-            frames[int(frame_uid)] = Frame.fromdict(frame_uid, frame_dict, objects, sensors)
+            frames[int(frame_uid)] = Frame.fromdict(frame_dict, objects, sensors)
 
         return frames
 

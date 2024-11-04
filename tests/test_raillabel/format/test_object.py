@@ -8,7 +8,7 @@ import random
 import sys
 import typing as t
 from pathlib import Path
-from uuid import UUID, uuid4
+from uuid import uuid4
 
 import pytest
 
@@ -405,11 +405,11 @@ def build_annotation(name: str, object: Object, attributes: dict = {}) -> t.Unio
 
 def build_frame(uid: int, raw_object_data: dict[Object, list[t.Union[Bbox, Cuboid]]]) -> Frame:
     annotations = {}
-    for object, object_data in raw_object_data.items():
+    for object_data in raw_object_data.values():
         for annotation in object_data:
             annotations[annotation.uid] = annotation
 
-    return Frame(uid=uid, annotations=annotations)
+    return Frame(annotations=annotations)
 
 
 def build_object(type: str) -> Object:

@@ -20,8 +20,6 @@ class Frame:
 
     Parameters
     ----------
-    uid: int
-        Number of the frame within the annotation file. Must be unique.
     timestamp: decimal.Decimal, optional
         Timestamp containing the Unix epoch time of the frame with up to nanosecond precision.
     sensors: dict of raillabel.format.SensorReference, optional
@@ -42,7 +40,6 @@ class Frame:
 
     """
 
-    uid: int
     timestamp: decimal.Decimal | None = None
     sensors: dict[str, SensorReference] = field(default_factory=dict)
     frame_data: dict[str, Num] = field(default_factory=dict)
@@ -71,7 +68,6 @@ class Frame:
     @classmethod
     def fromdict(
         cls,
-        uid: str,
         data_dict: dict,
         objects: dict[str, Object],
         sensors: dict[str, Sensor],
@@ -96,7 +92,6 @@ class Frame:
 
         """
         return Frame(
-            uid=int(uid),
             timestamp=cls._timestamp_fromdict(data_dict),
             sensors=cls._sensors_fromdict(data_dict, sensors),
             frame_data=cls._frame_data_fromdict(data_dict, sensors),

@@ -194,7 +194,7 @@ def test_fromdict_frames(
                 "coordinate_systems": coordinate_systems_dict,
                 "objects": objects_dict,
                 "frames": {
-                    str(frame.uid): frame_dict,
+                    "0": frame_dict,
                 },
                 "frame_intervals": [
                     {
@@ -208,7 +208,7 @@ def test_fromdict_frames(
     )
 
     assert scene.frames == {
-        frame.uid: frame,
+        0: frame,
     }
 
 
@@ -300,7 +300,7 @@ def test_asdict_frames(
         sensors=sensors,
         objects=objects,
         frames={
-            frame.uid: frame,
+            "0": frame,
         },
     )
 
@@ -311,7 +311,7 @@ def test_asdict_frames(
             "coordinate_systems": coordinate_systems_dict,
             "objects": objects_dict,
             "frames": {
-                str(frame.uid): frame_dict,
+                "0": frame_dict,
             },
             "frame_intervals": [
                 {

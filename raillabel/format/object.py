@@ -98,7 +98,7 @@ class Object:
 
         """
         frame_uids_containing_object = [
-            frame.uid for frame in frames.values() if self._is_object_in_frame(frame)
+            frame_uid for frame_uid, frame in frames.items() if self._is_object_in_frame(frame)
         ]
 
         return FrameInterval.from_frame_uids(frame_uids_containing_object)
@@ -150,11 +150,11 @@ class Object:
 
     def _collect_pointer_ids_per_frame(self, frames: dict[int, Frame]) -> dict[int, set[str]]:
         pointer_ids_per_frame: dict[int, set[str]] = {}
-        for frame in frames.values():
-            pointer_ids_per_frame[frame.uid] = set()
+        for frame_uid, frame in frames.items():
+            pointer_ids_per_frame[frame_uid] = set()
 
             for annotation in self._filtered_annotations(frame):
-                pointer_ids_per_frame[frame.uid].add(annotation.name)  # type: ignore
+                pointer_ids_per_frame[frame_uid].add(annotation.name)  # type: ignore
 
         return pointer_ids_per_frame
 
