@@ -10,14 +10,14 @@ from dataclasses import dataclass
 class Point2d:
     """A 2d point in an image."""
 
-    x: int
+    x: int | float
     "The x-coordinate of the point in the image in pixels."
 
-    y: int
+    y: int | float
     "The y-coordinate of the point in the image in pixels."
 
     @classmethod
-    def from_json(cls, json: tuple[int, int]) -> Point2d:
+    def from_json(cls, json: tuple[int | float, int | float]) -> Point2d:
         """Construct an instant of this class from RailLabel JSON data."""
         return Point2d(x=json[0], y=json[1])
 
