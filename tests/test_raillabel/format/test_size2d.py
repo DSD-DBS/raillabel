@@ -3,13 +3,7 @@
 
 from __future__ import annotations
 
-import os
-import sys
-from pathlib import Path
-
 import pytest
-
-sys.path.insert(1, str(Path(__file__).parent.parent.parent.parent.parent))
 
 from raillabel.format import Size2d
 
@@ -29,6 +23,11 @@ def size2d() -> dict:
 # == Tests ============================
 
 
+def test_from_json(size2d, size2d_dict):
+    actual = Size2d.from_json(size2d_dict)
+    assert actual == size2d
+
+
 def test_fromdict():
     size2d = Size2d.fromdict([25, 1.344])
 
@@ -46,5 +45,4 @@ def test_asdict():
 
 
 if __name__ == "__main__":
-    os.system("clear")
-    pytest.main([__file__, "--disable-pytest-warnings", "--cache-clear", "-v"])
+    pytest.main([__file__, "-v"])

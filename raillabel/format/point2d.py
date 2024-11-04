@@ -11,10 +11,10 @@ class Point2d:
     """A 2d point in an image."""
 
     x: int | float
-    "The x-coordinate of the point in the image in pixels."
+    "The x-coordinate of the point in the image in pixels from the left."
 
     y: int | float
-    "The y-coordinate of the point in the image in pixels."
+    "The y-coordinate of the point in the image in pixels from the top."
 
     @classmethod
     def from_json(cls, json: tuple[int | float, int | float]) -> Point2d:
