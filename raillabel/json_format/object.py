@@ -24,7 +24,7 @@ class JSONObject(BaseModel):
     type: str
     "The type of an object defines the class the object corresponds to."
 
-    frame_intervals: list[JSONFrameInterval] | None
+    frame_intervals: list[JSONFrameInterval] | None = None
     "The array of frame intervals where this object exists or is defined."
 
-    object_data_pointers: dict[str, JSONElementDataPointer] | None
+    object_data_pointers: dict[str, JSONElementDataPointer] | None = None

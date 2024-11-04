@@ -12,7 +12,7 @@ class JSONStreamSync(BaseModel):
     """Syncronization information of a stream in a frame."""
 
     stream_properties: JSONStreamSyncProperties
-    uri: str | None
+    uri: str | None = None
 
 
 class JSONStreamSyncProperties(BaseModel):

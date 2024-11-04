@@ -18,7 +18,7 @@ class JSONAttributes(BaseModel):
     These values can be nested inside the bounding box as attributes.
     """
 
-    boolean: list[JSONBooleanAttribute] | None
-    num: list[JSONNumAttribute] | None
-    text: list[JSONTextAttribute] | None
-    vec: list[JSONVecAttribute] | None
+    boolean: list[JSONBooleanAttribute] | None = None
+    num: list[JSONNumAttribute] | None = None
+    text: list[JSONTextAttribute] | None = None
+    vec: list[JSONVecAttribute] | None = None

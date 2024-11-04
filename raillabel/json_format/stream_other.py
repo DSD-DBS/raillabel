@@ -17,8 +17,8 @@ class JSONStreamOther(BaseModel):
     type: Literal["lidar", "gps_imu", "other"]
     "A string encoding the type of the stream."
 
-    uri: str | None
+    uri: str | None = None
     "A string encoding the subdirectory containing the sensor files."
 
-    description: str | None
+    description: str | None = None
     "Description of the stream."

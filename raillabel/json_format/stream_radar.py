@@ -23,7 +23,7 @@ class JSONStreamRadar(BaseModel):
     uri: str
     "A string encoding the subdirectory containing the sensor files."
 
-    description: str | None
+    description: str | None = None
     "Description of the stream."
 
 

@@ -21,14 +21,14 @@ class JSONVec(BaseModel):
     val: list[float]
     "The numerical values of the vector (list) of numbers."
 
-    coordinate_system: str | None
+    coordinate_system: str | None = None
     "Name of the coordinate system in respect of which this object data is expressed."
 
-    uid: UUID | None
+    uid: UUID | None = None
     "This is a string encoding the Universal Unique identifyer of the annotation."
 
-    type: Literal["values", "range"] | None
+    type: Literal["values", "range"] | None = None
     """This attribute specifies whether the vector shall be considered as a descriptor of individual
     values or as a definition of a range."""
 
-    attributes: JSONAttributes | None
+    attributes: JSONAttributes | None = None

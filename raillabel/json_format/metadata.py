@@ -14,20 +14,20 @@ class JSONMetadata(BaseModel):
     schema_version: Literal["1.0.0"]
     "Version number of the OpenLABEL schema this annotation file follows."
 
-    name: str | None
+    name: str | None = None
     "Name of the OpenLABEL annotation content."
 
-    subschema_version: str | None
+    subschema_version: str | None = None
     "Version number of the RailLabel subschema this annotation file follows."
 
-    exporter_version: str | None
+    exporter_version: str | None = None
     "Version identifyer of the exporter software."
 
-    file_version: str | None
+    file_version: str | None = None
     "Version number of the OpenLABEL annotation content."
 
-    tagged_file: str | None
+    tagged_file: str | None = None
     "File name or URI of the data file being tagged."
 
-    comment: str | None
+    comment: str | None = None
     "Additional information or description about the annotation content."

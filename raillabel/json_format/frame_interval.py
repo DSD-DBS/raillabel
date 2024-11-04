@@ -12,8 +12,8 @@ class JSONFrameInterval(BaseModel):
     That means the interval includes the limit frame numbers.
     """
 
-    start: int
+    frame_start: int
     "Initial frame number of the interval."
 
-    end: int
+    frame_end: int
     "Ending frame number of the interval."

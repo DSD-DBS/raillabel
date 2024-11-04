@@ -17,13 +17,13 @@ class JSONNum(BaseModel):
     """This is a string encoding the name of this object data. It is used as index inside the
     corresponding object data pointers."""
 
-    val: list[int]
+    val: float
     "The numerical value of the number."
 
-    coordinate_system: str | None
+    coordinate_system: str | None = None
     "Name of the coordinate system in respect of which this object data is expressed."
 
-    uid: UUID | None
+    uid: UUID | None = None
     "This is a string encoding the Universal Unique identifyer of the annotation."
 
-    attributes: JSONAttributes | None
+    attributes: JSONAttributes | None = None

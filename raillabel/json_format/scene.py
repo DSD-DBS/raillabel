@@ -27,8 +27,8 @@ class JSONSceneContent(BaseModel):
     """Container of all scene content."""
 
     metadata: JSONMetadata
-    coordinate_systems: dict[str, JSONCoordinateSystem] | None
-    streams: dict[str, JSONStreamCamera | JSONStreamOther | JSONStreamRadar] | None
-    objects: dict[UUID, JSONObject] | None
-    frames: dict[int, JSONFrame] | None
-    frame_intervals: list[JSONFrameInterval] | None
+    coordinate_systems: dict[str, JSONCoordinateSystem] | None = None
+    streams: dict[str, JSONStreamCamera | JSONStreamOther | JSONStreamRadar] | None = None
+    objects: dict[UUID, JSONObject] | None = None
+    frames: dict[int, JSONFrame] | None = None
+    frame_intervals: list[JSONFrameInterval] | None = None

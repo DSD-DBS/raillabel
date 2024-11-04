@@ -9,7 +9,7 @@ from pydantic import BaseModel
 class JSONTextAttribute(BaseModel):
     """A text attribute."""
 
-    name: str | None
+    name: str | None = None
     """Friendly identifier describing the attribute. Used to track the attribute throughout
     annotations and frames."""
 

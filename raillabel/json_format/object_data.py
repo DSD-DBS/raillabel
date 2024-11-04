@@ -15,8 +15,8 @@ from .vec import JSONVec
 class JSONObjectData(BaseModel):
     """Container of annotations of an object in a frame."""
 
-    bbox: list[JSONBbox] | None
-    cuboid: list[JSONCuboid] | None
-    poly2d: list[JSONPoly2d] | None
-    poly3d: list[JSONPoly3d] | None
-    vec: list[JSONVec] | None
+    bbox: list[JSONBbox] | None = None
+    cuboid: list[JSONCuboid] | None = None
+    poly2d: list[JSONPoly2d] | None = None
+    poly3d: list[JSONPoly3d] | None = None
+    vec: list[JSONVec] | None = None
