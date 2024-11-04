@@ -29,6 +29,11 @@ def quaternion() -> dict:
 # == Tests ============================
 
 
+def test_from_json(quaternion, quaternion_dict):
+    actual = Quaternion.from_json(quaternion_dict)
+    assert actual == quaternion
+
+
 def test_fromdict():
     quaternion = Quaternion.fromdict([0.75318325, -0.10270147, 0.21430262, -0.61338551])
 

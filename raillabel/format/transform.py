@@ -26,12 +26,7 @@ class Transform:
         """Construct an instant of this class from RailLabel JSON data."""
         return Transform(
             position=Point3d.from_json(json.translation),
-            quaternion=Quaternion(
-                x=json.quaternion[0],
-                y=json.quaternion[1],
-                z=json.quaternion[2],
-                w=json.quaternion[3],
-            ),
+            quaternion=Quaternion.from_json(json.quaternion),
         )
 
     @classmethod
