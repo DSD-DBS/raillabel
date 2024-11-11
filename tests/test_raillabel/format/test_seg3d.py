@@ -46,9 +46,9 @@ def test_from_json(seg3d, seg3d_json):
     assert actual == seg3d
 
 
-# def test_name(seg3d):
-#     actual = seg3d.name("person")
-#     assert actual == "rgb_middle__seg3d__person"
+def test_name(seg3d):
+    actual = seg3d.name("person")
+    assert actual == "lidar__vec__person"
 
 
 if __name__ == "__main__":
