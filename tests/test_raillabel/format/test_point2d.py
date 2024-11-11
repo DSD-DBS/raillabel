@@ -11,13 +11,23 @@ from raillabel.format import Point2d
 
 
 @pytest.fixture
-def point2d_json() -> dict:
+def point2d_json() -> tuple[float, float]:
     return [1.5, 222]
 
 
 @pytest.fixture
-def point2d() -> dict:
+def point2d() -> Point2d:
     return Point2d(1.5, 222)
+
+
+@pytest.fixture
+def another_point2d_json() -> tuple[float, float]:
+    return [1.7, 222.2]
+
+
+@pytest.fixture
+def another_point2d() -> Point2d:
+    return Point2d(1.7, 222.2)
 
 
 # == Tests ============================
@@ -26,6 +36,11 @@ def point2d() -> dict:
 def test_from_json(point2d, point2d_json):
     actual = Point2d.from_json(point2d_json)
     assert actual == point2d
+
+
+def test_from_json__another(another_point2d, another_point2d_json):
+    actual = Point2d.from_json(another_point2d_json)
+    assert actual == another_point2d
 
 
 if __name__ == "__main__":

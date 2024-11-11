@@ -35,7 +35,7 @@ class Cuboid:
     "The uid of the sensor, this annotation is labeled in."
 
     attributes: dict[str, float | bool | str | list]
-    "Additional information associated with the bbox."
+    "Additional information associated with the annotation."
 
     @classmethod
     def from_json(cls, json: JSONCuboid, object_uid: UUID) -> Cuboid:
