@@ -54,5 +54,10 @@ def test_from_json(cuboid, cuboid_json):
     assert actual == cuboid
 
 
+def test_name(cuboid):
+    actual = cuboid.name("person")
+    assert actual == "lidar__cuboid__person"
+
+
 if __name__ == "__main__":
     pytest.main([__file__, "-v"])

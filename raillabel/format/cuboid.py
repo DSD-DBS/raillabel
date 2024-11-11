@@ -16,33 +16,7 @@ from .size3d import Size3d
 
 @dataclass
 class Cuboid:
-    """3D bounding box.
-
-    Parameters
-    ----------
-    uid: str
-        This a string representing the unique universal identifier of the annotation.
-    pos: raillabel.format.Point3d
-        The center position of the cuboid in meters, where the x coordinate points ahead of the
-        vehicle, y points to the left and z points upwards.
-    quat: raillabel.format.Quaternion
-        The rotation of the cuboid in quaternions.
-    size: raillabel.format.Size3d
-        The size of the cuboid in meters.
-    object: raillabel.format.Object
-        A reference to the object, this annotation belongs to.
-    sensor: raillabel.format.Sensor
-        A reference to the sensor, this annotation is labeled in. Default is None.
-    attributes: dict, optional
-        Attributes of the annotation. Dict keys are the name str of the attribute, values are the
-        attribute values. Default is {}.
-
-    Properties (read-only)
-    ----------------------
-    name: str
-        Name of the annotation used by the VCD player for indexing in the object data pointers.
-
-    """
+    """3D bounding box."""
 
     pos: Point3d
     """The center position of the cuboid in meters, where the x coordinate points ahead of the
@@ -74,3 +48,7 @@ class Cuboid:
             sensor=json.coordinate_system,
             attributes=_attributes_from_json(json.attributes),
         )
+
+    def name(self, object_type: str) -> str:
+        """Return the name of the annotation used for indexing in the object data pointers."""
+        return f"{self.sensor}__cuboid__{object_type}"
