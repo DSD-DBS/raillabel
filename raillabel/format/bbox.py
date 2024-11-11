@@ -4,14 +4,14 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
+from uuid import UUID
 
-from ._object_annotation import _ObjectAnnotation
 from .point2d import Point2d
 from .size2d import Size2d
 
 
 @dataclass
-class Bbox(_ObjectAnnotation):
+class Bbox:
     """A 2D bounding box in an image.
 
     Parameters
@@ -38,6 +38,15 @@ class Bbox(_ObjectAnnotation):
     """
 
     pos: Point2d
-    size: Size2d
+    "The center point of the bbox in pixels."
 
-    OPENLABEL_ID = "bbox"
+    size: Size2d
+    "The dimensions of the bbox in pixels from the top left corner to the bottom right corner."
+
+    object: UUID
+    "The uid of the object, this annotation belongs to."
+
+    sensor: str
+    "The uid of the sensor, this annotation is labeled in."
+
+    attributes: dict[str, int | float | bool | str | list]
