@@ -46,7 +46,7 @@ def camera(intrinsics_pinhole, transform) -> dict:
 # == Tests ============================
 
 
-def test_from_json__camera(camera, camera_json):
+def test_from_json(camera, camera_json):
     actual = Camera.from_json(camera_json[0], camera_json[1])
     assert actual == camera
 

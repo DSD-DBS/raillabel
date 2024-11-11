@@ -17,6 +17,7 @@ from .point3d import Point3d
 from .poly2d import Poly2d
 from .poly3d import Poly3d
 from .quaternion import Quaternion
+from .radar import Radar
 from .scene import Scene
 from .seg3d import Seg3d
 from .sensor_reference import SensorReference
@@ -41,6 +42,7 @@ __all__ = [
     "Poly2d",
     "Poly3d",
     "Quaternion",
+    "Radar",
     "Scene",
     "Seg3d",
     "SensorReference",
