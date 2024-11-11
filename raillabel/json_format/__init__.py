@@ -8,7 +8,7 @@ from .boolean_attribute import JSONBooleanAttribute
 from .coordinate_system import JSONCoordinateSystem
 from .cuboid import JSONCuboid
 from .element_data_pointer import JSONElementDataPointer
-from .frame import JSONFrame
+from .frame import JSONFrame, JSONFrameData, JSONFrameProperties
 from .frame_interval import JSONFrameInterval
 from .metadata import JSONMetadata
 from .num import JSONNum
@@ -36,6 +36,8 @@ __all__ = [
     "JSONElementDataPointer",
     "JSONFrameInterval",
     "JSONFrame",
+    "JSONFrameData",
+    "JSONFrameProperties",
     "JSONMetadata",
     "JSONNumAttribute",
     "JSONNum",

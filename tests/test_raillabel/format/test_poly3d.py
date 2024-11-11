@@ -20,13 +20,18 @@ def poly3d_json(
     attributes_multiple_types_json,
 ) -> JSONPoly3d:
     return JSONPoly3d(
-        uid="78f0ad89-2750-4a30-9d66-44c9da73a714",
+        uid="0da87210-46F1-40e5-b661-20ea1c392f50",
         name="lidar__poly3d__person",
         closed=True,
         val=point3d_json + another_point3d_json,
         coordinate_system="lidar",
         attributes=attributes_multiple_types_json,
     )
+
+
+@pytest.fixture
+def poly3d_uid() -> UUID:
+    return UUID("0da87210-46F1-40e5-b661-20ea1c392f50")
 
 
 @pytest.fixture
@@ -40,7 +45,7 @@ def poly3d(
         closed=True,
         sensor="lidar",
         attributes=attributes_multiple_types,
-        object=UUID("b40ba3ad-0327-46ff-9c28-2506cfd6d934"),
+        object=UUID("cfcf9750-3bc3-4077-9079-a82c0c63976a"),
     )
 
 
@@ -48,7 +53,7 @@ def poly3d(
 
 
 def test_from_json(poly3d, poly3d_json):
-    actual = Poly3d.from_json(poly3d_json, object_uid=UUID("b40ba3ad-0327-46ff-9c28-2506cfd6d934"))
+    actual = Poly3d.from_json(poly3d_json, object_uid=UUID("cfcf9750-3BC3-4077-9079-a82c0c63976a"))
     assert actual == poly3d
 
 

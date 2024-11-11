@@ -20,12 +20,17 @@ def bbox_json(
     size2d_json,
 ) -> JSONBbox:
     return JSONBbox(
-        uid="78f0ad89-2750-4a30-9d66-44c9da73a714",
+        uid="2811f67c-124C-4fac-a275-20807d0471de",
         name="rgb_middle__bbox__person",
         val=point2d_json + size2d_json,
         coordinate_system="rgb_middle",
         attributes=attributes_multiple_types_json,
     )
+
+
+@pytest.fixture
+def bbox_uid() -> UUID:
+    return UUID("2811f67c-124C-4fac-a275-20807d0471de")
 
 
 @pytest.fixture

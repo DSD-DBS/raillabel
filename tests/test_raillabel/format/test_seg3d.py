@@ -18,12 +18,17 @@ def seg3d_json(
     attributes_multiple_types_json,
 ) -> JSONVec:
     return JSONVec(
-        uid="78f0ad89-2750-4a30-9d66-44c9da73a714",
+        uid="d52e2b25-0B48-4899-86d5-4bc41be6b7d3",
         name="rgb_middle__seg3d__person",
         val=[1234, 5678],
         coordinate_system="lidar",
         attributes=attributes_multiple_types_json,
     )
+
+
+@pytest.fixture
+def seg3d_uid() -> UUID:
+    return UUID("d52e2b25-0B48-4899-86d5-4bc41be6b7d3")
 
 
 @pytest.fixture

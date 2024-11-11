@@ -21,12 +21,17 @@ def cuboid_json(
     size3d_json,
 ) -> JSONCuboid:
     return JSONCuboid(
-        uid="78f0ad89-2750-4a30-9d66-44c9da73a714",
+        uid="51def938-20BA-4699-95be-d6330c44cb77",
         name="lidar__cuboid__person",
         val=point3d_json + quaternion_json + size3d_json,
         coordinate_system="lidar",
         attributes=attributes_multiple_types_json,
     )
+
+
+@pytest.fixture
+def cuboid_uid() -> UUID:
+    return UUID("51def938-20BA-4699-95be-d6330c44cb77")
 
 
 @pytest.fixture

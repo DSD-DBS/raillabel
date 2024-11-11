@@ -20,7 +20,7 @@ def poly2d_json(
     attributes_multiple_types_json,
 ) -> JSONPoly2d:
     return JSONPoly2d(
-        uid="78f0ad89-2750-4a30-9d66-44c9da73a714",
+        uid="013e7b34-62E5-435c-9412-87318c50f6d8",
         name="rgb_middle__poly2d__person",
         closed=True,
         mode="MODE_POLY2D_ABSOLUTE",
@@ -28,6 +28,11 @@ def poly2d_json(
         coordinate_system="rgb_middle",
         attributes=attributes_multiple_types_json,
     )
+
+
+@pytest.fixture
+def poly2d_uid() -> UUID:
+    return UUID("013e7b34-62E5-435c-9412-87318c50f6d8")
 
 
 @pytest.fixture
@@ -41,7 +46,7 @@ def poly2d(
         closed=True,
         sensor="rgb_middle",
         attributes=attributes_multiple_types,
-        object=UUID("b40ba3ad-0327-46ff-9c28-2506cfd6d934"),
+        object=UUID("cfcf9750-3BC3-4077-9079-a82c0c63976a"),
     )
 
 
@@ -49,7 +54,7 @@ def poly2d(
 
 
 def test_from_json(poly2d, poly2d_json):
-    actual = Poly2d.from_json(poly2d_json, object_uid=UUID("b40ba3ad-0327-46ff-9c28-2506cfd6d934"))
+    actual = Poly2d.from_json(poly2d_json, object_uid=UUID("cfcf9750-3BC3-4077-9079-a82c0c63976a"))
     assert actual == poly2d
 
 
