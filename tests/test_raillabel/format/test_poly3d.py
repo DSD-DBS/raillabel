@@ -52,9 +52,9 @@ def test_from_json(poly3d, poly3d_json):
     assert actual == poly3d
 
 
-# def test_name(poly3d):
-#     actual = poly3d.name("person")
-#     assert actual == "lidar__poly3d__person"
+def test_name(poly3d):
+    actual = poly3d.name("person")
+    assert actual == "lidar__poly3d__person"
 
 
 if __name__ == "__main__":
