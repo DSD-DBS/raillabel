@@ -3,29 +3,27 @@
 
 from __future__ import annotations
 
-import decimal
 from dataclasses import dataclass
+from decimal import Decimal
 
-from .sensor import Sensor
+from raillabel.json_format import JSONStreamSync
 
 
 @dataclass
 class SensorReference:
-    """A reference to a sensor in a specific frame.
+    """A reference to a sensor in a specific frame."""
 
-    Parameters
-    ----------
-    sensor: raillabel.format.Sensor
-        The sensor this SensorReference corresponds to.
-    timestamp: decimal.Decimal
-        Timestamp containing the Unix epoch time of the sensor in a specific frame with up to
-        nanosecond precision.
-    uri: str, optional
-        URI to the file corresponding to the frame recording in the particular frame. Default is
-        None.
+    timestamp: Decimal
+    """Timestamp containing the Unix epoch time of the sensor in a specific frame with up to
+    nanosecond precision."""
 
-    """
-
-    sensor: Sensor
-    timestamp: decimal.Decimal
     uri: str | None = None
+    "URI to the file corresponding to the frame recording in the particular frame."
+
+    @classmethod
+    def from_json(cls, json: JSONStreamSync) -> SensorReference:
+        """Construct an instant of this class from RailLabel JSON data."""
+        return SensorReference(
+            timestamp=Decimal(json.stream_properties.sync.timestamp),
+            uri=json.uri,
+        )
