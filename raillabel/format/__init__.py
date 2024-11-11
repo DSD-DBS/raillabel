@@ -7,6 +7,7 @@ from .camera import Camera
 from .cuboid import Cuboid
 from .frame import Frame
 from .frame_interval import FrameInterval
+from .gps_imu import GpsImu
 from .intrinsics_pinhole import IntrinsicsPinhole
 from .intrinsics_radar import IntrinsicsRadar
 from .lidar import Lidar
@@ -33,6 +34,7 @@ __all__ = [
     "ElementDataPointer",
     "Frame",
     "FrameInterval",
+    "GpsImu",
     "IntrinsicsPinhole",
     "IntrinsicsRadar",
     "Lidar",
