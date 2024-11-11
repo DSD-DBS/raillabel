@@ -9,6 +9,7 @@ from .frame import Frame
 from .frame_interval import FrameInterval
 from .intrinsics_pinhole import IntrinsicsPinhole
 from .intrinsics_radar import IntrinsicsRadar
+from .lidar import Lidar
 from .metadata import Metadata
 from .num import Num
 from .object import Object
@@ -34,6 +35,7 @@ __all__ = [
     "FrameInterval",
     "IntrinsicsPinhole",
     "IntrinsicsRadar",
+    "Lidar",
     "Metadata",
     "Num",
     "Object",
