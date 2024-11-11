@@ -2,7 +2,6 @@
 # SPDX-License-Identifier: Apache-2.0
 """Module containing all relevant format classes."""
 
-from ._object_annotation import _ObjectAnnotation, annotation_classes
 from .bbox import Bbox
 from .cuboid import Cuboid
 from .element_data_pointer import ElementDataPointer
@@ -27,8 +26,6 @@ from .size3d import Size3d
 from .transform import Transform
 
 __all__ = [
-    "_ObjectAnnotation",
-    "annotation_classes",
     "Bbox",
     "Cuboid",
     "ElementDataPointer",
