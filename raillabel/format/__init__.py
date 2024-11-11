@@ -3,6 +3,7 @@
 """Module containing all relevant format classes."""
 
 from .bbox import Bbox
+from .camera import Camera
 from .cuboid import Cuboid
 from .frame import Frame
 from .frame_interval import FrameInterval
@@ -18,7 +19,6 @@ from .poly3d import Poly3d
 from .quaternion import Quaternion
 from .scene import Scene
 from .seg3d import Seg3d
-from .sensor import Sensor, SensorType
 from .sensor_reference import SensorReference
 from .size2d import Size2d
 from .size3d import Size3d
@@ -26,6 +26,7 @@ from .transform import Transform
 
 __all__ = [
     "Bbox",
+    "Camera",
     "Cuboid",
     "ElementDataPointer",
     "Frame",
@@ -42,8 +43,6 @@ __all__ = [
     "Quaternion",
     "Scene",
     "Seg3d",
-    "Sensor",
-    "SensorType",
     "SensorReference",
     "Size2d",
     "Size3d",
