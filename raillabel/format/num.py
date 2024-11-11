@@ -5,30 +5,27 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 
-from .sensor import Sensor
+from raillabel.json_format import JSONNum
 
 
 @dataclass
 class Num:
-    """A number.
+    """A number."""
 
-    Parameters
-    ----------
-    uid: str
-        This a string representing the unique universal identifier of the annotation.
     name: str
-        Human readable name describing the annotation.
-    val: int or float
-        This is the value of the number object.
-    attributes: dict, optional
-        Attributes of the annotation. Dict keys are the uid str of the attribute, values are the
-        attribute values. Default is {}.
-    sensor: raillabel.format.Sensor
-        A reference to the sensor, this value is represented in. Default is None.
+    "Human readable name describing the annotation."
 
-    """
+    val: float
+    "This is the value of the number object."
 
-    uid: str
-    name: str
-    val: int | float
-    sensor: Sensor
+    sensor: str | None
+    "A reference to the sensor, this value is represented in."
+
+    @classmethod
+    def from_json(cls, json: JSONNum) -> Num:
+        """Construct an instant of this class from RailLabel JSON data."""
+        return Num(
+            name=json.name,
+            val=json.val,
+            sensor=json.coordinate_system,
+        )

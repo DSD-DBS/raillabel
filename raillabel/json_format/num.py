@@ -7,8 +7,6 @@ from uuid import UUID
 
 from pydantic import BaseModel
 
-from .attributes import JSONAttributes
-
 
 class JSONNum(BaseModel):
     """A number."""
@@ -25,5 +23,3 @@ class JSONNum(BaseModel):
 
     uid: UUID | None = None
     "This is a string encoding the Universal Unique identifyer of the annotation."
-
-    attributes: JSONAttributes | None = None
