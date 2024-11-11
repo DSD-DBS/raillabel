@@ -25,7 +25,7 @@ def poly2d_json(
         closed=True,
         mode="MODE_POLY2D_ABSOLUTE",
         val=point2d_json + another_point2d_json,
-        coordinate_system="lidar",
+        coordinate_system="rgb_middle",
         attributes=attributes_multiple_types_json,
     )
 
@@ -39,7 +39,7 @@ def poly2d(
     return Poly2d(
         points=[point2d, another_point2d],
         closed=True,
-        sensor="lidar",
+        sensor="rgb_middle",
         attributes=attributes_multiple_types,
         object=UUID("b40ba3ad-0327-46ff-9c28-2506cfd6d934"),
     )
@@ -53,9 +53,9 @@ def test_from_json(poly2d, poly2d_json):
     assert actual == poly2d
 
 
-# def test_name(poly2d):
-#     actual = poly2d.name("person")
-#     assert actual == "lidar__poly2d__person"
+def test_name(poly2d):
+    actual = poly2d.name("person")
+    assert actual == "rgb_middle__poly2d__person"
 
 
 if __name__ == "__main__":
