@@ -4,35 +4,35 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
+from uuid import UUID
 
-from ._object_annotation import _ObjectAnnotation
+from raillabel.json_format import JSONVec
+
+from ._attributes import _attributes_from_json
 
 
 @dataclass
-class Seg3d(_ObjectAnnotation):
-    """The 3D segmentation of a lidar pointcloud.
-
-    Parameters
-    ----------
-    uid: str
-        This a string representing the unique universal identifier of the annotation.
-    point_ids: list of int
-        The list of point indices.
-    object: raillabel.format.Object
-        A reference to the object, this annotation belongs to.
-    sensor: raillabel.format.Sensor
-        A reference to the sensor, this annotation is labeled in. Default is None.
-    attributes: dict, optional
-        Attributes of the annotation. Dict keys are the name str of the attribute, values are the
-        attribute values. Default is {}.
-
-    Properties (read-only)
-    ----------------------
-    name: str
-        Name of the annotation used by the VCD player for indexing in the object data pointers.
-
-    """
+class Seg3d:
+    """The 3D segmentation of a lidar pointcloud."""
 
     point_ids: list[int]
+    "The list of point indices."
 
-    OPENLABEL_ID = "vec"
+    object: UUID
+    "The uid of the object, this annotation belongs to."
+
+    sensor: str
+    "The uid of the sensor, this annotation is labeled in."
+
+    attributes: dict[str, float | bool | str | list]
+    "Additional information associated with the annotation."
+
+    @classmethod
+    def from_json(cls, json: JSONVec, object_uid: UUID) -> Seg3d:
+        """Construct an instant of this class from RailLabel JSON data."""
+        return Seg3d(
+            point_ids=[int(point_id) for point_id in json.val],
+            object=object_uid,
+            sensor=json.coordinate_system,
+            attributes=_attributes_from_json(json.attributes),
+        )
