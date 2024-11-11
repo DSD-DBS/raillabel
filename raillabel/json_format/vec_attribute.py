@@ -9,7 +9,7 @@ from pydantic import BaseModel
 class JSONVecAttribute(BaseModel):
     """A vec attribute."""
 
-    name: str | None = None
+    name: str
     """Friendly identifier describing the attribute. Used to track the attribute throughout
     annotations and frames."""
 

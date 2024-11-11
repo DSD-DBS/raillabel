@@ -24,7 +24,7 @@ class JSONPoly3d(BaseModel):
     """A boolean that defines whether the polyline is closed or not. In case it is closed, it is
     assumed that the last point of the sequence is connected with the first one."""
 
-    coordinate_system: str | None = None
+    coordinate_system: str
     "Name of the coordinate system in respect of which this object data is expressed."
 
     uid: UUID | None = None

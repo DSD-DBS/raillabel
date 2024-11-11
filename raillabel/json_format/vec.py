@@ -21,7 +21,7 @@ class JSONVec(BaseModel):
     val: list[float]
     "The numerical values of the vector (list) of numbers."
 
-    coordinate_system: str | None = None
+    coordinate_system: str
     "Name of the coordinate system in respect of which this object data is expressed."
 
     uid: UUID | None = None

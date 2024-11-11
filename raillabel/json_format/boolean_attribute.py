@@ -9,9 +9,9 @@ from pydantic import BaseModel
 class JSONBooleanAttribute(BaseModel):
     """A boolean attribute."""
 
-    val: bool
-    "The boolean value."
-
-    name: str | None = None
+    name: str
     """Friendly identifier describing the attribute. Used to track the attribute throughout
     annotations and frames."""
+
+    val: bool
+    "The boolean value."

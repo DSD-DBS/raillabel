@@ -24,7 +24,7 @@ class JSONBbox(BaseModel):
     val: tuple[float, float, float, float]
     "The array of 4 values that define the [x, y, w, h] values of the bbox."
 
-    coordinate_system: str | None = None
+    coordinate_system: str
     "Name of the coordinate system in respect of which this object data is expressed."
 
     uid: UUID | None = None
