@@ -20,12 +20,27 @@ def point3d() -> dict:
     return Point3d(419, 3.14, 0)
 
 
+@pytest.fixture
+def another_point3d_json() -> dict:
+    return [419.2, 3.34, 0.2]
+
+
+@pytest.fixture
+def another_point3d() -> dict:
+    return Point3d(419.2, 3.34, 0.2)
+
+
 # == Tests ============================
 
 
 def test_from_json(point3d, point3d_json):
     actual = Point3d.from_json(point3d_json)
     assert actual == point3d
+
+
+def test_from_json__another(another_point3d, another_point3d_json):
+    actual = Point3d.from_json(another_point3d_json)
+    assert actual == another_point3d
 
 
 if __name__ == "__main__":

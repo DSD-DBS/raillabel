@@ -21,7 +21,7 @@ def poly2d_json(
 ) -> JSONPoly2d:
     return JSONPoly2d(
         uid="78f0ad89-2750-4a30-9d66-44c9da73a714",
-        name="lidar__poly2d__person",
+        name="rgb_middle__poly2d__person",
         closed=True,
         mode="MODE_POLY2D_ABSOLUTE",
         val=point2d_json + another_point2d_json,
