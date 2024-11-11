@@ -14,6 +14,7 @@ from .lidar import Lidar
 from .metadata import Metadata
 from .num import Num
 from .object import Object
+from .other_sensor import OtherSensor
 from .point2d import Point2d
 from .point3d import Point3d
 from .poly2d import Poly2d
@@ -41,6 +42,7 @@ __all__ = [
     "Metadata",
     "Num",
     "Object",
+    "OtherSensor",
     "Point2d",
     "Point3d",
     "Poly2d",

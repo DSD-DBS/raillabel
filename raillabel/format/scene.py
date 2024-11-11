@@ -8,8 +8,11 @@ from dataclasses import dataclass, field
 from .camera import Camera
 from .frame import Frame
 from .frame_interval import FrameInterval
+from .gps_imu import GpsImu
+from .lidar import Lidar
 from .metadata import Metadata
 from .object import Object
+from .other_sensor import OtherSensor
 from .radar import Radar
 
 
@@ -36,7 +39,7 @@ class Scene:
     """
 
     metadata: Metadata
-    sensors: dict[str, Camera | Radar] = field(default_factory=dict)
+    sensors: dict[str, Camera | Lidar | Radar | GpsImu | OtherSensor] = field(default_factory=dict)
     objects: dict[str, Object] = field(default_factory=dict)
     frames: dict[int, Frame] = field(default_factory=dict)
 
