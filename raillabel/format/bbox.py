@@ -42,3 +42,7 @@ class Bbox:
             sensor=json.coordinate_system,
             attributes=_attributes_from_json(json.attributes),
         )
+
+    def name(self, object_type: str) -> str:
+        """Return the name of the annotation used for indexing in the object data pointers."""
+        return f"{self.sensor}__bbox__{object_type}"

@@ -33,7 +33,7 @@ def bbox(
     point2d,
     size2d,
     attributes_multiple_types,
-) -> dict:
+) -> Bbox:
     return Bbox(
         pos=point2d,
         size=size2d,
@@ -47,8 +47,13 @@ def bbox(
 
 
 def test_from_json(bbox, bbox_json):
-    actual = Bbox.from_json(bbox_json, object_uid="b40ba3ad-0327-46ff-9c28-2506cfd6d934")
+    actual = Bbox.from_json(bbox_json, object_uid=UUID("b40ba3ad-0327-46ff-9c28-2506cfd6d934"))
     assert actual == bbox
+
+
+def test_name(bbox):
+    actual = bbox.name("person")
+    assert actual == "rgb_middle__bbox__person"
 
 
 if __name__ == "__main__":
