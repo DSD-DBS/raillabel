@@ -109,3 +109,4 @@ Other breaking changes:
 - `raillabel.format.Transform` fields have been changed by `pos -> position` and `quad -> quaternion` to make it more explicit
 - `raillabel.format.FrameInterval` fields have been changed by `frame_start -> start` and `frame_end -> end` to make it more concise
 - `raillabel.format.Frame.uid` field has been removed to avoid redundant information
+- `raillabel.format.Sensor` has been removed in favor of the different sensor type classes `raillabel.format.Camera`, `raillabel.format.Lidar`, `raillabel.format.Radar` and `raillabel.format.GpsImu`

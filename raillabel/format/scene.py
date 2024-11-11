@@ -5,11 +5,11 @@ from __future__ import annotations
 
 from dataclasses import dataclass, field
 
+from .camera import Camera
 from .frame import Frame
 from .frame_interval import FrameInterval
 from .metadata import Metadata
 from .object import Object
-from .sensor import Sensor
 
 
 @dataclass
@@ -35,7 +35,7 @@ class Scene:
     """
 
     metadata: Metadata
-    sensors: dict[str, Sensor] = field(default_factory=dict)
+    sensors: dict[str, Camera] = field(default_factory=dict)
     objects: dict[str, Object] = field(default_factory=dict)
     frames: dict[int, Frame] = field(default_factory=dict)
 
