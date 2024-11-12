@@ -5,10 +5,10 @@ from __future__ import annotations
 
 from typing import Literal
 
-from pydantic import BaseModel, Extra
+from pydantic import BaseModel
 
 
-class JSONMetadata(BaseModel, extra=Extra.allow):
+class JSONMetadata(BaseModel, extra="allow"):
     """Metadata about the annotation file itself."""
 
     schema_version: Literal["1.0.0"]
