@@ -5,7 +5,7 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 
-from raillabel.json_format import JSONCoordinateSystem, JSONStreamRadar, JSONTransformData
+from raillabel.json_format import JSONTransformData
 
 from .transform import Transform
 
@@ -22,17 +22,6 @@ class _SensorWithoutIntrinsics:
 
     description: str | None = None
     "Additional information about the sensor."
-
-    @classmethod
-    def from_json(
-        cls, json_stream: JSONStreamRadar, json_coordinate_system: JSONCoordinateSystem
-    ) -> _SensorWithoutIntrinsics:
-        """Construct an instant of this class from RailLabel JSON data."""
-        return cls(
-            extrinsics=_extrinsics_from_json(json_coordinate_system.pose_wrt_parent),
-            uri=json_stream.uri,
-            description=json_stream.description,
-        )
 
 
 def _extrinsics_from_json(json_transform: JSONTransformData | None) -> Transform | None:
