@@ -29,5 +29,8 @@ class JSONMetadata(BaseModel):
     tagged_file: str | None = None
     "File name or URI of the data file being tagged."
 
+    annotator: str | None = None
+    "The person or organization responsible for annotating the file."
+
     comment: str | None = None
     "Additional information or description about the annotation content."
