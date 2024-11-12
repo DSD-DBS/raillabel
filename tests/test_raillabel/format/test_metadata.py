@@ -47,5 +47,19 @@ def test_from_json(metadata, metadata_json):
     assert actual == metadata
 
 
+def test_from_json__extra_fields():
+    json_metadata = JSONMetadata(
+        **{
+            "schema_version": "1.0.0",
+            "ADDITIONAL_STR": "SOME_VALUE",
+            "ADDITIONAL_OBJECT": {"first_field": 2, "second_field": [1, 2, 3]},
+        }
+    )
+
+    actual = Metadata.from_json(json_metadata)
+    assert actual.ADDITIONAL_STR == "SOME_VALUE"
+    assert actual.ADDITIONAL_OBJECT == {"first_field": 2, "second_field": [1, 2, 3]}
+
+
 if __name__ == "__main__":
     pytest.main([__file__, "-v"])

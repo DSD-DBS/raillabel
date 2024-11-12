@@ -39,7 +39,7 @@ class Metadata:
     @classmethod
     def from_json(cls, json: JSONMetadata) -> Metadata:
         """Construct an instant of this class from RailLabel JSON data."""
-        return Metadata(
+        metadata = Metadata(
             schema_version=json.schema_version,
             name=json.name,
             subschema_version=json.subschema_version,
@@ -49,3 +49,9 @@ class Metadata:
             annotator=json.annotator,
             comment=json.comment,
         )
+
+        if json.model_extra is not None:
+            for extra_field, extra_value in json.model_extra.items():
+                setattr(metadata, extra_field, extra_value)
+
+        return metadata
