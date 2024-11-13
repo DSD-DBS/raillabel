@@ -12,7 +12,7 @@ from raillabel.format import Point2d
 
 @pytest.fixture
 def point2d_json() -> tuple[float, float]:
-    return (1.5, 222)
+    return [1.5, 222]
 
 
 @pytest.fixture
@@ -22,7 +22,7 @@ def point2d() -> Point2d:
 
 @pytest.fixture
 def another_point2d_json() -> tuple[float, float]:
-    return (1.7, 222.2)
+    return [1.7, 222.2]
 
 
 @pytest.fixture
@@ -45,12 +45,12 @@ def test_from_json__another(another_point2d, another_point2d_json):
 
 def test_to_json(point2d, point2d_json):
     actual = point2d.to_json()
-    assert actual == point2d_json
+    assert actual == tuple(point2d_json)
 
 
 def test_to_json__another(another_point2d, another_point2d_json):
     actual = another_point2d.to_json()
-    assert actual == another_point2d_json
+    assert actual == tuple(another_point2d_json)
 
 
 if __name__ == "__main__":

@@ -28,5 +28,10 @@ def test_from_json(size2d, size2d_json):
     assert actual == size2d
 
 
+def test_to_json(size2d, size2d_json):
+    actual = size2d.to_json()
+    assert actual == tuple(size2d_json)
+
+
 if __name__ == "__main__":
     pytest.main([__file__, "-v"])
