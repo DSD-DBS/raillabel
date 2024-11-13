@@ -29,8 +29,6 @@ classifiers = [
   "Programming Language :: Python :: 3.13",
 ]
 dependencies = [
-  "jsonschema>=4.4.0",
-  "fastjsonschema>=2.16.2",
   "pydantic<3.0.0",
   "eval-type-backport==0.2.0"
 ]
@@ -40,7 +38,7 @@ Homepage = "https://github.com/DSD-DBS/raillabel"
 Documentation = "https://dsd-dbs.github.io/raillabel"
 
 [project.optional-dependencies]
-docs = ["furo", "sphinx", "sphinx-copybutton", "tomli; python_version<'3.11'"]
+docs = ["furo", "sphinx", "sphinx-copybutton", "tomli; python_version<'3.14'"]
 
 test = ["pytest", "pytest-cov", "json5"]
 
