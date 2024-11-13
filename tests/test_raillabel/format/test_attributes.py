@@ -12,7 +12,11 @@ from raillabel.json_format import (
     JSONTextAttribute,
     JSONVecAttribute,
 )
-from raillabel.format._attributes import _attributes_from_json
+from raillabel.format._attributes import (
+    _attributes_from_json,
+    _attributes_to_json,
+    UnsupportedAttributeTypeError,
+)
 
 # == Fixtures =========================
 
@@ -70,6 +74,23 @@ def test_attributes_from_json__multiple_types(
 ):
     actual = _attributes_from_json(attributes_multiple_types_json)
     assert actual == attributes_multiple_types
+
+
+def test_attributes_to_json__empty():
+    actual = _attributes_to_json({})
+    assert actual == None
+
+
+def test_attributes_to_json__multiple_types(
+    attributes_multiple_types, attributes_multiple_types_json
+):
+    actual = _attributes_to_json(attributes_multiple_types)
+    assert actual == attributes_multiple_types_json
+
+
+def test_attributes_to_json__unsupported_type():
+    with pytest.raises(UnsupportedAttributeTypeError):
+        _attributes_to_json({"attribute_with_unsupported_type": object})
 
 
 if __name__ == "__main__":
