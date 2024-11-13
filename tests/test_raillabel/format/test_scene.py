@@ -12,7 +12,16 @@ from raillabel.json_format import JSONScene, JSONSceneContent, JSONCoordinateSys
 
 
 @pytest.fixture
-def scene_json(metadata_json, camera_json, lidar_json, radar_json) -> JSONScene:
+def scene_json(
+    metadata_json,
+    camera_json,
+    lidar_json,
+    radar_json,
+    object_person_uid,
+    object_person_json,
+    object_track_uid,
+    object_track_json,
+) -> JSONScene:
     return JSONScene(
         openlabel=JSONSceneContent(
             metadata=metadata_json,
@@ -32,6 +41,10 @@ def scene_json(metadata_json, camera_json, lidar_json, radar_json) -> JSONScene:
                 "lidar": lidar_json[0],
                 "radar": radar_json[0],
             },
+            objects={
+                object_person_uid: object_person_json,
+                object_track_uid: object_track_json,
+            },
         )
     )
 
@@ -42,6 +55,10 @@ def scene(
     camera,
     lidar,
     radar,
+    object_person_uid,
+    object_person,
+    object_track_uid,
+    object_track,
 ) -> Scene:
     return Scene(
         metadata=metadata,
@@ -49,6 +66,10 @@ def scene(
             "rgb_middle": camera,
             "lidar": lidar,
             "radar": radar,
+        },
+        objects={
+            object_person_uid: object_person,
+            object_track_uid: object_track,
         },
     )
 
