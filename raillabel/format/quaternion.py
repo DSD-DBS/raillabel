@@ -26,3 +26,7 @@ class Quaternion:
     def from_json(cls, json: tuple[float, float, float, float]) -> Quaternion:
         """Construct an instant of this class from RailLabel JSON data."""
         return Quaternion(x=json[0], y=json[1], z=json[2], w=json[3])
+
+    def to_json(self) -> tuple[float, float, float, float]:
+        """Export this object into the RailLabel JSON format."""
+        return (self.x, self.y, self.z, self.w)

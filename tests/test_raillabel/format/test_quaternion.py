@@ -28,5 +28,10 @@ def test_from_json(quaternion, quaternion_json):
     assert actual == quaternion
 
 
+def test_to_json(quaternion, quaternion_json):
+    actual = quaternion.to_json()
+    assert actual == tuple(quaternion_json)
+
+
 if __name__ == "__main__":
     pytest.main([__file__, "-v"])
