@@ -18,7 +18,7 @@ class Seg3d:
     point_ids: list[int]
     "The list of point indices."
 
-    object: UUID
+    object_uid: UUID
     "The uid of the object, this annotation belongs to."
 
     sensor: str
@@ -32,7 +32,7 @@ class Seg3d:
         """Construct an instant of this class from RailLabel JSON data."""
         return Seg3d(
             point_ids=[int(point_id) for point_id in json.val],
-            object=object_uid,
+            object_uid=object_uid,
             sensor=json.coordinate_system,
             attributes=_attributes_from_json(json.attributes),
         )

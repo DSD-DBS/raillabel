@@ -28,7 +28,7 @@ class Cuboid:
     size: Size3d
     "The size of the cuboid in meters."
 
-    object: UUID
+    object_uid: UUID
     "The uid of the object, this annotation belongs to."
 
     sensor: str
@@ -44,7 +44,7 @@ class Cuboid:
             pos=Point3d.from_json((json.val[0], json.val[1], json.val[2])),
             quat=Quaternion.from_json((json.val[3], json.val[4], json.val[5], json.val[6])),
             size=Size3d.from_json((json.val[7], json.val[8], json.val[9])),
-            object=object_uid,
+            object_uid=object_uid,
             sensor=json.coordinate_system,
             attributes=_attributes_from_json(json.attributes),
         )

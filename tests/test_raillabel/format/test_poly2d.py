@@ -47,7 +47,7 @@ def poly2d(
         closed=True,
         sensor="rgb_middle",
         attributes=attributes_multiple_types,
-        object=object_track_uid,
+        object_uid=object_track_uid,
     )
 
 

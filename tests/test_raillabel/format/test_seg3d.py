@@ -40,7 +40,7 @@ def seg3d(
         point_ids=[1234, 5678],
         sensor="lidar",
         attributes=attributes_multiple_types,
-        object=object_person_uid,
+        object_uid=object_person_uid,
     )
 
 

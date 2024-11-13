@@ -45,7 +45,7 @@ def bbox(
         size=size2d,
         sensor="rgb_middle",
         attributes=attributes_multiple_types,
-        object=object_person_uid,
+        object_uid=object_person_uid,
     )
 
 

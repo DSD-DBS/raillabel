@@ -23,7 +23,7 @@ class Bbox:
     size: Size2d
     "The dimensions of the bbox in pixels from the top left corner to the bottom right corner."
 
-    object: UUID
+    object_uid: UUID
     "The uid of the object, this annotation belongs to."
 
     sensor: str
@@ -38,7 +38,7 @@ class Bbox:
         return Bbox(
             pos=Point2d.from_json((json.val[0], json.val[1])),
             size=Size2d.from_json((json.val[2], json.val[3])),
-            object=object_uid,
+            object_uid=object_uid,
             sensor=json.coordinate_system,
             attributes=_attributes_from_json(json.attributes),
         )

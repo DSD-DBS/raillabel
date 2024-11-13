@@ -22,7 +22,7 @@ class Poly2d:
     closed: bool
     "If True, this object represents a polygon and if False, it represents a polyline."
 
-    object: UUID
+    object_uid: UUID
     "The uid of the object, this annotation belongs to."
 
     sensor: str
@@ -40,7 +40,7 @@ class Poly2d:
                 for i in range(0, len(json.val), 2)
             ],
             closed=json.closed,
-            object=object_uid,
+            object_uid=object_uid,
             sensor=json.coordinate_system,
             attributes=_attributes_from_json(json.attributes),
         )
