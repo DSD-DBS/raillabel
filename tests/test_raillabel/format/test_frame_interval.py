@@ -79,5 +79,10 @@ def test_from_frame_uids_unsorted():
     ]
 
 
+def test_to_json(frame_interval, frame_interval_json):
+    actual = frame_interval.to_json()
+    assert actual == frame_interval_json
+
+
 if __name__ == "__main__":
     pytest.main([__file__, "-v"])

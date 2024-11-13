@@ -42,34 +42,41 @@ class FrameInterval:
 
         """
         sorted_frame_uids = sorted(frame_uids)
-        frame_uid_intervals = cls._slice_into_intervals(sorted_frame_uids)
+        frame_uid_intervals = _slice_into_intervals(sorted_frame_uids)
 
         return [
             FrameInterval(start=interval[0], end=interval[-1]) for interval in frame_uid_intervals
         ]
 
+    def to_json(self) -> JSONFrameInterval:
+        """Export this object into the RailLabel JSON format."""
+        return JSONFrameInterval(
+            frame_start=self.start,
+            frame_end=self.end,
+        )
+
     def __len__(self) -> int:
         """Return the length in frames."""
         return abs(self.start - self.end) + 1
 
-    @classmethod
-    def _slice_into_intervals(cls, sorted_frame_uids: list[int]) -> list[list[int]]:
-        if len(sorted_frame_uids) == 0:
-            return []
 
-        if len(sorted_frame_uids) == 1:
-            return [sorted_frame_uids]
+def _slice_into_intervals(sorted_frame_uids: list[int]) -> list[list[int]]:
+    if len(sorted_frame_uids) == 0:
+        return []
 
-        intervals = []
-        interval_start_i = 0
-        for i, frame_uid in enumerate(sorted_frame_uids[1:]):
-            previous_frame_uid = sorted_frame_uids[i]
+    if len(sorted_frame_uids) == 1:
+        return [sorted_frame_uids]
 
-            if frame_uid - previous_frame_uid > 1:
-                intervals.append(sorted_frame_uids[interval_start_i : i + 1])
-                interval_start_i = i + 1
+    intervals = []
+    interval_start_i = 0
+    for i, frame_uid in enumerate(sorted_frame_uids[1:]):
+        previous_frame_uid = sorted_frame_uids[i]
 
-        intervals.append(sorted_frame_uids[interval_start_i : len(sorted_frame_uids)])
-        interval_start_i = len(sorted_frame_uids)
+        if frame_uid - previous_frame_uid > 1:
+            intervals.append(sorted_frame_uids[interval_start_i : i + 1])
+            interval_start_i = i + 1
 
-        return intervals
+    intervals.append(sorted_frame_uids[interval_start_i : len(sorted_frame_uids)])
+    interval_start_i = len(sorted_frame_uids)
+
+    return intervals
