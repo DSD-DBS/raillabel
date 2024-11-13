@@ -19,7 +19,7 @@ def transform_json(point3d_json, quaternion_json) -> JSONTransformData:
 
 @pytest.fixture
 def transform(point3d, quaternion) -> Transform:
-    return Transform(position=point3d, quaternion=quaternion)
+    return Transform(pos=point3d, quat=quaternion)
 
 
 # == Tests ============================

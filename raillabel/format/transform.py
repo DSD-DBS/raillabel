@@ -15,23 +15,23 @@ from .quaternion import Quaternion
 class Transform:
     """A transformation between two coordinate systems."""
 
-    position: Point3d
+    pos: Point3d
     "Translation with regards to the parent coordinate system."
 
-    quaternion: Quaternion
+    quat: Quaternion
     "Rotation quaternion with regards to the parent coordinate system."
 
     @classmethod
     def from_json(cls, json: JSONTransformData) -> Transform:
         """Construct an instant of this class from RailLabel JSON data."""
         return Transform(
-            position=Point3d.from_json(json.translation),
-            quaternion=Quaternion.from_json(json.quaternion),
+            pos=Point3d.from_json(json.translation),
+            quat=Quaternion.from_json(json.quaternion),
         )
 
     def to_json(self) -> JSONTransformData:
         """Export this object into the RailLabel JSON format."""
         return JSONTransformData(
-            translation=self.position.to_json(),
-            quaternion=self.quaternion.to_json(),
+            translation=self.pos.to_json(),
+            quaternion=self.quat.to_json(),
         )
