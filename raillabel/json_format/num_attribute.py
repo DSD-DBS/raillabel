@@ -13,5 +13,5 @@ class JSONNumAttribute(BaseModel):
     """Friendly identifier describing the attribute. Used to track the attribute throughout
     annotations and frames."""
 
-    val: int | float
+    val: float
     "The number value."

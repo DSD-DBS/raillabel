@@ -13,5 +13,5 @@ class JSONVecAttribute(BaseModel):
     """Friendly identifier describing the attribute. Used to track the attribute throughout
     annotations and frames."""
 
-    val: list[int | float | str]
+    val: list[float | str]
     "The value vector of the attribute."

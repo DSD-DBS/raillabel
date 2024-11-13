@@ -10,13 +10,13 @@ from dataclasses import dataclass
 class Size2d:
     """The size of a rectangle in a 2d image."""
 
-    x: int | float
+    x: float
     "The size along the x-axis."
 
-    y: int | float
+    y: float
     "The size along the y-axis."
 
     @classmethod
-    def from_json(cls, json: tuple[int | float, int | float]) -> Size2d:
+    def from_json(cls, json: tuple[float, float]) -> Size2d:
         """Construct an instant of this class from RailLabel JSON data."""
         return Size2d(x=json[0], y=json[1])

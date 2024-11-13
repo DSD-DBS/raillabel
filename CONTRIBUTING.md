@@ -138,7 +138,7 @@ The key differences are:
     etc.
   - For classes that are not builtin (e.g. `Iterable`),
     `import collections.abc as cabc` and then use them like `cabc.Iterable`.
-  - Use [PEP-604-style unions], e.g. `int | float` instead of
+  - Use [PEP-604-style unions], e.g. `float` instead of
     `t.Union[int, float]`.
   - Use `... | None` (with `None` always as the last union member) instead of
     `t.Optional[...]` and always explicitly annotate where `None` is possible.
