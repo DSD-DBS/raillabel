@@ -8,7 +8,7 @@ from uuid import UUID
 
 from raillabel.json_format import JSONBbox
 
-from ._attributes import _attributes_from_json
+from ._attributes import _attributes_from_json, _attributes_to_json
 from .point2d import Point2d
 from .size2d import Size2d
 
@@ -41,6 +41,16 @@ class Bbox:
             object=object_uid,
             sensor=json.coordinate_system,
             attributes=_attributes_from_json(json.attributes),
+        )
+
+    def to_json(self, uid: UUID, object_type: str) -> JSONBbox:
+        """Export this object into the RailLabel JSON format."""
+        return JSONBbox(
+            name=self.name(object_type),
+            val=list(self.pos.to_json()) + list(self.size.to_json()),
+            coordinate_system=self.sensor,
+            uid=uid,
+            attributes=_attributes_to_json(self.attributes),
         )
 
     def name(self, object_type: str) -> str:

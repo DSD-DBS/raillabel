@@ -62,5 +62,10 @@ def test_name(bbox):
     assert actual == "rgb_middle__bbox__person"
 
 
+def test_to_json(bbox, bbox_json, bbox_uid):
+    actual = bbox.to_json(bbox_uid, object_type="person")
+    assert actual == bbox_json
+
+
 if __name__ == "__main__":
     pytest.main([__file__, "-v"])
