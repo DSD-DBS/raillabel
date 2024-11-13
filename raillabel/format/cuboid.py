@@ -29,7 +29,7 @@ class Cuboid:
     "The size of the cuboid in meters."
 
     object_id: UUID
-    "The uid of the object, this annotation belongs to."
+    "The unique identifyer of the real-life object, this annotation belongs to."
 
     sensor: str
     "The uid of the sensor, this annotation is labeled in."

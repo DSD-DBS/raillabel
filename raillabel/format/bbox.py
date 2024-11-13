@@ -24,7 +24,7 @@ class Bbox:
     "The dimensions of the bbox in pixels from the top left corner to the bottom right corner."
 
     object_id: UUID
-    "The uid of the object, this annotation belongs to."
+    "The unique identifyer of the real-life object, this annotation belongs to."
 
     sensor: str
     "The uid of the sensor, this annotation is labeled in."

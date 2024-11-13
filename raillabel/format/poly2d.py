@@ -23,7 +23,7 @@ class Poly2d:
     "If True, this object represents a polygon and if False, it represents a polyline."
 
     object_id: UUID
-    "The uid of the object, this annotation belongs to."
+    "The unique identifyer of the real-life object, this annotation belongs to."
 
     sensor: str
     "The uid of the sensor, this annotation is labeled in."
