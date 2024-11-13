@@ -28,3 +28,10 @@ class Transform:
             position=Point3d.from_json(json.translation),
             quaternion=Quaternion.from_json(json.quaternion),
         )
+
+    def to_json(self) -> JSONTransformData:
+        """Export this object into the RailLabel JSON format."""
+        return JSONTransformData(
+            translation=self.position.to_json(),
+            quaternion=self.quaternion.to_json(),
+        )

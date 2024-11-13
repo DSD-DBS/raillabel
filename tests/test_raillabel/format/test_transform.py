@@ -30,5 +30,10 @@ def test_from_json(transform_json, transform):
     assert actual == transform
 
 
+def test_to_json(transform, transform_json):
+    actual = transform.to_json()
+    assert actual == transform_json
+
+
 if __name__ == "__main__":
     pytest.main([__file__, "-v"])
