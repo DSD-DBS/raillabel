@@ -10,6 +10,14 @@ from .test_intrinsics_radar import intrinsics_radar, intrinsics_radar_json
 from .test_lidar import lidar, lidar_json
 from .test_metadata import metadata, metadata_json
 from .test_num import num, num_json
+from .test_object import (
+    object_person,
+    object_person_json,
+    object_person_uid,
+    object_track,
+    object_track_json,
+    object_track_uid,
+)
 from .test_point2d import point2d, point2d_json, another_point2d, another_point2d_json
 from .test_point3d import point3d, point3d_json, another_point3d, another_point3d_json
 from .test_poly2d import poly2d, poly2d_json, poly2d_uid

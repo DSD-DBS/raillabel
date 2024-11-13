@@ -40,6 +40,7 @@ def cuboid(
     size3d,
     quaternion,
     attributes_multiple_types,
+    object_person_uid,
 ) -> Cuboid:
     return Cuboid(
         pos=point3d,
@@ -47,15 +48,15 @@ def cuboid(
         size=size3d,
         sensor="lidar",
         attributes=attributes_multiple_types,
-        object=UUID("b40ba3ad-0327-46ff-9c28-2506cfd6d934"),
+        object=object_person_uid,
     )
 
 
 # == Tests ============================
 
 
-def test_from_json(cuboid, cuboid_json):
-    actual = Cuboid.from_json(cuboid_json, object_uid=UUID("b40ba3ad-0327-46ff-9c28-2506cfd6d934"))
+def test_from_json(cuboid, cuboid_json, object_person_uid):
+    actual = Cuboid.from_json(cuboid_json, object_person_uid)
     assert actual == cuboid
 
 

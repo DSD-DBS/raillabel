@@ -38,21 +38,22 @@ def bbox(
     point2d,
     size2d,
     attributes_multiple_types,
+    object_person_uid,
 ) -> Bbox:
     return Bbox(
         pos=point2d,
         size=size2d,
         sensor="rgb_middle",
         attributes=attributes_multiple_types,
-        object=UUID("b40ba3ad-0327-46ff-9c28-2506cfd6d934"),
+        object=object_person_uid,
     )
 
 
 # == Tests ============================
 
 
-def test_from_json(bbox, bbox_json):
-    actual = Bbox.from_json(bbox_json, object_uid=UUID("b40ba3ad-0327-46ff-9c28-2506cfd6d934"))
+def test_from_json(bbox, bbox_json, object_person_uid):
+    actual = Bbox.from_json(bbox_json, object_person_uid)
     assert actual == bbox
 
 

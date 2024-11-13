@@ -39,21 +39,22 @@ def poly3d(
     point3d,
     another_point3d,
     attributes_multiple_types,
+    object_track_uid,
 ) -> Poly3d:
     return Poly3d(
         points=[point3d, another_point3d],
         closed=True,
         sensor="lidar",
         attributes=attributes_multiple_types,
-        object=UUID("cfcf9750-3bc3-4077-9079-a82c0c63976a"),
+        object=object_track_uid,
     )
 
 
 # == Tests ============================
 
 
-def test_from_json(poly3d, poly3d_json):
-    actual = Poly3d.from_json(poly3d_json, object_uid=UUID("cfcf9750-3BC3-4077-9079-a82c0c63976a"))
+def test_from_json(poly3d, poly3d_json, object_track_uid):
+    actual = Poly3d.from_json(poly3d_json, object_track_uid)
     assert actual == poly3d
 
 

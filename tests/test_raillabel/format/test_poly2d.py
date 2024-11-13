@@ -40,21 +40,22 @@ def poly2d(
     point2d,
     another_point2d,
     attributes_multiple_types,
+    object_track_uid,
 ) -> Poly2d:
     return Poly2d(
         points=[point2d, another_point2d],
         closed=True,
         sensor="rgb_middle",
         attributes=attributes_multiple_types,
-        object=UUID("cfcf9750-3BC3-4077-9079-a82c0c63976a"),
+        object=object_track_uid,
     )
 
 
 # == Tests ============================
 
 
-def test_from_json(poly2d, poly2d_json):
-    actual = Poly2d.from_json(poly2d_json, object_uid=UUID("cfcf9750-3BC3-4077-9079-a82c0c63976a"))
+def test_from_json(poly2d, poly2d_json, object_track_uid):
+    actual = Poly2d.from_json(poly2d_json, object_track_uid)
     assert actual == poly2d
 
 
