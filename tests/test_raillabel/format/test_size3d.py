@@ -28,5 +28,10 @@ def test_from_json(size3d, size3d_json):
     assert actual == size3d
 
 
+def test_to_json(size3d, size3d_json):
+    actual = size3d.to_json()
+    assert actual == tuple(size3d_json)
+
+
 if __name__ == "__main__":
     pytest.main([__file__, "-v"])

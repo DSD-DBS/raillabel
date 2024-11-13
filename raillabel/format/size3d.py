@@ -23,3 +23,7 @@ class Size3d:
     def from_json(cls, json: tuple[float, float, float]) -> Size3d:
         """Construct an instant of this class from RailLabel JSON data."""
         return Size3d(x=json[0], y=json[1], z=json[2])
+
+    def to_json(self) -> tuple[float, float, float]:
+        """Export this object into the RailLabel JSON format."""
+        return (self.x, self.y, self.z)
