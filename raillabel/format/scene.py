@@ -8,6 +8,7 @@ from uuid import UUID
 
 from raillabel.json_format import (
     JSONCoordinateSystem,
+    JSONFrame,
     JSONObject,
     JSONScene,
     JSONStreamCamera,
@@ -48,6 +49,7 @@ class Scene:
             metadata=Metadata.from_json(json.openlabel.metadata),
             sensors=_sensors_from_json(json.openlabel.streams, json.openlabel.coordinate_systems),
             objects=_objects_from_json(json.openlabel.objects),
+            frames=_frames_from_json(json.openlabel.frames),
         )
 
 
@@ -86,3 +88,10 @@ def _objects_from_json(json_objects: dict[UUID, JSONObject] | None) -> dict[UUID
         return {}
 
     return {obj_uid: Object.from_json(json_obj) for obj_uid, json_obj in json_objects.items()}
+
+
+def _frames_from_json(json_frames: dict[int, JSONFrame] | None) -> dict[int, Frame]:
+    if json_frames is None:
+        return {}
+
+    return {frame_uid: Frame.from_json(json_frame) for frame_uid, json_frame in json_frames.items()}

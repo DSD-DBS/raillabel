@@ -21,6 +21,7 @@ def scene_json(
     object_person_json,
     object_track_uid,
     object_track_json,
+    frame_json,
 ) -> JSONScene:
     return JSONScene(
         openlabel=JSONSceneContent(
@@ -45,6 +46,7 @@ def scene_json(
                 object_person_uid: object_person_json,
                 object_track_uid: object_track_json,
             },
+            frames={1: frame_json},
         )
     )
 
@@ -59,6 +61,7 @@ def scene(
     object_person,
     object_track_uid,
     object_track,
+    frame,
 ) -> Scene:
     return Scene(
         metadata=metadata,
@@ -71,6 +74,7 @@ def scene(
             object_person_uid: object_person,
             object_track_uid: object_track,
         },
+        frames={1: frame},
     )
 
 
