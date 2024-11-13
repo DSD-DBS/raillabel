@@ -53,15 +53,15 @@ def frame(
     another_sensor_reference,
     num,
     bbox,
-    bbox_uid,
+    bbox_id,
     cuboid,
-    cuboid_uid,
+    cuboid_id,
     poly2d,
-    poly2d_uid,
+    poly2d_id,
     poly3d,
-    poly3d_uid,
+    poly3d_id,
     seg3d,
-    seg3d_uid,
+    seg3d_id,
 ) -> dict:
     return Frame(
         timestamp=Decimal("1631337747.123123123"),
@@ -71,11 +71,11 @@ def frame(
         },
         frame_data={num.name: num},
         annotations={
-            bbox_uid: bbox,
-            cuboid_uid: cuboid,
-            poly2d_uid: poly2d,
-            poly3d_uid: poly3d,
-            seg3d_uid: seg3d,
+            bbox_id: bbox,
+            cuboid_id: cuboid,
+            poly2d_id: poly2d,
+            poly3d_id: poly3d,
+            seg3d_id: seg3d,
         },
     )
 

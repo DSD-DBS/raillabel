@@ -30,7 +30,7 @@ def poly3d_json(
 
 
 @pytest.fixture
-def poly3d_uid() -> UUID:
+def poly3d_id() -> UUID:
     return UUID("0da87210-46F1-40e5-b661-20ea1c392f50")
 
 
@@ -39,22 +39,22 @@ def poly3d(
     point3d,
     another_point3d,
     attributes_multiple_types,
-    object_track_uid,
+    object_track_id,
 ) -> Poly3d:
     return Poly3d(
         points=[point3d, another_point3d],
         closed=True,
         sensor="lidar",
         attributes=attributes_multiple_types,
-        object_uid=object_track_uid,
+        object_id=object_track_id,
     )
 
 
 # == Tests ============================
 
 
-def test_from_json(poly3d, poly3d_json, object_track_uid):
-    actual = Poly3d.from_json(poly3d_json, object_track_uid)
+def test_from_json(poly3d, poly3d_json, object_track_id):
+    actual = Poly3d.from_json(poly3d_json, object_track_id)
     assert actual == poly3d
 
 

@@ -27,13 +27,13 @@ class FrameInterval:
         )
 
     @classmethod
-    def from_frame_uids(cls, frame_uids: list[int]) -> list[FrameInterval]:
+    def from_frame_ids(cls, frame_ids: list[int]) -> list[FrameInterval]:
         """Convert a list of frame uids into FrameIntervals.
 
         Example:
         -------
         ```python
-        FrameInterval.from_frame_uids([0, 1, 2, 3, 9, 12, 13, 14]) == [
+        FrameInterval.from_frame_ids([0, 1, 2, 3, 9, 12, 13, 14]) == [
             FrameInterval(0, 3),
             FrameInterval(9, 9),
             FrameInterval(12, 14),
@@ -41,11 +41,11 @@ class FrameInterval:
         ```
 
         """
-        sorted_frame_uids = sorted(frame_uids)
-        frame_uid_intervals = _slice_into_intervals(sorted_frame_uids)
+        sorted_frame_ids = sorted(frame_ids)
+        frame_id_intervals = _slice_into_intervals(sorted_frame_ids)
 
         return [
-            FrameInterval(start=interval[0], end=interval[-1]) for interval in frame_uid_intervals
+            FrameInterval(start=interval[0], end=interval[-1]) for interval in frame_id_intervals
         ]
 
     def to_json(self) -> JSONFrameInterval:
@@ -60,23 +60,23 @@ class FrameInterval:
         return abs(self.start - self.end) + 1
 
 
-def _slice_into_intervals(sorted_frame_uids: list[int]) -> list[list[int]]:
-    if len(sorted_frame_uids) == 0:
+def _slice_into_intervals(sorted_frame_ids: list[int]) -> list[list[int]]:
+    if len(sorted_frame_ids) == 0:
         return []
 
-    if len(sorted_frame_uids) == 1:
-        return [sorted_frame_uids]
+    if len(sorted_frame_ids) == 1:
+        return [sorted_frame_ids]
 
     intervals = []
     interval_start_i = 0
-    for i, frame_uid in enumerate(sorted_frame_uids[1:]):
-        previous_frame_uid = sorted_frame_uids[i]
+    for i, frame_id in enumerate(sorted_frame_ids[1:]):
+        previous_frame_id = sorted_frame_ids[i]
 
-        if frame_uid - previous_frame_uid > 1:
-            intervals.append(sorted_frame_uids[interval_start_i : i + 1])
+        if frame_id - previous_frame_id > 1:
+            intervals.append(sorted_frame_ids[interval_start_i : i + 1])
             interval_start_i = i + 1
 
-    intervals.append(sorted_frame_uids[interval_start_i : len(sorted_frame_uids)])
-    interval_start_i = len(sorted_frame_uids)
+    intervals.append(sorted_frame_ids[interval_start_i : len(sorted_frame_ids)])
+    interval_start_i = len(sorted_frame_ids)
 
     return intervals

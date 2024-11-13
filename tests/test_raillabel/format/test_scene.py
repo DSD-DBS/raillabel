@@ -17,9 +17,9 @@ def scene_json(
     camera_json,
     lidar_json,
     radar_json,
-    object_person_uid,
+    object_person_id,
     object_person_json,
-    object_track_uid,
+    object_track_id,
     object_track_json,
     frame_json,
 ) -> JSONScene:
@@ -43,8 +43,8 @@ def scene_json(
                 "radar": radar_json[0],
             },
             objects={
-                object_person_uid: object_person_json,
-                object_track_uid: object_track_json,
+                object_person_id: object_person_json,
+                object_track_id: object_track_json,
             },
             frames={1: frame_json},
         )
@@ -57,9 +57,9 @@ def scene(
     camera,
     lidar,
     radar,
-    object_person_uid,
+    object_person_id,
     object_person,
-    object_track_uid,
+    object_track_id,
     object_track,
     frame,
 ) -> Scene:
@@ -71,8 +71,8 @@ def scene(
             "radar": radar,
         },
         objects={
-            object_person_uid: object_person,
-            object_track_uid: object_track,
+            object_person_id: object_person,
+            object_track_id: object_track,
         },
         frames={1: frame},
     )

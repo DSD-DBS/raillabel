@@ -27,28 +27,28 @@ def seg3d_json(
 
 
 @pytest.fixture
-def seg3d_uid() -> UUID:
+def seg3d_id() -> UUID:
     return UUID("d52e2b25-0B48-4899-86d5-4bc41be6b7d3")
 
 
 @pytest.fixture
 def seg3d(
     attributes_multiple_types,
-    object_person_uid,
+    object_person_id,
 ) -> Seg3d:
     return Seg3d(
         point_ids=[1234, 5678],
         sensor="lidar",
         attributes=attributes_multiple_types,
-        object_uid=object_person_uid,
+        object_id=object_person_id,
     )
 
 
 # == Tests ============================
 
 
-def test_from_json(seg3d, seg3d_json, object_person_uid):
-    actual = Seg3d.from_json(seg3d_json, object_person_uid)
+def test_from_json(seg3d, seg3d_json, object_person_id):
+    actual = Seg3d.from_json(seg3d_json, object_person_id)
     assert actual == seg3d
 
 

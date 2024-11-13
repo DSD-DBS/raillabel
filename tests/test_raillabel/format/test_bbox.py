@@ -29,7 +29,7 @@ def bbox_json(
 
 
 @pytest.fixture
-def bbox_uid() -> UUID:
+def bbox_id() -> UUID:
     return UUID("2811f67c-124C-4fac-a275-20807d0471de")
 
 
@@ -38,22 +38,22 @@ def bbox(
     point2d,
     size2d,
     attributes_multiple_types,
-    object_person_uid,
+    object_person_id,
 ) -> Bbox:
     return Bbox(
         pos=point2d,
         size=size2d,
         sensor="rgb_middle",
         attributes=attributes_multiple_types,
-        object_uid=object_person_uid,
+        object_id=object_person_id,
     )
 
 
 # == Tests ============================
 
 
-def test_from_json(bbox, bbox_json, object_person_uid):
-    actual = Bbox.from_json(bbox_json, object_person_uid)
+def test_from_json(bbox, bbox_json, object_person_id):
+    actual = Bbox.from_json(bbox_json, object_person_id)
     assert actual == bbox
 
 
@@ -62,8 +62,8 @@ def test_name(bbox):
     assert actual == "rgb_middle__bbox__person"
 
 
-def test_to_json(bbox, bbox_json, bbox_uid):
-    actual = bbox.to_json(bbox_uid, object_type="person")
+def test_to_json(bbox, bbox_json, bbox_id):
+    actual = bbox.to_json(bbox_id, object_type="person")
     assert actual == bbox_json
 
 

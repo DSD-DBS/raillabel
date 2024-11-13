@@ -23,7 +23,7 @@ class Bbox:
     size: Size2d
     "The dimensions of the bbox in pixels from the top left corner to the bottom right corner."
 
-    object_uid: UUID
+    object_id: UUID
     "The uid of the object, this annotation belongs to."
 
     sensor: str
@@ -33,12 +33,12 @@ class Bbox:
     "Additional information associated with the annotation."
 
     @classmethod
-    def from_json(cls, json: JSONBbox, object_uid: UUID) -> Bbox:
+    def from_json(cls, json: JSONBbox, object_id: UUID) -> Bbox:
         """Construct an instant of this class from RailLabel JSON data."""
         return Bbox(
             pos=Point2d.from_json((json.val[0], json.val[1])),
             size=Size2d.from_json((json.val[2], json.val[3])),
-            object_uid=object_uid,
+            object_id=object_id,
             sensor=json.coordinate_system,
             attributes=_attributes_from_json(json.attributes),
         )

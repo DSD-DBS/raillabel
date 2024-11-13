@@ -87,11 +87,11 @@ def _objects_from_json(json_objects: dict[UUID, JSONObject] | None) -> dict[UUID
     if json_objects is None:
         return {}
 
-    return {obj_uid: Object.from_json(json_obj) for obj_uid, json_obj in json_objects.items()}
+    return {obj_id: Object.from_json(json_obj) for obj_id, json_obj in json_objects.items()}
 
 
 def _frames_from_json(json_frames: dict[int, JSONFrame] | None) -> dict[int, Frame]:
     if json_frames is None:
         return {}
 
-    return {frame_uid: Frame.from_json(json_frame) for frame_uid, json_frame in json_frames.items()}
+    return {frame_id: Frame.from_json(json_frame) for frame_id, json_frame in json_frames.items()}

@@ -22,7 +22,7 @@ class Poly2d:
     closed: bool
     "If True, this object represents a polygon and if False, it represents a polyline."
 
-    object_uid: UUID
+    object_id: UUID
     "The uid of the object, this annotation belongs to."
 
     sensor: str
@@ -32,7 +32,7 @@ class Poly2d:
     "Additional information associated with the annotation."
 
     @classmethod
-    def from_json(cls, json: JSONPoly2d, object_uid: UUID) -> Poly2d:
+    def from_json(cls, json: JSONPoly2d, object_id: UUID) -> Poly2d:
         """Construct an instant of this class from RailLabel JSON data."""
         return Poly2d(
             points=[
@@ -40,7 +40,7 @@ class Poly2d:
                 for i in range(0, len(json.val), 2)
             ],
             closed=json.closed,
-            object_uid=object_uid,
+            object_id=object_id,
             sensor=json.coordinate_system,
             attributes=_attributes_from_json(json.attributes),
         )

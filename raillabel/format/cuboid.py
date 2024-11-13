@@ -28,7 +28,7 @@ class Cuboid:
     size: Size3d
     "The size of the cuboid in meters."
 
-    object_uid: UUID
+    object_id: UUID
     "The uid of the object, this annotation belongs to."
 
     sensor: str
@@ -38,13 +38,13 @@ class Cuboid:
     "Additional information associated with the annotation."
 
     @classmethod
-    def from_json(cls, json: JSONCuboid, object_uid: UUID) -> Cuboid:
+    def from_json(cls, json: JSONCuboid, object_id: UUID) -> Cuboid:
         """Construct an instant of this class from RailLabel JSON data."""
         return Cuboid(
             pos=Point3d.from_json((json.val[0], json.val[1], json.val[2])),
             quat=Quaternion.from_json((json.val[3], json.val[4], json.val[5], json.val[6])),
             size=Size3d.from_json((json.val[7], json.val[8], json.val[9])),
-            object_uid=object_uid,
+            object_id=object_id,
             sensor=json.coordinate_system,
             attributes=_attributes_from_json(json.attributes),
         )

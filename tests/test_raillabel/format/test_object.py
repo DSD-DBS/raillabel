@@ -30,7 +30,7 @@ def object_person() -> Object:
 
 
 @pytest.fixture
-def object_person_uid() -> UUID:
+def object_person_id() -> UUID:
     return UUID("b40ba3ad-0327-46ff-9c28-2506cfd6d934")
 
 
@@ -51,7 +51,7 @@ def object_track() -> Object:
 
 
 @pytest.fixture
-def object_track_uid() -> UUID:
+def object_track_id() -> UUID:
     return UUID("cfcf9750-3BC3-4077-9079-a82c0c63976a")
 
 

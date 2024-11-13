@@ -31,7 +31,7 @@ def poly2d_json(
 
 
 @pytest.fixture
-def poly2d_uid() -> UUID:
+def poly2d_id() -> UUID:
     return UUID("013e7b34-62E5-435c-9412-87318c50f6d8")
 
 
@@ -40,22 +40,22 @@ def poly2d(
     point2d,
     another_point2d,
     attributes_multiple_types,
-    object_track_uid,
+    object_track_id,
 ) -> Poly2d:
     return Poly2d(
         points=[point2d, another_point2d],
         closed=True,
         sensor="rgb_middle",
         attributes=attributes_multiple_types,
-        object_uid=object_track_uid,
+        object_id=object_track_id,
     )
 
 
 # == Tests ============================
 
 
-def test_from_json(poly2d, poly2d_json, object_track_uid):
-    actual = Poly2d.from_json(poly2d_json, object_track_uid)
+def test_from_json(poly2d, poly2d_json, object_track_id):
+    actual = Poly2d.from_json(poly2d_json, object_track_id)
     assert actual == poly2d
 
 

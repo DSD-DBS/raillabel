@@ -30,7 +30,7 @@ def cuboid_json(
 
 
 @pytest.fixture
-def cuboid_uid() -> UUID:
+def cuboid_id() -> UUID:
     return UUID("51def938-20BA-4699-95be-d6330c44cb77")
 
 
@@ -40,7 +40,7 @@ def cuboid(
     size3d,
     quaternion,
     attributes_multiple_types,
-    object_person_uid,
+    object_person_id,
 ) -> Cuboid:
     return Cuboid(
         pos=point3d,
@@ -48,15 +48,15 @@ def cuboid(
         size=size3d,
         sensor="lidar",
         attributes=attributes_multiple_types,
-        object_uid=object_person_uid,
+        object_id=object_person_id,
     )
 
 
 # == Tests ============================
 
 
-def test_from_json(cuboid, cuboid_json, object_person_uid):
-    actual = Cuboid.from_json(cuboid_json, object_person_uid)
+def test_from_json(cuboid, cuboid_json, object_person_id):
+    actual = Cuboid.from_json(cuboid_json, object_person_id)
     assert actual == cuboid
 
 
