@@ -45,7 +45,7 @@ def poly2d(
     return Poly2d(
         points=[point2d, another_point2d],
         closed=True,
-        sensor="rgb_middle",
+        sensor_id="rgb_middle",
         attributes=attributes_multiple_types,
         object_id=object_track_id,
     )

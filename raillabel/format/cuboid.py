@@ -31,8 +31,8 @@ class Cuboid:
     object_id: UUID
     "The unique identifyer of the real-life object, this annotation belongs to."
 
-    sensor: str
-    "The uid of the sensor, this annotation is labeled in."
+    sensor_id: str
+    "The unique identifyer of the sensor this annotation is labeled in."
 
     attributes: dict[str, float | bool | str | list]
     "Additional information associated with the annotation."
@@ -45,10 +45,10 @@ class Cuboid:
             quat=Quaternion.from_json((json.val[3], json.val[4], json.val[5], json.val[6])),
             size=Size3d.from_json((json.val[7], json.val[8], json.val[9])),
             object_id=object_id,
-            sensor=json.coordinate_system,
+            sensor_id=json.coordinate_system,
             attributes=_attributes_from_json(json.attributes),
         )
 
     def name(self, object_type: str) -> str:
         """Return the name of the annotation used for indexing in the object data pointers."""
-        return f"{self.sensor}__cuboid__{object_type}"
+        return f"{self.sensor_id}__cuboid__{object_type}"

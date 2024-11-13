@@ -43,7 +43,7 @@ def bbox(
     return Bbox(
         pos=point2d,
         size=size2d,
-        sensor="rgb_middle",
+        sensor_id="rgb_middle",
         attributes=attributes_multiple_types,
         object_id=object_person_id,
     )

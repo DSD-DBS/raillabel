@@ -44,7 +44,7 @@ def poly3d(
     return Poly3d(
         points=[point3d, another_point3d],
         closed=True,
-        sensor="lidar",
+        sensor_id="lidar",
         attributes=attributes_multiple_types,
         object_id=object_track_id,
     )

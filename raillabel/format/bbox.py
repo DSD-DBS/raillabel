@@ -26,8 +26,8 @@ class Bbox:
     object_id: UUID
     "The unique identifyer of the real-life object, this annotation belongs to."
 
-    sensor: str
-    "The uid of the sensor, this annotation is labeled in."
+    sensor_id: str
+    "The unique identifyer of the sensor this annotation is labeled in."
 
     attributes: dict[str, float | bool | str | list]
     "Additional information associated with the annotation."
@@ -39,7 +39,7 @@ class Bbox:
             pos=Point2d.from_json((json.val[0], json.val[1])),
             size=Size2d.from_json((json.val[2], json.val[3])),
             object_id=object_id,
-            sensor=json.coordinate_system,
+            sensor_id=json.coordinate_system,
             attributes=_attributes_from_json(json.attributes),
         )
 
@@ -48,11 +48,11 @@ class Bbox:
         return JSONBbox(
             name=self.name(object_type),
             val=list(self.pos.to_json()) + list(self.size.to_json()),
-            coordinate_system=self.sensor,
+            coordinate_system=self.sensor_id,
             uid=uid,
             attributes=_attributes_to_json(self.attributes),
         )
 
     def name(self, object_type: str) -> str:
         """Return the name of the annotation used for indexing in the object data pointers."""
-        return f"{self.sensor}__bbox__{object_type}"
+        return f"{self.sensor_id}__bbox__{object_type}"

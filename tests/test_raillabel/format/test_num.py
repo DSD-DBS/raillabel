@@ -26,7 +26,7 @@ def num_json() -> JSONNum:
 @pytest.fixture
 def num() -> Num:
     return Num(
-        sensor="gps_imu",
+        sensor_id="gps_imu",
         name="velocity",
         val=49.21321,
     )

@@ -46,7 +46,7 @@ def cuboid(
         pos=point3d,
         quat=quaternion,
         size=size3d,
-        sensor="lidar",
+        sensor_id="lidar",
         attributes=attributes_multiple_types,
         object_id=object_person_id,
     )

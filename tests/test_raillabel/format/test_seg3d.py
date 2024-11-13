@@ -38,7 +38,7 @@ def seg3d(
 ) -> Seg3d:
     return Seg3d(
         point_ids=[1234, 5678],
-        sensor="lidar",
+        sensor_id="lidar",
         attributes=attributes_multiple_types,
         object_id=object_person_id,
     )

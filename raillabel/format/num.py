@@ -18,7 +18,7 @@ class Num:
     val: float
     "This is the value of the number object."
 
-    sensor: str | None
+    sensor_id: str | None
     "A reference to the sensor, this value is represented in."
 
     @classmethod
@@ -27,5 +27,5 @@ class Num:
         return Num(
             name=json.name,
             val=json.val,
-            sensor=json.coordinate_system,
+            sensor_id=json.coordinate_system,
         )
