@@ -64,5 +64,10 @@ def test_name(poly2d):
     assert actual == "rgb_middle__poly2d__person"
 
 
+def test_to_json(poly2d, poly2d_json, poly2d_id):
+    actual = poly2d.to_json(poly2d_id, object_type="person")
+    assert actual == poly2d_json
+
+
 if __name__ == "__main__":
     pytest.main([__file__, "-v"])
