@@ -39,3 +39,12 @@ class IntrinsicsPinhole:
             width_px=json.width_px,
             height_px=json.height_px,
         )
+
+    def to_json(self) -> JSONIntrinsicsPinhole:
+        """Export this object into the RailLabel JSON format."""
+        return JSONIntrinsicsPinhole(
+            camera_matrix=self.camera_matrix,
+            distortion_coeffs=self.distortion,
+            width_px=self.width_px,
+            height_px=self.height_px,
+        )

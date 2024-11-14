@@ -28,7 +28,7 @@ def camera_json(
             description="A very nice camera",
         ),
         JSONCoordinateSystem(
-            parent="base", type="sensor", pose_wrt_parent=transform_json, children=[]
+            parent="base", type="sensor", pose_wrt_parent=transform_json, children=None
         ),
     )
 
@@ -51,5 +51,10 @@ def test_from_json(camera, camera_json):
     assert actual == camera
 
 
+def test_to_json(camera, camera_json):
+    actual = camera.to_json()
+    assert actual == camera_json
+
+
 if __name__ == "__main__":
-    pytest.main([__file__, "--disable-pytest-warnings", "--cache-clear", "-v"])
+    pytest.main([__file__, "-vv"])

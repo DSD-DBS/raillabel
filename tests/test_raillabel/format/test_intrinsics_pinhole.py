@@ -39,5 +39,10 @@ def test_from_json(intrinsics_pinhole, intrinsics_pinhole_json):
     assert actual == intrinsics_pinhole
 
 
+def test_to_json(intrinsics_pinhole, intrinsics_pinhole_json):
+    actual = intrinsics_pinhole.to_json()
+    assert actual == intrinsics_pinhole_json
+
+
 if __name__ == "__main__":
     pytest.main([__file__, "--disable-pytest-warnings", "--cache-clear", "-v"])
