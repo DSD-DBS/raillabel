@@ -63,5 +63,10 @@ def test_name(poly3d):
     assert actual == "lidar__poly3d__person"
 
 
+def test_to_json(poly3d, poly3d_json, poly3d_id):
+    actual = poly3d.to_json(poly3d_id, object_type="person")
+    assert actual == poly3d_json
+
+
 if __name__ == "__main__":
     pytest.main([__file__, "-v"])

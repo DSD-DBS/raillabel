@@ -8,7 +8,8 @@ from uuid import UUID
 
 from raillabel.json_format import JSONPoly3d
 
-from ._attributes import _attributes_from_json
+from ._attributes import _attributes_from_json, _attributes_to_json
+from ._util import _flatten_list
 from .point3d import Point3d
 
 
@@ -43,6 +44,17 @@ class Poly3d:
             object_id=object_id,
             sensor_id=json.coordinate_system,
             attributes=_attributes_from_json(json.attributes),
+        )
+
+    def to_json(self, uid: UUID, object_type: str) -> JSONPoly3d:
+        """Export this object into the RailLabel JSON format."""
+        return JSONPoly3d(
+            name=self.name(object_type),
+            val=_flatten_list([point.to_json() for point in self.points]),
+            closed=self.closed,
+            coordinate_system=self.sensor_id,
+            uid=uid,
+            attributes=_attributes_to_json(self.attributes),
         )
 
     def name(self, object_type: str) -> str:
