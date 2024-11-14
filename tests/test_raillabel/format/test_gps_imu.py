@@ -20,7 +20,7 @@ def gps_imu_json(transform_json) -> tuple[JSONStreamOther, JSONCoordinateSystem]
             description="A very nice gps_imu",
         ),
         JSONCoordinateSystem(
-            parent="base", type="sensor", pose_wrt_parent=transform_json, children=[]
+            parent="base", type="sensor", pose_wrt_parent=transform_json, children=None
         ),
     )
 
@@ -40,6 +40,11 @@ def gps_imu(transform) -> dict:
 def test_from_json(gps_imu, gps_imu_json):
     actual = GpsImu.from_json(gps_imu_json[0], gps_imu_json[1])
     assert actual == gps_imu
+
+
+def test_to_json(gps_imu, gps_imu_json):
+    actual = gps_imu.to_json()
+    assert actual == gps_imu_json
 
 
 if __name__ == "__main__":
