@@ -3,10 +3,10 @@
 
 from __future__ import annotations
 
-from pydantic import BaseModel
+from ._json_format_base import _JSONFormatBase
 
 
-class JSONTextAttribute(BaseModel, extra="forbid"):
+class JSONTextAttribute(_JSONFormatBase):
     """A text attribute."""
 
     name: str

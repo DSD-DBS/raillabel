@@ -5,12 +5,11 @@ from __future__ import annotations
 
 from typing import Literal
 
-from pydantic import BaseModel
-
+from ._json_format_base import _JSONFormatBase
 from .transform_data import JSONTransformData
 
 
-class JSONCoordinateSystem(BaseModel, extra="forbid"):
+class JSONCoordinateSystem(_JSONFormatBase):
     """A 3D reference frame."""
 
     parent: Literal["base", ""]

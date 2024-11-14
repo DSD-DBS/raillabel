@@ -5,12 +5,11 @@ from __future__ import annotations
 
 from uuid import UUID
 
-from pydantic import BaseModel
-
+from ._json_format_base import _JSONFormatBase
 from .attributes import JSONAttributes
 
 
-class JSONPoly3d(BaseModel, extra="forbid"):
+class JSONPoly3d(_JSONFormatBase):
     """A 3D polyline defined as a sequence of 3D points."""
 
     name: str

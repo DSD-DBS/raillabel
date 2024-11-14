@@ -5,10 +5,10 @@ from __future__ import annotations
 
 from uuid import UUID
 
-from pydantic import BaseModel
+from ._json_format_base import _JSONFormatBase
 
 
-class JSONNum(BaseModel, extra="forbid"):
+class JSONNum(_JSONFormatBase):
     """A number."""
 
     name: str

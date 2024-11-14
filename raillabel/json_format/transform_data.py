@@ -3,10 +3,10 @@
 
 from __future__ import annotations
 
-from pydantic import BaseModel
+from ._json_format_base import _JSONFormatBase
 
 
-class JSONTransformData(BaseModel, extra="forbid"):
+class JSONTransformData(_JSONFormatBase):
     """The translation and rotation of one coordinate system to another."""
 
     translation: tuple[float, float, float]

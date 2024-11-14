@@ -3,10 +3,10 @@
 
 from __future__ import annotations
 
-from pydantic import BaseModel
+from ._json_format_base import _JSONFormatBase
 
 
-class JSONBooleanAttribute(BaseModel, extra="forbid"):
+class JSONBooleanAttribute(_JSONFormatBase):
     """A boolean attribute."""
 
     name: str

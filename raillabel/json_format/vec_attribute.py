@@ -3,10 +3,10 @@
 
 from __future__ import annotations
 
-from pydantic import BaseModel
+from ._json_format_base import _JSONFormatBase
 
 
-class JSONVecAttribute(BaseModel, extra="forbid"):
+class JSONVecAttribute(_JSONFormatBase):
     """A vec attribute."""
 
     name: str

@@ -6,12 +6,11 @@ from __future__ import annotations
 from typing import Literal
 from uuid import UUID
 
-from pydantic import BaseModel
-
+from ._json_format_base import _JSONFormatBase
 from .attributes import JSONAttributes
 
 
-class JSONVec(BaseModel, extra="forbid"):
+class JSONVec(_JSONFormatBase):
     """A vector (list) of numbers."""
 
     name: str

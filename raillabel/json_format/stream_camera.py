@@ -5,10 +5,10 @@ from __future__ import annotations
 
 from typing import Literal
 
-from pydantic import BaseModel
+from ._json_format_base import _JSONFormatBase
 
 
-class JSONStreamCamera(BaseModel, extra="forbid"):
+class JSONStreamCamera(_JSONFormatBase):
     """A stream describes the source of a data sequence, usually a sensor.
 
     This specific object contains the intrinsics of a camera sensor.
@@ -27,13 +27,13 @@ class JSONStreamCamera(BaseModel, extra="forbid"):
     "Description of the stream."
 
 
-class JSONStreamCameraProperties(BaseModel, extra="forbid"):
+class JSONStreamCameraProperties(_JSONFormatBase):
     """Intrinsic calibration of the stream."""
 
     intrinsics_pinhole: JSONIntrinsicsPinhole
 
 
-class JSONIntrinsicsPinhole(BaseModel, extra="forbid"):
+class JSONIntrinsicsPinhole(_JSONFormatBase):
     """JSON object defining an instance of the intrinsic parameters of a pinhole camera."""
 
     camera_matrix: tuple[

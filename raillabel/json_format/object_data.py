@@ -3,8 +3,7 @@
 
 from __future__ import annotations
 
-from pydantic import BaseModel
-
+from ._json_format_base import _JSONFormatBase
 from .bbox import JSONBbox
 from .cuboid import JSONCuboid
 from .poly2d import JSONPoly2d
@@ -12,13 +11,13 @@ from .poly3d import JSONPoly3d
 from .vec import JSONVec
 
 
-class JSONObjectData(BaseModel, extra="forbid"):
+class JSONObjectData(_JSONFormatBase):
     """Container of annotations of an object in a frame."""
 
     object_data: JSONAnnotations
 
 
-class JSONAnnotations(BaseModel, extra="forbid"):
+class JSONAnnotations(_JSONFormatBase):
     """Container of the annotations by type."""
 
     bbox: list[JSONBbox] | None = None

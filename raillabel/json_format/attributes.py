@@ -3,15 +3,14 @@
 
 from __future__ import annotations
 
-from pydantic import BaseModel
-
+from ._json_format_base import _JSONFormatBase
 from .boolean_attribute import JSONBooleanAttribute
 from .num_attribute import JSONNumAttribute
 from .text_attribute import JSONTextAttribute
 from .vec_attribute import JSONVecAttribute
 
 
-class JSONAttributes(BaseModel, extra="forbid"):
+class JSONAttributes(_JSONFormatBase):
     """Attributes is the alias of element data that can be nested inside geometric object data.
 
     For example, a certain bounding box can have attributes related to its score, visibility, etc.

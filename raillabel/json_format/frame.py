@@ -6,14 +6,13 @@ from __future__ import annotations
 from decimal import Decimal
 from uuid import UUID
 
-from pydantic import BaseModel
-
+from ._json_format_base import _JSONFormatBase
 from .num import JSONNum
 from .object_data import JSONObjectData
 from .stream_sync import JSONStreamSync
 
 
-class JSONFrame(BaseModel, extra="forbid"):
+class JSONFrame(_JSONFormatBase):
     """A frame is a container of dynamic, timewise, information."""
 
     frame_properties: JSONFrameProperties | None = None
@@ -24,7 +23,7 @@ class JSONFrame(BaseModel, extra="forbid"):
     strings containing 32 bytes UUIDs. Object values contain an 'object_data' JSON object."""
 
 
-class JSONFrameProperties(BaseModel, extra="forbid"):
+class JSONFrameProperties(_JSONFormatBase):
     """Container of frame information other than annotations."""
 
     timestamp: Decimal | str | None = None
@@ -38,7 +37,7 @@ class JSONFrameProperties(BaseModel, extra="forbid"):
     "Additional data to describe attributes of the frame (like GPS position)."
 
 
-class JSONFrameData(BaseModel, extra="forbid"):
+class JSONFrameData(_JSONFormatBase):
     """Additional data to describe attributes of the frame (like GPS position)."""
 
     num: list[JSONNum] | None = None

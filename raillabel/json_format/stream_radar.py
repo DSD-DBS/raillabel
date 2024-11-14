@@ -5,10 +5,10 @@ from __future__ import annotations
 
 from typing import Literal
 
-from pydantic import BaseModel
+from ._json_format_base import _JSONFormatBase
 
 
-class JSONStreamRadar(BaseModel, extra="forbid"):
+class JSONStreamRadar(_JSONFormatBase):
     """A stream describes the source of a data sequence, usually a sensor.
 
     This specific object contains the intrinsics of a radar sensor.
@@ -27,13 +27,13 @@ class JSONStreamRadar(BaseModel, extra="forbid"):
     "Description of the stream."
 
 
-class JSONStreamRadarProperties(BaseModel, extra="forbid"):
+class JSONStreamRadarProperties(_JSONFormatBase):
     """Intrinsic calibration of the stream."""
 
     intrinsics_radar: JSONIntrinsicsRadar
 
 
-class JSONIntrinsicsRadar(BaseModel, extra="forbid"):
+class JSONIntrinsicsRadar(_JSONFormatBase):
     """JSON object defining an instance of the intrinsic parameters of a radar."""
 
     resolution_px_per_m: float

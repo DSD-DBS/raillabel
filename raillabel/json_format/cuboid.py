@@ -5,12 +5,11 @@ from __future__ import annotations
 
 from uuid import UUID
 
-from pydantic import BaseModel
-
+from ._json_format_base import _JSONFormatBase
 from .attributes import JSONAttributes
 
 
-class JSONCuboid(BaseModel, extra="forbid"):
+class JSONCuboid(_JSONFormatBase):
     """A cuboid or 3D bounding box.
 
     It is defined by the position of its center, the rotation in 3D, and its dimensions.
