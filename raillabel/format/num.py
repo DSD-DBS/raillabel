@@ -19,7 +19,10 @@ class Num:
     val: float
     "This is the value of the number object."
 
-    sensor_id: str | None
+    id: UUID | None = None
+    "The unique identifyer of the Num."
+
+    sensor_id: str | None = None
     "A reference to the sensor, this value is represented in."
 
     @classmethod
@@ -28,14 +31,15 @@ class Num:
         return Num(
             name=json.name,
             val=json.val,
+            id=json.uid,
             sensor_id=json.coordinate_system,
         )
 
-    def to_json(self, uid: UUID) -> JSONNum:
+    def to_json(self) -> JSONNum:
         """Export this object into the RailLabel JSON format."""
         return JSONNum(
             name=self.name,
             val=self.val,
             coordinate_system=self.sensor_id,
-            uid=uid,
+            uid=self.id,
         )

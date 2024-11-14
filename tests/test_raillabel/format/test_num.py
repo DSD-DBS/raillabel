@@ -29,11 +29,12 @@ def num_id() -> UUID:
 
 
 @pytest.fixture
-def num() -> Num:
+def num(num_id) -> Num:
     return Num(
         sensor_id="gps_imu",
         name="velocity",
         val=49.21321,
+        id=num_id,
     )
 
 
@@ -45,8 +46,8 @@ def test_from_json(num, num_json):
     assert actual == num
 
 
-def test_to_json(num, num_json, num_id):
-    actual = num.to_json(num_id)
+def test_to_json(num, num_json):
+    actual = num.to_json()
     assert actual == num_json
 
 

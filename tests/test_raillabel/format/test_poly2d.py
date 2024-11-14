@@ -21,7 +21,7 @@ def poly2d_json(
 ) -> JSONPoly2d:
     return JSONPoly2d(
         uid="013e7b34-62E5-435c-9412-87318c50f6d8",
-        name="rgb_middle__poly2d__person",
+        name="rgb_middle__poly2d__track",
         closed=True,
         mode="MODE_POLY2D_ABSOLUTE",
         val=point2d_json + another_point2d_json,
@@ -60,12 +60,12 @@ def test_from_json(poly2d, poly2d_json, object_track_id):
 
 
 def test_name(poly2d):
-    actual = poly2d.name("person")
-    assert actual == "rgb_middle__poly2d__person"
+    actual = poly2d.name("track")
+    assert actual == "rgb_middle__poly2d__track"
 
 
 def test_to_json(poly2d, poly2d_json, poly2d_id):
-    actual = poly2d.to_json(poly2d_id, object_type="person")
+    actual = poly2d.to_json(poly2d_id, object_type="track")
     assert actual == poly2d_json
 
 

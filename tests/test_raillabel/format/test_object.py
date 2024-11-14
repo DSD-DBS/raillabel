@@ -14,6 +14,14 @@ from raillabel.format import Object
 
 
 @pytest.fixture
+def objects(object_person, object_person_id, object_track, object_track_id) -> dict[UUID, Object]:
+    return {
+        object_person_id: object_person,
+        object_track_id: object_track,
+    }
+
+
+@pytest.fixture
 def object_person_json() -> JSONObject:
     return JSONObject(
         name="person_0032",

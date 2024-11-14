@@ -12,6 +12,7 @@ from .test_lidar import lidar, lidar_json
 from .test_metadata import metadata, metadata_json
 from .test_num import num, num_json, num_id
 from .test_object import (
+    objects,
     object_person,
     object_person_json,
     object_person_id,

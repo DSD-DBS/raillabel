@@ -21,7 +21,7 @@ def poly3d_json(
 ) -> JSONPoly3d:
     return JSONPoly3d(
         uid="0da87210-46F1-40e5-b661-20ea1c392f50",
-        name="lidar__poly3d__person",
+        name="lidar__poly3d__track",
         closed=True,
         val=point3d_json + another_point3d_json,
         coordinate_system="lidar",
@@ -59,12 +59,12 @@ def test_from_json(poly3d, poly3d_json, object_track_id):
 
 
 def test_name(poly3d):
-    actual = poly3d.name("person")
-    assert actual == "lidar__poly3d__person"
+    actual = poly3d.name("track")
+    assert actual == "lidar__poly3d__track"
 
 
 def test_to_json(poly3d, poly3d_json, poly3d_id):
-    actual = poly3d.to_json(poly3d_id, object_type="person")
+    actual = poly3d.to_json(poly3d_id, object_type="track")
     assert actual == poly3d_json
 
 

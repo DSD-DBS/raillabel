@@ -98,5 +98,10 @@ def test_from_json(frame, frame_json):
     assert actual == frame
 
 
+def test_to_json(frame, frame_json, objects):
+    actual = frame.to_json(objects)
+    assert actual == frame_json
+
+
 if __name__ == "__main__":
-    pytest.main([__file__, "-v"])
+    pytest.main([__file__, "-vv"])
