@@ -20,7 +20,7 @@ def lidar_json(transform_json) -> tuple[JSONStreamOther, JSONCoordinateSystem]:
             description="A very nice lidar",
         ),
         JSONCoordinateSystem(
-            parent="base", type="sensor", pose_wrt_parent=transform_json, children=[]
+            parent="base", type="sensor", pose_wrt_parent=transform_json, children=None
         ),
     )
 
@@ -40,6 +40,11 @@ def lidar(transform) -> dict:
 def test_from_json(lidar, lidar_json):
     actual = Lidar.from_json(lidar_json[0], lidar_json[1])
     assert actual == lidar
+
+
+def test_to_json(lidar, lidar_json):
+    actual = lidar.to_json()
+    assert actual == lidar_json
 
 
 if __name__ == "__main__":
