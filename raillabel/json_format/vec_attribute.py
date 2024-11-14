@@ -6,7 +6,7 @@ from __future__ import annotations
 from pydantic import BaseModel
 
 
-class JSONVecAttribute(BaseModel):
+class JSONVecAttribute(BaseModel, extra="forbid"):
     """A vec attribute."""
 
     name: str

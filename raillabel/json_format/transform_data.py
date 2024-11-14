@@ -6,7 +6,7 @@ from __future__ import annotations
 from pydantic import BaseModel
 
 
-class JSONTransformData(BaseModel):
+class JSONTransformData(BaseModel, extra="forbid"):
     """The translation and rotation of one coordinate system to another."""
 
     translation: tuple[float, float, float]

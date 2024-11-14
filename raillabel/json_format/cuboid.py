@@ -10,7 +10,7 @@ from pydantic import BaseModel
 from .attributes import JSONAttributes
 
 
-class JSONCuboid(BaseModel):
+class JSONCuboid(BaseModel, extra="forbid"):
     """A cuboid or 3D bounding box.
 
     It is defined by the position of its center, the rotation in 3D, and its dimensions.

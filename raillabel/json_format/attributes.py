@@ -11,7 +11,7 @@ from .text_attribute import JSONTextAttribute
 from .vec_attribute import JSONVecAttribute
 
 
-class JSONAttributes(BaseModel):
+class JSONAttributes(BaseModel, extra="forbid"):
     """Attributes is the alias of element data that can be nested inside geometric object data.
 
     For example, a certain bounding box can have attributes related to its score, visibility, etc.

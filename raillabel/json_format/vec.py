@@ -11,7 +11,7 @@ from pydantic import BaseModel
 from .attributes import JSONAttributes
 
 
-class JSONVec(BaseModel):
+class JSONVec(BaseModel, extra="forbid"):
     """A vector (list) of numbers."""
 
     name: str

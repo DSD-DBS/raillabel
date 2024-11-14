@@ -10,7 +10,7 @@ from pydantic import BaseModel
 from .attributes import JSONAttributes
 
 
-class JSONBbox(BaseModel):
+class JSONBbox(BaseModel, extra="forbid"):
     """A 2D bounding box is defined as a 4-dimensional vector [x, y, w, h].
 
     [x, y] is the center of the bounding box and [w, h] represent the width (horizontal,

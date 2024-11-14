@@ -91,19 +91,19 @@ def _annotations_from_json(
     annotations: dict[UUID, Bbox | Cuboid | Poly2d | Poly3d | Seg3d] = {}
 
     for object_id, object_data in json_object_data.items():
-        for json_bbox in _resolve_none_to_empty_list(object_data.bbox):
+        for json_bbox in _resolve_none_to_empty_list(object_data.object_data.bbox):
             annotations[json_bbox.uid] = Bbox.from_json(json_bbox, object_id)
 
-        for json_cuboid in _resolve_none_to_empty_list(object_data.cuboid):
+        for json_cuboid in _resolve_none_to_empty_list(object_data.object_data.cuboid):
             annotations[json_cuboid.uid] = Cuboid.from_json(json_cuboid, object_id)
 
-        for json_poly2d in _resolve_none_to_empty_list(object_data.poly2d):
+        for json_poly2d in _resolve_none_to_empty_list(object_data.object_data.poly2d):
             annotations[json_poly2d.uid] = Poly2d.from_json(json_poly2d, object_id)
 
-        for json_poly3d in _resolve_none_to_empty_list(object_data.poly3d):
+        for json_poly3d in _resolve_none_to_empty_list(object_data.object_data.poly3d):
             annotations[json_poly3d.uid] = Poly3d.from_json(json_poly3d, object_id)
 
-        for json_seg3d in _resolve_none_to_empty_list(object_data.vec):
+        for json_seg3d in _resolve_none_to_empty_list(object_data.object_data.vec):
             annotations[json_seg3d.uid] = Seg3d.from_json(json_seg3d, object_id)
 
     return annotations

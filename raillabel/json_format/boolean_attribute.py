@@ -6,7 +6,7 @@ from __future__ import annotations
 from pydantic import BaseModel
 
 
-class JSONBooleanAttribute(BaseModel):
+class JSONBooleanAttribute(BaseModel, extra="forbid"):
     """A boolean attribute."""
 
     name: str

@@ -12,8 +12,14 @@ from .poly3d import JSONPoly3d
 from .vec import JSONVec
 
 
-class JSONObjectData(BaseModel):
+class JSONObjectData(BaseModel, extra="forbid"):
     """Container of annotations of an object in a frame."""
+
+    object_data: JSONAnnotations
+
+
+class JSONAnnotations(BaseModel, extra="forbid"):
+    """Container of the annotations by type."""
 
     bbox: list[JSONBbox] | None = None
     cuboid: list[JSONCuboid] | None = None

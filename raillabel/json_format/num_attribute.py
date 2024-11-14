@@ -6,7 +6,7 @@ from __future__ import annotations
 from pydantic import BaseModel
 
 
-class JSONNumAttribute(BaseModel):
+class JSONNumAttribute(BaseModel, extra="forbid"):
     """A number attribute."""
 
     name: str

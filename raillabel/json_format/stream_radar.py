@@ -8,7 +8,7 @@ from typing import Literal
 from pydantic import BaseModel
 
 
-class JSONStreamRadar(BaseModel):
+class JSONStreamRadar(BaseModel, extra="forbid"):
     """A stream describes the source of a data sequence, usually a sensor.
 
     This specific object contains the intrinsics of a radar sensor.
@@ -27,13 +27,13 @@ class JSONStreamRadar(BaseModel):
     "Description of the stream."
 
 
-class JSONStreamRadarProperties(BaseModel):
+class JSONStreamRadarProperties(BaseModel, extra="forbid"):
     """Intrinsic calibration of the stream."""
 
     intrinsics_radar: JSONIntrinsicsRadar
 
 
-class JSONIntrinsicsRadar(BaseModel):
+class JSONIntrinsicsRadar(BaseModel, extra="forbid"):
     """JSON object defining an instance of the intrinsic parameters of a radar."""
 
     resolution_px_per_m: float

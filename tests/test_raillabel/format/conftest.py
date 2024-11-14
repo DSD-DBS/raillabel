@@ -10,7 +10,7 @@ from .test_intrinsics_pinhole import intrinsics_pinhole, intrinsics_pinhole_json
 from .test_intrinsics_radar import intrinsics_radar, intrinsics_radar_json
 from .test_lidar import lidar, lidar_json
 from .test_metadata import metadata, metadata_json
-from .test_num import num, num_json
+from .test_num import num, num_json, num_id
 from .test_object import (
     object_person,
     object_person_json,

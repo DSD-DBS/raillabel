@@ -14,7 +14,7 @@ from .metadata import JSONMetadata
 from .num import JSONNum
 from .num_attribute import JSONNumAttribute
 from .object import JSONObject
-from .object_data import JSONObjectData
+from .object_data import JSONAnnotations, JSONObjectData
 from .poly2d import JSONPoly2d
 from .poly3d import JSONPoly3d
 from .scene import JSONScene, JSONSceneContent
@@ -28,6 +28,7 @@ from .vec import JSONVec
 from .vec_attribute import JSONVecAttribute
 
 __all__ = [
+    "JSONAnnotations",
     "JSONAttributes",
     "JSONBbox",
     "JSONBooleanAttribute",

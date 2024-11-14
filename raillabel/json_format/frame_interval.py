@@ -6,7 +6,7 @@ from __future__ import annotations
 from pydantic import BaseModel
 
 
-class JSONFrameInterval(BaseModel):
+class JSONFrameInterval(BaseModel, extra="forbid"):
     """A frame interval defines a starting and ending frame number as a closed interval.
 
     That means the interval includes the limit frame numbers.

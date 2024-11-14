@@ -11,7 +11,7 @@ from pydantic import BaseModel
 from .attributes import JSONAttributes
 
 
-class JSONPoly2d(BaseModel):
+class JSONPoly2d(BaseModel, extra="forbid"):
     """A 2D polyline defined as a sequence of 2D points."""
 
     name: str

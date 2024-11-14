@@ -10,7 +10,7 @@ from pydantic import BaseModel
 from .transform_data import JSONTransformData
 
 
-class JSONCoordinateSystem(BaseModel):
+class JSONCoordinateSystem(BaseModel, extra="forbid"):
     """A 3D reference frame."""
 
     parent: Literal["base", ""]

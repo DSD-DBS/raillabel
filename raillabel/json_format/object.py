@@ -9,7 +9,7 @@ from .element_data_pointer import JSONElementDataPointer
 from .frame_interval import JSONFrameInterval
 
 
-class JSONObject(BaseModel):
+class JSONObject(BaseModel, extra="forbid"):
     """An object is the main type of annotation element.
 
     Object is designed to represent spatiotemporal entities, such as physical objects in the real

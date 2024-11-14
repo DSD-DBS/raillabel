@@ -17,13 +17,13 @@ from .stream_other import JSONStreamOther
 from .stream_radar import JSONStreamRadar
 
 
-class JSONScene(BaseModel):
+class JSONScene(BaseModel, extra="forbid"):
     """Root RailLabel object."""
 
     openlabel: JSONSceneContent
 
 
-class JSONSceneContent(BaseModel):
+class JSONSceneContent(BaseModel, extra="forbid"):
     """Container of all scene content."""
 
     metadata: JSONMetadata

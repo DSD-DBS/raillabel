@@ -13,7 +13,7 @@ from .object_data import JSONObjectData
 from .stream_sync import JSONStreamSync
 
 
-class JSONFrame(BaseModel):
+class JSONFrame(BaseModel, extra="forbid"):
     """A frame is a container of dynamic, timewise, information."""
 
     frame_properties: JSONFrameProperties | None = None
@@ -24,7 +24,7 @@ class JSONFrame(BaseModel):
     strings containing 32 bytes UUIDs. Object values contain an 'object_data' JSON object."""
 
 
-class JSONFrameProperties(BaseModel):
+class JSONFrameProperties(BaseModel, extra="forbid"):
     """Container of frame information other than annotations."""
 
     timestamp: Decimal | str | None = None
@@ -38,7 +38,7 @@ class JSONFrameProperties(BaseModel):
     "Additional data to describe attributes of the frame (like GPS position)."
 
 
-class JSONFrameData(BaseModel):
+class JSONFrameData(BaseModel, extra="forbid"):
     """Additional data to describe attributes of the frame (like GPS position)."""
 
     num: list[JSONNum] | None = None

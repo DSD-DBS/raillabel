@@ -8,7 +8,13 @@ from decimal import Decimal
 import pytest
 
 from raillabel.format import Frame
-from raillabel.json_format import JSONFrame, JSONFrameData, JSONFrameProperties, JSONObjectData
+from raillabel.json_format import (
+    JSONFrame,
+    JSONFrameData,
+    JSONFrameProperties,
+    JSONObjectData,
+    JSONAnnotations,
+)
 
 # == Fixtures =========================
 
@@ -35,13 +41,17 @@ def frame_json(
         ),
         objects={
             "cfcf9750-3bc3-4077-9079-a82c0c63976a": JSONObjectData(
-                poly2d=[poly2d_json],
-                poly3d=[poly3d_json],
+                object_data=JSONAnnotations(
+                    poly2d=[poly2d_json],
+                    poly3d=[poly3d_json],
+                )
             ),
             "b40ba3ad-0327-46ff-9c28-2506cfd6d934": JSONObjectData(
-                bbox=[bbox_json],
-                cuboid=[cuboid_json],
-                vec=[seg3d_json],
+                object_data=JSONAnnotations(
+                    bbox=[bbox_json],
+                    cuboid=[cuboid_json],
+                    vec=[seg3d_json],
+                )
             ),
         },
     )

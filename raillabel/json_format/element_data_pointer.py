@@ -10,7 +10,7 @@ from pydantic import BaseModel
 from .frame_interval import JSONFrameInterval
 
 
-class JSONElementDataPointer(BaseModel):
+class JSONElementDataPointer(BaseModel, extra="forbid"):
     """A pointer to element data of elements.
 
     It is indexed by 'name', and containing information about the element data type, for example,

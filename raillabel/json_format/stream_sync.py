@@ -8,20 +8,20 @@ from decimal import Decimal
 from pydantic import BaseModel
 
 
-class JSONStreamSync(BaseModel):
+class JSONStreamSync(BaseModel, extra="forbid"):
     """Syncronization information of a stream in a frame."""
 
     stream_properties: JSONStreamSyncProperties
     uri: str | None = None
 
 
-class JSONStreamSyncProperties(BaseModel):
+class JSONStreamSyncProperties(BaseModel, extra="forbid"):
     """The sync information."""
 
     sync: JSONStreamSyncTimestamp
 
 
-class JSONStreamSyncTimestamp(BaseModel):
+class JSONStreamSyncTimestamp(BaseModel, extra="forbid"):
     """The timestamp of a stream sync."""
 
     timestamp: Decimal | str

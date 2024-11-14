@@ -8,7 +8,7 @@ from typing import Literal
 from pydantic import BaseModel
 
 
-class JSONStreamCamera(BaseModel):
+class JSONStreamCamera(BaseModel, extra="forbid"):
     """A stream describes the source of a data sequence, usually a sensor.
 
     This specific object contains the intrinsics of a camera sensor.
@@ -27,13 +27,13 @@ class JSONStreamCamera(BaseModel):
     "Description of the stream."
 
 
-class JSONStreamCameraProperties(BaseModel):
+class JSONStreamCameraProperties(BaseModel, extra="forbid"):
     """Intrinsic calibration of the stream."""
 
     intrinsics_pinhole: JSONIntrinsicsPinhole
 
 
-class JSONIntrinsicsPinhole(BaseModel):
+class JSONIntrinsicsPinhole(BaseModel, extra="forbid"):
     """JSON object defining an instance of the intrinsic parameters of a pinhole camera."""
 
     camera_matrix: tuple[

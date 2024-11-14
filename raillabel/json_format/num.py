@@ -8,7 +8,7 @@ from uuid import UUID
 from pydantic import BaseModel
 
 
-class JSONNum(BaseModel):
+class JSONNum(BaseModel, extra="forbid"):
     """A number."""
 
     name: str

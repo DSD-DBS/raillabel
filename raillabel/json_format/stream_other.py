@@ -8,7 +8,7 @@ from typing import Literal
 from pydantic import BaseModel
 
 
-class JSONStreamOther(BaseModel):
+class JSONStreamOther(BaseModel, extra="forbid"):
     """A stream describes the source of a data sequence, usually a sensor.
 
     This specific object describes a sensor without intrinsic calibration.
