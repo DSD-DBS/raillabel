@@ -3,80 +3,36 @@
 
 from __future__ import annotations
 
-import decimal
 from dataclasses import dataclass
-from typing import Any
+from decimal import Decimal
 
-from .sensor import Sensor
+from raillabel.json_format import JSONStreamSync, JSONStreamSyncProperties, JSONStreamSyncTimestamp
 
 
 @dataclass
 class SensorReference:
-    """A reference to a sensor in a specific frame.
+    """A reference to a sensor in a specific frame."""
 
-    Parameters
-    ----------
-    sensor: raillabel.format.Sensor
-        The sensor this SensorReference corresponds to.
-    timestamp: decimal.Decimal
-        Timestamp containing the Unix epoch time of the sensor in a specific frame with up to
-        nanosecond precision.
-    uri: str, optional
-        URI to the file corresponding to the frame recording in the particular frame. Default is
-        None.
+    timestamp: Decimal
+    """Timestamp containing the Unix epoch time of the sensor in a specific frame with up to
+    nanosecond precision."""
 
-    """
-
-    sensor: Sensor
-    timestamp: decimal.Decimal
     uri: str | None = None
+    "URI to the file corresponding to the frame recording in the particular frame."
 
     @classmethod
-    def fromdict(cls, data_dict: dict, sensor: Sensor) -> SensorReference:
-        """Generate a SensorReference object from a dict.
-
-        Parameters
-        ----------
-        data_dict: dict
-            RailLabel format snippet containing the relevant data.
-        sensor: raillabel.format.Sensor
-            Sensor corresponding to this SensorReference.
-
-        Returns
-        -------
-        sensor_reference: raillabel.format.SensorReference
-            Converted SensorReference object.
-
-        """
+    def from_json(cls, json: JSONStreamSync) -> SensorReference:
+        """Construct an instant of this class from RailLabel JSON data."""
         return SensorReference(
-            sensor=sensor,
-            timestamp=cls._timestamp_fromdict(data_dict["stream_properties"]),
-            uri=data_dict.get("uri"),
+            timestamp=Decimal(json.stream_properties.sync.timestamp),
+            uri=json.uri,
         )
 
-    def asdict(self) -> dict[str, Any]:
-        """Export self as a dict compatible with the OpenLABEL schema.
-
-        Returns
-        -------
-        dict_repr: dict
-            Dict representation of this class instance.
-
-        Raises
-        ------
-        ValueError
-            if an attribute can not be converted to the type required by the OpenLabel schema.
-
-        """
-        dict_repr: dict[str, Any] = {
-            "stream_properties": {"sync": {"timestamp": str(self.timestamp)}}
-        }
-
-        if self.uri is not None:
-            dict_repr["uri"] = self.uri
-
-        return dict_repr
-
-    @classmethod
-    def _timestamp_fromdict(cls, data_dict: dict) -> decimal.Decimal:
-        return decimal.Decimal(data_dict["sync"]["timestamp"])
+    def to_json(self) -> JSONStreamSync:
+        """Export this object into the RailLabel JSON format."""
+        return JSONStreamSync(
+            stream_properties=JSONStreamSyncProperties(
+                sync=JSONStreamSyncTimestamp(timestamp=str(self.timestamp)),
+            ),
+            uri=self.uri,
+        )

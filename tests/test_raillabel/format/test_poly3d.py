@@ -3,110 +3,70 @@
 
 from __future__ import annotations
 
-import os
-import sys
-from pathlib import Path
+from uuid import UUID
 
 import pytest
 
-sys.path.insert(1, str(Path(__file__).parent.parent.parent.parent.parent))
-
 from raillabel.format import Poly3d
+from raillabel.json_format import JSONPoly3d
 
 # == Fixtures =========================
 
 
 @pytest.fixture
-def poly3d_dict(
-    sensor_lidar, attributes_multiple_types_dict, point3d_dict, point3d_another_dict
-) -> dict:
-    return {
-        "uid": "9a9a30f5-D334-4f11-aa3f-c3c83f2935eb",
-        "name": "lidar__poly3d__person",
-        "val": point3d_dict + point3d_another_dict,
-        "coordinate_system": sensor_lidar.uid,
-        "attributes": attributes_multiple_types_dict,
-        "closed": True,
-    }
+def poly3d_json(
+    point3d_json,
+    another_point3d_json,
+    attributes_multiple_types_json,
+) -> JSONPoly3d:
+    return JSONPoly3d(
+        uid="0da87210-46F1-40e5-b661-20ea1c392f50",
+        name="lidar__poly3d__track",
+        closed=True,
+        val=point3d_json + another_point3d_json,
+        coordinate_system="lidar",
+        attributes=attributes_multiple_types_json,
+    )
 
 
 @pytest.fixture
-def poly3d(point3d, point3d_another, sensor_lidar, object_person, attributes_multiple_types) -> dict:
+def poly3d_id() -> UUID:
+    return UUID("0da87210-46F1-40e5-b661-20ea1c392f50")
+
+
+@pytest.fixture
+def poly3d(
+    point3d,
+    another_point3d,
+    attributes_multiple_types,
+    object_track_id,
+) -> Poly3d:
     return Poly3d(
-        uid="9a9a30f5-D334-4f11-aa3f-c3c83f2935eb",
-        points=[point3d, point3d_another],
-        object=object_person,
-        sensor=sensor_lidar,
-        attributes=attributes_multiple_types,
+        points=[point3d, another_point3d],
         closed=True,
+        sensor_id="lidar",
+        attributes=attributes_multiple_types,
+        object_id=object_track_id,
     )
 
 
 # == Tests ============================
 
 
-def test_fromdict(
-    point3d,
-    point3d_dict,
-    point3d_another,
-    point3d_another_dict,
-    sensor_lidar,
-    sensors,
-    object_person,
-    attributes_multiple_types,
-    attributes_multiple_types_dict,
-):
-    poly3d = Poly3d.fromdict(
-        {
-            "uid": "9a9a30f5-D334-4f11-aa3f-c3c83f2935eb",
-            "name": "lidar__poly3d__person",
-            "val": point3d_dict + point3d_another_dict,
-            "coordinate_system": sensor_lidar.uid,
-            "attributes": attributes_multiple_types_dict,
-            "closed": True,
-        },
-        sensors,
-        object_person,
-    )
-
-    assert poly3d.uid == "9a9a30f5-D334-4f11-aa3f-c3c83f2935eb"
-    assert poly3d.name == "lidar__poly3d__person"
-    assert poly3d.points == [point3d, point3d_another]
-    assert poly3d.object == object_person
-    assert poly3d.sensor == sensor_lidar
-    assert poly3d.attributes == attributes_multiple_types
-    assert poly3d.closed == True
+def test_from_json(poly3d, poly3d_json, object_track_id):
+    actual = Poly3d.from_json(poly3d_json, object_track_id)
+    assert actual == poly3d
 
 
-def test_asdict(
-    point3d,
-    point3d_dict,
-    point3d_another,
-    point3d_another_dict,
-    sensor_lidar,
-    object_person,
-    attributes_multiple_types,
-    attributes_multiple_types_dict,
-):
-    poly3d = Poly3d(
-        uid="9a9a30f5-D334-4f11-aa3f-c3c83f2935eb",
-        points=[point3d, point3d_another],
-        object=object_person,
-        sensor=sensor_lidar,
-        attributes=attributes_multiple_types,
-        closed=True,
-    )
+def test_name(poly3d):
+    actual = poly3d.name("track")
+    assert actual == "lidar__poly3d__track"
 
-    assert poly3d.asdict() == {
-        "uid": "9a9a30f5-D334-4f11-aa3f-c3c83f2935eb",
-        "name": "lidar__poly3d__person",
-        "val": point3d_dict + point3d_another_dict,
-        "coordinate_system": sensor_lidar.uid,
-        "attributes": attributes_multiple_types_dict,
-        "closed": True,
-    }
+
+def test_to_json(poly3d, poly3d_json, poly3d_id):
+    actual = poly3d.to_json(poly3d_id, object_type="track")
+    assert actual == poly3d_json
 
 
 if __name__ == "__main__":
-    os.system("clear")
-    pytest.main([__file__, "--disable-pytest-warnings", "--cache-clear", "-v"])
+    pytest.main([__file__, "-v"])

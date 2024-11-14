@@ -4,80 +4,42 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
+from uuid import UUID
 
-from .sensor import Sensor
+from raillabel.json_format import JSONNum
 
 
 @dataclass
 class Num:
-    """A number.
+    """A number."""
 
-    Parameters
-    ----------
-    uid: str
-        This a string representing the unique universal identifier of the annotation.
     name: str
-        Human readable name describing the annotation.
-    val: int or float
-        This is the value of the number object.
-    attributes: dict, optional
-        Attributes of the annotation. Dict keys are the uid str of the attribute, values are the
-        attribute values. Default is {}.
-    sensor: raillabel.format.Sensor
-        A reference to the sensor, this value is represented in. Default is None.
+    "Human readable name describing the annotation."
 
-    """
+    val: float
+    "This is the value of the number object."
 
-    uid: str
-    name: str
-    val: int | float
-    sensor: Sensor
+    id: UUID | None = None
+    "The unique identifyer of the Num."
+
+    sensor_id: str | None = None
+    "A reference to the sensor, this value is represented in."
 
     @classmethod
-    def fromdict(cls, data_dict: dict, sensors: dict) -> Num:
-        """Generate a Num object from a dict.
-
-        Parameters
-        ----------
-        data_dict: dict
-            RailLabel format snippet containing the relevant data.
-        sensors: dict
-            Dictionary containing all sensors for the scene.
-
-        Returns
-        -------
-        annotation: Num
-            Converted annotation.
-
-        """
+    def from_json(cls, json: JSONNum) -> Num:
+        """Construct an instant of this class from RailLabel JSON data."""
         return Num(
-            uid=str(data_dict["uid"]),
-            name=str(data_dict["name"]),
-            val=data_dict["val"],
-            sensor=cls._coordinate_system_fromdict(data_dict, sensors),
+            name=json.name,
+            val=json.val,
+            id=json.uid,
+            sensor_id=json.coordinate_system,
         )
 
-    def asdict(self) -> dict:
-        """Export self as a dict compatible with the OpenLABEL schema.
-
-        Returns
-        -------
-        dict_repr: dict
-            Dict representation of this class instance.
-
-        Raises
-        ------
-        ValueError
-            if an attribute can not be converted to the type required by the OpenLabel schema.
-
-        """
-        return {
-            "uid": str(self.uid),
-            "name": str(self.name),
-            "val": self.val,
-            "coordinate_system": str(self.sensor.uid),
-        }
-
-    @classmethod
-    def _coordinate_system_fromdict(cls, data_dict: dict, sensors: dict) -> Sensor:
-        return sensors[data_dict["coordinate_system"]]
+    def to_json(self) -> JSONNum:
+        """Export this object into the RailLabel JSON format."""
+        return JSONNum(
+            name=self.name,
+            val=self.val,
+            coordinate_system=self.sensor_id,
+            uid=self.id,
+        )

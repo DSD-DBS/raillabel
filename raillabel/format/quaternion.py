@@ -27,23 +27,6 @@ class Quaternion:
         """Construct an instant of this class from RailLabel JSON data."""
         return Quaternion(x=json[0], y=json[1], z=json[2], w=json[3])
 
-    @classmethod
-    def fromdict(cls, data_dict: dict) -> Quaternion:
-        """Generate a Quaternion object from a dict.
-
-        Parameters
-        ----------
-        data_dict: dict
-            RailLabel format snippet containing the relevant data.
-
-        """
-        return Quaternion(
-            x=data_dict[0],
-            y=data_dict[1],
-            z=data_dict[2],
-            w=data_dict[3],
-        )
-
-    def asdict(self) -> list[float]:
-        """Export self as a dict compatible with the OpenLABEL schema."""
-        return [float(self.x), float(self.y), float(self.z), float(self.w)]
+    def to_json(self) -> tuple[float, float, float, float]:
+        """Export this object into the RailLabel JSON format."""
+        return (self.x, self.y, self.z, self.w)

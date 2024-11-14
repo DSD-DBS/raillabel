@@ -3,13 +3,7 @@
 
 from __future__ import annotations
 
-import os
-import sys
-from pathlib import Path
-
 import pytest
-
-sys.path.insert(1, str(Path(__file__).parent.parent.parent.parent.parent))
 
 from raillabel.format import Size3d
 
@@ -17,32 +11,27 @@ from raillabel.format import Size3d
 
 
 @pytest.fixture
-def size3d_dict() -> dict:
-    return [0.35, 0.7, 1.92]
+def size3d_json() -> dict:
+    return [25, 1.344, 12.3]
 
 
 @pytest.fixture
 def size3d() -> dict:
-    return Size3d(0.35, 0.7, 1.92)
+    return Size3d(25, 1.344, 12.3)
 
 
 # == Tests ============================
 
 
-def test_fromdict():
-    size3d = Size3d.fromdict([0.35, 0.7, 1.92])
-
-    assert size3d.x == 0.35
-    assert size3d.y == 0.7
-    assert size3d.z == 1.92
+def test_from_json(size3d, size3d_json):
+    actual = Size3d.from_json(size3d_json)
+    assert actual == size3d
 
 
-def test_asdict():
-    size3d = Size3d(x=0.35, y=0.7, z=1.92)
-
-    assert size3d.asdict() == [0.35, 0.7, 1.92]
+def test_to_json(size3d, size3d_json):
+    actual = size3d.to_json()
+    assert actual == tuple(size3d_json)
 
 
 if __name__ == "__main__":
-    os.system("clear")
-    pytest.main([__file__, "--disable-pytest-warnings", "--cache-clear", "-v"])
+    pytest.main([__file__, "-v"])

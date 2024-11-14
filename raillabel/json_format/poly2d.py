@@ -6,12 +6,11 @@ from __future__ import annotations
 from typing import Literal
 from uuid import UUID
 
-from pydantic import BaseModel
-
+from ._json_format_base import _JSONFormatBase
 from .attributes import JSONAttributes
 
 
-class JSONPoly2d(BaseModel):
+class JSONPoly2d(_JSONFormatBase):
     """A 2D polyline defined as a sequence of 2D points."""
 
     name: str
@@ -30,7 +29,7 @@ class JSONPoly2d(BaseModel):
     MODE_POLY2D_ABSOLUTE means that any point defined by an x-value followed by a y-value is the
     absolute position."""
 
-    coordinate_system: str | None = None
+    coordinate_system: str
     "Name of the coordinate system in respect of which this object data is expressed."
 
     uid: UUID | None = None

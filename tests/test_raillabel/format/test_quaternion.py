@@ -3,13 +3,7 @@
 
 from __future__ import annotations
 
-import os
-import sys
-from pathlib import Path
-
 import pytest
-
-sys.path.insert(1, str(Path(__file__).parent.parent.parent.parent.parent))
 
 from raillabel.format import Quaternion
 
@@ -17,7 +11,7 @@ from raillabel.format import Quaternion
 
 
 @pytest.fixture
-def quaternion_dict() -> dict:
+def quaternion_json() -> dict:
     return [0.75318325, -0.10270147, 0.21430262, -0.61338551]
 
 
@@ -29,26 +23,15 @@ def quaternion() -> dict:
 # == Tests ============================
 
 
-def test_from_json(quaternion, quaternion_dict):
-    actual = Quaternion.from_json(quaternion_dict)
+def test_from_json(quaternion, quaternion_json):
+    actual = Quaternion.from_json(quaternion_json)
     assert actual == quaternion
 
 
-def test_fromdict():
-    quaternion = Quaternion.fromdict([0.75318325, -0.10270147, 0.21430262, -0.61338551])
-
-    assert quaternion.x == 0.75318325
-    assert quaternion.y == -0.10270147
-    assert quaternion.z == 0.21430262
-    assert quaternion.w == -0.61338551
-
-
-def test_asdict():
-    quaternion = Quaternion(x=0.75318325, y=-0.10270147, z=0.21430262, w=-0.61338551)
-
-    assert quaternion.asdict() == [0.75318325, -0.10270147, 0.21430262, -0.61338551]
+def test_to_json(quaternion, quaternion_json):
+    actual = quaternion.to_json()
+    assert actual == tuple(quaternion_json)
 
 
 if __name__ == "__main__":
-    os.system("clear")
-    pytest.main([__file__, "--disable-pytest-warnings", "--cache-clear", "-v"])
+    pytest.main([__file__, "-v"])

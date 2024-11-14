@@ -3,118 +3,71 @@
 
 from __future__ import annotations
 
-import os
-import sys
-from pathlib import Path
+from uuid import UUID
 
 import pytest
 
-sys.path.insert(1, str(Path(__file__).parent.parent.parent.parent.parent))
-
 from raillabel.format import Poly2d
+from raillabel.json_format import JSONPoly2d
 
 # == Fixtures =========================
 
 
 @pytest.fixture
-def poly2d_dict(
-    sensor_camera, attributes_multiple_types_dict, point2d_dict, point2d_another_dict
-) -> dict:
-    return {
-        "uid": "d73b5988-767B-47ef-979c-022af60c6ab2",
-        "name": "rgb_middle__poly2d__person",
-        "val": point2d_dict + point2d_another_dict,
-        "coordinate_system": sensor_camera.uid,
-        "attributes": attributes_multiple_types_dict,
-        "closed": True,
-        "mode": "MODE_POLY2D_ABSOLUTE",
-    }
+def poly2d_json(
+    point2d_json,
+    another_point2d_json,
+    attributes_multiple_types_json,
+) -> JSONPoly2d:
+    return JSONPoly2d(
+        uid="013e7b34-62E5-435c-9412-87318c50f6d8",
+        name="rgb_middle__poly2d__track",
+        closed=True,
+        mode="MODE_POLY2D_ABSOLUTE",
+        val=point2d_json + another_point2d_json,
+        coordinate_system="rgb_middle",
+        attributes=attributes_multiple_types_json,
+    )
+
+
+@pytest.fixture
+def poly2d_id() -> UUID:
+    return UUID("013e7b34-62E5-435c-9412-87318c50f6d8")
 
 
 @pytest.fixture
 def poly2d(
-    point2d, point2d_another, sensor_camera, attributes_multiple_types, object_person
-) -> dict:
+    point2d,
+    another_point2d,
+    attributes_multiple_types,
+    object_track_id,
+) -> Poly2d:
     return Poly2d(
-        uid="d73b5988-767B-47ef-979c-022af60c6ab2",
-        points=[point2d, point2d_another],
-        object=object_person,
-        sensor=sensor_camera,
-        attributes=attributes_multiple_types,
+        points=[point2d, another_point2d],
         closed=True,
-        mode="MODE_POLY2D_ABSOLUTE",
+        sensor_id="rgb_middle",
+        attributes=attributes_multiple_types,
+        object_id=object_track_id,
     )
 
 
 # == Tests ============================
 
 
-def test_fromdict(
-    point2d,
-    point2d_dict,
-    point2d_another,
-    point2d_another_dict,
-    sensor_camera,
-    sensors,
-    object_person,
-    attributes_multiple_types,
-    attributes_multiple_types_dict,
-):
-    poly2d = Poly2d.fromdict(
-        {
-            "uid": "d73b5988-767B-47ef-979c-022af60c6ab2",
-            "name": "rgb_middle__poly2d__person",
-            "val": point2d_dict + point2d_another_dict,
-            "coordinate_system": sensor_camera.uid,
-            "attributes": attributes_multiple_types_dict,
-            "closed": True,
-            "mode": "MODE_POLY2D_ABSOLUTE",
-        },
-        sensors,
-        object_person,
-    )
-
-    assert poly2d.uid == "d73b5988-767B-47ef-979c-022af60c6ab2"
-    assert poly2d.name == "rgb_middle__poly2d__person"
-    assert poly2d.points == [point2d, point2d_another]
-    assert poly2d.object == object_person
-    assert poly2d.sensor == sensor_camera
-    assert poly2d.attributes == attributes_multiple_types
-    assert poly2d.closed == True
-    assert poly2d.mode == "MODE_POLY2D_ABSOLUTE"
+def test_from_json(poly2d, poly2d_json, object_track_id):
+    actual = Poly2d.from_json(poly2d_json, object_track_id)
+    assert actual == poly2d
 
 
-def test_asdict(
-    point2d,
-    point2d_dict,
-    point2d_another,
-    point2d_another_dict,
-    sensor_camera,
-    object_person,
-    attributes_multiple_types,
-    attributes_multiple_types_dict,
-):
-    poly2d = Poly2d(
-        uid="d73b5988-767B-47ef-979c-022af60c6ab2",
-        points=[point2d, point2d_another],
-        object=object_person,
-        sensor=sensor_camera,
-        attributes=attributes_multiple_types,
-        closed=True,
-        mode="MODE_POLY2D_ABSOLUTE",
-    )
+def test_name(poly2d):
+    actual = poly2d.name("track")
+    assert actual == "rgb_middle__poly2d__track"
 
-    assert poly2d.asdict() == {
-        "uid": "d73b5988-767B-47ef-979c-022af60c6ab2",
-        "name": "rgb_middle__poly2d__person",
-        "val": point2d_dict + point2d_another_dict,
-        "coordinate_system": sensor_camera.uid,
-        "attributes": attributes_multiple_types_dict,
-        "closed": True,
-        "mode": "MODE_POLY2D_ABSOLUTE",
-    }
+
+def test_to_json(poly2d, poly2d_json, poly2d_id):
+    actual = poly2d.to_json(poly2d_id, object_type="track")
+    assert actual == poly2d_json
 
 
 if __name__ == "__main__":
-    os.system("clear")
-    pytest.main([__file__, "--disable-pytest-warnings", "--cache-clear", "-v"])
+    pytest.main([__file__, "-v"])

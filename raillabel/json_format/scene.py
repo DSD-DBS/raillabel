@@ -5,8 +5,7 @@ from __future__ import annotations
 
 from uuid import UUID
 
-from pydantic import BaseModel
-
+from ._json_format_base import _JSONFormatBase
 from .coordinate_system import JSONCoordinateSystem
 from .frame import JSONFrame
 from .frame_interval import JSONFrameInterval
@@ -17,13 +16,13 @@ from .stream_other import JSONStreamOther
 from .stream_radar import JSONStreamRadar
 
 
-class JSONScene(BaseModel):
+class JSONScene(_JSONFormatBase):
     """Root RailLabel object."""
 
     openlabel: JSONSceneContent
 
 
-class JSONSceneContent(BaseModel):
+class JSONSceneContent(_JSONFormatBase):
     """Container of all scene content."""
 
     metadata: JSONMetadata

@@ -2,52 +2,55 @@
 # SPDX-License-Identifier: Apache-2.0
 """Module containing all relevant format classes."""
 
-from ._object_annotation import _ObjectAnnotation, annotation_classes
 from .bbox import Bbox
+from .camera import Camera
 from .cuboid import Cuboid
-from .element_data_pointer import ElementDataPointer
 from .frame import Frame
 from .frame_interval import FrameInterval
+from .gps_imu import GpsImu
 from .intrinsics_pinhole import IntrinsicsPinhole
 from .intrinsics_radar import IntrinsicsRadar
+from .lidar import Lidar
 from .metadata import Metadata
 from .num import Num
 from .object import Object
+from .other_sensor import OtherSensor
 from .point2d import Point2d
 from .point3d import Point3d
 from .poly2d import Poly2d
 from .poly3d import Poly3d
 from .quaternion import Quaternion
+from .radar import Radar
 from .scene import Scene
 from .seg3d import Seg3d
-from .sensor import Sensor, SensorType
 from .sensor_reference import SensorReference
 from .size2d import Size2d
 from .size3d import Size3d
 from .transform import Transform
 
 __all__ = [
-    "_ObjectAnnotation",
-    "annotation_classes",
     "Bbox",
+    "Camera",
     "Cuboid",
     "ElementDataPointer",
     "Frame",
     "FrameInterval",
+    "GpsImu",
     "IntrinsicsPinhole",
     "IntrinsicsRadar",
+    "Lidar",
     "Metadata",
     "Num",
     "Object",
+    "OtherSensor",
     "Point2d",
     "Point3d",
     "Poly2d",
     "Poly3d",
     "Quaternion",
+    "Radar",
     "Scene",
     "Seg3d",
-    "Sensor",
-    "SensorType",
     "SensorReference",
     "Size2d",
     "Size3d",

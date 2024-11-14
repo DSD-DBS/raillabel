@@ -70,7 +70,7 @@ Release
   - ```frame_data``` can only contain ```Num``` instances
   - ```object_data``` can not contain ```Num``` instances anymore
 - Major restructuring of the project directories
-- ```FrameInterval.from_frame_uids()```: create ```FrameIntervals``` by providing a list of frame uids
+- ```FrameInterval.from_frame_ids()```: create ```FrameIntervals``` by providing a list of frame uids
 - ```Object.object_data_pointers()```: generate ```ElementDataPointers```
 - ```Scene.frame_intervals()```, ```Object.frame_intervals()```: generate ```FrameIntervals```
 - ```Object.asdict()``` now provides also frame intervals and object data pointers, if the frames from the scene are provided
@@ -109,3 +109,4 @@ Other breaking changes:
 - `raillabel.format.Transform` fields have been changed by `pos -> position` and `quad -> quaternion` to make it more explicit
 - `raillabel.format.FrameInterval` fields have been changed by `frame_start -> start` and `frame_end -> end` to make it more concise
 - `raillabel.format.Frame.uid` field has been removed to avoid redundant information
+- `raillabel.format.Sensor` has been removed in favor of the different sensor type classes `raillabel.format.Camera`, `raillabel.format.Lidar`, `raillabel.format.Radar` and `raillabel.format.GpsImu`

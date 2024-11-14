@@ -8,13 +8,13 @@ from .boolean_attribute import JSONBooleanAttribute
 from .coordinate_system import JSONCoordinateSystem
 from .cuboid import JSONCuboid
 from .element_data_pointer import JSONElementDataPointer
-from .frame import JSONFrame
+from .frame import JSONFrame, JSONFrameData, JSONFrameProperties
 from .frame_interval import JSONFrameInterval
 from .metadata import JSONMetadata
 from .num import JSONNum
 from .num_attribute import JSONNumAttribute
 from .object import JSONObject
-from .object_data import JSONObjectData
+from .object_data import JSONAnnotations, JSONObjectData
 from .poly2d import JSONPoly2d
 from .poly3d import JSONPoly3d
 from .scene import JSONScene, JSONSceneContent
@@ -28,6 +28,7 @@ from .vec import JSONVec
 from .vec_attribute import JSONVecAttribute
 
 __all__ = [
+    "JSONAnnotations",
     "JSONAttributes",
     "JSONBbox",
     "JSONBooleanAttribute",
@@ -36,6 +37,8 @@ __all__ = [
     "JSONElementDataPointer",
     "JSONFrameInterval",
     "JSONFrame",
+    "JSONFrameData",
+    "JSONFrameProperties",
     "JSONMetadata",
     "JSONNumAttribute",
     "JSONNum",

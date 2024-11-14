@@ -3,63 +3,67 @@
 
 from __future__ import annotations
 
-import os
-import sys
-from decimal import Decimal
-from pathlib import Path
-
 import pytest
-
-sys.path.insert(1, str(Path(__file__).parent.parent.parent.parent.parent))
+from decimal import Decimal
 
 from raillabel.format import SensorReference
+from raillabel.json_format import JSONStreamSync, JSONStreamSyncProperties, JSONStreamSyncTimestamp
 
 # == Fixtures =========================
 
 
 @pytest.fixture
-def sensor_reference_camera_dict() -> dict:
-    return {
-        "stream_properties": {"sync": {"timestamp": "1632321743.100000072"}},
-        "uri": "rgb_test0.png",
-    }
+def sensor_reference_json() -> JSONStreamSync:
+    return JSONStreamSync(
+        stream_properties=JSONStreamSyncProperties(
+            sync=JSONStreamSyncTimestamp(timestamp="1631337747.123123123")
+        ),
+        uri="/uri/to/file.png",
+    )
 
 
 @pytest.fixture
-def sensor_reference_camera(sensor_camera) -> dict:
-    return SensorReference(
-        sensor=sensor_camera, timestamp=Decimal("1632321743.100000072"), uri="rgb_test0.png"
+def sensor_reference() -> SensorReference:
+    return SensorReference(timestamp=Decimal("1631337747.123123123"), uri="/uri/to/file.png")
+
+
+@pytest.fixture
+def another_sensor_reference_json() -> JSONStreamSync:
+    return JSONStreamSync(
+        stream_properties=JSONStreamSyncProperties(
+            sync=JSONStreamSyncTimestamp(timestamp="1631337747.103123123")
+        ),
+        uri="/uri/to/file.pcd",
     )
+
+
+@pytest.fixture
+def another_sensor_reference() -> SensorReference:
+    return SensorReference(timestamp=Decimal("1631337747.103123123"), uri="/uri/to/file.pcd")
 
 
 # == Tests ============================
 
 
-def test_fromdict(sensor_camera):
-    sensor_reference = SensorReference.fromdict(
-        {
-            "stream_properties": {"sync": {"timestamp": "1632321743.100000072"}},
-            "uri": "rgb_test0.png",
-        },
-        sensor_camera,
-    )
-
-    assert sensor_reference.sensor == sensor_camera
-    assert sensor_reference.timestamp == Decimal("1632321743.100000072")
-    assert sensor_reference.uri == "rgb_test0.png"
+def test_from_json(sensor_reference, sensor_reference_json):
+    actual = SensorReference.from_json(sensor_reference_json)
+    assert actual == sensor_reference
 
 
-def test_asdict(sensor_camera):
-    sensor_reference = SensorReference(
-        sensor=sensor_camera, timestamp=Decimal("1632321743.100000072"), uri="rgb_test0.png"
-    )
+def test_from_json__another(another_sensor_reference, another_sensor_reference_json):
+    actual = SensorReference.from_json(another_sensor_reference_json)
+    assert actual == another_sensor_reference
 
-    assert sensor_reference.asdict() == {
-        "stream_properties": {"sync": {"timestamp": "1632321743.100000072"}},
-        "uri": "rgb_test0.png",
-    }
+
+def test_to_json(sensor_reference, sensor_reference_json):
+    actual = sensor_reference.to_json()
+    assert actual == sensor_reference_json
+
+
+def test_to_json__another(another_sensor_reference, another_sensor_reference_json):
+    actual = another_sensor_reference.to_json()
+    assert actual == another_sensor_reference_json
 
 
 if __name__ == "__main__":
-    os.system("clear")
-    pytest.main([__file__, "--disable-pytest-warnings", "--cache-clear", "-v"])
+    pytest.main([__file__, "-v"])

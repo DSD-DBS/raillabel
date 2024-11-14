@@ -4,122 +4,67 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
-from importlib import metadata as importlib_metadata
+
+from raillabel.json_format import JSONMetadata
 
 
 @dataclass
 class Metadata:
-    """Container for metadata information about the scene itself.
-
-    As the OpenLABEL metadata object accepts additional properties, so does this class. Any
-    properties present in the JSON will be added to the Metadata() object when read through
-    Metadata.fromdict(). Conversely, all attributes from the Metadata() object will be stored
-    into the JSON when using Metadata.asdict(). You can therefore just add attributes to the
-    Python object and have them stored.
-    Example:
-        m = Metadata.fromdict(
-            {
-                "schema_version": "1.0.0",
-                "some_additional_property": "Some Value"
-            }
-        )
-        m.another_additional_property = "Another Value"
-        m.asdict()
-        -> {
-            "schema_version": "1.0.0",
-            "some_additional_property": "Some Value",
-            "another_additional_property": "Another Value"
-        }
-
-    Parameters
-    ----------
-    schema_version: str
-        Version number of the OpenLABEL schema this annotation object follows.
-    annotator: str, optional
-        Name or description of the annotator that created the annotations. Default is None.
-    comment: str, optional
-        Additional information or description about the annotation content. Default is None.
-    exporter_version: str, optional
-        Version of the raillabel-devkit, that last exported the scene. Default is None.
-    file_version: str, optional
-        Version number of the raillabel annotation content. Default is None.
-    name: str, optional
-        Name of the raillabel annotation content. Default is None.
-    subschema_version: str, optional
-        Version number of the RailLabel schema this annotation object follows. Default is None.
-    tagged_file: str, optional
-        Directory with the exported data_dict (e.g. images, point clouds). Default is None.
-
-    """
+    """Container for metadata information about the scene itself."""
 
     schema_version: str
+    "Version number of the OpenLABEL schema this annotation object follows."
+
     annotator: str | None = None
+    "Name or description of the annotator that created the annotations."
+
     comment: str | None = None
+    "Additional information or description about the annotation content."
+
     exporter_version: str | None = None
+    "Version of the raillabel-devkit, that last exported the scene."
+
     file_version: str | None = None
+    "Version number of the raillabel annotation content."
+
     name: str | None = None
+    "Name of the raillabel annotation content."
+
     subschema_version: str | None = None
+    "Version number of the RailLabel schema this annotation object follows."
+
     tagged_file: str | None = None
+    "Directory with the exported data_dict (e.g. images, point clouds)."
 
     @classmethod
-    def fromdict(cls, data_dict: dict, subschema_version: str | None = None) -> Metadata:
-        """Generate a Metadata object from a dict.
-
-        Parameters
-        ----------
-        data_dict: dict
-            RailLabel format snippet containing the relevant data. Additional (non-defined)
-            arguments can be set and will be added as properties to Metadata.
-        subschema_version: str, optional
-            Version of the RailLabel subschema
-
-        Returns
-        -------
-        metadata: Metadata
-            Converted metadata.
-
-        """
+    def from_json(cls, json: JSONMetadata) -> Metadata:
+        """Construct an instant of this class from RailLabel JSON data."""
         metadata = Metadata(
-            schema_version=data_dict["schema_version"],
-            subschema_version=subschema_version,
-            exporter_version=cls._collect_exporter_version(),
+            schema_version=json.schema_version,
+            name=json.name,
+            subschema_version=json.subschema_version,
+            exporter_version=json.exporter_version,
+            file_version=json.file_version,
+            tagged_file=json.tagged_file,
+            annotator=json.annotator,
+            comment=json.comment,
         )
 
-        return cls._set_additional_attributes(metadata, data_dict)
-
-    def asdict(self) -> dict:
-        """Export self as a dict compatible with the OpenLABEL schema.
-
-        Returns
-        -------
-        dict_repr: dict
-            Dict representation of this class instance.
-
-        """
-        return self._remove_empty_fields(vars(self))
-
-    @classmethod
-    def _collect_exporter_version(cls) -> str | None:
-        try:
-            exporter_version = importlib_metadata.version("raillabel")
-        except importlib_metadata.PackageNotFoundError:
-            return None
-
-        version_number_length = len(exporter_version) - len(exporter_version.split(".")[-1])
-        return exporter_version[: version_number_length - 1]
-
-    @classmethod
-    def _set_additional_attributes(cls, metadata: Metadata, data_dict: dict) -> Metadata:
-        preset_keys = ["schema_version", "subschema_version", "exporter_version"]
-
-        for key, value in data_dict.items():
-            if key in preset_keys:
-                continue
-
-            setattr(metadata, key, value)
+        if json.model_extra is not None:
+            for extra_field, extra_value in json.model_extra.items():
+                setattr(metadata, extra_field, extra_value)
 
         return metadata
 
-    def _remove_empty_fields(self, dict_repr: dict) -> dict:
-        """Remove empty fields from a dictionary."""
-        return {k: v for k, v in dict_repr.items() if v is not None}
+    def to_json(self) -> JSONMetadata:
+        """Export this object into the RailLabel JSON format."""
+        return JSONMetadata(
+            schema_version=self.schema_version,
+            name=self.name,
+            subschema_version=self.subschema_version,
+            exporter_version=self.exporter_version,
+            file_version=self.file_version,
+            tagged_file=self.tagged_file,
+            annotator=self.annotator,
+            comment=self.comment,
+        )

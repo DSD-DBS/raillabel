@@ -5,12 +5,11 @@ from __future__ import annotations
 
 from typing import Literal
 
-from pydantic import BaseModel
-
+from ._json_format_base import _JSONFormatBase
 from .frame_interval import JSONFrameInterval
 
 
-class JSONElementDataPointer(BaseModel):
+class JSONElementDataPointer(_JSONFormatBase):
     """A pointer to element data of elements.
 
     It is indexed by 'name', and containing information about the element data type, for example,

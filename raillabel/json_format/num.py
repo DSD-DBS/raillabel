@@ -5,12 +5,10 @@ from __future__ import annotations
 
 from uuid import UUID
 
-from pydantic import BaseModel
-
-from .attributes import JSONAttributes
+from ._json_format_base import _JSONFormatBase
 
 
-class JSONNum(BaseModel):
+class JSONNum(_JSONFormatBase):
     """A number."""
 
     name: str
@@ -25,5 +23,3 @@ class JSONNum(BaseModel):
 
     uid: UUID | None = None
     "This is a string encoding the Universal Unique identifyer of the annotation."
-
-    attributes: JSONAttributes | None = None

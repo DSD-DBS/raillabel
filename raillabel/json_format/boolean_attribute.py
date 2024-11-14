@@ -3,15 +3,15 @@
 
 from __future__ import annotations
 
-from pydantic import BaseModel
+from ._json_format_base import _JSONFormatBase
 
 
-class JSONBooleanAttribute(BaseModel):
+class JSONBooleanAttribute(_JSONFormatBase):
     """A boolean attribute."""
+
+    name: str
+    """Friendly identifier describing the attribute. Used to track the attribute throughout
+    annotations and frames."""
 
     val: bool
     "The boolean value."
-
-    name: str | None = None
-    """Friendly identifier describing the attribute. Used to track the attribute throughout
-    annotations and frames."""

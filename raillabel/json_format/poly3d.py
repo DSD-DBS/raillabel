@@ -5,12 +5,11 @@ from __future__ import annotations
 
 from uuid import UUID
 
-from pydantic import BaseModel
-
+from ._json_format_base import _JSONFormatBase
 from .attributes import JSONAttributes
 
 
-class JSONPoly3d(BaseModel):
+class JSONPoly3d(_JSONFormatBase):
     """A 3D polyline defined as a sequence of 3D points."""
 
     name: str
@@ -24,7 +23,7 @@ class JSONPoly3d(BaseModel):
     """A boolean that defines whether the polyline is closed or not. In case it is closed, it is
     assumed that the last point of the sequence is connected with the first one."""
 
-    coordinate_system: str | None = None
+    coordinate_system: str
     "Name of the coordinate system in respect of which this object data is expressed."
 
     uid: UUID | None = None

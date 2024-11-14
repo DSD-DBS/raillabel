@@ -40,45 +40,11 @@ class IntrinsicsPinhole:
             height_px=json.height_px,
         )
 
-    @classmethod
-    def fromdict(cls, data_dict: dict) -> IntrinsicsPinhole:
-        """Generate a IntrinsicsPinhole object from a dict.
-
-        Parameters
-        ----------
-        data_dict: dict
-            RailLabel format snippet containing the relevant data.
-
-        Returns
-        -------
-        raillabel.format.IntrinsicsPinhole
-            Converted IntrinsicsPinhole object.
-
-        """
-        return IntrinsicsPinhole(
-            camera_matrix=tuple(data_dict["camera_matrix"]),
-            distortion=tuple(data_dict["distortion_coeffs"]),
-            width_px=data_dict["width_px"],
-            height_px=data_dict["height_px"],
+    def to_json(self) -> JSONIntrinsicsPinhole:
+        """Export this object into the RailLabel JSON format."""
+        return JSONIntrinsicsPinhole(
+            camera_matrix=self.camera_matrix,
+            distortion_coeffs=self.distortion,
+            width_px=self.width_px,
+            height_px=self.height_px,
         )
-
-    def asdict(self) -> dict:
-        """Export self as a dict compatible with the OpenLABEL schema.
-
-        Returns
-        -------
-        dict_repr: dict
-            Dict representation of this class instance.
-
-        Raises
-        ------
-        ValueError
-            if an attribute can not be converted to the type required by the OpenLabel schema.
-
-        """
-        return {
-            "camera_matrix": list(self.camera_matrix),
-            "distortion_coeffs": list(self.distortion),
-            "width_px": int(self.width_px),
-            "height_px": int(self.height_px),
-        }

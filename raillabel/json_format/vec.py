@@ -6,12 +6,11 @@ from __future__ import annotations
 from typing import Literal
 from uuid import UUID
 
-from pydantic import BaseModel
-
+from ._json_format_base import _JSONFormatBase
 from .attributes import JSONAttributes
 
 
-class JSONVec(BaseModel):
+class JSONVec(_JSONFormatBase):
     """A vector (list) of numbers."""
 
     name: str
@@ -21,7 +20,7 @@ class JSONVec(BaseModel):
     val: list[float]
     "The numerical values of the vector (list) of numbers."
 
-    coordinate_system: str | None = None
+    coordinate_system: str
     "Name of the coordinate system in respect of which this object data is expressed."
 
     uid: UUID | None = None

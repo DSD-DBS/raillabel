@@ -5,10 +5,10 @@ from __future__ import annotations
 
 from typing import Literal
 
-from pydantic import BaseModel
+from ._json_format_base import _JSONFormatBase
 
 
-class JSONStreamOther(BaseModel):
+class JSONStreamOther(_JSONFormatBase):
     """A stream describes the source of a data sequence, usually a sensor.
 
     This specific object describes a sensor without intrinsic calibration.

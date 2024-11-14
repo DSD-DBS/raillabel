@@ -3,95 +3,64 @@
 
 from __future__ import annotations
 
-import os
-import sys
-from pathlib import Path
+from uuid import UUID
 
 import pytest
 
-sys.path.insert(1, str(Path(__file__).parent.parent.parent.parent.parent))
-
 from raillabel.format import Seg3d
+from raillabel.json_format import JSONVec
 
 # == Fixtures =========================
 
 
 @pytest.fixture
-def seg3d_dict(sensor_lidar, attributes_multiple_types_dict) -> dict:
-    return {
-        "uid": "db4e4a77-B926-4a6c-a2a6-e0ecf9d8734a",
-        "name": "lidar__vec__person",
-        "val": [586, 789, 173],
-        "coordinate_system": sensor_lidar.uid,
-        "attributes": attributes_multiple_types_dict,
-    }
+def seg3d_json(
+    attributes_multiple_types_json,
+) -> JSONVec:
+    return JSONVec(
+        uid="d52e2b25-0B48-4899-86d5-4bc41be6b7d3",
+        name="lidar__vec__person",
+        val=[1234, 5678],
+        coordinate_system="lidar",
+        attributes=attributes_multiple_types_json,
+    )
 
 
 @pytest.fixture
-def seg3d(sensor_lidar, attributes_multiple_types, object_person) -> dict:
+def seg3d_id() -> UUID:
+    return UUID("d52e2b25-0B48-4899-86d5-4bc41be6b7d3")
+
+
+@pytest.fixture
+def seg3d(
+    attributes_multiple_types,
+    object_person_id,
+) -> Seg3d:
     return Seg3d(
-        uid="db4e4a77-B926-4a6c-a2a6-e0ecf9d8734a",
-        point_ids=[586, 789, 173],
-        object=object_person,
-        sensor=sensor_lidar,
+        point_ids=[1234, 5678],
+        sensor_id="lidar",
         attributes=attributes_multiple_types,
+        object_id=object_person_id,
     )
 
 
 # == Tests ============================
 
 
-def test_fromdict(
-    sensor_lidar,
-    sensors,
-    object_person,
-    attributes_multiple_types,
-    attributes_multiple_types_dict,
-):
-    seg3d = Seg3d.fromdict(
-        {
-            "uid": "db4e4a77-B926-4a6c-a2a6-e0ecf9d8734a",
-            "name": "lidar__vec__person",
-            "val": [586, 789, 173],
-            "coordinate_system": sensor_lidar.uid,
-            "attributes": attributes_multiple_types_dict,
-        },
-        sensors,
-        object_person,
-    )
-
-    assert seg3d.uid == "db4e4a77-B926-4a6c-a2a6-e0ecf9d8734a"
-    assert seg3d.name == "lidar__vec__person"
-    assert seg3d.point_ids == [586, 789, 173]
-    assert seg3d.object == object_person
-    assert seg3d.sensor == sensor_lidar
-    assert seg3d.attributes == attributes_multiple_types
+def test_from_json(seg3d, seg3d_json, object_person_id):
+    actual = Seg3d.from_json(seg3d_json, object_person_id)
+    assert actual == seg3d
 
 
-def test_asdict(
-    sensor_lidar,
-    sensors,
-    object_person,
-    attributes_multiple_types,
-    attributes_multiple_types_dict,
-):
-    seg3d = Seg3d(
-        uid="db4e4a77-B926-4a6c-a2a6-e0ecf9d8734a",
-        point_ids=[586, 789, 173],
-        object=object_person,
-        sensor=sensor_lidar,
-        attributes=attributes_multiple_types,
-    )
+def test_name(seg3d):
+    actual = seg3d.name("person")
+    assert actual == "lidar__vec__person"
 
-    assert seg3d.asdict() == {
-        "uid": "db4e4a77-B926-4a6c-a2a6-e0ecf9d8734a",
-        "name": "lidar__vec__person",
-        "val": [586, 789, 173],
-        "coordinate_system": sensor_lidar.uid,
-        "attributes": attributes_multiple_types_dict,
-    }
+
+def test_to_json(seg3d, seg3d_json, seg3d_id):
+    actual = seg3d.to_json(seg3d_id, object_type="person")
+    assert actual == seg3d_json
 
 
 if __name__ == "__main__":
-    os.system("clear")
-    pytest.main([__file__, "--disable-pytest-warnings", "--cache-clear", "-v"])
+    pytest.main([__file__, "-v"])

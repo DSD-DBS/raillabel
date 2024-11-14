@@ -3,75 +3,53 @@
 
 from __future__ import annotations
 
-import os
-import sys
-from pathlib import Path
+from uuid import UUID
 
 import pytest
 
-sys.path.insert(1, str(Path(__file__).parent.parent.parent.parent.parent))
-
 from raillabel.format import Num
+from raillabel.json_format import JSONNum
 
 # == Fixtures =========================
 
 
 @pytest.fixture
-def num_dict(sensor_camera) -> dict:
-    return {
-        "uid": "4e86c449-3B19-410c-aa64-603d46da3b26",
-        "name": "some_number",
-        "val": 24,
-        "coordinate_system": sensor_camera.uid,
-    }
+def num_json(num_id) -> JSONNum:
+    return JSONNum(
+        uid=num_id,
+        name="velocity",
+        val=49.21321,
+        coordinate_system="gps_imu",
+    )
 
 
 @pytest.fixture
-def num(sensor_camera) -> dict:
+def num_id() -> UUID:
+    return UUID("78f0ad89-2750-4a30-9d66-44c9da73a714")
+
+
+@pytest.fixture
+def num(num_id) -> Num:
     return Num(
-        uid="4e86c449-3B19-410c-aa64-603d46da3b26",
-        name="some_number",
-        val=24,
-        sensor=sensor_camera,
+        sensor_id="gps_imu",
+        name="velocity",
+        val=49.21321,
+        id=num_id,
     )
 
 
 # == Tests ============================
 
 
-def test_fromdict(sensor_camera):
-    num = Num.fromdict(
-        {
-            "uid": "4e86c449-3B19-410c-aa64-603d46da3b26",
-            "name": "some_number",
-            "val": 24,
-            "coordinate_system": sensor_camera.uid,
-        },
-        {sensor_camera.uid: sensor_camera},
-    )
-
-    assert num.uid == "4e86c449-3B19-410c-aa64-603d46da3b26"
-    assert num.name == "some_number"
-    assert num.val == 24
-    assert num.sensor == sensor_camera
+def test_from_json(num, num_json):
+    actual = Num.from_json(num_json)
+    assert actual == num
 
 
-def test_asdict(sensor_camera):
-    num = Num(
-        uid="4e86c449-3B19-410c-aa64-603d46da3b26",
-        name="some_number",
-        val=24,
-        sensor=sensor_camera,
-    )
-
-    assert num.asdict() == {
-        "uid": "4e86c449-3B19-410c-aa64-603d46da3b26",
-        "name": "some_number",
-        "val": 24,
-        "coordinate_system": sensor_camera.uid,
-    }
+def test_to_json(num, num_json):
+    actual = num.to_json()
+    assert actual == num_json
 
 
 if __name__ == "__main__":
-    os.system("clear")
-    pytest.main([__file__, "--disable-pytest-warnings", "--cache-clear", "-v"])
+    pytest.main([__file__, "-v"])

@@ -15,50 +15,23 @@ from .quaternion import Quaternion
 class Transform:
     """A transformation between two coordinate systems."""
 
-    position: Point3d
+    pos: Point3d
     "Translation with regards to the parent coordinate system."
 
-    quaternion: Quaternion
+    quat: Quaternion
     "Rotation quaternion with regards to the parent coordinate system."
 
     @classmethod
     def from_json(cls, json: JSONTransformData) -> Transform:
         """Construct an instant of this class from RailLabel JSON data."""
         return Transform(
-            position=Point3d.from_json(json.translation),
-            quaternion=Quaternion.from_json(json.quaternion),
+            pos=Point3d.from_json(json.translation),
+            quat=Quaternion.from_json(json.quaternion),
         )
 
-    @classmethod
-    def fromdict(cls, data_dict: dict) -> Transform:
-        """Generate a Transform object from a dict.
-
-        Parameters
-        ----------
-        data_dict: dict
-            RailLabel format snippet containing the relevant data.
-
-        """
-        return Transform(
-            position=Point3d.fromdict(data_dict["translation"]),
-            quaternion=Quaternion.fromdict(data_dict["quaternion"]),
+    def to_json(self) -> JSONTransformData:
+        """Export this object into the RailLabel JSON format."""
+        return JSONTransformData(
+            translation=self.pos.to_json(),
+            quaternion=self.quat.to_json(),
         )
-
-    def asdict(self) -> dict[str, list[float]]:
-        """Export self as a dict compatible with the OpenLABEL schema.
-
-        Returns
-        -------
-        dict_repr: dict
-            Dict representation of this class instance.
-
-        Raises
-        ------
-        ValueError
-            if an attribute can not be converted to the type required by the OpenLabel schema.
-
-        """
-        return {
-            "translation": self.position.asdict(),
-            "quaternion": self.quaternion.asdict(),
-        }

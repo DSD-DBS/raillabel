@@ -3,13 +3,12 @@
 
 from __future__ import annotations
 
-from pydantic import BaseModel
-
+from ._json_format_base import _JSONFormatBase
 from .element_data_pointer import JSONElementDataPointer
 from .frame_interval import JSONFrameInterval
 
 
-class JSONObject(BaseModel):
+class JSONObject(_JSONFormatBase):
     """An object is the main type of annotation element.
 
     Object is designed to represent spatiotemporal entities, such as physical objects in the real

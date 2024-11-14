@@ -3,10 +3,10 @@
 
 from __future__ import annotations
 
-from pydantic import BaseModel
+from ._json_format_base import _JSONFormatBase
 
 
-class JSONFrameInterval(BaseModel):
+class JSONFrameInterval(_JSONFormatBase):
     """A frame interval defines a starting and ending frame number as a closed interval.
 
     That means the interval includes the limit frame numbers.

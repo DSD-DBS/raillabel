@@ -3,219 +3,196 @@
 
 from __future__ import annotations
 
-import decimal
-import typing as t
 from dataclasses import dataclass, field
+from decimal import Decimal
+from uuid import UUID
 
-from ._object_annotation import _ObjectAnnotation, annotation_classes
+from raillabel.json_format import (
+    JSONAnnotations,
+    JSONFrame,
+    JSONFrameData,
+    JSONFrameProperties,
+    JSONObjectData,
+)
+
+from ._util import _empty_list_to_none
+from .bbox import Bbox
+from .cuboid import Cuboid
 from .num import Num
 from .object import Object
-from .sensor import Sensor
+from .poly2d import Poly2d
+from .poly3d import Poly3d
+from .seg3d import Seg3d
 from .sensor_reference import SensorReference
 
 
 @dataclass
 class Frame:
-    """A container of dynamic, timewise, information.
+    """A container of dynamic, timewise, information."""
 
-    Parameters
-    ----------
-    timestamp: decimal.Decimal, optional
-        Timestamp containing the Unix epoch time of the frame with up to nanosecond precision.
-    sensors: dict of raillabel.format.SensorReference, optional
-        References to the sensors with frame specific information like timestamp and uri.
-        Default is {}.
-    frame_data: dict, optional
-        Dictionary containing data directly connected to the frame and not to any object, like
-        gps/imu data. Dictionary keys are the ID-strings of the variable the data belongs to.
-        Default is {}.
-    annotations: dict[str, _ObjectAnnotation subclass], optional
-        Dictionary containing all annotations of this frame. Keys are annotation uids.
+    timestamp: Decimal | None = None
+    "Timestamp containing the Unix epoch time of the frame with up to nanosecond precision."
 
-    Read-Only Attributes
-    --------------------
-    object_data: dict[str, dict[str, _ObjectAnnotation subclass]]
-        Annotations categorized by object. Keys are object uids and values are the annotations
-        as a dict, that are part of the object.
-
-    """
-
-    timestamp: decimal.Decimal | None = None
     sensors: dict[str, SensorReference] = field(default_factory=dict)
+    "References to the sensors with frame specific information like timestamp and uri."
+
     frame_data: dict[str, Num] = field(default_factory=dict)
-    annotations: dict[str, type[_ObjectAnnotation]] = field(default_factory=dict)
+    """Dictionary containing data directly connected to the frame and not to any object, like
+    gps/imu data. Dictionary keys are the ID-strings of the variable the data belongs to."""
 
-    @property
-    def object_data(self) -> dict[str, dict[str, type[_ObjectAnnotation]]]:
-        """Return annotations categorized by Object-Id.
-
-        Returns
-        -------
-        dict[str, dict[UUID, _ObjectAnnotation subclass]]
-            Dictionary of annotations. Keys are object uids and values are annotations, that are
-            contained in the object.
-
-        """
-        object_data: dict[str, dict[str, type[_ObjectAnnotation]]] = {}
-        for ann_id, annotation in self.annotations.items():
-            if annotation.object.uid not in object_data:
-                object_data[annotation.object.uid] = {}
-
-            object_data[annotation.object.uid][ann_id] = annotation
-
-        return object_data
+    annotations: dict[UUID, Bbox | Cuboid | Poly2d | Poly3d | Seg3d] = field(default_factory=dict)
+    "All annotations of this frame."
 
     @classmethod
-    def fromdict(
-        cls,
-        data_dict: dict,
-        objects: dict[str, Object],
-        sensors: dict[str, Sensor],
-    ) -> Frame:
-        """Generate a Frame object from a dict.
-
-        Parameters
-        ----------
-        uid: str
-            Unique identifier of the frame.
-        data_dict: dict
-            RailLabel format snippet containing the relevant data.
-        objects: dict
-            Dictionary of all objects in the scene.
-        sensors: dict
-            Dictionary of all sensors in the scene.
-
-        Returns
-        -------
-        frame: raillabel.format.Frame
-            Converted Frame object.
-
-        """
+    def from_json(cls, json: JSONFrame) -> Frame:
+        """Construct an instant of this class from RailLabel JSON data."""
         return Frame(
-            timestamp=cls._timestamp_fromdict(data_dict),
-            sensors=cls._sensors_fromdict(data_dict, sensors),
-            frame_data=cls._frame_data_fromdict(data_dict, sensors),
-            annotations=cls._objects_fromdict(data_dict, objects, sensors),
+            timestamp=_timestamp_from_dict(json.frame_properties),
+            sensors=_sensors_from_dict(json.frame_properties),
+            frame_data=_frame_data_from_dict(json.frame_properties),
+            annotations=_annotations_from_json(json.objects),
         )
 
-    def asdict(self) -> dict[str, t.Any]:
-        """Export self as a dict compatible with the OpenLABEL schema.
+    def to_json(self, objects: dict[UUID, Object]) -> JSONFrame:
+        """Export this object into the RailLabel JSON format."""
+        return JSONFrame(
+            frame_properties=JSONFrameProperties(
+                timestamp=self.timestamp,
+                streams={
+                    sensor_id: sensor_ref.to_json() for sensor_id, sensor_ref in self.sensors.items()
+                },
+                frame_data=JSONFrameData(num=[num.to_json() for num in self.frame_data.values()]),
+            ),
+            objects=_objects_to_json(self.annotations, objects),
+        )
 
-        Returns
-        -------
-        dict_repr: dict
-            Dict representation of this class instance.
 
-        Raises
-        ------
-        ValueError
-            if an attribute can not be converted to the type required by the OpenLabel schema.
+def _timestamp_from_dict(frame_properties: JSONFrameProperties | None) -> Decimal | None:
+    if frame_properties is None:
+        return None
 
-        """
-        dict_repr: dict[str, t.Any] = {}
+    if frame_properties.timestamp is None:
+        return None
 
-        if self.timestamp is not None or self.sensors != {} or self.frame_data != {}:
-            dict_repr["frame_properties"] = {}
+    return Decimal(frame_properties.timestamp)
 
-        if self.timestamp is not None:
-            dict_repr["frame_properties"]["timestamp"] = str(self.timestamp)
 
-        if self.sensors != {}:
-            dict_repr["frame_properties"]["streams"] = {
-                str(k): v.asdict() for k, v in self.sensors.items()
-            }
+def _sensors_from_dict(frame_properties: JSONFrameProperties | None) -> dict[str, SensorReference]:
+    if frame_properties is None:
+        return {}
 
-        if self.frame_data != {}:
-            dict_repr["frame_properties"]["frame_data"] = {
-                "num": [v.asdict() for v in self.frame_data.values()]
-            }
+    if frame_properties.streams is None:
+        return {}
 
-        if self.annotations != {}:
-            dict_repr["objects"] = self._annotations_asdict()
+    return {
+        sensor_id: SensorReference.from_json(sensor_ref)
+        for sensor_id, sensor_ref in frame_properties.streams.items()
+    }
 
-        return dict_repr
 
-    @classmethod
-    def _timestamp_fromdict(cls, data_dict: dict) -> decimal.Decimal | None:
-        if "frame_properties" not in data_dict or "timestamp" not in data_dict["frame_properties"]:
-            return None
+def _frame_data_from_dict(frame_properties: JSONFrameProperties | None) -> dict[str, Num]:
+    if frame_properties is None:
+        return {}
 
-        return decimal.Decimal(data_dict["frame_properties"]["timestamp"])
+    if frame_properties.frame_data is None:
+        return {}
 
-    @classmethod
-    def _sensors_fromdict(
-        cls, data_dict: dict, scene_sensors: dict[str, Sensor]
-    ) -> dict[str, SensorReference]:
-        if "frame_properties" not in data_dict or "streams" not in data_dict["frame_properties"]:
-            return {}
+    if frame_properties.frame_data.num is None:
+        return {}
 
-        sensors = {}
+    return {num.name: Num.from_json(num) for num in frame_properties.frame_data.num}
 
-        for sensor_id, sensor_dict in data_dict["frame_properties"]["streams"].items():
-            sensors[sensor_id] = SensorReference.fromdict(
-                data_dict=sensor_dict, sensor=scene_sensors[sensor_id]
-            )
 
-        return sensors
+def _annotations_from_json(
+    json_object_data: dict[UUID, JSONObjectData] | None,
+) -> dict[UUID, Bbox | Cuboid | Poly2d | Poly3d | Seg3d]:
+    if json_object_data is None:
+        return {}
 
-    @classmethod
-    def _frame_data_fromdict(cls, data_dict: dict, sensors: dict[str, Sensor]) -> dict[str, Num]:
-        if "frame_properties" not in data_dict or "frame_data" not in data_dict["frame_properties"]:
-            return {}
+    annotations: dict[UUID, Bbox | Cuboid | Poly2d | Poly3d | Seg3d] = {}
 
-        frame_data = {}
-        for ann_type in data_dict["frame_properties"]["frame_data"]:
-            for ann_raw in data_dict["frame_properties"]["frame_data"][ann_type]:
-                frame_data[ann_raw["name"]] = Num.fromdict(ann_raw, sensors)
+    for object_id, object_data in json_object_data.items():
+        for json_bbox in _resolve_none_to_empty_list(object_data.object_data.bbox):
+            annotations[json_bbox.uid] = Bbox.from_json(json_bbox, object_id)
 
-        return frame_data
+        for json_cuboid in _resolve_none_to_empty_list(object_data.object_data.cuboid):
+            annotations[json_cuboid.uid] = Cuboid.from_json(json_cuboid, object_id)
 
-    @classmethod
-    def _objects_fromdict(
-        cls,
-        data_dict: dict,
-        objects: dict[str, Object],
-        sensors: dict[str, Sensor],
-    ) -> dict[str, type[_ObjectAnnotation]]:
-        if "objects" not in data_dict:
-            return {}
+        for json_poly2d in _resolve_none_to_empty_list(object_data.object_data.poly2d):
+            annotations[json_poly2d.uid] = Poly2d.from_json(json_poly2d, object_id)
 
-        annotations = {}
+        for json_poly3d in _resolve_none_to_empty_list(object_data.object_data.poly3d):
+            annotations[json_poly3d.uid] = Poly3d.from_json(json_poly3d, object_id)
 
-        for obj_id, obj_ann in data_dict["objects"].items():
-            object_annotations = cls._object_annotations_fromdict(
-                data_dict=obj_ann["object_data"],
-                object=objects[obj_id],
-                sensors=sensors,
-            )
+        for json_seg3d in _resolve_none_to_empty_list(object_data.object_data.vec):
+            annotations[json_seg3d.uid] = Seg3d.from_json(json_seg3d, object_id)
 
-            for annotation in object_annotations:
-                annotations[annotation.uid] = annotation
+    return annotations
 
-        return annotations
 
-    @classmethod
-    def _object_annotations_fromdict(
-        cls,
-        data_dict: dict,
-        object: Object,
-        sensors: dict[str, Sensor],
-    ) -> t.Iterator[type[_ObjectAnnotation]]:
-        for ann_type, annotations_raw in data_dict.items():
-            for ann_raw in annotations_raw:
-                yield annotation_classes()[ann_type].fromdict(ann_raw, sensors, object)
+def _resolve_none_to_empty_list(optional_list: list | None) -> list:
+    if optional_list is None:
+        return []
+    return optional_list
 
-    def _annotations_asdict(self) -> dict[str, t.Any]:
-        annotations_dict: dict[str, t.Any] = {}
-        for object_id, annotations_ in self.object_data.items():
-            annotations_dict[object_id] = {"object_data": {}}
 
-            for annotation in annotations_.values():
-                if annotation.OPENLABEL_ID not in annotations_dict[object_id]["object_data"]:
-                    annotations_dict[object_id]["object_data"][annotation.OPENLABEL_ID] = []
+def _objects_to_json(
+    annotations: dict[UUID, Bbox | Cuboid | Poly2d | Poly3d | Seg3d], objects: dict[UUID, Object]
+) -> dict[str, JSONObjectData] | None:
+    if len(annotations) == 0:
+        return None
 
-                annotations_dict[object_id]["object_data"][annotation.OPENLABEL_ID].append(
-                    annotation.asdict()  # type: ignore
+    object_data = {}
+
+    for ann_id, annotation in annotations.items():
+        object_id = str(annotation.object_id)
+
+        if object_id not in object_data:
+            object_data[object_id] = JSONObjectData(
+                object_data=JSONAnnotations(
+                    bbox=[],
+                    cuboid=[],
+                    poly2d=[],
+                    poly3d=[],
+                    vec=[],
                 )
+            )
 
-        return annotations_dict
+        json_annotation = annotation.to_json(ann_id, objects[UUID(object_id)].type)
+
+        if isinstance(annotation, Bbox):
+            object_data[object_id].object_data.bbox.append(json_annotation)  # type: ignore
+
+        elif isinstance(annotation, Cuboid):
+            object_data[object_id].object_data.cuboid.append(json_annotation)  # type: ignore
+
+        elif isinstance(annotation, Poly2d):
+            object_data[object_id].object_data.poly2d.append(json_annotation)  # type: ignore
+
+        elif isinstance(annotation, Poly3d):
+            object_data[object_id].object_data.poly3d.append(json_annotation)  # type: ignore
+
+        elif isinstance(annotation, Seg3d):
+            object_data[object_id].object_data.vec.append(json_annotation)  # type: ignore
+
+        else:
+            raise TypeError
+
+    for object_id in object_data:
+        object_data[object_id].object_data.bbox = _empty_list_to_none(
+            object_data[object_id].object_data.bbox
+        )
+        object_data[object_id].object_data.cuboid = _empty_list_to_none(
+            object_data[object_id].object_data.cuboid
+        )
+        object_data[object_id].object_data.poly2d = _empty_list_to_none(
+            object_data[object_id].object_data.poly2d
+        )
+        object_data[object_id].object_data.poly3d = _empty_list_to_none(
+            object_data[object_id].object_data.poly3d
+        )
+        object_data[object_id].object_data.vec = _empty_list_to_none(
+            object_data[object_id].object_data.vec
+        )
+
+    return object_data

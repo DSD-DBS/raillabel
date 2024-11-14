@@ -3,166 +3,105 @@
 
 from __future__ import annotations
 
-import os
-import sys
 from decimal import Decimal
-from pathlib import Path
 
 import pytest
 
-sys.path.insert(1, str(Path(__file__).parent.parent.parent.parent.parent))
-
 from raillabel.format import Frame
+from raillabel.json_format import (
+    JSONFrame,
+    JSONFrameData,
+    JSONFrameProperties,
+    JSONObjectData,
+    JSONAnnotations,
+)
 
 # == Fixtures =========================
 
 
 @pytest.fixture
-def frame_dict(
-    sensor_reference_camera_dict,
-    num_dict,
-    object_person,
-    object_data_person_dict,
-    object_train,
-    object_data_train_dict,
-) -> dict:
-    return {
-        "frame_properties": {
-            "timestamp": "1632321743.100000072",
-            "streams": {"rgb_middle": sensor_reference_camera_dict},
-            "frame_data": {"num": [num_dict]},
+def frame_json(
+    sensor_reference_json,
+    another_sensor_reference_json,
+    num_json,
+    bbox_json,
+    cuboid_json,
+    poly2d_json,
+    poly3d_json,
+    seg3d_json,
+) -> JSONFrame:
+    return JSONFrame(
+        frame_properties=JSONFrameProperties(
+            timestamp=Decimal("1631337747.123123123"),
+            streams={
+                "rgb_middle": sensor_reference_json,
+                "lidar": another_sensor_reference_json,
+            },
+            frame_data=JSONFrameData(num=[num_json]),
+        ),
+        objects={
+            "cfcf9750-3bc3-4077-9079-a82c0c63976a": JSONObjectData(
+                object_data=JSONAnnotations(
+                    poly2d=[poly2d_json],
+                    poly3d=[poly3d_json],
+                )
+            ),
+            "b40ba3ad-0327-46ff-9c28-2506cfd6d934": JSONObjectData(
+                object_data=JSONAnnotations(
+                    bbox=[bbox_json],
+                    cuboid=[cuboid_json],
+                    vec=[seg3d_json],
+                )
+            ),
         },
-        "objects": {
-            object_person.uid: object_data_person_dict,
-            object_train.uid: object_data_train_dict,
-        },
-    }
+    )
 
 
 @pytest.fixture
-def frame(sensor_reference_camera, num, all_annotations) -> dict:
+def frame(
+    sensor_reference,
+    another_sensor_reference,
+    num,
+    bbox,
+    bbox_id,
+    cuboid,
+    cuboid_id,
+    poly2d,
+    poly2d_id,
+    poly3d,
+    poly3d_id,
+    seg3d,
+    seg3d_id,
+) -> dict:
     return Frame(
-        timestamp=Decimal("1632321743.100000072"),
-        sensors={sensor_reference_camera.sensor.uid: sensor_reference_camera},
+        timestamp=Decimal("1631337747.123123123"),
+        sensors={
+            "rgb_middle": sensor_reference,
+            "lidar": another_sensor_reference,
+        },
         frame_data={num.name: num},
-        annotations=all_annotations,
+        annotations={
+            bbox_id: bbox,
+            cuboid_id: cuboid,
+            poly2d_id: poly2d,
+            poly3d_id: poly3d,
+            seg3d_id: seg3d,
+        },
     )
 
 
 # == Tests ============================
 
 
-def test_fromdict_sensors(sensor_reference_camera_dict, sensor_reference_camera, sensor_camera):
-    frame = Frame.fromdict(
-        data_dict={
-            "frame_properties": {
-                "timestamp": "1632321743.100000072",
-                "streams": {"rgb_middle": sensor_reference_camera_dict},
-            }
-        },
-        sensors={sensor_camera.uid: sensor_camera},
-        objects={},
-    )
-
-    assert frame.timestamp == Decimal("1632321743.100000072")
-    assert frame.sensors == {sensor_reference_camera.sensor.uid: sensor_reference_camera}
+def test_from_json(frame, frame_json):
+    actual = Frame.from_json(frame_json)
+    assert actual == frame
 
 
-def test_fromdict_frame_data(num, num_dict, sensor_camera):
-    frame = Frame.fromdict(
-        data_dict={"frame_properties": {"frame_data": {"num": [num_dict]}}},
-        sensors={sensor_camera.uid: sensor_camera},
-        objects={},
-    )
-
-    assert frame.frame_data == {num.name: num}
-
-
-def test_fromdict_annotations(
-    object_data_person_dict,
-    object_person,
-    object_data_train_dict,
-    object_train,
-    sensors,
-    all_annotations,
-):
-    frame = Frame.fromdict(
-        data_dict={
-            "objects": {
-                object_person.uid: object_data_person_dict,
-                object_train.uid: object_data_train_dict,
-            }
-        },
-        sensors=sensors,
-        objects={
-            object_person.uid: object_person,
-            object_train.uid: object_train,
-        },
-    )
-
-    assert frame.annotations == all_annotations
-
-
-def test_asdict_sensors(
-    sensor_reference_camera_dict,
-    sensor_reference_camera,
-):
-    frame = Frame(
-        timestamp=Decimal("1632321743.100000072"),
-        sensors={sensor_reference_camera.sensor.uid: sensor_reference_camera},
-    )
-
-    assert frame.asdict() == {
-        "frame_properties": {
-            "timestamp": "1632321743.100000072",
-            "streams": {"rgb_middle": sensor_reference_camera_dict},
-        }
-    }
-
-
-def test_asdict_frame_data(num, num_dict):
-    frame = Frame(frame_data={num.name: num})
-
-    assert frame.asdict() == {"frame_properties": {"frame_data": {"num": [num_dict]}}}
-
-
-def test_asdict_object_data(
-    object_data_person_dict, object_person, object_data_train_dict, object_train, all_annotations
-):
-    frame = Frame(annotations=all_annotations)
-
-    assert frame.asdict() == {
-        "objects": {
-            object_person.uid: object_data_person_dict,
-            object_train.uid: object_data_train_dict,
-        }
-    }
-
-
-def test_object_data(object_person, object_train, bbox, cuboid, poly2d, poly3d, seg3d, bbox_train):
-    frame = Frame(
-        annotations={
-            bbox.uid: bbox,
-            poly2d.uid: poly2d,
-            cuboid.uid: cuboid,
-            poly3d.uid: poly3d,
-            seg3d.uid: seg3d,
-            bbox_train.uid: bbox_train,
-        },
-    )
-
-    assert frame.object_data == {
-        object_person.uid: {
-            bbox.uid: bbox,
-            poly2d.uid: poly2d,
-            cuboid.uid: cuboid,
-            poly3d.uid: poly3d,
-            seg3d.uid: seg3d,
-        },
-        object_train.uid: {bbox_train.uid: bbox_train},
-    }
+def test_to_json(frame, frame_json, objects):
+    actual = frame.to_json(objects)
+    assert actual == frame_json
 
 
 if __name__ == "__main__":
-    os.system("clear")
-    pytest.main([__file__, "--disable-pytest-warnings", "--cache-clear", "-vv"])
+    pytest.main([__file__, "-vv"])

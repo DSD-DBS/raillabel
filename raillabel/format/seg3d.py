@@ -4,85 +4,49 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
+from uuid import UUID
 
-from ._object_annotation import _ObjectAnnotation
-from .object import Object
+from raillabel.json_format import JSONVec
+
+from ._attributes import _attributes_from_json, _attributes_to_json
 
 
 @dataclass
-class Seg3d(_ObjectAnnotation):
-    """The 3D segmentation of a lidar pointcloud.
-
-    Parameters
-    ----------
-    uid: str
-        This a string representing the unique universal identifier of the annotation.
-    point_ids: list of int
-        The list of point indices.
-    object: raillabel.format.Object
-        A reference to the object, this annotation belongs to.
-    sensor: raillabel.format.Sensor
-        A reference to the sensor, this annotation is labeled in. Default is None.
-    attributes: dict, optional
-        Attributes of the annotation. Dict keys are the name str of the attribute, values are the
-        attribute values. Default is {}.
-
-    Properties (read-only)
-    ----------------------
-    name: str
-        Name of the annotation used by the VCD player for indexing in the object data pointers.
-
-    """
+class Seg3d:
+    """The 3D segmentation of a lidar pointcloud."""
 
     point_ids: list[int]
+    "The list of point indices."
 
-    OPENLABEL_ID = "vec"
+    object_id: UUID
+    "The unique identifyer of the real-life object, this annotation belongs to."
+
+    sensor_id: str
+    "The unique identifyer of the sensor this annotation is labeled in."
+
+    attributes: dict[str, float | bool | str | list]
+    "Additional information associated with the annotation."
 
     @classmethod
-    def fromdict(cls, data_dict: dict, sensors: dict, object: Object) -> Seg3d:
-        """Generate a Seg3d object from a dict.
-
-        Parameters
-        ----------
-        data_dict: dict
-            RailLabel format snippet containing the relevant data.
-        sensors: dict
-            Dictionary containing all sensors for the scene.
-        object: raillabel.format.Object
-            Object this annotation belongs to.
-
-        Returns
-        -------
-        annotation: Seg3d
-            Converted annotation.
-
-        """
+    def from_json(cls, json: JSONVec, object_id: UUID) -> Seg3d:
+        """Construct an instant of this class from RailLabel JSON data."""
         return Seg3d(
-            uid=str(data_dict["uid"]),
-            point_ids=data_dict["val"],
-            object=object,
-            sensor=cls._coordinate_system_fromdict(data_dict, sensors),
-            attributes=cls._attributes_fromdict(data_dict),
+            point_ids=[int(point_id) for point_id in json.val],
+            object_id=object_id,
+            sensor_id=json.coordinate_system,
+            attributes=_attributes_from_json(json.attributes),
         )
 
-    def asdict(self) -> dict:
-        """Export self as a dict compatible with the OpenLABEL schema.
+    def to_json(self, uid: UUID, object_type: str) -> JSONVec:
+        """Export this object into the RailLabel JSON format."""
+        return JSONVec(
+            name=self.name(object_type),
+            val=self.point_ids,
+            coordinate_system=self.sensor_id,
+            uid=uid,
+            attributes=_attributes_to_json(self.attributes),
+        )
 
-        Returns
-        -------
-        dict_repr: dict
-            Dict representation of this class instance.
-
-        Raises
-        ------
-        ValueError
-            if an attribute can not be converted to the type required by the OpenLabel schema.
-
-        """
-        dict_repr = self._annotation_required_fields_asdict()
-
-        dict_repr["val"] = [int(pid) for pid in self.point_ids]
-
-        dict_repr.update(self._annotation_optional_fields_asdict())
-
-        return dict_repr
+    def name(self, object_type: str) -> str:
+        """Return the name of the annotation used for indexing in the object data pointers."""
+        return f"{self.sensor_id}__vec__{object_type}"

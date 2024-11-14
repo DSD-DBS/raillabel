@@ -5,12 +5,11 @@ from __future__ import annotations
 
 from uuid import UUID
 
-from pydantic import BaseModel
-
+from ._json_format_base import _JSONFormatBase
 from .attributes import JSONAttributes
 
 
-class JSONBbox(BaseModel):
+class JSONBbox(_JSONFormatBase):
     """A 2D bounding box is defined as a 4-dimensional vector [x, y, w, h].
 
     [x, y] is the center of the bounding box and [w, h] represent the width (horizontal,
@@ -24,7 +23,7 @@ class JSONBbox(BaseModel):
     val: tuple[float, float, float, float]
     "The array of 4 values that define the [x, y, w, h] values of the bbox."
 
-    coordinate_system: str | None = None
+    coordinate_system: str
     "Name of the coordinate system in respect of which this object data is expressed."
 
     uid: UUID | None = None

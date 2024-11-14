@@ -31,43 +31,10 @@ class IntrinsicsRadar:
             height_px=json.height_px,
         )
 
-    @classmethod
-    def fromdict(cls, data_dict: dict) -> IntrinsicsRadar:
-        """Generate a IntrinsicsRadar object from a dict.
-
-        Parameters
-        ----------
-        data_dict: dict
-            RailLabel format snippet containing the relevant data.
-
-        Returns
-        -------
-        raillabel.format.IntrinsicsRadar
-            Converted IntrinsicsRadar object.
-
-        """
-        return IntrinsicsRadar(
-            resolution_px_per_m=data_dict["resolution_px_per_m"],
-            width_px=data_dict["width_px"],
-            height_px=data_dict["height_px"],
+    def to_json(self) -> JSONIntrinsicsRadar:
+        """Export this object into the RailLabel JSON format."""
+        return JSONIntrinsicsRadar(
+            resolution_px_per_m=self.resolution_px_per_m,
+            width_px=self.width_px,
+            height_px=self.height_px,
         )
-
-    def asdict(self) -> dict:
-        """Export self as a dict compatible with the OpenLABEL schema.
-
-        Returns
-        -------
-        dict
-            Dict representation of this class instance.
-
-        Raises
-        ------
-        ValueError
-            if an attribute can not be converted to the type required by the OpenLabel schema.
-
-        """
-        return {
-            "resolution_px_per_m": float(self.resolution_px_per_m),
-            "width_px": int(self.width_px),
-            "height_px": int(self.height_px),
-        }
