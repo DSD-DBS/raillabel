@@ -8,7 +8,7 @@ from uuid import UUID
 
 from raillabel.json_format import JSONCuboid
 
-from ._attributes import _attributes_from_json
+from ._attributes import _attributes_from_json, _attributes_to_json
 from .point3d import Point3d
 from .quaternion import Quaternion
 from .size3d import Size3d
@@ -47,6 +47,16 @@ class Cuboid:
             object_id=object_id,
             sensor_id=json.coordinate_system,
             attributes=_attributes_from_json(json.attributes),
+        )
+
+    def to_json(self, uid: UUID, object_type: str) -> JSONCuboid:
+        """Export this object into the RailLabel JSON format."""
+        return JSONCuboid(
+            name=self.name(object_type),
+            val=list(self.pos.to_json()) + list(self.quat.to_json()) + list(self.size.to_json()),
+            coordinate_system=self.sensor_id,
+            uid=uid,
+            attributes=_attributes_to_json(self.attributes),
         )
 
     def name(self, object_type: str) -> str:
