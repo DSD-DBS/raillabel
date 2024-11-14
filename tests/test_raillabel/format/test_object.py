@@ -7,7 +7,7 @@ from uuid import UUID
 
 import pytest
 
-from raillabel.json_format import JSONObject
+from raillabel.json_format import JSONObject, JSONFrameInterval, JSONElementDataPointer
 from raillabel.format import Object
 
 # == Fixtures =========================
@@ -26,6 +26,42 @@ def object_person_json() -> JSONObject:
     return JSONObject(
         name="person_0032",
         type="person",
+        frame_intervals=[JSONFrameInterval(frame_start=1, frame_end=1)],
+        object_data_pointers={
+            "rgb_middle__bbox__person": JSONElementDataPointer(
+                frame_intervals=[JSONFrameInterval(frame_start=1, frame_end=1)],
+                type="bbox",
+                attribute_pointers={
+                    "has_red_hat": "boolean",
+                    "has_green_hat": "boolean",
+                    "number_of_red_clothing_items": "num",
+                    "color_of_hat": "text",
+                    "clothing_items": "vec",
+                },
+            ),
+            "lidar__cuboid__person": JSONElementDataPointer(
+                frame_intervals=[JSONFrameInterval(frame_start=1, frame_end=1)],
+                type="cuboid",
+                attribute_pointers={
+                    "has_red_hat": "boolean",
+                    "has_green_hat": "boolean",
+                    "number_of_red_clothing_items": "num",
+                    "color_of_hat": "text",
+                    "clothing_items": "vec",
+                },
+            ),
+            "lidar__vec__person": JSONElementDataPointer(
+                frame_intervals=[JSONFrameInterval(frame_start=1, frame_end=1)],
+                type="vec",
+                attribute_pointers={
+                    "has_red_hat": "boolean",
+                    "has_green_hat": "boolean",
+                    "number_of_red_clothing_items": "num",
+                    "color_of_hat": "text",
+                    "clothing_items": "vec",
+                },
+            ),
+        },
     )
 
 
@@ -76,5 +112,10 @@ def test_from_json__track(object_track, object_track_json):
     assert actual == object_track
 
 
+def test_to_json__person(object_person, object_person_json, object_person_id, frame):
+    actual = object_person.to_json(object_person_id, {1: frame})
+    assert actual == object_person_json
+
+
 if __name__ == "__main__":
-    pytest.main([__file__, "-v"])
+    pytest.main([__file__, "-vv"])
