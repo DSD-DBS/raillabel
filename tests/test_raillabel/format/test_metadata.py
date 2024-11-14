@@ -61,5 +61,10 @@ def test_from_json__extra_fields():
     assert actual.ADDITIONAL_OBJECT == {"first_field": 2, "second_field": [1, 2, 3]}
 
 
+def test_to_json(metadata, metadata_json):
+    actual = metadata.to_json()
+    assert actual == metadata_json
+
+
 if __name__ == "__main__":
     pytest.main([__file__, "-v"])

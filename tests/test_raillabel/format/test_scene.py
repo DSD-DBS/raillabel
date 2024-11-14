@@ -6,7 +6,12 @@ from __future__ import annotations
 import pytest
 
 from raillabel.format import Scene
-from raillabel.json_format import JSONScene, JSONSceneContent, JSONCoordinateSystem
+from raillabel.json_format import (
+    JSONScene,
+    JSONSceneContent,
+    JSONCoordinateSystem,
+    JSONFrameInterval,
+)
 
 # == Fixtures =========================
 
@@ -47,6 +52,7 @@ def scene_json(
                 object_track_id: object_track_json,
             },
             frames={1: frame_json},
+            frame_intervals=[JSONFrameInterval(frame_start=1, frame_end=1)],
         )
     )
 
@@ -84,6 +90,11 @@ def scene(
 def test_from_json(scene, scene_json):
     actual = Scene.from_json(scene_json)
     assert actual == scene
+
+
+def test_to_json(scene, scene_json):
+    actual = scene.to_json()
+    assert actual == scene_json
 
 
 if __name__ == "__main__":

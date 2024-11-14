@@ -11,6 +11,7 @@ from raillabel.json_format import (
     JSONFrame,
     JSONObject,
     JSONScene,
+    JSONSceneContent,
     JSONStreamCamera,
     JSONStreamOther,
     JSONStreamRadar,
@@ -18,6 +19,7 @@ from raillabel.json_format import (
 
 from .camera import Camera
 from .frame import Frame
+from .frame_interval import FrameInterval
 from .gps_imu import GpsImu
 from .lidar import Lidar
 from .metadata import Metadata
@@ -50,6 +52,27 @@ class Scene:
             sensors=_sensors_from_json(json.openlabel.streams, json.openlabel.coordinate_systems),
             objects=_objects_from_json(json.openlabel.objects),
             frames=_frames_from_json(json.openlabel.frames),
+        )
+
+    def to_json(self) -> JSONScene:
+        """Export this scene into the RailLabel JSON format."""
+        return JSONScene(
+            openlabel=JSONSceneContent(
+                metadata=self.metadata.to_json(),
+                streams={
+                    sensor_id: sensor.to_json()[0] for sensor_id, sensor in self.sensors.items()
+                },
+                coordinate_systems=_coordinate_systems_to_json(self.sensors),
+                objects={
+                    obj_id: obj.to_json(obj_id, self.frames) for obj_id, obj in self.objects.items()
+                },
+                frames={
+                    frame_id: frame.to_json(self.objects) for frame_id, frame in self.frames.items()
+                },
+                frame_intervals=[
+                    fi.to_json() for fi in FrameInterval.from_frame_ids(list(self.frames.keys()))
+                ],
+            )
         )
 
 
@@ -95,3 +118,18 @@ def _frames_from_json(json_frames: dict[int, JSONFrame] | None) -> dict[int, Fra
         return {}
 
     return {frame_id: Frame.from_json(json_frame) for frame_id, json_frame in json_frames.items()}
+
+
+def _coordinate_systems_to_json(
+    sensors: dict[str, Camera | Lidar | Radar | GpsImu | OtherSensor],
+) -> dict[str, JSONCoordinateSystem]:
+    json_coordinate_systems = {
+        sensor_id: sensor.to_json()[1] for sensor_id, sensor in sensors.items()
+    }
+    json_coordinate_systems["base"] = JSONCoordinateSystem(
+        parent="",
+        type="local",
+        pose_wrt_parent=None,
+        children=list(json_coordinate_systems.keys()),
+    )
+    return json_coordinate_systems

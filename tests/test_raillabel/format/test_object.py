@@ -83,6 +83,31 @@ def object_track_json() -> JSONObject:
     return JSONObject(
         name="track_0001",
         type="track",
+        frame_intervals=[JSONFrameInterval(frame_start=1, frame_end=1)],
+        object_data_pointers={
+            "rgb_middle__poly2d__track": JSONElementDataPointer(
+                frame_intervals=[JSONFrameInterval(frame_start=1, frame_end=1)],
+                type="poly2d",
+                attribute_pointers={
+                    "has_red_hat": "boolean",
+                    "has_green_hat": "boolean",
+                    "number_of_red_clothing_items": "num",
+                    "color_of_hat": "text",
+                    "clothing_items": "vec",
+                },
+            ),
+            "lidar__poly3d__track": JSONElementDataPointer(
+                frame_intervals=[JSONFrameInterval(frame_start=1, frame_end=1)],
+                type="poly3d",
+                attribute_pointers={
+                    "has_red_hat": "boolean",
+                    "has_green_hat": "boolean",
+                    "number_of_red_clothing_items": "num",
+                    "color_of_hat": "text",
+                    "clothing_items": "vec",
+                },
+            ),
+        },
     )
 
 
@@ -115,6 +140,11 @@ def test_from_json__track(object_track, object_track_json):
 def test_to_json__person(object_person, object_person_json, object_person_id, frame):
     actual = object_person.to_json(object_person_id, {1: frame})
     assert actual == object_person_json
+
+
+def test_to_json__track(object_track, object_track_json, object_track_id, frame):
+    actual = object_track.to_json(object_track_id, {1: frame})
+    assert actual == object_track_json
 
 
 if __name__ == "__main__":
