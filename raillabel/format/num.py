@@ -4,6 +4,7 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
+from uuid import UUID
 
 from raillabel.json_format import JSONNum
 
@@ -28,4 +29,13 @@ class Num:
             name=json.name,
             val=json.val,
             sensor_id=json.coordinate_system,
+        )
+
+    def to_json(self, uid: UUID) -> JSONNum:
+        """Export this object into the RailLabel JSON format."""
+        return JSONNum(
+            name=self.name,
+            val=self.val,
+            coordinate_system=self.sensor_id,
+            uid=uid,
         )
