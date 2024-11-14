@@ -6,7 +6,7 @@ from __future__ import annotations
 from dataclasses import dataclass
 from decimal import Decimal
 
-from raillabel.json_format import JSONStreamSync
+from raillabel.json_format import JSONStreamSync, JSONStreamSyncProperties, JSONStreamSyncTimestamp
 
 
 @dataclass
@@ -26,4 +26,13 @@ class SensorReference:
         return SensorReference(
             timestamp=Decimal(json.stream_properties.sync.timestamp),
             uri=json.uri,
+        )
+
+    def to_json(self) -> JSONStreamSync:
+        """Export this object into the RailLabel JSON format."""
+        return JSONStreamSync(
+            stream_properties=JSONStreamSyncProperties(
+                sync=JSONStreamSyncTimestamp(timestamp=str(self.timestamp)),
+            ),
+            uri=self.uri,
         )
