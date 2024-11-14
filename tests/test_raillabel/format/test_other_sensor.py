@@ -20,7 +20,7 @@ def other_json(transform_json) -> tuple[JSONStreamOther, JSONCoordinateSystem]:
             description="A very nice generic sensor",
         ),
         JSONCoordinateSystem(
-            parent="base", type="sensor", pose_wrt_parent=transform_json, children=[]
+            parent="base", type="sensor", pose_wrt_parent=transform_json, children=None
         ),
     )
 
@@ -40,6 +40,11 @@ def other(transform) -> dict:
 def test_from_json(other, other_json):
     actual = OtherSensor.from_json(other_json[0], other_json[1])
     assert actual == other
+
+
+def test_to_json(other, other_json):
+    actual = other.to_json()
+    assert actual == other_json
 
 
 if __name__ == "__main__":

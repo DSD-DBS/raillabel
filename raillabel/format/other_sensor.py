@@ -21,3 +21,18 @@ class OtherSensor(_SensorWithoutIntrinsics):
             uri=json_stream.uri,
             description=json_stream.description,
         )
+
+    def to_json(self) -> tuple[JSONStreamOther, JSONCoordinateSystem]:
+        """Export this object into the RailLabel JSON format."""
+        return (
+            JSONStreamOther(
+                type="other",
+                uri=self.uri,
+                description=self.description,
+            ),
+            JSONCoordinateSystem(
+                parent="base",
+                type="sensor",
+                pose_wrt_parent=self.extrinsics.to_json() if self.extrinsics is not None else None,
+            ),
+        )
