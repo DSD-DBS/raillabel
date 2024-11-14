@@ -19,7 +19,7 @@ def seg3d_json(
 ) -> JSONVec:
     return JSONVec(
         uid="d52e2b25-0B48-4899-86d5-4bc41be6b7d3",
-        name="rgb_middle__seg3d__person",
+        name="lidar__vec__person",
         val=[1234, 5678],
         coordinate_system="lidar",
         attributes=attributes_multiple_types_json,
@@ -55,6 +55,11 @@ def test_from_json(seg3d, seg3d_json, object_person_id):
 def test_name(seg3d):
     actual = seg3d.name("person")
     assert actual == "lidar__vec__person"
+
+
+def test_to_json(seg3d, seg3d_json, seg3d_id):
+    actual = seg3d.to_json(seg3d_id, object_type="person")
+    assert actual == seg3d_json
 
 
 if __name__ == "__main__":

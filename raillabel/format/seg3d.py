@@ -8,7 +8,7 @@ from uuid import UUID
 
 from raillabel.json_format import JSONVec
 
-from ._attributes import _attributes_from_json
+from ._attributes import _attributes_from_json, _attributes_to_json
 
 
 @dataclass
@@ -35,6 +35,16 @@ class Seg3d:
             object_id=object_id,
             sensor_id=json.coordinate_system,
             attributes=_attributes_from_json(json.attributes),
+        )
+
+    def to_json(self, uid: UUID, object_type: str) -> JSONVec:
+        """Export this object into the RailLabel JSON format."""
+        return JSONVec(
+            name=self.name(object_type),
+            val=self.point_ids,
+            coordinate_system=self.sensor_id,
+            uid=uid,
+            attributes=_attributes_to_json(self.attributes),
         )
 
     def name(self, object_type: str) -> str:
