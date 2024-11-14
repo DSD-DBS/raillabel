@@ -37,5 +37,10 @@ def test_from_json(intrinsics_radar, intrinsics_radar_json):
     assert actual == intrinsics_radar
 
 
+def test_to_json(intrinsics_radar, intrinsics_radar_json):
+    actual = intrinsics_radar.to_json()
+    assert actual == intrinsics_radar_json
+
+
 if __name__ == "__main__":
     pytest.main([__file__, "--disable-pytest-warnings", "--cache-clear", "-v"])

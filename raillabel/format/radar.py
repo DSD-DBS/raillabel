@@ -5,7 +5,12 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 
-from raillabel.json_format import JSONCoordinateSystem, JSONStreamRadar, JSONTransformData
+from raillabel.json_format import (
+    JSONCoordinateSystem,
+    JSONStreamRadar,
+    JSONStreamRadarProperties,
+    JSONTransformData,
+)
 
 from .intrinsics_radar import IntrinsicsRadar
 from .transform import Transform
@@ -37,6 +42,24 @@ class Radar:
             extrinsics=_extrinsics_from_json(json_coordinate_system.pose_wrt_parent),
             uri=json_stream.uri,
             description=json_stream.description,
+        )
+
+    def to_json(self) -> tuple[JSONStreamRadar, JSONCoordinateSystem]:
+        """Export this object into the RailLabel JSON format."""
+        return (
+            JSONStreamRadar(
+                type="radar",
+                stream_properties=JSONStreamRadarProperties(
+                    intrinsics_radar=self.intrinsics.to_json()
+                ),
+                uri=self.uri,
+                description=self.description,
+            ),
+            JSONCoordinateSystem(
+                parent="base",
+                type="sensor",
+                pose_wrt_parent=self.extrinsics.to_json() if self.extrinsics is not None else None,
+            ),
         )
 
 

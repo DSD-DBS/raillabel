@@ -28,7 +28,7 @@ def radar_json(
             description="A very nice radar",
         ),
         JSONCoordinateSystem(
-            parent="base", type="sensor", pose_wrt_parent=transform_json, children=[]
+            parent="base", type="sensor", pose_wrt_parent=transform_json, children=None
         ),
     )
 
@@ -51,5 +51,10 @@ def test_from_json(radar, radar_json):
     assert actual == radar
 
 
+def test_to_json(radar, radar_json):
+    actual = radar.to_json()
+    assert actual == radar_json
+
+
 if __name__ == "__main__":
-    pytest.main([__file__, "--disable-pytest-warnings", "--cache-clear", "-v"])
+    pytest.main([__file__, "-vv"])

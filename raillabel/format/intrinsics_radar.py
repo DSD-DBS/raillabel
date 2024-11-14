@@ -30,3 +30,11 @@ class IntrinsicsRadar:
             width_px=json.width_px,
             height_px=json.height_px,
         )
+
+    def to_json(self) -> JSONIntrinsicsRadar:
+        """Export this object into the RailLabel JSON format."""
+        return JSONIntrinsicsRadar(
+            resolution_px_per_m=self.resolution_px_per_m,
+            width_px=self.width_px,
+            height_px=self.height_px,
+        )
