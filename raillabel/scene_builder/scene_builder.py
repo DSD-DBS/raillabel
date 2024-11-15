@@ -53,7 +53,10 @@ def _resolve_empty_object_name_or_type(
         object_type = object_name.split("_")[0]
         return object_type, object_name
 
-    return object_type, object_name  # type: ignore
+    if object_name is not None and object_type is not None:
+        return object_type, object_name
+
+    raise RuntimeError
 
 
 def _resolve_empty_object_uid(scene: Scene, object_id: str | UUID | None) -> UUID:
