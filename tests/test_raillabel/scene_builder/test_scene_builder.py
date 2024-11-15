@@ -3,6 +3,7 @@
 
 from __future__ import annotations
 from uuid import UUID
+from decimal import Decimal
 
 import pytest
 
@@ -19,6 +20,7 @@ from raillabel.format import (
     OtherSensor,
     IntrinsicsPinhole,
     IntrinsicsRadar,
+    Frame,
 )
 
 
@@ -170,6 +172,31 @@ def test_add_sensor__other():
     actual = SceneBuilder.empty().add_sensor("SOMETHING_ELSE")
     assert actual.result == Scene(
         metadata=Metadata(schema_version="1.0.0"), sensors={"SOMETHING_ELSE": OtherSensor()}
+    )
+
+
+def test_add_frame():
+    actual = SceneBuilder.empty().add_frame(1, 1631691173)
+    assert actual.result == Scene(
+        metadata=Metadata(schema_version="1.0.0"), frames={1: Frame(timestamp=Decimal(1631691173))}
+    )
+
+
+def test_add_frame__no_timestamp():
+    actual = SceneBuilder.empty().add_frame(1)
+    assert actual.result == Scene(
+        metadata=Metadata(schema_version="1.0.0"), frames={1: Frame(timestamp=None)}
+    )
+
+
+def test_add_frame__no_frame_id():
+    actual = SceneBuilder.empty().add_frame().add_frame()
+    assert actual.result == Scene(
+        metadata=Metadata(schema_version="1.0.0"),
+        frames={
+            1: Frame(),
+            2: Frame(),
+        },
     )
 
 

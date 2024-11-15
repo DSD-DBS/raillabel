@@ -5,10 +5,12 @@ from __future__ import annotations
 
 from copy import deepcopy
 from dataclasses import dataclass
+from decimal import Decimal
 from uuid import UUID
 
 from raillabel.format import (
     Camera,
+    Frame,
     GpsImu,
     IntrinsicsPinhole,
     IntrinsicsRadar,
@@ -81,6 +83,31 @@ class SceneBuilder:
 
         else:
             scene.sensors[sensor_id] = OtherSensor()
+
+        return SceneBuilder(scene)
+
+    def add_frame(self, frame_id: int | None = None, timestamp: float | None = None) -> SceneBuilder:
+        """Add a frame to the scene.
+
+        If no frame_id is provided, the frame_id is the lowest number not currently occupied by
+        another frame_id.
+
+        Example:
+        ```python
+        scene = SceneBuilder.empty().add_frame(frame_id=1).add_frame(frame_id=3).add_frame().result
+        assert sorted(list(scene.frames.keys())) == [1, 2, 3]
+        ```
+        """
+        scene = deepcopy(self.result)
+
+        if frame_id is None:
+            frame_id = 1
+            while frame_id in scene.frames:
+                frame_id += 1
+
+        scene.frames[frame_id] = Frame(
+            timestamp=Decimal(timestamp) if timestamp is not None else None
+        )
 
         return SceneBuilder(scene)
 
