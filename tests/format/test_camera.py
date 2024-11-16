@@ -5,7 +5,7 @@ from __future__ import annotations
 
 import pytest
 
-from raillabel.format import Camera
+from raillabel.format import Camera, IntrinsicsPinhole
 from raillabel.json_format import (
     JSONCoordinateSystem,
     JSONStreamCamera,
@@ -34,12 +34,24 @@ def camera_json(
 
 
 @pytest.fixture
-def camera(intrinsics_pinhole, transform) -> dict:
+def camera(intrinsics_pinhole, transform) -> Camera:
     return Camera(
         intrinsics=intrinsics_pinhole,
         extrinsics=transform,
         uri="/path/to/sensor/data",
         description="A very nice camera",
+    )
+
+
+@pytest.fixture
+def camera_empty(intrinsics_pinhole, transform) -> Camera:
+    return Camera(
+        intrinsics=IntrinsicsPinhole(
+            camera_matrix=tuple([0] * 12),
+            distortion=tuple([0] * 5),
+            width_px=0,
+            height_px=0,
+        )
     )
 
 

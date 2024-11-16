@@ -21,6 +21,7 @@ from raillabel.format import (
     IntrinsicsPinhole,
     IntrinsicsRadar,
     Frame,
+    Bbox,
 )
 
 
@@ -104,20 +105,11 @@ def test_add_object__object_id_iteration():
     )
 
 
-def test_add_sensor__camera_rgb():
+def test_add_sensor__camera_rgb(camera_empty):
     actual = SceneBuilder.empty().add_sensor("rgb_middle")
     assert actual.result == Scene(
         metadata=Metadata(schema_version="1.0.0"),
-        sensors={
-            "rgb_middle": Camera(
-                intrinsics=IntrinsicsPinhole(
-                    camera_matrix=tuple([0] * 12),
-                    distortion=tuple([0] * 5),
-                    width_px=0,
-                    height_px=0,
-                )
-            )
-        },
+        sensors={"rgb_middle": camera_empty},
     )
 
 
@@ -198,6 +190,33 @@ def test_add_frame__no_frame_id():
             2: Frame(),
         },
     )
+
+
+# def test_add_bbox():
+#     actual = SceneBuilder.empty().add_bbox(frame_id=2, object_name="person_0001", sensor_id="rgb_middle")
+#     assert actual.result == Scene(
+#         metadata=Metadata(schema_version="1.0.0"),
+#         objects={
+#             UUID("5c59aad4-0000-4000-0000-000000000000"): Object(name="person_0001", type="person")
+#         },
+#         sensors={
+#             "rgb_middle": Camera(
+#                 intrinsics=IntrinsicsPinhole(
+#                     camera_matrix=tuple([0] * 12),
+#                     distortion=tuple([0] * 5),
+#                     width_px=0,
+#                     height_px=0,
+#                 )
+#             )
+#         },
+#         frames={
+#             2: Frame(
+#                 annotations={
+#                     UUID("6c95543d-4d4f-43df-a52d-36bf868e09d8"): Bbox()
+#                 }
+#             ),
+#         },
+#     )
 
 
 if __name__ == "__main__":
