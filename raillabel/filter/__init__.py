@@ -5,5 +5,6 @@
 from .exclude_frame_id_filter import ExcludeFrameIdFilter
 from .filter import filter_
 from .include_frame_id_filter import IncludeFrameIdFilter
+from .start_time_filter import StartTimeFilter
 
-__all__ = ["filter_", "IncludeFrameIdFilter", "ExcludeFrameIdFilter"]
+__all__ = ["filter_", "IncludeFrameIdFilter", "ExcludeFrameIdFilter", "StartTimeFilter"]
