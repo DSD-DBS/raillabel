@@ -2,7 +2,8 @@
 # SPDX-License-Identifier: Apache-2.0
 """Package for the raillabel filter functionality."""
 
+from .exclude_frame_id_filter import ExcludeFrameIdFilter
 from .filter import filter_
 from .include_frame_id_filter import IncludeFrameIdFilter
 
-__all__ = ["filter_", "IncludeFrameIdFilter"]
+__all__ = ["filter_", "IncludeFrameIdFilter", "ExcludeFrameIdFilter"]

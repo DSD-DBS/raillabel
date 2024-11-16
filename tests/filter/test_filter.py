@@ -17,5 +17,13 @@ def test_include_frames():
     assert actual == SceneBuilder.empty().add_frame(1).add_frame(3).result
 
 
+def test_exclude_frames():
+    scene = SceneBuilder.empty().add_frame(1).add_frame(2).add_frame(3).result
+    filters = [raillabel.filter.ExcludeFrameIdFilter([2])]
+
+    actual = raillabel.filter.filter_(scene, filters)
+    assert actual == SceneBuilder.empty().add_frame(1).add_frame(3).result
+
+
 if __name__ == "__main__":
     pytest.main([__file__, "-vv"])
