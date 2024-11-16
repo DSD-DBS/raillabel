@@ -7,7 +7,7 @@ from dataclasses import dataclass
 from typing import Literal
 from uuid import UUID
 
-from raillabel.format import Bbox, Cuboid, Poly2d, Poly3d, Seg3d
+from raillabel.format import Bbox, Cuboid, Poly2d, Poly3d, Scene, Seg3d
 
 from ._filter_abc import _AnnotationLevelFilter
 
@@ -21,7 +21,9 @@ class IncludeAnnotationTypeFilter(_AnnotationLevelFilter):
         | list[Literal["bbox", "cuboid", "poly2d", "poly3d", "seg3d"]]
     )
 
-    def passes_filter(self, _: UUID, annotation: Bbox | Cuboid | Poly2d | Poly3d | Seg3d) -> bool:
+    def passes_filter(
+        self, _: UUID, annotation: Bbox | Cuboid | Poly2d | Poly3d | Seg3d, __: Scene
+    ) -> bool:
         """Assess if an annotation passes this filter."""
         annotation_type_str = None
 

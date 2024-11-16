@@ -12,13 +12,13 @@ from ._filter_abc import _AnnotationLevelFilter
 
 
 @dataclass
-class IncludeAnnotationIdFilter(_AnnotationLevelFilter):
-    """Filter out all annotations in the scene, that do NOT have the correct ids."""
+class IncludeObjectTypeFilter(_AnnotationLevelFilter):
+    """Filter out all annotations in the scene, that do NOT match the type (like 'person')."""
 
-    annotation_ids: set[UUID] | list[UUID]
+    object_types: list[str]
 
     def passes_filter(
-        self, annotation_id: UUID, _: Bbox | Cuboid | Poly2d | Poly3d | Seg3d, __: Scene
+        self, _: UUID, annotation: Bbox | Cuboid | Poly2d | Poly3d | Seg3d, scene: Scene
     ) -> bool:
         """Assess if an annotation passes this filter."""
-        return annotation_id in self.annotation_ids
+        return scene.objects[annotation.object_id].type in self.object_types

@@ -5,7 +5,7 @@ from __future__ import annotations
 from abc import ABC, abstractmethod
 from uuid import UUID
 
-from raillabel.format import Bbox, Cuboid, Frame, Poly2d, Poly3d, Seg3d
+from raillabel.format import Bbox, Cuboid, Frame, Poly2d, Poly3d, Scene, Seg3d
 
 
 class _FilterAbc(ABC):
@@ -17,7 +17,7 @@ class _AnnotationLevelFilter(_FilterAbc):
 
     @abstractmethod
     def passes_filter(
-        self, annotation_id: UUID, annotation: Bbox | Cuboid | Poly2d | Poly3d | Seg3d
+        self, annotation_id: UUID, annotation: Bbox | Cuboid | Poly2d | Poly3d | Seg3d, scene: Scene
     ) -> bool:
         """Assess if an annotation passes this filter."""
         raise NotImplementedError

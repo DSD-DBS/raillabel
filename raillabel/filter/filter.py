@@ -30,7 +30,7 @@ def filter_(scene: Scene, filters: list[_FilterAbc]) -> Scene:
     frame_filters, annotation_filters = _separate_filters(filters)
 
     filtered_scene = Scene(metadata=deepcopy(scene.metadata))
-    filtered_scene.frames = _filter_frames(scene.frames, frame_filters, annotation_filters)
+    filtered_scene.frames = _filter_frames(scene, frame_filters, annotation_filters)
     filtered_scene.sensors = _get_used_sensors(scene, filtered_scene)
     filtered_scene.objects = _get_used_objects(scene, filtered_scene)
 
@@ -53,31 +53,31 @@ def _separate_filters(
 
 
 def _filter_frames(
-    frames: dict[int, Frame],
+    scene: Scene,
     frame_filters: list[_FrameLevelFilter],
     annotation_filters: list[_AnnotationLevelFilter],
 ) -> dict[int, Frame]:
     filtered_frames = {}
 
-    for frame_id, frame in frames.items():
+    for frame_id, frame in scene.frames.items():
         if _frame_passes_all_filters(frame_id, frame, frame_filters):
             filtered_frames[frame_id] = Frame(
                 timestamp=deepcopy(frame.timestamp),
                 sensors=deepcopy(frame.sensors),
                 frame_data=deepcopy(frame.frame_data),
-                annotations=_filter_annotations(frame, annotation_filters),
+                annotations=_filter_annotations(frame, annotation_filters, scene),
             )
 
     return filtered_frames
 
 
 def _filter_annotations(
-    frame: Frame, annotation_filters: list[_AnnotationLevelFilter]
+    frame: Frame, annotation_filters: list[_AnnotationLevelFilter], scene: Scene
 ) -> dict[UUID, Bbox | Cuboid | Poly2d | Poly3d | Seg3d]:
     annotations = {}
 
     for annotation_id, annotation in frame.annotations.items():
-        if _annotation_passes_all_filters(annotation_id, annotation, annotation_filters):
+        if _annotation_passes_all_filters(annotation_id, annotation, annotation_filters, scene):
             annotations[annotation_id] = deepcopy(annotation)
 
     return annotations
@@ -93,8 +93,11 @@ def _annotation_passes_all_filters(
     annotation_id: UUID,
     annotation: Bbox | Cuboid | Poly2d | Poly3d | Seg3d,
     annotation_filters: list[_AnnotationLevelFilter],
+    scene: Scene,
 ) -> bool:
-    return all(filter_.passes_filter(annotation_id, annotation) for filter_ in annotation_filters)
+    return all(
+        filter_.passes_filter(annotation_id, annotation, scene) for filter_ in annotation_filters
+    )
 
 
 def _get_used_sensors(

@@ -138,5 +138,18 @@ def test_exclude_object_ids():
     assert actual == SceneBuilder.empty().add_bbox(object_name="person_0001").result
 
 
+def test_include_object_types():
+    scene = (
+        SceneBuilder.empty()
+        .add_bbox(object_name="person_0001")
+        .add_cuboid(object_name="train_0001")
+        .result
+    )
+    filters = [raillabel.filter.IncludeObjectTypeFilter(["person"])]
+
+    actual = raillabel.filter.filter_(scene, filters)
+    assert actual == SceneBuilder.empty().add_bbox(object_name="person_0001").result
+
+
 if __name__ == "__main__":
     pytest.main([__file__, "-vv"])
