@@ -5,7 +5,7 @@ from __future__ import annotations
 
 import pytest
 
-from raillabel.format import Radar
+from raillabel.format import Radar, IntrinsicsRadar
 from raillabel.json_format import (
     JSONCoordinateSystem,
     JSONStreamRadar,
@@ -34,12 +34,23 @@ def radar_json(
 
 
 @pytest.fixture
-def radar(intrinsics_radar, transform) -> dict:
+def radar(intrinsics_radar, transform) -> Radar:
     return Radar(
         intrinsics=intrinsics_radar,
         extrinsics=transform,
         uri="/path/to/sensor/data",
         description="A very nice radar",
+    )
+
+
+@pytest.fixture
+def radar_empty() -> Radar:
+    return Radar(
+        intrinsics=IntrinsicsRadar(
+            resolution_px_per_m=0,
+            width_px=0,
+            height_px=0,
+        )
     )
 
 

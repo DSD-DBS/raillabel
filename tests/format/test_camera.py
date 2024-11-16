@@ -44,7 +44,7 @@ def camera(intrinsics_pinhole, transform) -> Camera:
 
 
 @pytest.fixture
-def camera_empty(intrinsics_pinhole, transform) -> Camera:
+def camera_empty() -> Camera:
     return Camera(
         intrinsics=IntrinsicsPinhole(
             camera_matrix=tuple([0] * 12),

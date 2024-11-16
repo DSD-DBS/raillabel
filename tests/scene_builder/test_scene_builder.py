@@ -113,36 +113,19 @@ def test_add_sensor__camera_rgb(camera_empty):
     )
 
 
-def test_add_sensor__camera_ir():
+def test_add_sensor__camera_ir(camera_empty):
     actual = SceneBuilder.empty().add_sensor("ir_left")
     assert actual.result == Scene(
         metadata=Metadata(schema_version="1.0.0"),
-        sensors={
-            "ir_left": Camera(
-                intrinsics=IntrinsicsPinhole(
-                    camera_matrix=tuple([0] * 12),
-                    distortion=tuple([0] * 5),
-                    width_px=0,
-                    height_px=0,
-                )
-            )
-        },
+        sensors={"ir_left": camera_empty},
     )
 
 
-def test_add_sensor__radar():
+def test_add_sensor__radar(radar_empty):
     actual = SceneBuilder.empty().add_sensor("radar")
     assert actual.result == Scene(
         metadata=Metadata(schema_version="1.0.0"),
-        sensors={
-            "radar": Radar(
-                intrinsics=IntrinsicsRadar(
-                    resolution_px_per_m=0,
-                    width_px=0,
-                    height_px=0,
-                )
-            )
-        },
+        sensors={"radar": radar_empty},
     )
 
 

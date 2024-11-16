@@ -41,7 +41,7 @@ from format.test_point3d import point3d, point3d_json, another_point3d, another_
 from format.test_poly2d import poly2d, poly2d_json, poly2d_id
 from format.test_poly3d import poly3d, poly3d_json, poly3d_id
 from format.test_quaternion import quaternion, quaternion_json
-from format.test_radar import radar, radar_json
+from format.test_radar import radar, radar_json, radar_empty
 from format.test_size2d import size2d, size2d_json
 from format.test_size3d import size3d, size3d_json
 from format.test_seg3d import seg3d, seg3d_json, seg3d_id
