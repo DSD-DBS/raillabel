@@ -12,14 +12,14 @@ from ._filter_abc import _FrameLevelFilter
 
 
 @dataclass
-class StartTimeFilter(_FrameLevelFilter):
-    """Filter out all the frames in the scene with timestamps lower than the start_time."""
+class EndTimeFilter(_FrameLevelFilter):
+    """Filter out all the frames in the scene with timestamps higher than the end_time."""
 
-    start_time: float | Decimal
+    end_time: float | Decimal
 
     def passes_filter(self, _: int, frame: Frame) -> bool:
         """Assess if a frame passes this filter."""
         if frame.timestamp is not None:
-            return frame.timestamp >= self.start_time
+            return frame.timestamp <= self.end_time
 
         return True
