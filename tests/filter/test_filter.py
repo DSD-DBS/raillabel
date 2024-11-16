@@ -100,5 +100,13 @@ def test_include_annotation_type():
     assert actual == SceneBuilder.empty().add_bbox().result
 
 
+def test_exclude_annotation_type():
+    scene = SceneBuilder.empty().add_bbox().add_cuboid().result
+    filters = [raillabel.filter.ExcludeAnnotationTypeFilter(["cuboid"])]
+
+    actual = raillabel.filter.filter_(scene, filters)
+    assert actual == SceneBuilder.empty().add_bbox().result
+
+
 if __name__ == "__main__":
     pytest.main([__file__, "-vv"])
