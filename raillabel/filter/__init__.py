@@ -7,6 +7,7 @@ from .exclude_annotation_id_filter import ExcludeAnnotationIdFilter
 from .exclude_annotation_type_filter import ExcludeAnnotationTypeFilter
 from .exclude_frame_id_filter import ExcludeFrameIdFilter
 from .exclude_object_id_filter import ExcludeObjectIdFilter
+from .exclude_object_type_filter import ExcludeObjectTypeFilter
 from .filter import filter_
 from .include_annotation_id_filter import IncludeAnnotationIdFilter
 from .include_annotation_type_filter import IncludeAnnotationTypeFilter
@@ -28,4 +29,5 @@ __all__ = [
     "IncludeObjectIdFilter",
     "ExcludeObjectIdFilter",
     "IncludeObjectTypeFilter",
+    "ExcludeObjectTypeFilter",
 ]
