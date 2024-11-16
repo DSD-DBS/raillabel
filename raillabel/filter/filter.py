@@ -13,11 +13,10 @@ from ._filter_abc import _AnnotationLevelFilter, _FilterAbc, _FrameLevelFilter
 
 def filter_(scene: Scene, filters: list[_FilterAbc]) -> Scene:
     """Return a scene with filters applied to annotations, frame, sensors and objects."""
-    filtered_scene = Scene(
-        metadata=deepcopy(scene.metadata),
-        sensors=deepcopy(scene.sensors),
-        objects=deepcopy(scene.objects),
-    )
+    filtered_scene = Scene(metadata=deepcopy(scene.metadata))
+
+    used_sensor_ids = set()
+    used_object_ids = set()
 
     frame_filters, annotation_filters = _separate_filters(filters)
 
@@ -32,10 +31,25 @@ def filter_(scene: Scene, filters: list[_FilterAbc]) -> Scene:
         )
 
         for annotation_id, annotation in frame.annotations.items():
-            if _annotation_passes_all_filters(annotation_id, annotation, annotation_filters):
-                filtered_frame.annotations[annotation_id] = deepcopy(annotation)
+            if not _annotation_passes_all_filters(annotation_id, annotation, annotation_filters):
+                continue
+
+            filtered_frame.annotations[annotation_id] = deepcopy(annotation)
+            used_sensor_ids.add(annotation.sensor_id)
+            used_object_ids.add(annotation.object_id)
 
         filtered_scene.frames[frame_id] = filtered_frame
+
+    filtered_scene.sensors = {
+        sensor_id: deepcopy(sensor)
+        for sensor_id, sensor in scene.sensors.items()
+        if sensor_id in used_sensor_ids
+    }
+    filtered_scene.objects = {
+        object_id: deepcopy(object_)
+        for object_id, object_ in scene.objects.items()
+        if object_id in used_object_ids
+    }
 
     return filtered_scene
 
