@@ -9,6 +9,7 @@ from decimal import Decimal
 from uuid import UUID
 
 from raillabel.format import (
+    Bbox,
     Camera,
     Frame,
     GpsImu,
@@ -18,9 +19,12 @@ from raillabel.format import (
     Metadata,
     Object,
     OtherSensor,
+    Point2d,
     Radar,
     Scene,
+    Size2d,
 )
+from raillabel.format._util import _flatten_list
 
 
 @dataclass
@@ -111,6 +115,37 @@ class SceneBuilder:
 
         return SceneBuilder(scene)
 
+    def add_bbox(
+        self,
+        uid: str | UUID | None = None,
+        frame_id: int = 1,
+        object_name: str = "person_0001",
+        sensor_id: str = "rgb_middle",
+    ) -> SceneBuilder:
+        """Add a bbox to the scene."""
+        new_builder = deepcopy(self)
+
+        uid = _resolve_empty_annotation_uid(new_builder.result, uid)
+
+        if not _is_object_name_object(object_name, new_builder.result):
+            new_builder = new_builder.add_object(object_name=object_name)
+
+        if sensor_id not in new_builder.result.sensors:
+            new_builder = new_builder.add_sensor(sensor_id)
+
+        if frame_id not in new_builder.result.frames:
+            new_builder = new_builder.add_frame(frame_id=frame_id)
+
+        new_builder.result.frames[frame_id].annotations[uid] = Bbox(
+            object_id=_get_object_uid_from_name(object_name, new_builder.result),  # type: ignore
+            sensor_id=sensor_id,
+            pos=Point2d(0, 0),
+            size=Size2d(0, 0),
+            attributes={},
+        )
+
+        return new_builder
+
 
 def _resolve_empty_object_name_or_type(
     object_type: str | None, object_name: str | None
@@ -147,3 +182,29 @@ def _resolve_empty_object_uid(scene: Scene, object_id: str | UUID | None) -> UUI
 
 def _generate_deterministic_uuid(index: int, prefix: str) -> UUID:
     return UUID(f"{prefix.zfill(0)}-0000-4000-0000-{str(index).zfill(12)}")
+
+
+def _resolve_empty_annotation_uid(scene: Scene, uid: str | UUID | None) -> UUID:
+    if uid is None:
+        annotation_uids_in_scene = set(
+            _flatten_list([tuple(frame.annotations.keys()) for frame in scene.frames.values()])
+        )
+        uid_index = 0
+        while _generate_deterministic_uuid(uid_index, "6c95543d") in annotation_uids_in_scene:
+            uid_index += 1
+
+        uid = _generate_deterministic_uuid(uid_index, "6c95543d")
+
+    return UUID(str(uid))
+
+
+def _is_object_name_object(object_name: str, scene: Scene) -> bool:
+    return any(object_.name == object_name for object_ in scene.objects.values())
+
+
+def _get_object_uid_from_name(object_name: str, scene: Scene) -> UUID:
+    for object_uid, object_ in scene.objects.items():
+        if object_.name == object_name:
+            return object_uid
+
+    raise RuntimeError
