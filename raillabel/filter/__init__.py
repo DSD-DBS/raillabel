@@ -5,6 +5,7 @@
 from .end_time_filter import EndTimeFilter
 from .exclude_frame_id_filter import ExcludeFrameIdFilter
 from .filter import filter_
+from .include_annotation_id_filter import IncludeAnnotationIdFilter
 from .include_frame_id_filter import IncludeFrameIdFilter
 from .start_time_filter import StartTimeFilter
 
@@ -14,4 +15,5 @@ __all__ = [
     "ExcludeFrameIdFilter",
     "StartTimeFilter",
     "EndTimeFilter",
+    "IncludeAnnotationIdFilter",
 ]
