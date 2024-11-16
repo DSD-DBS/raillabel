@@ -4,12 +4,13 @@
 
 from importlib import metadata
 
-from . import format
+from . import filter, format
 from .format import Scene
 from .load.load import load
 from .save.save import save
 
 __all__ = [
+    "filter",
     "format",
     "Scene",
     "load",

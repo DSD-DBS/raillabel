@@ -51,6 +51,8 @@ select = ["ALL"]
 ignore = [
   "A002",   # objects from OpenLABEL conflict with a Python builtin, but staying consistent with the domain is more important
 
+  "B024",   # needed for _FilterAbc
+
   "COM812", # conflicts with ruff formatter
 
   "D100",   # imo no docstrings are necessary in public modules
