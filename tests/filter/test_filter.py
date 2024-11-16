@@ -70,5 +70,27 @@ def test_include_annotation_ids():
     )
 
 
+def test_exclude_annotation_ids():
+    scene = (
+        SceneBuilder.empty()
+        .add_bbox(uid="6c95543d-0000-4000-0000-000000000000")
+        .add_bbox(uid="6c95543d-0000-4000-0000-000000000001")
+        .add_bbox(uid="6c95543d-0000-4000-0000-000000000002")
+        .result
+    )
+    filters = [
+        raillabel.filter.ExcludeAnnotationIdFilter([UUID("6c95543d-0000-4000-0000-000000000001")])
+    ]
+
+    actual = raillabel.filter.filter_(scene, filters)
+    assert (
+        actual
+        == SceneBuilder.empty()
+        .add_bbox(uid="6c95543d-0000-4000-0000-000000000000")
+        .add_bbox(uid="6c95543d-0000-4000-0000-000000000002")
+        .result
+    )
+
+
 if __name__ == "__main__":
     pytest.main([__file__, "-vv"])
