@@ -247,6 +247,29 @@ class SceneBuilder:
             sensor_id=sensor_id,
         )
 
+    def add_seg3d(
+        self,
+        uid: str | UUID | None = None,
+        frame_id: int = 1,
+        object_name: str = "person_0001",
+        sensor_id: str = "lidar",
+        attributes: dict | None = None,
+    ) -> SceneBuilder:
+        """Add a poly3d to the scene."""
+        seg3d = Seg3d(
+            object_id=UUID("ffffffff-ffff-4fff-ffff-ffffffffffff"),
+            sensor_id=sensor_id,
+            point_ids=[],
+            attributes=attributes if attributes is not None else {},
+        )
+        return self.add_annotation(
+            annotation=seg3d,
+            uid=uid,
+            frame_id=frame_id,
+            object_name=object_name,
+            sensor_id=sensor_id,
+        )
+
 
 def _resolve_empty_object_name_or_type(
     object_type: str | None, object_name: str | None

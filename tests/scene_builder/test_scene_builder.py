@@ -402,5 +402,57 @@ def test_add_poly3d__just_defaults():
     )
 
 
+def test_add_seg3d():
+    actual = SceneBuilder.empty().add_seg3d(
+        uid=UUID("6c95543d-4d4f-43df-a52d-36bf868e09d8"),
+        frame_id=2,
+        object_name="person_0001",
+        sensor_id="lidar_right",
+        attributes={"my_attr": 5},
+    )
+    assert actual.result == Scene(
+        metadata=Metadata(schema_version="1.0.0"),
+        objects={
+            UUID("5c59aad4-0000-4000-0000-000000000000"): Object(name="person_0001", type="person")
+        },
+        sensors={"lidar_right": Lidar()},
+        frames={
+            2: Frame(
+                annotations={
+                    UUID("6c95543d-4d4f-43df-a52d-36bf868e09d8"): Seg3d(
+                        sensor_id="lidar_right",
+                        object_id=UUID("5c59aad4-0000-4000-0000-000000000000"),
+                        point_ids=[],
+                        attributes={"my_attr": 5},
+                    )
+                }
+            ),
+        },
+    )
+
+
+def test_add_seg3d__just_defaults():
+    actual = SceneBuilder.empty().add_seg3d()
+    assert actual.result == Scene(
+        metadata=Metadata(schema_version="1.0.0"),
+        objects={
+            UUID("5c59aad4-0000-4000-0000-000000000000"): Object(name="person_0001", type="person")
+        },
+        sensors={"lidar": Lidar()},
+        frames={
+            1: Frame(
+                annotations={
+                    UUID("6c95543d-0000-4000-0000-000000000000"): Seg3d(
+                        sensor_id="lidar",
+                        object_id=UUID("5c59aad4-0000-4000-0000-000000000000"),
+                        point_ids=[],
+                        attributes={},
+                    )
+                }
+            ),
+        },
+    )
+
+
 if __name__ == "__main__":
     pytest.main([__file__, "-vv"])
