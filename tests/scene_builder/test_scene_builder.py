@@ -24,6 +24,10 @@ from raillabel.format import (
     Bbox,
     Point2d,
     Size2d,
+    Cuboid,
+    Point3d,
+    Size3d,
+    Quaternion,
 )
 
 
@@ -222,6 +226,61 @@ def test_add_bbox__just_defaults(camera_empty):
                         object_id=UUID("5c59aad4-0000-4000-0000-000000000000"),
                         pos=Point2d(0, 0),
                         size=Size2d(0, 0),
+                        attributes={},
+                    )
+                }
+            ),
+        },
+    )
+
+
+def test_add_cuboid():
+    actual = SceneBuilder.empty().add_cuboid(
+        uid=UUID("6c95543d-4d4f-43df-a52d-36bf868e09d8"),
+        frame_id=2,
+        object_name="person_0001",
+        sensor_id="lidar_left",
+    )
+    assert actual.result == Scene(
+        metadata=Metadata(schema_version="1.0.0"),
+        objects={
+            UUID("5c59aad4-0000-4000-0000-000000000000"): Object(name="person_0001", type="person")
+        },
+        sensors={"lidar_left": Lidar()},
+        frames={
+            2: Frame(
+                annotations={
+                    UUID("6c95543d-4d4f-43df-a52d-36bf868e09d8"): Cuboid(
+                        sensor_id="lidar_left",
+                        object_id=UUID("5c59aad4-0000-4000-0000-000000000000"),
+                        pos=Point3d(0, 0, 0),
+                        size=Size3d(0, 0, 0),
+                        quat=Quaternion(0, 0, 0, 0),
+                        attributes={},
+                    )
+                }
+            ),
+        },
+    )
+
+
+def test_add_cuboid__just_defaults():
+    actual = SceneBuilder.empty().add_cuboid()
+    assert actual.result == Scene(
+        metadata=Metadata(schema_version="1.0.0"),
+        objects={
+            UUID("5c59aad4-0000-4000-0000-000000000000"): Object(name="person_0001", type="person")
+        },
+        sensors={"lidar": Lidar()},
+        frames={
+            1: Frame(
+                annotations={
+                    UUID("6c95543d-0000-4000-0000-000000000000"): Cuboid(
+                        sensor_id="lidar",
+                        object_id=UUID("5c59aad4-0000-4000-0000-000000000000"),
+                        pos=Point3d(0, 0, 0),
+                        size=Size3d(0, 0, 0),
+                        quat=Quaternion(0, 0, 0, 0),
                         attributes={},
                     )
                 }

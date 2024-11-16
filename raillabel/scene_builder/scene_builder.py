@@ -11,6 +11,7 @@ from uuid import UUID
 from raillabel.format import (
     Bbox,
     Camera,
+    Cuboid,
     Frame,
     GpsImu,
     IntrinsicsPinhole,
@@ -20,9 +21,15 @@ from raillabel.format import (
     Object,
     OtherSensor,
     Point2d,
+    Point3d,
+    Poly2d,
+    Poly3d,
+    Quaternion,
     Radar,
     Scene,
+    Seg3d,
     Size2d,
+    Size3d,
 )
 from raillabel.format._util import _flatten_list
 
@@ -115,14 +122,15 @@ class SceneBuilder:
 
         return SceneBuilder(scene)
 
-    def add_bbox(
+    def add_annotation(
         self,
+        annotation: Bbox | Cuboid | Poly2d | Poly3d | Seg3d,
         uid: str | UUID | None = None,
         frame_id: int = 1,
         object_name: str = "person_0001",
         sensor_id: str = "rgb_middle",
     ) -> SceneBuilder:
-        """Add a bbox to the scene."""
+        """Add an annotation to the scene."""
         new_builder = deepcopy(self)
 
         uid = _resolve_empty_annotation_uid(new_builder.result, uid)
@@ -136,15 +144,58 @@ class SceneBuilder:
         if frame_id not in new_builder.result.frames:
             new_builder = new_builder.add_frame(frame_id=frame_id)
 
-        new_builder.result.frames[frame_id].annotations[uid] = Bbox(
-            object_id=_get_object_uid_from_name(object_name, new_builder.result),  # type: ignore
+        annotation.object_id = _get_object_uid_from_name(object_name, new_builder.result)
+        annotation.sensor_id = sensor_id
+
+        new_builder.result.frames[frame_id].annotations[uid] = annotation
+        return new_builder
+
+    def add_bbox(
+        self,
+        uid: str | UUID | None = None,
+        frame_id: int = 1,
+        object_name: str = "person_0001",
+        sensor_id: str = "rgb_middle",
+    ) -> SceneBuilder:
+        """Add a bbox to the scene."""
+        bbox = Bbox(
+            object_id=UUID("ffffffff-ffff-4fff-ffff-ffffffffffff"),
             sensor_id=sensor_id,
             pos=Point2d(0, 0),
             size=Size2d(0, 0),
             attributes={},
         )
+        return self.add_annotation(
+            annotation=bbox,
+            uid=uid,
+            frame_id=frame_id,
+            object_name=object_name,
+            sensor_id=sensor_id,
+        )
 
-        return new_builder
+    def add_cuboid(
+        self,
+        uid: str | UUID | None = None,
+        frame_id: int = 1,
+        object_name: str = "person_0001",
+        sensor_id: str = "lidar",
+    ) -> SceneBuilder:
+        """Add a cuboid to the scene."""
+        cuboid = Cuboid(
+            object_id=UUID("ffffffff-ffff-4fff-ffff-ffffffffffff"),
+            sensor_id=sensor_id,
+            pos=Point3d(0, 0, 0),
+            size=Size3d(0, 0, 0),
+            quat=Quaternion(0, 0, 0, 0),
+            attributes={},
+        )
+        return self.add_annotation(
+            annotation=cuboid,
+            uid=uid,
+            frame_id=frame_id,
+            object_name=object_name,
+            sensor_id=sensor_id,
+        )
 
 
 def _resolve_empty_object_name_or_type(
