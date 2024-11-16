@@ -11,17 +11,11 @@ from ._filter_abc import _FrameLevelFilter
 
 
 @dataclass
-class FrameIdFilter(_FrameLevelFilter):
-    """Filter for the frames in a scene based on the frame id."""
+class IncludeFrameIdFilter(_FrameLevelFilter):
+    """Filter out all the frames in the scene that do NOT match a list of allowed ids."""
 
-    include_frame_ids: set[int] | None = None
+    frame_ids: set[int] | list[int]
 
     def passes_filter(self, frame_id: int, _: Frame) -> bool:
         """Assess if a frame passes this filter."""
-        if self.include_frame_ids is None:
-            return True
-
-        if frame_id in self.include_frame_ids:
-            return True
-
-        return False
+        return frame_id in self.frame_ids

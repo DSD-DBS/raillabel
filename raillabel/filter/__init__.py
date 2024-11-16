@@ -3,6 +3,6 @@
 """Package for the raillabel filter functionality."""
 
 from .filter import filter_
-from .frame_id_filter import FrameIdFilter
+from .include_frame_id_filter import IncludeFrameIdFilter
 
-__all__ = ["filter_", "FrameIdFilter"]
+__all__ = ["filter_", "IncludeFrameIdFilter"]
