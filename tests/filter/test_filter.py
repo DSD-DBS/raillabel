@@ -108,5 +108,20 @@ def test_exclude_annotation_type():
     assert actual == SceneBuilder.empty().add_bbox().result
 
 
+def test_include_object_ids():
+    scene = (
+        SceneBuilder.empty()
+        .add_bbox(object_name="person_0001")
+        .add_cuboid(object_name="train_0001")
+        .result
+    )
+    filters = [
+        raillabel.filter.IncludeObjectIdFilter([UUID("5c59aad4-0000-4000-0000-000000000000")])
+    ]
+
+    actual = raillabel.filter.filter_(scene, filters)
+    assert actual == SceneBuilder.empty().add_bbox(object_name="person_0001").result
+
+
 if __name__ == "__main__":
     pytest.main([__file__, "-vv"])

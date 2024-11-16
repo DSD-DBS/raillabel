@@ -10,6 +10,7 @@ from .filter import filter_
 from .include_annotation_id_filter import IncludeAnnotationIdFilter
 from .include_annotation_type_filter import IncludeAnnotationTypeFilter
 from .include_frame_id_filter import IncludeFrameIdFilter
+from .include_object_id_filter import IncludeObjectIdFilter
 from .start_time_filter import StartTimeFilter
 
 __all__ = [
@@ -22,4 +23,5 @@ __all__ = [
     "ExcludeAnnotationIdFilter",
     "IncludeAnnotationTypeFilter",
     "ExcludeAnnotationTypeFilter",
+    "IncludeObjectIdFilter",
 ]
