@@ -28,6 +28,9 @@ from raillabel.format import (
     Point3d,
     Size3d,
     Quaternion,
+    Poly2d,
+    Poly3d,
+    Seg3d,
 )
 
 
@@ -187,6 +190,7 @@ def test_add_bbox(camera_empty):
         frame_id=2,
         object_name="person_0001",
         sensor_id="ir_middle",
+        attributes={"attr": True},
     )
     assert actual.result == Scene(
         metadata=Metadata(schema_version="1.0.0"),
@@ -202,7 +206,7 @@ def test_add_bbox(camera_empty):
                         object_id=UUID("5c59aad4-0000-4000-0000-000000000000"),
                         pos=Point2d(0, 0),
                         size=Size2d(0, 0),
-                        attributes={},
+                        attributes={"attr": True},
                     )
                 }
             ),
@@ -240,6 +244,7 @@ def test_add_cuboid():
         frame_id=2,
         object_name="person_0001",
         sensor_id="lidar_left",
+        attributes={"my_attr": 5},
     )
     assert actual.result == Scene(
         metadata=Metadata(schema_version="1.0.0"),
@@ -256,7 +261,7 @@ def test_add_cuboid():
                         pos=Point3d(0, 0, 0),
                         size=Size3d(0, 0, 0),
                         quat=Quaternion(0, 0, 0, 0),
-                        attributes={},
+                        attributes={"my_attr": 5},
                     )
                 }
             ),
@@ -281,6 +286,60 @@ def test_add_cuboid__just_defaults():
                         pos=Point3d(0, 0, 0),
                         size=Size3d(0, 0, 0),
                         quat=Quaternion(0, 0, 0, 0),
+                        attributes={},
+                    )
+                }
+            ),
+        },
+    )
+
+
+def test_add_poly2d(camera_empty):
+    actual = SceneBuilder.empty().add_poly2d(
+        uid=UUID("6c95543d-4d4f-43df-a52d-36bf868e09d8"),
+        frame_id=2,
+        object_name="person_0001",
+        sensor_id="ir_left",
+        attributes={"my_attr": 5},
+    )
+    assert actual.result == Scene(
+        metadata=Metadata(schema_version="1.0.0"),
+        objects={
+            UUID("5c59aad4-0000-4000-0000-000000000000"): Object(name="person_0001", type="person")
+        },
+        sensors={"ir_left": camera_empty},
+        frames={
+            2: Frame(
+                annotations={
+                    UUID("6c95543d-4d4f-43df-a52d-36bf868e09d8"): Poly2d(
+                        sensor_id="ir_left",
+                        object_id=UUID("5c59aad4-0000-4000-0000-000000000000"),
+                        points=[],
+                        closed=False,
+                        attributes={"my_attr": 5},
+                    )
+                }
+            ),
+        },
+    )
+
+
+def test_add_poly2d__just_defaults(camera_empty):
+    actual = SceneBuilder.empty().add_poly2d()
+    assert actual.result == Scene(
+        metadata=Metadata(schema_version="1.0.0"),
+        objects={
+            UUID("5c59aad4-0000-4000-0000-000000000000"): Object(name="person_0001", type="person")
+        },
+        sensors={"rgb_middle": camera_empty},
+        frames={
+            1: Frame(
+                annotations={
+                    UUID("6c95543d-0000-4000-0000-000000000000"): Poly2d(
+                        sensor_id="rgb_middle",
+                        object_id=UUID("5c59aad4-0000-4000-0000-000000000000"),
+                        points=[],
+                        closed=False,
                         attributes={},
                     )
                 }

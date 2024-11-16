@@ -156,6 +156,7 @@ class SceneBuilder:
         frame_id: int = 1,
         object_name: str = "person_0001",
         sensor_id: str = "rgb_middle",
+        attributes: dict | None = None,
     ) -> SceneBuilder:
         """Add a bbox to the scene."""
         bbox = Bbox(
@@ -163,7 +164,7 @@ class SceneBuilder:
             sensor_id=sensor_id,
             pos=Point2d(0, 0),
             size=Size2d(0, 0),
-            attributes={},
+            attributes=attributes if attributes is not None else {},
         )
         return self.add_annotation(
             annotation=bbox,
@@ -179,6 +180,7 @@ class SceneBuilder:
         frame_id: int = 1,
         object_name: str = "person_0001",
         sensor_id: str = "lidar",
+        attributes: dict | None = None,
     ) -> SceneBuilder:
         """Add a cuboid to the scene."""
         cuboid = Cuboid(
@@ -187,10 +189,34 @@ class SceneBuilder:
             pos=Point3d(0, 0, 0),
             size=Size3d(0, 0, 0),
             quat=Quaternion(0, 0, 0, 0),
-            attributes={},
+            attributes=attributes if attributes is not None else {},
         )
         return self.add_annotation(
             annotation=cuboid,
+            uid=uid,
+            frame_id=frame_id,
+            object_name=object_name,
+            sensor_id=sensor_id,
+        )
+
+    def add_poly2d(
+        self,
+        uid: str | UUID | None = None,
+        frame_id: int = 1,
+        object_name: str = "person_0001",
+        sensor_id: str = "rgb_middle",
+        attributes: dict | None = None,
+    ) -> SceneBuilder:
+        """Add a poly2d to the scene."""
+        poly2d = Poly2d(
+            object_id=UUID("ffffffff-ffff-4fff-ffff-ffffffffffff"),
+            sensor_id=sensor_id,
+            points=[],
+            closed=False,
+            attributes=attributes if attributes is not None else {},
+        )
+        return self.add_annotation(
+            annotation=poly2d,
             uid=uid,
             frame_id=frame_id,
             object_name=object_name,
