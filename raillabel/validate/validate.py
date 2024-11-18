@@ -9,7 +9,9 @@ from warnings import warn
 
 import fastjsonschema
 import jsonschema
-from typing_extensions import deprecated
+
+if t.TYPE_CHECKING:
+    from typing_extensions import deprecated
 
 from .. import exceptions
 
