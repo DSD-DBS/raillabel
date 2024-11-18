@@ -11,6 +11,8 @@ from ._sensor_without_intrinsics import _extrinsics_from_json, _SensorWithoutInt
 class GpsImu(_SensorWithoutIntrinsics):
     """A gps sensor with inertial measurement unit."""
 
+    TYPE: str = "gps_imu"
+
     @classmethod
     def from_json(
         cls, json_stream: JSONStreamOther, json_coordinate_system: JSONCoordinateSystem

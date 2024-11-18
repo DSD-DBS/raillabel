@@ -11,6 +11,8 @@ from ._sensor_without_intrinsics import _extrinsics_from_json, _SensorWithoutInt
 class OtherSensor(_SensorWithoutIntrinsics):
     """A sensor that is not represented by the available options."""
 
+    TYPE: str = "other"
+
     @classmethod
     def from_json(
         cls, json_stream: JSONStreamOther, json_coordinate_system: JSONCoordinateSystem

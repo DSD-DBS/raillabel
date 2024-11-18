@@ -32,6 +32,8 @@ class Radar:
     description: str | None = None
     "Additional information about the sensor."
 
+    TYPE: str = "radar"
+
     @classmethod
     def from_json(
         cls, json_stream: JSONStreamRadar, json_coordinate_system: JSONCoordinateSystem

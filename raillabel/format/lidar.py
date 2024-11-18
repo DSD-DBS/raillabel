@@ -11,6 +11,8 @@ from ._sensor_without_intrinsics import _extrinsics_from_json, _SensorWithoutInt
 class Lidar(_SensorWithoutIntrinsics):
     """A lidar sensor."""
 
+    TYPE: str = "lidar"
+
     @classmethod
     def from_json(
         cls, json_stream: JSONStreamOther, json_coordinate_system: JSONCoordinateSystem

@@ -184,5 +184,18 @@ def test_exclude_sensor_ids():
     assert actual == SceneBuilder.empty().add_bbox(sensor_id="rgb_middle").result
 
 
+def test_include_sensor_types():
+    scene = (
+        SceneBuilder.empty()
+        .add_bbox(sensor_id="rgb_middle")
+        .add_cuboid(sensor_id="lidar_middle")
+        .result
+    )
+    filters = [raillabel.filter.IncludeSensorTypeFilter(["camera"])]
+
+    actual = raillabel.filter.filter_(scene, filters)
+    assert actual == SceneBuilder.empty().add_bbox(sensor_id="rgb_middle").result
+
+
 if __name__ == "__main__":
     pytest.main([__file__, "-vv"])

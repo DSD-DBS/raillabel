@@ -32,6 +32,8 @@ class Camera:
     description: str | None = None
     "Additional information about the sensor."
 
+    TYPE: str = "camera"
+
     @classmethod
     def from_json(
         cls, json_stream: JSONStreamCamera, json_coordinate_system: JSONCoordinateSystem
