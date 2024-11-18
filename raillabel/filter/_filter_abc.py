@@ -3,9 +3,11 @@
 from __future__ import annotations
 
 from abc import ABC, abstractmethod
+from typing import TYPE_CHECKING
 from uuid import UUID
 
-from raillabel.format import Bbox, Cuboid, Frame, Poly2d, Poly3d, Scene, Seg3d
+if TYPE_CHECKING:
+    from raillabel.format import Bbox, Cuboid, Frame, Poly2d, Poly3d, Scene, Seg3d
 
 
 class _FilterAbc(ABC):

@@ -11,7 +11,6 @@ from .exclude_object_id_filter import ExcludeObjectIdFilter
 from .exclude_object_type_filter import ExcludeObjectTypeFilter
 from .exclude_sensor_id_filter import ExcludeSensorIdFilter
 from .exclude_sensor_type_filter import ExcludeSensorTypeFilter
-from .filter import filter_
 from .include_annotation_id_filter import IncludeAnnotationIdFilter
 from .include_annotation_type_filter import IncludeAnnotationTypeFilter
 from .include_attributes_filter import IncludeAttributesFilter
@@ -23,7 +22,6 @@ from .include_sensor_type_filter import IncludeSensorTypeFilter
 from .start_time_filter import StartTimeFilter
 
 __all__ = [
-    "filter_",
     "IncludeFrameIdFilter",
     "ExcludeFrameIdFilter",
     "StartTimeFilter",

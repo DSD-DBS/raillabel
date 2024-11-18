@@ -15,7 +15,7 @@ def test_include_frame_ids():
     scene = SceneBuilder.empty().add_frame(1).add_frame(2).add_frame(3).result
     filters = [raillabel.filter.IncludeFrameIdFilter([1, 3])]
 
-    actual = raillabel.filter.filter_(scene, filters)
+    actual = scene.filter(filters)
     assert actual == SceneBuilder.empty().add_frame(1).add_frame(3).result
 
 
@@ -23,7 +23,7 @@ def test_exclude_frame_ids():
     scene = SceneBuilder.empty().add_frame(1).add_frame(2).add_frame(3).result
     filters = [raillabel.filter.ExcludeFrameIdFilter([2])]
 
-    actual = raillabel.filter.filter_(scene, filters)
+    actual = scene.filter(filters)
     assert actual == SceneBuilder.empty().add_frame(1).add_frame(3).result
 
 
@@ -31,7 +31,7 @@ def test_start_time():
     scene = SceneBuilder.empty().add_frame(1, 100).add_frame(2, 200).add_frame(3, 300).result
     filters = [raillabel.filter.StartTimeFilter(150)]
 
-    actual = raillabel.filter.filter_(scene, filters)
+    actual = scene.filter(filters)
     assert actual == SceneBuilder.empty().add_frame(2, 200).add_frame(3, 300).result
 
 
@@ -39,7 +39,7 @@ def test_end_time():
     scene = SceneBuilder.empty().add_frame(1, 100).add_frame(2, 200).add_frame(3, 300).result
     filters = [raillabel.filter.EndTimeFilter(250)]
 
-    actual = raillabel.filter.filter_(scene, filters)
+    actual = scene.filter(filters)
     assert actual == SceneBuilder.empty().add_frame(1, 100).add_frame(2, 200).result
 
 
@@ -60,7 +60,7 @@ def test_include_annotation_ids():
         )
     ]
 
-    actual = raillabel.filter.filter_(scene, filters)
+    actual = scene.filter(filters)
     assert (
         actual
         == SceneBuilder.empty()
@@ -82,7 +82,7 @@ def test_exclude_annotation_ids():
         raillabel.filter.ExcludeAnnotationIdFilter([UUID("6c95543d-0000-4000-0000-000000000001")])
     ]
 
-    actual = raillabel.filter.filter_(scene, filters)
+    actual = scene.filter(filters)
     assert (
         actual
         == SceneBuilder.empty()
@@ -96,7 +96,7 @@ def test_include_annotation_type():
     scene = SceneBuilder.empty().add_bbox().add_cuboid().result
     filters = [raillabel.filter.IncludeAnnotationTypeFilter(["bbox"])]
 
-    actual = raillabel.filter.filter_(scene, filters)
+    actual = scene.filter(filters)
     assert actual == SceneBuilder.empty().add_bbox().result
 
 
@@ -104,7 +104,7 @@ def test_exclude_annotation_type():
     scene = SceneBuilder.empty().add_bbox().add_cuboid().result
     filters = [raillabel.filter.ExcludeAnnotationTypeFilter(["cuboid"])]
 
-    actual = raillabel.filter.filter_(scene, filters)
+    actual = scene.filter(filters)
     assert actual == SceneBuilder.empty().add_bbox().result
 
 
@@ -119,7 +119,7 @@ def test_include_object_ids():
         raillabel.filter.IncludeObjectIdFilter([UUID("5c59aad4-0000-4000-0000-000000000000")])
     ]
 
-    actual = raillabel.filter.filter_(scene, filters)
+    actual = scene.filter(filters)
     assert actual == SceneBuilder.empty().add_bbox(object_name="person_0001").result
 
 
@@ -134,7 +134,7 @@ def test_exclude_object_ids():
         raillabel.filter.ExcludeObjectIdFilter([UUID("5c59aad4-0000-4000-0000-000000000001")])
     ]
 
-    actual = raillabel.filter.filter_(scene, filters)
+    actual = scene.filter(filters)
     assert actual == SceneBuilder.empty().add_bbox(object_name="person_0001").result
 
 
@@ -147,7 +147,7 @@ def test_include_object_types():
     )
     filters = [raillabel.filter.IncludeObjectTypeFilter(["person"])]
 
-    actual = raillabel.filter.filter_(scene, filters)
+    actual = scene.filter(filters)
     assert actual == SceneBuilder.empty().add_bbox(object_name="person_0001").result
 
 
@@ -160,7 +160,7 @@ def test_exclude_object_types():
     )
     filters = [raillabel.filter.ExcludeObjectTypeFilter(["train"])]
 
-    actual = raillabel.filter.filter_(scene, filters)
+    actual = scene.filter(filters)
     assert actual == SceneBuilder.empty().add_bbox(object_name="person_0001").result
 
 
@@ -170,7 +170,7 @@ def test_include_sensor_ids():
     )
     filters = [raillabel.filter.IncludeSensorIdFilter(["rgb_middle"])]
 
-    actual = raillabel.filter.filter_(scene, filters)
+    actual = scene.filter(filters)
     assert actual == SceneBuilder.empty().add_bbox(sensor_id="rgb_middle").result
 
 
@@ -180,7 +180,7 @@ def test_exclude_sensor_ids():
     )
     filters = [raillabel.filter.ExcludeSensorIdFilter(["lidar"])]
 
-    actual = raillabel.filter.filter_(scene, filters)
+    actual = scene.filter(filters)
     assert actual == SceneBuilder.empty().add_bbox(sensor_id="rgb_middle").result
 
 
@@ -193,7 +193,7 @@ def test_include_sensor_types():
     )
     filters = [raillabel.filter.IncludeSensorTypeFilter(["camera"])]
 
-    actual = raillabel.filter.filter_(scene, filters)
+    actual = scene.filter(filters)
     assert actual == SceneBuilder.empty().add_bbox(sensor_id="rgb_middle").result
 
 
@@ -206,7 +206,7 @@ def test_exclude_sensor_types():
     )
     filters = [raillabel.filter.ExcludeSensorTypeFilter(["lidar"])]
 
-    actual = raillabel.filter.filter_(scene, filters)
+    actual = scene.filter(filters)
     assert actual == SceneBuilder.empty().add_bbox(sensor_id="rgb_middle").result
 
 
@@ -219,7 +219,7 @@ def test_include_attributes__only_keys():
     )
     filters = [raillabel.filter.IncludeAttributesFilter({"length": None})]
 
-    actual = raillabel.filter.filter_(scene, filters)
+    actual = scene.filter(filters)
     assert actual == SceneBuilder.empty().add_bbox(attributes={"length": 42}).result
 
 
@@ -232,7 +232,7 @@ def test_include_attributes__with_values():
     )
     filters = [raillabel.filter.IncludeAttributesFilter({"is_dummy": True})]
 
-    actual = raillabel.filter.filter_(scene, filters)
+    actual = scene.filter(filters)
     assert actual == SceneBuilder.empty().add_bbox(attributes={"is_dummy": True}).result
 
 
@@ -245,7 +245,7 @@ def test_exclude_attributes__only_keys():
     )
     filters = [raillabel.filter.ExcludeAttributesFilter({"width": None})]
 
-    actual = raillabel.filter.filter_(scene, filters)
+    actual = scene.filter(filters)
     assert actual == SceneBuilder.empty().add_bbox(attributes={"length": 42}).result
 
 
@@ -258,7 +258,7 @@ def test_exclude_attributes__with_values():
     )
     filters = [raillabel.filter.ExcludeAttributesFilter({"is_dummy": False})]
 
-    actual = raillabel.filter.filter_(scene, filters)
+    actual = scene.filter(filters)
     assert actual == SceneBuilder.empty().add_bbox(attributes={"is_dummy": True}).result
 
 

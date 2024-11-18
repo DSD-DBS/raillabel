@@ -40,6 +40,17 @@ pip install -e '.[docs,test]'
 pre-commit install
 ```
 
+# Usage
+
+The first step in using `raillabel` is downloading a desired dataset (like [OSDaR23](https://data.fid-move.de/dataset/osdar23)). You can then load any scene by running
+```python
+import raillabel
+
+scene = raillabel.load("path/to/annotation_file.json")
+```
+
+This returns a [`raillabel.Scene`](https://dsd-dbs.github.io/raillabel/code/raillabel.html#raillabel.Scene), which is the root class for the annotations.
+
 # Contributing
 
 We'd love to see your bug reports and improvement suggestions! Please take a
