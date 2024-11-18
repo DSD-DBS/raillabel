@@ -5,13 +5,16 @@ import json
 import os
 import typing as t
 from pathlib import Path
+from warnings import warn
 
 import fastjsonschema
 import jsonschema
+from typing_extensions import deprecated
 
 from .. import exceptions
 
 
+@deprecated("This function will be moved to `raillabel_providerkit` in all future releases.")
 def validate(data: dict, schema_path: str = "raillabel") -> t.Tuple[bool, t.List[str]]:
     """Validate JSON data represented by a dict via a given schema.
 
@@ -37,6 +40,8 @@ def validate(data: dict, schema_path: str = "raillabel") -> t.Tuple[bool, t.List
     # Since the schema_path can either be a complete path or the short name of a schema, these two
     # options must be distinguished. It is therefore assumed, that a complete path contains at #
     # least one '/' or '\'.
+
+    warn("This function will be moved to `raillabel_providerkit` in all future releases.")
 
     if "/" in schema_path or "\\" in schema_path:  # if schema_path is a complete path
         schema_path = Path(schema_path)

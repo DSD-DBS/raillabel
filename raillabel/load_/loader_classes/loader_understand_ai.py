@@ -3,6 +3,9 @@
 
 import typing as t
 from pathlib import Path
+from warnings import warn
+
+from typing_extensions import deprecated
 
 from ..._util._warning import _WarningsLogger
 from ...format import understand_ai as uai_format
@@ -10,6 +13,7 @@ from ._loader_abc import LoaderABC
 from .loader_raillabel import LoaderRailLabel
 
 
+@deprecated("This class will be moved to `raillabel_providerkit` in all future releases.")
 class LoaderUnderstandAi(LoaderABC):
     """Loader class for the Understand.Ai Trains4 annotation format.
 
@@ -48,6 +52,8 @@ class LoaderUnderstandAi(LoaderABC):
         scene: raillabel.format.understand_ai.UAIScene
             The loaded scene with the data.
         """
+
+        warn("This class will be moved to `raillabel_providerkit` in all future releases.")
 
         if validate:
             self.validate(data)
