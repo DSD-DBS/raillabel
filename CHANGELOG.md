@@ -70,7 +70,7 @@ Release
   - ```frame_data``` can only contain ```Num``` instances
   - ```object_data``` can not contain ```Num``` instances anymore
 - Major restructuring of the project directories
-- ```FrameInterval.from_frame_uids()```: create ```FrameIntervals``` by providing a list of frame uids
+- ```FrameInterval.from_frame_ids()```: create ```FrameIntervals``` by providing a list of frame uids
 - ```Object.object_data_pointers()```: generate ```ElementDataPointers```
 - ```Scene.frame_intervals()```, ```Object.frame_intervals()```: generate ```FrameIntervals```
 - ```Object.asdict()``` now provides also frame intervals and object data pointers, if the frames from the scene are provided
@@ -92,3 +92,25 @@ Release
 
 ## 3.3.0
 - Introduce support for Python 3.13
+
+# 4.0.0
+New Major changes to RailLabel! Over the time two major use cases for this package have crystalized. The first one are the users of the data sets published by Deutsche Bahn. The second one are the contractors providing the annotations. Since the two groups have vastly different requirements for this package, we decided to split it accordingly.
+
+If you just want to work with out data, then you are in luck. You can just continue using this package with even more focus on your needs.
+
+If you are building raillabel scenes yourself or want to manipulate the data in a safe way, then the [raillabel_providerkit](https://github.com/DSD-DBS/raillabel-providerkit) is for you. All functionality you may be missing in this new raillabel version will be provided over there with even better APIs.
+
+Functionality, that has been **moved** to the `raillabel_providerkit`:
+- loading annotations in formats other than raillabel itself
+- validating the content of files
+
+Other breaking changes:
+- the `fromdict()` and `asdict()` methods in `raillabel.format` classes have been replaced with `from_json()` and `to_json` respectively
+- `raillabel.format.FrameInterval` fields have been changed by `frame_start -> start` and `frame_end -> end` to make it more concise
+- all uid fields of classes have been removed (like `raillabel.format.Frame.uid`) have been removed to avoid redundant information
+- `raillabel.format.Sensor` has been removed in favor of the different sensor type classes `raillabel.format.Camera`, `raillabel.format.Lidar`, `raillabel.format.Radar` and `raillabel.format.GpsImu`
+- `raillabel.filter()` has been removed in favor of `raillabel.Scene.filter()` with different input arguments
+
+New features:
+- `raillabel.json_format` has been introduced as an interface between the JSON format and the `raillabel` classes
+- `raillabel.scene_builder.SceneBuilder` is now available to easily build scenes for testing purposes

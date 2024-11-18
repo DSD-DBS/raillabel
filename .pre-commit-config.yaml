@@ -25,21 +25,27 @@ repos:
       - id: end-of-file-fixer
       - id: fix-byte-order-marker
       - id: trailing-whitespace
-  - repo: https://github.com/psf/black
-    rev: 24.10.0
+
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    rev: v0.7.0
     hooks:
-      - id: black
-  - repo: https://github.com/PyCQA/isort
-    rev: 5.13.2
+      - id: ruff-format
+        name: Run Formatter
+      - id: ruff
+        name: Run Linter
+        args: [ --fix ]
+
+  - repo: https://github.com/pre-commit/mirrors-mypy
+    rev: v1.12.1
     hooks:
-      - id: isort
-  - repo: https://github.com/PyCQA/pydocstyle
-    rev: 6.3.0
-    hooks:
-      - id: pydocstyle
-        exclude: '^tests/'
-        additional_dependencies:
-          - pydocstyle[toml]
+    - id: mypy
+      name: Run Type Checker
+      types_or: [python, pyi, toml, yaml]
+      pass_filenames: false
+      args: [raillabel]
+      additional_dependencies:
+        - "pydantic<3.0.0"
+
   - repo: https://github.com/Lucas-C/pre-commit-hooks
     rev: v1.5.5
     hooks:
@@ -83,11 +89,13 @@ repos:
           - LICENSES/.license_header.txt
           - --comment-style
           - '..|  |'
+
   - repo: https://github.com/fsfe/reuse-tool
     rev: v4.0.3
     hooks:
       - id: reuse
+
   - repo: https://github.com/qoomon/git-conventional-commits
-    rev: v2.1.1
+    rev: v2.6.7
     hooks:
       - id: conventional-commits

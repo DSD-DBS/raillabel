@@ -66,9 +66,7 @@ version = raillabel.__version__
 rst_epilog = """
 .. |Project| replace:: {project}
 .. |Version| replace:: {version}
-""".format(
-    project=project, version=version
-)
+""".format(project=project, version=version)
 
 
 # -- Options for copy-button -------------------------------------------------

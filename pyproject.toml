@@ -2,11 +2,7 @@
 # SPDX-License-Identifier: Apache-2.0
 
 [build-system]
-requires = [
-  "setuptools>=64",
-  "setuptools_scm[toml]>=3.4",
-  "wheel"
-]
+requires = ["setuptools>=64", "setuptools_scm[toml]>=3.4", "wheel"]
 build-backend = "setuptools.build_meta"
 
 [project]
@@ -17,9 +13,7 @@ description = "A devkit for working with recorded and annotated train ride data 
 readme = "README.md"
 requires-python = ">=3.8, <3.14"
 license = { text = "Apache-2.0" }
-authors = [
-  { name = "DB InfraGO AG" },
-]
+authors = [{ name = "DB InfraGO AG" }]
 keywords = []
 classifiers = [
   "Development Status :: 1 - Planning",
@@ -35,9 +29,8 @@ classifiers = [
   "Programming Language :: Python :: 3.13",
 ]
 dependencies = [
-  "jsonschema>=4.4.0",
-  "fastjsonschema>=2.16.2",
-  "typing_extensions==4.12.2"
+  "pydantic<3.0.0",
+  "eval-type-backport==0.2.0"
 ]
 
 [project.urls]
@@ -45,31 +38,48 @@ Homepage = "https://github.com/DSD-DBS/raillabel"
 Documentation = "https://dsd-dbs.github.io/raillabel"
 
 [project.optional-dependencies]
-docs = [
-  "furo",
-  "sphinx",
-  "sphinx-copybutton",
-  "tomli; python_version<'3.11'",
+docs = ["furo", "sphinx", "sphinx-copybutton", "tomli; python_version<'3.14'"]
+
+test = ["pytest", "pytest-cov", "json5"]
+
+[tool.ruff]
+line-length = 101
+
+[tool.ruff.lint]
+exclude = ["tests/*", "docs/*"]
+select = ["ALL"]
+ignore = [
+  "A002",   # objects from OpenLABEL conflict with a Python builtin, but staying consistent with the domain is more important
+
+  "B024",   # needed for _FilterAbc
+
+  "COM812", # conflicts with ruff formatter
+
+  "D100",   # imo no docstrings are necessary in public modules
+  "D107",   # __init__ docstrings are not necessary
+  "D203",   # incompatible with D211
+  "D213",   # incompatible with D212
+  "D413",   # rule by convention which looks weird
+  "D417",   # kwargs can not be typed for the filter function
+
+  "FBT001", # flags in functions are not bad practice
+  "FBT002", # flags in functions are not bad practice
+
+  "INP001", # load and save are not meant as packages and are only folders for consistency
+
+  "ISC001", # conflicts with ruff formatter
+
+  "N802",   # does not allow constant abstractproperties
+
+  "TCH001", # adds hard to understand compexity without providing a benefit for smaller projects
+  "TCH002", # same as TCH001
+  "TCH003", # same as TCH001
+
+  "SIM103", # less readable in some cases imo
+
+  # Should be removed in the future
+  "PGH003",
 ]
-
-test = [
-  "pytest",
-  "pytest-cov",
-  "json5"
-]
-
-[tool.black]
-line-length = 100
-target-version = ["py312"]
-force-exclude = "tests/"
-
-[tool.docformatter]
-wrap-descriptions = 72
-wrap-summaries = 79
-
-[tool.isort]
-profile = 'black'
-line_length = 100
 
 [tool.mypy]
 check_untyped_defs = true
@@ -78,94 +88,9 @@ show_error_codes = true
 warn_redundant_casts = true
 warn_unreachable = true
 python_version = "3.12"
-
-[[tool.mypy.overrides]]
-module = ["tests.*"]
-allow_incomplete_defs = true
-allow_untyped_defs = true
-
-[[tool.mypy.overrides]]
-# Untyped third party libraries
-module = [
-  # ...
-]
+disable_error_code = ["override"]
+plugins = "pydantic.mypy"
 ignore_missing_imports = true
-
-[tool.pydocstyle]
-convention = "numpy"
-add-select = [
-  "D212",  # Multi-line docstring summary should start at the first line
-  "D402",  # First line should not be the functions "signature"
-  "D417",  # Missing argument descriptions in the docstring
-]
-add-ignore = [
-  "D100",  # Missing docstring in public module
-  "D201",  # No blank lines allowed before function docstring  # auto-formatting
-  "D202",  # No blank lines allowed after function docstring  # auto-formatting
-  "D203",  # 1 blank line required before class docstring  # auto-formatting
-  "D204",  # 1 blank line required after class docstring  # auto-formatting
-  "D209",  # Multi-line docstring closing quotes should be on a separate line
-  "D211",  # No blank lines allowed before class docstring  # auto-formatting
-  "D213",  # Multi-line docstring summary should start at the second line
-]
-
-[tool.pylint.master]
-max-line-length = 100
-
-[tool.pylint.messages_control]
-disable = [
-  "arguments-renamed",
-  "global-statement",
-  "invalid-name",
-  "no-else-return",               # using else returns is more readible imo
-  "protected-access",             # class comparisons raised as false positive
-  "redefined-builtin",            # the domain is full of builtin-names (object, type, format, ...)
-  "too-few-public-methods",       # does not contribute to code quality imo
-  "too-many-arguments",           # 6 as a limit is too low
-  "too-many-instance-attributes", # classes mirror OpenLABEL, therefore the number of fields is set
-  "unidiomatic-typecheck",        # type() is necessary in some cases
-  "unspecified-encoding",         # default encoding is sufficient in all cases
-  "unsupported-membership-test",  # raise false positives for dicts
-  "global-variable-not-assigned", # raises false positive when global variable is a dict and items are assigned
-
-  # Auto-formatting
-  "bad-indentation",
-  "inconsistent-quotes",
-  "missing-final-newline",
-  "missing-class-docstring",
-  "missing-function-docstring",
-  "missing-module-docstring",
-  "mixed-line-endings",
-  "multiple-imports",
-  "multiple-statements",
-  "trailing-newlines",
-  "trailing-whitespace",
-  "unexpected-line-ending-format",
-  "ungrouped-imports",
-  "wrong-import-order",
-  "wrong-import-position",
-
-  # Handled by mypy
-  "arguments-differ",
-  "assignment-from-no-return",
-  "import-error",
-  "missing-kwoa",
-  "no-member",
-  "no-value-for-parameter",
-  "redundant-keyword-arg",
-  "signature-differs",
-  "syntax-error",
-  "too-many-function-args",
-  "unbalanced-tuple-unpacking",
-  "undefined-variable",
-  "unexpected-keyword-arg",
-]
-enable = [
-  "c-extension-no-member",
-  "deprecated-pragma",
-  "use-symbolic-message-instead",
-  "useless-suppression",
-]
 
 [tool.pytest.ini_options]
 addopts = """

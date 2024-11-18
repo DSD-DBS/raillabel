@@ -5,8 +5,7 @@
             "schema_version": "1.0.0",
             "comment": "test_comment",
             "name": "test_project",
-            "subschema_version": "3.0.0",
-            "tagged_file": "test_folder"
+            "tagged_file": "test_folder",
         },
         "streams": {
             "rgb_middle": {
