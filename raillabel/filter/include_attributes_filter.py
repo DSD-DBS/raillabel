@@ -16,7 +16,7 @@ class IncludeAttributesFilter(_AnnotationLevelFilter):
     """Filter out all annotations in the scene, that do NOT have matching attributes.
 
     If an attribute has None as the value, all annotations are excluded, that do not have this
-    attribute. If the value is anything other than None, all annotations are exluded that do not
+    attribute. If the value is anything other than None, all annotations are excluded that do not
     have the attribute or where the value does not match.
     """
 

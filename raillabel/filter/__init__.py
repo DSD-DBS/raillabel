@@ -5,6 +5,7 @@
 from .end_time_filter import EndTimeFilter
 from .exclude_annotation_id_filter import ExcludeAnnotationIdFilter
 from .exclude_annotation_type_filter import ExcludeAnnotationTypeFilter
+from .exclude_attributes_filter import ExcludeAttributesFilter
 from .exclude_frame_id_filter import ExcludeFrameIdFilter
 from .exclude_object_id_filter import ExcludeObjectIdFilter
 from .exclude_object_type_filter import ExcludeObjectTypeFilter
@@ -40,4 +41,5 @@ __all__ = [
     "IncludeSensorTypeFilter",
     "ExcludeSensorTypeFilter",
     "IncludeAttributesFilter",
+    "ExcludeAttributesFilter",
 ]

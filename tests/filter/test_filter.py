@@ -236,5 +236,31 @@ def test_include_attributes__with_values():
     assert actual == SceneBuilder.empty().add_bbox(attributes={"is_dummy": True}).result
 
 
+def test_exclude_attributes__only_keys():
+    scene = (
+        SceneBuilder.empty()
+        .add_bbox(attributes={"length": 42})
+        .add_bbox(attributes={"width": 34})
+        .result
+    )
+    filters = [raillabel.filter.ExcludeAttributesFilter({"width": None})]
+
+    actual = raillabel.filter.filter_(scene, filters)
+    assert actual == SceneBuilder.empty().add_bbox(attributes={"length": 42}).result
+
+
+def test_exclude_attributes__with_values():
+    scene = (
+        SceneBuilder.empty()
+        .add_bbox(attributes={"is_dummy": True})
+        .add_bbox(attributes={"is_dummy": False})
+        .result
+    )
+    filters = [raillabel.filter.ExcludeAttributesFilter({"is_dummy": False})]
+
+    actual = raillabel.filter.filter_(scene, filters)
+    assert actual == SceneBuilder.empty().add_bbox(attributes={"is_dummy": True}).result
+
+
 if __name__ == "__main__":
     pytest.main([__file__, "-vv"])
