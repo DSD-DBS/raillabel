@@ -36,7 +36,8 @@ classifiers = [
 ]
 dependencies = [
   "jsonschema>=4.4.0",
-  "fastjsonschema>=2.16.2"
+  "fastjsonschema>=2.16.2",
+  "typing_extensions==4.12.2"
 ]
 
 [project.urls]
