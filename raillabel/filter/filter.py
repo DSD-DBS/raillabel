@@ -5,8 +5,7 @@ import pickle
 import typing as t
 from warnings import warn
 
-if t.TYPE_CHECKING:
-    from typing_extensions import deprecated
+from typing_extensions import deprecated
 
 from .. import format
 from . import _filter_classes

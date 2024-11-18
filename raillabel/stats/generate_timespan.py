@@ -5,8 +5,7 @@ import typing as t
 from decimal import Decimal
 from warnings import warn
 
-if t.TYPE_CHECKING:
-    from typing_extensions import deprecated
+from typing_extensions import deprecated
 
 from ..format import Scene
 
