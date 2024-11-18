@@ -3,11 +3,17 @@
 
 import pickle
 import typing as t
+from warnings import warn
+
+from typing_extensions import deprecated
 
 from .. import format
 from . import _filter_classes
 
 
+@deprecated(
+    "filter() will not be included in any future releases. Use `scene.filter()` in those versions instead"
+)
 def filter(scene: format.Scene, **kwargs) -> format.Scene:
     """Return a copy of the scene with the annotations filtered.
 
@@ -83,6 +89,9 @@ def filter(scene: format.Scene, **kwargs) -> format.Scene:
     TypeError
         if an unexpected keyword argument has been set.
     """
+    warn(
+        "filter() will not be included in any future releases. Use `scene.filter()` in those versions instead"
+    )
 
     filters_by_level = _collect_filter_classes(kwargs)
     filtered_scene, used_sensors, used_objects = _filter_scene(_copy(scene), filters_by_level)

@@ -3,10 +3,14 @@
 
 import typing as t
 from decimal import Decimal
+from warnings import warn
+
+from typing_extensions import deprecated
 
 from ..format import Scene
 
 
+@deprecated("This function will be removed in all future releases")
 def generate_timespan(scene: Scene) -> t.Tuple[t.Optional[Decimal], t.Optional[Decimal]]:
     """Return start and end timestamp of the scene.
 
@@ -22,6 +26,7 @@ def generate_timespan(scene: Scene) -> t.Tuple[t.Optional[Decimal], t.Optional[D
     decimal.Decimal or None
         End timestamp of the scene. Is None if the scene has no frames.
     """
+    warn("This function will be removed in all future releases")
     start_timestamp = None
     end_timestamp = None
 
