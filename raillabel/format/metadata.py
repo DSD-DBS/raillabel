@@ -58,13 +58,4 @@ class Metadata:
 
     def to_json(self) -> JSONMetadata:
         """Export this object into the RailLabel JSON format."""
-        return JSONMetadata(
-            schema_version=self.schema_version,
-            name=self.name,
-            subschema_version=self.subschema_version,
-            exporter_version=self.exporter_version,
-            file_version=self.file_version,
-            tagged_file=self.tagged_file,
-            annotator=self.annotator,
-            comment=self.comment,
-        )
+        return JSONMetadata(**dict(vars(self)))
