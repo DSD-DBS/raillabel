@@ -14,6 +14,7 @@ from .include_annotation_type_filter import IncludeAnnotationTypeFilter
 from .include_frame_id_filter import IncludeFrameIdFilter
 from .include_object_id_filter import IncludeObjectIdFilter
 from .include_object_type_filter import IncludeObjectTypeFilter
+from .include_sensor_id_filter import IncludeSensorIdFilter
 from .start_time_filter import StartTimeFilter
 
 __all__ = [
@@ -30,4 +31,5 @@ __all__ = [
     "ExcludeObjectIdFilter",
     "IncludeObjectTypeFilter",
     "ExcludeObjectTypeFilter",
+    "IncludeSensorIdFilter",
 ]

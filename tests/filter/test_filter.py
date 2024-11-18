@@ -164,5 +164,15 @@ def test_exclude_object_types():
     assert actual == SceneBuilder.empty().add_bbox(object_name="person_0001").result
 
 
+def test_include_sensor_ids():
+    scene = (
+        SceneBuilder.empty().add_bbox(sensor_id="rgb_middle").add_cuboid(sensor_id="lidar").result
+    )
+    filters = [raillabel.filter.IncludeSensorIdFilter(["rgb_middle"])]
+
+    actual = raillabel.filter.filter_(scene, filters)
+    assert actual == SceneBuilder.empty().add_bbox(sensor_id="rgb_middle").result
+
+
 if __name__ == "__main__":
     pytest.main([__file__, "-vv"])
