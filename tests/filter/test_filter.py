@@ -210,5 +210,31 @@ def test_exclude_sensor_types():
     assert actual == SceneBuilder.empty().add_bbox(sensor_id="rgb_middle").result
 
 
+def test_include_attributes__only_keys():
+    scene = (
+        SceneBuilder.empty()
+        .add_bbox(attributes={"length": 42})
+        .add_bbox(attributes={"width": 34})
+        .result
+    )
+    filters = [raillabel.filter.IncludeAttributesFilter({"length": None})]
+
+    actual = raillabel.filter.filter_(scene, filters)
+    assert actual == SceneBuilder.empty().add_bbox(attributes={"length": 42}).result
+
+
+def test_include_attributes__with_values():
+    scene = (
+        SceneBuilder.empty()
+        .add_bbox(attributes={"is_dummy": True})
+        .add_bbox(attributes={"is_dummy": False})
+        .result
+    )
+    filters = [raillabel.filter.IncludeAttributesFilter({"is_dummy": True})]
+
+    actual = raillabel.filter.filter_(scene, filters)
+    assert actual == SceneBuilder.empty().add_bbox(attributes={"is_dummy": True}).result
+
+
 if __name__ == "__main__":
     pytest.main([__file__, "-vv"])

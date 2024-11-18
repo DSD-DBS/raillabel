@@ -13,6 +13,7 @@ from .exclude_sensor_type_filter import ExcludeSensorTypeFilter
 from .filter import filter_
 from .include_annotation_id_filter import IncludeAnnotationIdFilter
 from .include_annotation_type_filter import IncludeAnnotationTypeFilter
+from .include_attributes_filter import IncludeAttributesFilter
 from .include_frame_id_filter import IncludeFrameIdFilter
 from .include_object_id_filter import IncludeObjectIdFilter
 from .include_object_type_filter import IncludeObjectTypeFilter
@@ -38,4 +39,5 @@ __all__ = [
     "ExcludeSensorIdFilter",
     "IncludeSensorTypeFilter",
     "ExcludeSensorTypeFilter",
+    "IncludeAttributesFilter",
 ]
