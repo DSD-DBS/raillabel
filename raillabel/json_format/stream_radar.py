@@ -20,7 +20,7 @@ class JSONStreamRadar(_JSONFormatBase):
     stream_properties: JSONStreamRadarProperties
     "Intrinsic calibration of the stream."
 
-    uri: str
+    uri: str | None = None
     "A string encoding the subdirectory containing the sensor files."
 
     description: str | None = None

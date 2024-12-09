@@ -7,19 +7,14 @@ from decimal import Decimal
 
 import pytest
 
-import raillabel
 from raillabel.scene_builder.scene_builder import SceneBuilder
 from raillabel.format import (
     Scene,
     Metadata,
     Object,
-    Camera,
     Lidar,
-    Radar,
     GpsImu,
     OtherSensor,
-    IntrinsicsPinhole,
-    IntrinsicsRadar,
     Frame,
     Bbox,
     Point2d,
@@ -35,17 +30,25 @@ from raillabel.format import (
 
 
 def test_empty():
-    actual = SceneBuilder.empty()
-    assert actual.result == Scene(Metadata(schema_version="1.0.0"))
+    actual = SceneBuilder.empty().result
+
+    actual.to_json()  # check if scene is also valid in JSON
+    assert actual == Scene(Metadata(schema_version="1.0.0"))
 
 
 def test_add_object__all_options():
-    actual = SceneBuilder.empty().add_object(
-        object_id="5c59aad4-9fcd-4903-a9fa-72b1b76c23a5",
-        object_type="train",
-        object_name="train_0001",
+    actual = (
+        SceneBuilder.empty()
+        .add_object(
+            object_id="5c59aad4-9fcd-4903-a9fa-72b1b76c23a5",
+            object_type="train",
+            object_name="train_0001",
+        )
+        .result
     )
-    assert actual.result == Scene(
+
+    actual.to_json()  # check if scene is also valid in JSON
+    assert actual == Scene(
         metadata=Metadata(schema_version="1.0.0"),
         objects={
             UUID("5c59aad4-9fcd-4903-a9fa-72b1b76c23a5"): Object(name="train_0001", type="train")
@@ -54,11 +57,17 @@ def test_add_object__all_options():
 
 
 def test_add_object__no_object_name():
-    actual = SceneBuilder.empty().add_object(
-        object_id="5c59aad4-9fcd-4903-a9fa-72b1b76c23a5",
-        object_type="train",
+    actual = (
+        SceneBuilder.empty()
+        .add_object(
+            object_id="5c59aad4-9fcd-4903-a9fa-72b1b76c23a5",
+            object_type="train",
+        )
+        .result
     )
-    assert actual.result == Scene(
+
+    actual.to_json()  # check if scene is also valid in JSON
+    assert actual == Scene(
         metadata=Metadata(schema_version="1.0.0"),
         objects={
             UUID("5c59aad4-9fcd-4903-a9fa-72b1b76c23a5"): Object(name="train_0000", type="train")
@@ -67,11 +76,17 @@ def test_add_object__no_object_name():
 
 
 def test_add_object__no_object_type():
-    actual = SceneBuilder.empty().add_object(
-        object_id="5c59aad4-9fcd-4903-a9fa-72b1b76c23a5",
-        object_name="train_0000",
+    actual = (
+        SceneBuilder.empty()
+        .add_object(
+            object_id="5c59aad4-9fcd-4903-a9fa-72b1b76c23a5",
+            object_name="train_0000",
+        )
+        .result
     )
-    assert actual.result == Scene(
+
+    actual.to_json()  # check if scene is also valid in JSON
+    assert actual == Scene(
         metadata=Metadata(schema_version="1.0.0"),
         objects={
             UUID("5c59aad4-9fcd-4903-a9fa-72b1b76c23a5"): Object(name="train_0000", type="train")
@@ -80,10 +95,16 @@ def test_add_object__no_object_type():
 
 
 def test_add_object__no_object_type_or_name():
-    actual = SceneBuilder.empty().add_object(
-        object_id="5c59aad4-9fcd-4903-a9fa-72b1b76c23a5",
+    actual = (
+        SceneBuilder.empty()
+        .add_object(
+            object_id="5c59aad4-9fcd-4903-a9fa-72b1b76c23a5",
+        )
+        .result
     )
-    assert actual.result == Scene(
+
+    actual.to_json()  # check if scene is also valid in JSON
+    assert actual == Scene(
         metadata=Metadata(schema_version="1.0.0"),
         objects={
             UUID("5c59aad4-9fcd-4903-a9fa-72b1b76c23a5"): Object(name="person_0000", type="person")
@@ -92,8 +113,10 @@ def test_add_object__no_object_type_or_name():
 
 
 def test_add_object__no_object_id():
-    actual = SceneBuilder.empty().add_object(object_type="train", object_name="train_0001")
-    assert actual.result == Scene(
+    actual = SceneBuilder.empty().add_object(object_type="train", object_name="train_0001").result
+
+    actual.to_json()  # check if scene is also valid in JSON
+    assert actual == Scene(
         metadata=Metadata(schema_version="1.0.0"),
         objects={
             UUID("5c59aad4-0000-4000-0000-000000000000"): Object(name="train_0001", type="train")
@@ -102,8 +125,10 @@ def test_add_object__no_object_id():
 
 
 def test_add_object__object_id_iteration():
-    actual = SceneBuilder.empty().add_object().add_object().add_object().add_object()
-    assert actual.result == Scene(
+    actual = SceneBuilder.empty().add_object().add_object().add_object().add_object().result
+
+    actual.to_json()  # check if scene is also valid in JSON
+    assert actual == Scene(
         metadata=Metadata(schema_version="1.0.0"),
         objects={
             UUID("5c59aad4-0000-4000-0000-000000000000"): Object(name="person_0000", type="person"),
@@ -115,67 +140,81 @@ def test_add_object__object_id_iteration():
 
 
 def test_add_sensor__camera_rgb(camera_empty):
-    actual = SceneBuilder.empty().add_sensor("rgb_middle")
-    assert actual.result == Scene(
+    actual = SceneBuilder.empty().add_sensor("rgb_middle").result
+
+    actual.to_json()
+    assert actual == Scene(
         metadata=Metadata(schema_version="1.0.0"),
         sensors={"rgb_middle": camera_empty},
     )
 
 
 def test_add_sensor__camera_ir(camera_empty):
-    actual = SceneBuilder.empty().add_sensor("ir_left")
-    assert actual.result == Scene(
+    actual = SceneBuilder.empty().add_sensor("ir_left").result
+
+    actual.to_json()  # check if scene is also valid in JSON
+    assert actual == Scene(
         metadata=Metadata(schema_version="1.0.0"),
         sensors={"ir_left": camera_empty},
     )
 
 
 def test_add_sensor__radar(radar_empty):
-    actual = SceneBuilder.empty().add_sensor("radar")
-    assert actual.result == Scene(
+    actual = SceneBuilder.empty().add_sensor("radar").result
+
+    actual.to_json()  # check if scene is also valid in JSON
+    assert actual == Scene(
         metadata=Metadata(schema_version="1.0.0"),
         sensors={"radar": radar_empty},
     )
 
 
 def test_add_sensor__lidar():
-    actual = SceneBuilder.empty().add_sensor("lidar")
-    assert actual.result == Scene(
-        metadata=Metadata(schema_version="1.0.0"), sensors={"lidar": Lidar()}
-    )
+    actual = SceneBuilder.empty().add_sensor("lidar").result
+
+    actual.to_json()  # check if scene is also valid in JSON
+    assert actual == Scene(metadata=Metadata(schema_version="1.0.0"), sensors={"lidar": Lidar()})
 
 
 def test_add_sensor__gps_imu():
-    actual = SceneBuilder.empty().add_sensor("gps_imu")
-    assert actual.result == Scene(
-        metadata=Metadata(schema_version="1.0.0"), sensors={"gps_imu": GpsImu()}
-    )
+    actual = SceneBuilder.empty().add_sensor("gps_imu").result
+
+    actual.to_json()  # check if scene is also valid in JSON
+    assert actual == Scene(metadata=Metadata(schema_version="1.0.0"), sensors={"gps_imu": GpsImu()})
 
 
 def test_add_sensor__other():
-    actual = SceneBuilder.empty().add_sensor("SOMETHING_ELSE")
-    assert actual.result == Scene(
+    actual = SceneBuilder.empty().add_sensor("SOMETHING_ELSE").result
+
+    actual.to_json()  # check if scene is also valid in JSON
+    assert actual == Scene(
         metadata=Metadata(schema_version="1.0.0"), sensors={"SOMETHING_ELSE": OtherSensor()}
     )
 
 
 def test_add_frame():
-    actual = SceneBuilder.empty().add_frame(1, 1631691173)
-    assert actual.result == Scene(
+    actual = SceneBuilder.empty().add_frame(1, 1631691173).result
+
+    actual.to_json()  # check if scene is also valid in JSON
+    assert actual == Scene(
         metadata=Metadata(schema_version="1.0.0"), frames={1: Frame(timestamp=Decimal(1631691173))}
     )
 
 
 def test_add_frame__no_timestamp():
-    actual = SceneBuilder.empty().add_frame(1)
-    assert actual.result == Scene(
+    actual = SceneBuilder.empty().add_frame(1).result
+
+    actual.to_json()  # check if scene is also valid in JSON
+    assert actual == Scene(
         metadata=Metadata(schema_version="1.0.0"), frames={1: Frame(timestamp=None)}
     )
 
 
 def test_add_frame__no_frame_id():
-    actual = SceneBuilder.empty().add_frame().add_frame()
-    assert actual.result == Scene(
+    actual = SceneBuilder.empty().add_frame().add_frame().result
+
+    actual.to_json()  # check if scene is also valid in JSON
+    assert actual == Scene(
         metadata=Metadata(schema_version="1.0.0"),
         frames={
             1: Frame(),
@@ -185,14 +224,22 @@ def test_add_frame__no_frame_id():
 
 
 def test_add_bbox(camera_empty):
-    actual = SceneBuilder.empty().add_bbox(
-        uid=UUID("6c95543d-4d4f-43df-a52d-36bf868e09d8"),
-        frame_id=2,
-        object_name="person_0001",
-        sensor_id="ir_middle",
-        attributes={"attr": True},
+    actual = (
+        SceneBuilder.empty()
+        .add_bbox(
+            uid=UUID("6c95543d-4d4f-43df-a52d-36bf868e09d8"),
+            pos=Point2d(1, 2),
+            size=Size2d(3, 4),
+            frame_id=2,
+            object_name="person_0001",
+            sensor_id="ir_middle",
+            attributes={"attr": True},
+        )
+        .result
     )
-    assert actual.result == Scene(
+
+    actual.to_json()  # check if scene is also valid in JSON
+    assert actual == Scene(
         metadata=Metadata(schema_version="1.0.0"),
         objects={
             UUID("5c59aad4-0000-4000-0000-000000000000"): Object(name="person_0001", type="person")
@@ -204,8 +251,8 @@ def test_add_bbox(camera_empty):
                     UUID("6c95543d-4d4f-43df-a52d-36bf868e09d8"): Bbox(
                         sensor_id="ir_middle",
                         object_id=UUID("5c59aad4-0000-4000-0000-000000000000"),
-                        pos=Point2d(0, 0),
-                        size=Size2d(0, 0),
+                        pos=Point2d(1, 2),
+                        size=Size2d(3, 4),
                         attributes={"attr": True},
                     )
                 }
@@ -215,8 +262,10 @@ def test_add_bbox(camera_empty):
 
 
 def test_add_bbox__just_defaults(camera_empty):
-    actual = SceneBuilder.empty().add_bbox()
-    assert actual.result == Scene(
+    actual = SceneBuilder.empty().add_bbox().result
+
+    actual.to_json()  # check if scene is also valid in JSON
+    assert actual == Scene(
         metadata=Metadata(schema_version="1.0.0"),
         objects={
             UUID("5c59aad4-0000-4000-0000-000000000000"): Object(name="person_0001", type="person")
@@ -239,14 +288,23 @@ def test_add_bbox__just_defaults(camera_empty):
 
 
 def test_add_cuboid():
-    actual = SceneBuilder.empty().add_cuboid(
-        uid=UUID("6c95543d-4d4f-43df-a52d-36bf868e09d8"),
-        frame_id=2,
-        object_name="person_0001",
-        sensor_id="lidar_left",
-        attributes={"my_attr": 5},
+    actual = (
+        SceneBuilder.empty()
+        .add_cuboid(
+            uid=UUID("6c95543d-4d4f-43df-a52d-36bf868e09d8"),
+            pos=Point3d(1, 2, 3),
+            quat=Quaternion(4, 5, 6, 7),
+            size=Size3d(8, 9, 10),
+            frame_id=2,
+            object_name="person_0001",
+            sensor_id="lidar_left",
+            attributes={"my_attr": 5},
+        )
+        .result
     )
-    assert actual.result == Scene(
+
+    actual.to_json()  # check if scene is also valid in JSON
+    assert actual == Scene(
         metadata=Metadata(schema_version="1.0.0"),
         objects={
             UUID("5c59aad4-0000-4000-0000-000000000000"): Object(name="person_0001", type="person")
@@ -258,9 +316,9 @@ def test_add_cuboid():
                     UUID("6c95543d-4d4f-43df-a52d-36bf868e09d8"): Cuboid(
                         sensor_id="lidar_left",
                         object_id=UUID("5c59aad4-0000-4000-0000-000000000000"),
-                        pos=Point3d(0, 0, 0),
-                        size=Size3d(0, 0, 0),
-                        quat=Quaternion(0, 0, 0, 0),
+                        pos=Point3d(1, 2, 3),
+                        size=Size3d(8, 9, 10),
+                        quat=Quaternion(4, 5, 6, 7),
                         attributes={"my_attr": 5},
                     )
                 }
@@ -270,8 +328,10 @@ def test_add_cuboid():
 
 
 def test_add_cuboid__just_defaults():
-    actual = SceneBuilder.empty().add_cuboid()
-    assert actual.result == Scene(
+    actual = SceneBuilder.empty().add_cuboid().result
+
+    actual.to_json()  # check if scene is also valid in JSON
+    assert actual == Scene(
         metadata=Metadata(schema_version="1.0.0"),
         objects={
             UUID("5c59aad4-0000-4000-0000-000000000000"): Object(name="person_0001", type="person")
@@ -295,14 +355,21 @@ def test_add_cuboid__just_defaults():
 
 
 def test_add_poly2d(camera_empty):
-    actual = SceneBuilder.empty().add_poly2d(
-        uid=UUID("6c95543d-4d4f-43df-a52d-36bf868e09d8"),
-        frame_id=2,
-        object_name="person_0001",
-        sensor_id="ir_left",
-        attributes={"my_attr": 5},
+    actual = (
+        SceneBuilder.empty()
+        .add_poly2d(
+            uid=UUID("6c95543d-4d4f-43df-a52d-36bf868e09d8"),
+            points=[Point2d(0.0, 1.0), Point2d(2.0, 3.0)],
+            frame_id=2,
+            object_name="person_0001",
+            sensor_id="ir_left",
+            attributes={"my_attr": 5},
+        )
+        .result
     )
-    assert actual.result == Scene(
+
+    actual.to_json()  # check if scene is also valid in JSON
+    assert actual == Scene(
         metadata=Metadata(schema_version="1.0.0"),
         objects={
             UUID("5c59aad4-0000-4000-0000-000000000000"): Object(name="person_0001", type="person")
@@ -314,7 +381,7 @@ def test_add_poly2d(camera_empty):
                     UUID("6c95543d-4d4f-43df-a52d-36bf868e09d8"): Poly2d(
                         sensor_id="ir_left",
                         object_id=UUID("5c59aad4-0000-4000-0000-000000000000"),
-                        points=[],
+                        points=[Point2d(0.0, 1.0), Point2d(2.0, 3.0)],
                         closed=False,
                         attributes={"my_attr": 5},
                     )
@@ -325,8 +392,10 @@ def test_add_poly2d(camera_empty):
 
 
 def test_add_poly2d__just_defaults(camera_empty):
-    actual = SceneBuilder.empty().add_poly2d()
-    assert actual.result == Scene(
+    actual = SceneBuilder.empty().add_poly2d().result
+
+    actual.to_json()  # check if scene is also valid in JSON
+    assert actual == Scene(
         metadata=Metadata(schema_version="1.0.0"),
         objects={
             UUID("5c59aad4-0000-4000-0000-000000000000"): Object(name="person_0001", type="person")
@@ -349,14 +418,21 @@ def test_add_poly2d__just_defaults(camera_empty):
 
 
 def test_add_poly3d():
-    actual = SceneBuilder.empty().add_poly3d(
-        uid=UUID("6c95543d-4d4f-43df-a52d-36bf868e09d8"),
-        frame_id=2,
-        object_name="person_0001",
-        sensor_id="lidar_right",
-        attributes={"my_attr": 5},
+    actual = (
+        SceneBuilder.empty()
+        .add_poly3d(
+            uid=UUID("6c95543d-4d4f-43df-a52d-36bf868e09d8"),
+            points=[Point3d(1, 2, 3), Point3d(4, 5, 6)],
+            frame_id=2,
+            object_name="person_0001",
+            sensor_id="lidar_right",
+            attributes={"my_attr": 5},
+        )
+        .result
     )
-    assert actual.result == Scene(
+
+    actual.to_json()  # check if scene is also valid in JSON
+    assert actual == Scene(
         metadata=Metadata(schema_version="1.0.0"),
         objects={
             UUID("5c59aad4-0000-4000-0000-000000000000"): Object(name="person_0001", type="person")
@@ -368,7 +444,7 @@ def test_add_poly3d():
                     UUID("6c95543d-4d4f-43df-a52d-36bf868e09d8"): Poly3d(
                         sensor_id="lidar_right",
                         object_id=UUID("5c59aad4-0000-4000-0000-000000000000"),
-                        points=[],
+                        points=[Point3d(1, 2, 3), Point3d(4, 5, 6)],
                         closed=False,
                         attributes={"my_attr": 5},
                     )
@@ -379,8 +455,10 @@ def test_add_poly3d():
 
 
 def test_add_poly3d__just_defaults():
-    actual = SceneBuilder.empty().add_poly3d()
-    assert actual.result == Scene(
+    actual = SceneBuilder.empty().add_poly3d().result
+
+    actual.to_json()  # check if scene is also valid in JSON
+    assert actual == Scene(
         metadata=Metadata(schema_version="1.0.0"),
         objects={
             UUID("5c59aad4-0000-4000-0000-000000000000"): Object(name="person_0001", type="person")
@@ -403,14 +481,21 @@ def test_add_poly3d__just_defaults():
 
 
 def test_add_seg3d():
-    actual = SceneBuilder.empty().add_seg3d(
-        uid=UUID("6c95543d-4d4f-43df-a52d-36bf868e09d8"),
-        frame_id=2,
-        object_name="person_0001",
-        sensor_id="lidar_right",
-        attributes={"my_attr": 5},
+    actual = (
+        SceneBuilder.empty()
+        .add_seg3d(
+            uid=UUID("6c95543d-4d4f-43df-a52d-36bf868e09d8"),
+            point_ids=[1, 2, 3],
+            frame_id=2,
+            object_name="person_0001",
+            sensor_id="lidar_right",
+            attributes={"my_attr": 5},
+        )
+        .result
     )
-    assert actual.result == Scene(
+
+    actual.to_json()  # check if scene is also valid in JSON
+    assert actual == Scene(
         metadata=Metadata(schema_version="1.0.0"),
         objects={
             UUID("5c59aad4-0000-4000-0000-000000000000"): Object(name="person_0001", type="person")
@@ -422,7 +507,7 @@ def test_add_seg3d():
                     UUID("6c95543d-4d4f-43df-a52d-36bf868e09d8"): Seg3d(
                         sensor_id="lidar_right",
                         object_id=UUID("5c59aad4-0000-4000-0000-000000000000"),
-                        point_ids=[],
+                        point_ids=[1, 2, 3],
                         attributes={"my_attr": 5},
                     )
                 }
@@ -432,8 +517,10 @@ def test_add_seg3d():
 
 
 def test_add_seg3d__just_defaults():
-    actual = SceneBuilder.empty().add_seg3d()
-    assert actual.result == Scene(
+    actual = SceneBuilder.empty().add_seg3d().result
+
+    actual.to_json()  # check if scene is also valid in JSON
+    assert actual == Scene(
         metadata=Metadata(schema_version="1.0.0"),
         objects={
             UUID("5c59aad4-0000-4000-0000-000000000000"): Object(name="person_0001", type="person")
