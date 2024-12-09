@@ -20,7 +20,7 @@ class JSONStreamCamera(_JSONFormatBase):
     stream_properties: JSONStreamCameraProperties
     "Intrinsic calibration of the stream."
 
-    uri: str
+    uri: str | None = None
     "A string encoding the subdirectory containing the sensor files."
 
     description: str | None = None
