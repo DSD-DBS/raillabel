@@ -35,17 +35,25 @@ from raillabel.format import (
 
 
 def test_empty():
-    actual = SceneBuilder.empty()
-    assert actual.result == Scene(Metadata(schema_version="1.0.0"))
+    actual = SceneBuilder.empty().result
+
+    actual.to_json()  # check if scene is also valid in JSON
+    assert actual == Scene(Metadata(schema_version="1.0.0"))
 
 
 def test_add_object__all_options():
-    actual = SceneBuilder.empty().add_object(
-        object_id="5c59aad4-9fcd-4903-a9fa-72b1b76c23a5",
-        object_type="train",
-        object_name="train_0001",
+    actual = (
+        SceneBuilder.empty()
+        .add_object(
+            object_id="5c59aad4-9fcd-4903-a9fa-72b1b76c23a5",
+            object_type="train",
+            object_name="train_0001",
+        )
+        .result
     )
-    assert actual.result == Scene(
+
+    actual.to_json()  # check if scene is also valid in JSON
+    assert actual == Scene(
         metadata=Metadata(schema_version="1.0.0"),
         objects={
             UUID("5c59aad4-9fcd-4903-a9fa-72b1b76c23a5"): Object(name="train_0001", type="train")
@@ -54,11 +62,17 @@ def test_add_object__all_options():
 
 
 def test_add_object__no_object_name():
-    actual = SceneBuilder.empty().add_object(
-        object_id="5c59aad4-9fcd-4903-a9fa-72b1b76c23a5",
-        object_type="train",
+    actual = (
+        SceneBuilder.empty()
+        .add_object(
+            object_id="5c59aad4-9fcd-4903-a9fa-72b1b76c23a5",
+            object_type="train",
+        )
+        .result
     )
-    assert actual.result == Scene(
+
+    actual.to_json()  # check if scene is also valid in JSON
+    assert actual == Scene(
         metadata=Metadata(schema_version="1.0.0"),
         objects={
             UUID("5c59aad4-9fcd-4903-a9fa-72b1b76c23a5"): Object(name="train_0000", type="train")
@@ -67,11 +81,17 @@ def test_add_object__no_object_name():
 
 
 def test_add_object__no_object_type():
-    actual = SceneBuilder.empty().add_object(
-        object_id="5c59aad4-9fcd-4903-a9fa-72b1b76c23a5",
-        object_name="train_0000",
+    actual = (
+        SceneBuilder.empty()
+        .add_object(
+            object_id="5c59aad4-9fcd-4903-a9fa-72b1b76c23a5",
+            object_name="train_0000",
+        )
+        .result
     )
-    assert actual.result == Scene(
+
+    actual.to_json()  # check if scene is also valid in JSON
+    assert actual == Scene(
         metadata=Metadata(schema_version="1.0.0"),
         objects={
             UUID("5c59aad4-9fcd-4903-a9fa-72b1b76c23a5"): Object(name="train_0000", type="train")
@@ -80,10 +100,16 @@ def test_add_object__no_object_type():
 
 
 def test_add_object__no_object_type_or_name():
-    actual = SceneBuilder.empty().add_object(
-        object_id="5c59aad4-9fcd-4903-a9fa-72b1b76c23a5",
+    actual = (
+        SceneBuilder.empty()
+        .add_object(
+            object_id="5c59aad4-9fcd-4903-a9fa-72b1b76c23a5",
+        )
+        .result
     )
-    assert actual.result == Scene(
+
+    actual.to_json()  # check if scene is also valid in JSON
+    assert actual == Scene(
         metadata=Metadata(schema_version="1.0.0"),
         objects={
             UUID("5c59aad4-9fcd-4903-a9fa-72b1b76c23a5"): Object(name="person_0000", type="person")
@@ -92,8 +118,10 @@ def test_add_object__no_object_type_or_name():
 
 
 def test_add_object__no_object_id():
-    actual = SceneBuilder.empty().add_object(object_type="train", object_name="train_0001")
-    assert actual.result == Scene(
+    actual = SceneBuilder.empty().add_object(object_type="train", object_name="train_0001").result
+
+    actual.to_json()  # check if scene is also valid in JSON
+    assert actual == Scene(
         metadata=Metadata(schema_version="1.0.0"),
         objects={
             UUID("5c59aad4-0000-4000-0000-000000000000"): Object(name="train_0001", type="train")
@@ -102,8 +130,10 @@ def test_add_object__no_object_id():
 
 
 def test_add_object__object_id_iteration():
-    actual = SceneBuilder.empty().add_object().add_object().add_object().add_object()
-    assert actual.result == Scene(
+    actual = SceneBuilder.empty().add_object().add_object().add_object().add_object().result
+
+    actual.to_json()  # check if scene is also valid in JSON
+    assert actual == Scene(
         metadata=Metadata(schema_version="1.0.0"),
         objects={
             UUID("5c59aad4-0000-4000-0000-000000000000"): Object(name="person_0000", type="person"),
@@ -115,8 +145,8 @@ def test_add_object__object_id_iteration():
 
 
 def test_add_sensor__camera_rgb(camera_empty):
-    actual = SceneBuilder.empty().add_sensor("rgb_middle")
-    assert actual.result == Scene(
+    actual = SceneBuilder.empty().add_sensor("rgb_middle").result
+    assert actual == Scene(
         metadata=Metadata(schema_version="1.0.0"),
         sensors={"rgb_middle": camera_empty},
     )
