@@ -93,6 +93,9 @@ Release
 ## 3.3.0
 - Introduce support for Python 3.13
 
+### 3.3.1
+- Add DeprecationWarnings for all functionalities, that have changed in 4.0.0
+
 # 4.0.0
 New Major changes to RailLabel! Over the time two major use cases for this package have crystalized. The first one are the users of the data sets published by Deutsche Bahn. The second one are the contractors providing the annotations. Since the two groups have vastly different requirements for this package, we decided to split it accordingly.
 
@@ -114,3 +117,6 @@ Other breaking changes:
 New features:
 - `raillabel.json_format` has been introduced as an interface between the JSON format and the `raillabel` classes
 - `raillabel.scene_builder.SceneBuilder` is now available to easily build scenes for testing purposes
+
+# 4.1.0
+- Add value arguments to `SceneBuilder.add_bbox()`, `SceneBuilder.add_cuboid()`, `SceneBuilder.add_poly2s()`, `SceneBuilder.add_poly3d()` and `SceneBuilder.add_seg3d()` like `SceneBuilder.add_bbox(pos=Point2d(1.0, 2.0))`
