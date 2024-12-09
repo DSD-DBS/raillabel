@@ -1,0 +1,205 @@
+raillabel.json\_format package
+==============================
+
+Submodules
+----------
+
+raillabel.json\_format.attributes module
+----------------------------------------
+
+.. automodule:: raillabel.json_format.attributes
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+raillabel.json\_format.bbox module
+----------------------------------
+
+.. automodule:: raillabel.json_format.bbox
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+raillabel.json\_format.boolean\_attribute module
+------------------------------------------------
+
+.. automodule:: raillabel.json_format.boolean_attribute
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+raillabel.json\_format.coordinate\_system module
+------------------------------------------------
+
+.. automodule:: raillabel.json_format.coordinate_system
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+raillabel.json\_format.cuboid module
+------------------------------------
+
+.. automodule:: raillabel.json_format.cuboid
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+raillabel.json\_format.element\_data\_pointer module
+----------------------------------------------------
+
+.. automodule:: raillabel.json_format.element_data_pointer
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+raillabel.json\_format.frame module
+-----------------------------------
+
+.. automodule:: raillabel.json_format.frame
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+raillabel.json\_format.frame\_interval module
+---------------------------------------------
+
+.. automodule:: raillabel.json_format.frame_interval
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+raillabel.json\_format.metadata module
+--------------------------------------
+
+.. automodule:: raillabel.json_format.metadata
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+raillabel.json\_format.num module
+---------------------------------
+
+.. automodule:: raillabel.json_format.num
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+raillabel.json\_format.num\_attribute module
+--------------------------------------------
+
+.. automodule:: raillabel.json_format.num_attribute
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+raillabel.json\_format.object module
+------------------------------------
+
+.. automodule:: raillabel.json_format.object
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+raillabel.json\_format.object\_data module
+------------------------------------------
+
+.. automodule:: raillabel.json_format.object_data
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+raillabel.json\_format.poly2d module
+------------------------------------
+
+.. automodule:: raillabel.json_format.poly2d
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+raillabel.json\_format.poly3d module
+------------------------------------
+
+.. automodule:: raillabel.json_format.poly3d
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+raillabel.json\_format.scene module
+-----------------------------------
+
+.. automodule:: raillabel.json_format.scene
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+raillabel.json\_format.stream\_camera module
+--------------------------------------------
+
+.. automodule:: raillabel.json_format.stream_camera
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+raillabel.json\_format.stream\_other module
+-------------------------------------------
+
+.. automodule:: raillabel.json_format.stream_other
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+raillabel.json\_format.stream\_radar module
+-------------------------------------------
+
+.. automodule:: raillabel.json_format.stream_radar
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+raillabel.json\_format.stream\_sync module
+------------------------------------------
+
+.. automodule:: raillabel.json_format.stream_sync
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+raillabel.json\_format.text\_attribute module
+---------------------------------------------
+
+.. automodule:: raillabel.json_format.text_attribute
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+raillabel.json\_format.transform\_data module
+---------------------------------------------
+
+.. automodule:: raillabel.json_format.transform_data
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+raillabel.json\_format.vec module
+---------------------------------
+
+.. automodule:: raillabel.json_format.vec
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+raillabel.json\_format.vec\_attribute module
+--------------------------------------------
+
+.. automodule:: raillabel.json_format.vec_attribute
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Module contents
+---------------
+
+.. automodule:: raillabel.json_format
+   :members:
+   :undoc-members:
+   :show-inheritance:
