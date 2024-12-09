@@ -71,6 +71,8 @@ ignore = [
 
   "N802",   # does not allow constant abstractproperties
 
+  "PLR0913",# constructors sometimes need many arguments
+
   "TCH001", # adds hard to understand compexity without providing a benefit for smaller projects
   "TCH002", # same as TCH001
   "TCH003", # same as TCH001

@@ -153,6 +153,8 @@ class SceneBuilder:
     def add_bbox(
         self,
         uid: str | UUID | None = None,
+        pos: Point2d | None = None,
+        size: Size2d | None = None,
         frame_id: int = 1,
         object_name: str = "person_0001",
         sensor_id: str = "rgb_middle",
@@ -162,8 +164,8 @@ class SceneBuilder:
         bbox = Bbox(
             object_id=UUID("ffffffff-ffff-4fff-ffff-ffffffffffff"),
             sensor_id=sensor_id,
-            pos=Point2d(0, 0),
-            size=Size2d(0, 0),
+            pos=pos if pos is not None else Point2d(0, 0),
+            size=size if size is not None else Size2d(0, 0),
             attributes=attributes if attributes is not None else {},
         )
         return self.add_annotation(
@@ -177,6 +179,9 @@ class SceneBuilder:
     def add_cuboid(
         self,
         uid: str | UUID | None = None,
+        pos: Point3d | None = None,
+        quat: Quaternion | None = None,
+        size: Size3d | None = None,
         frame_id: int = 1,
         object_name: str = "person_0001",
         sensor_id: str = "lidar",
@@ -186,9 +191,9 @@ class SceneBuilder:
         cuboid = Cuboid(
             object_id=UUID("ffffffff-ffff-4fff-ffff-ffffffffffff"),
             sensor_id=sensor_id,
-            pos=Point3d(0, 0, 0),
-            size=Size3d(0, 0, 0),
-            quat=Quaternion(0, 0, 0, 0),
+            pos=pos if pos is not None else Point3d(0, 0, 0),
+            size=size if size is not None else Size3d(0, 0, 0),
+            quat=quat if quat is not None else Quaternion(0, 0, 0, 0),
             attributes=attributes if attributes is not None else {},
         )
         return self.add_annotation(
@@ -202,6 +207,7 @@ class SceneBuilder:
     def add_poly2d(
         self,
         uid: str | UUID | None = None,
+        points: list[Point2d] | None = None,
         frame_id: int = 1,
         object_name: str = "person_0001",
         sensor_id: str = "rgb_middle",
@@ -211,7 +217,7 @@ class SceneBuilder:
         poly2d = Poly2d(
             object_id=UUID("ffffffff-ffff-4fff-ffff-ffffffffffff"),
             sensor_id=sensor_id,
-            points=[],
+            points=points if points is not None else [],
             closed=False,
             attributes=attributes if attributes is not None else {},
         )
@@ -226,6 +232,7 @@ class SceneBuilder:
     def add_poly3d(
         self,
         uid: str | UUID | None = None,
+        points: list[Point3d] | None = None,
         frame_id: int = 1,
         object_name: str = "person_0001",
         sensor_id: str = "lidar",
@@ -235,7 +242,7 @@ class SceneBuilder:
         poly3d = Poly3d(
             object_id=UUID("ffffffff-ffff-4fff-ffff-ffffffffffff"),
             sensor_id=sensor_id,
-            points=[],
+            points=points if points is not None else [],
             closed=False,
             attributes=attributes if attributes is not None else {},
         )
@@ -250,6 +257,7 @@ class SceneBuilder:
     def add_seg3d(
         self,
         uid: str | UUID | None = None,
+        point_ids: list[int] | None = None,
         frame_id: int = 1,
         object_name: str = "person_0001",
         sensor_id: str = "lidar",
@@ -259,7 +267,7 @@ class SceneBuilder:
         seg3d = Seg3d(
             object_id=UUID("ffffffff-ffff-4fff-ffff-ffffffffffff"),
             sensor_id=sensor_id,
-            point_ids=[],
+            point_ids=point_ids if point_ids is not None else [],
             attributes=attributes if attributes is not None else {},
         )
         return self.add_annotation(
