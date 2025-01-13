@@ -59,7 +59,11 @@ class Segmentation3d(_Annotation):
             attributes=data_dict["attributes"],
             sensor=SensorReference.fromdict(data_dict["sensor"]),
             associated_points=data_dict["geometry"]["associatedPoints"],
-            number_of_points=data_dict["geometry"]["numberOfPointsInBox"],
+            number_of_points=(
+                data_dict["geometry"]["numberOfPointsInBox"]
+                if "numberOfPointsInBox" in data_dict["geometry"]
+                else -1
+            ),
         )
 
     def _val_to_raillabel(self) -> list:

@@ -40,7 +40,9 @@ class SensorReference:
         """
 
         return SensorReference(
-            type=data_dict["type"], uri=data_dict["uri"], timestamp=Decimal(data_dict["timestamp"])
+            type=data_dict["type"],
+            uri=data_dict["uri"],
+            timestamp=Decimal(data_dict["timestamp"].split("_")[0]),
         )
 
     def to_raillabel(self) -> t.Tuple[str, dict]:
