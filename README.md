@@ -11,36 +11,15 @@
 
 A devkit for working with recorded and annotated train ride data from Deutsche Bahn.
 
-# Documentation
-
-<!-- prettier-ignore -->
-Read the [full documentation on Github pages](https://dsd-dbs.github.io/raillabel).
-
-# Installation
-
 You can install the latest released version directly from PyPI.
 
 ```zsh
 pip install raillabel
 ```
 
-To set up a development environment, clone the project and install it into a
-virtual environment.
+For the full documentation look at [the Github pages](https://dsd-dbs.github.io/raillabel).
 
-```zsh
-git clone https://github.com/DSD-DBS/raillabel
-cd raillabel
-python -m venv .venv
-
-source .venv/bin/activate.sh  # for Linux / Mac
-.venv\Scripts\activate  # for Windows
-
-pip install -U pip pre-commit
-pip install -e '.[docs,test]'
-pre-commit install
-```
-
-# Usage
+# Examples
 
 The first step in using `raillabel` is downloading a desired dataset (like [OSDaR23](https://data.fid-move.de/dataset/osdar23)). You can then load any scene by running
 ```python
@@ -50,6 +29,14 @@ scene = raillabel.load("path/to/annotation_file.json")
 ```
 
 This returns a [`raillabel.Scene`](https://dsd-dbs.github.io/raillabel/code/raillabel.html#raillabel.Scene), which is the root class for the annotations.
+
+You can then extract information about the scene from the file
+```python
+# Iterate over all annotations
+for frame in scene.frames.values():
+    for annotation in frame.annotations.values():
+        pass  # do something with the annotation here
+```
 
 If a file is too extensive for your use-case you can filter out certain parts of a scene like this
 ```python
@@ -79,6 +66,22 @@ raillabel.save(cut_scene_with_only_red_trains, "/path/to/target.json")
 ```
 
 # Contributing
+
+To set up a development environment, clone the project and install it into a
+virtual environment.
+
+```zsh
+git clone https://github.com/DSD-DBS/raillabel
+cd raillabel
+python -m venv .venv
+
+source .venv/bin/activate.sh  # for Linux / Mac
+.venv\Scripts\activate  # for Windows
+
+pip install -U pip pre-commit
+pip install -e '.[docs,test]'
+pre-commit install
+```
 
 We'd love to see your bug reports and improvement suggestions! Please take a
 look at our [guidelines for contributors](CONTRIBUTING.md) for details.
