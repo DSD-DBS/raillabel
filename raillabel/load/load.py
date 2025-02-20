@@ -11,7 +11,14 @@ from raillabel.json_format import JSONScene
 
 
 def load(path: Path | str) -> Scene:
-    """Load an annotation file as a scene."""
+    """Load an annotation file as a scene.
+
+    Example:
+    ```
+    import raillabel
+    scene = raillabel.load("path/to/scene.json")
+    ```
+    """
     with Path(path).open() as annotation_file:
         json_data = json.load(annotation_file)
     return Scene.from_json(JSONScene(**json_data))

@@ -82,6 +82,7 @@ ignore = [
   # Should be removed in the future
   "PGH003",
 ]
+pydocstyle.convention = "google"
 
 [tool.mypy]
 check_untyped_defs = true

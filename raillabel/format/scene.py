@@ -37,7 +37,22 @@ from .seg3d import Seg3d
 
 @dataclass
 class Scene:
-    """The root RailLabel class, which contains all data."""
+    """The root RailLabel class, which contains all data.
+
+    Examples:
+    You can load scenes like this:
+    ```
+    import raillabel
+    scene = raillabel.load("path/to/scene.json")
+    ```
+
+    The scenes then contain all of the data. This is how you can iterate over the annotations:
+    ```
+    for frame in scene.frames.values():
+        for annotation in frame.annotations.values():
+            pass  # do something with the annotation here
+    ```
+    """
 
     metadata: Metadata
     "Container of information about the annotation file itself."
@@ -83,7 +98,29 @@ class Scene:
         )
 
     def filter(self, filters: list[_FilterAbc]) -> Scene:
-        """Return a scene with annotations, sensors, objects and frames excluded."""
+        """Return a scene with annotations, sensors, objects and frames excluded.
+
+        Example:
+        ```
+        from raillabel.filter import (
+            IncludeObjectTypeFilter,
+            ExcludeAnnotationTypeFilter,
+            StartTimeFilter, ExcludeFrameIdFilter,
+            IncludeAttributesFilter
+        )
+
+        scene_with_only_trains = scene.filter([IncludeObjectTypeFilter(["rail_vehicle"])])
+
+        scene_without_bboxs = scene.filter([ExcludeAnnotationTypeFilter(["bbox"])])
+
+        cut_scene_with_only_red_trains = scene.filter([
+            StartTimeFilter("1587349200.004200000"),
+            ExcludeFrameIdFilter([2, 4]),
+            IncludeObjectTypeFilter(["rail_vehicle"]),
+            IncludeAttributesFilter({"color": "red"}),
+        ])
+        ```
+        """
         frame_filters, annotation_filters = _separate_filters(filters)
 
         filtered_scene = Scene(metadata=deepcopy(self.metadata))
