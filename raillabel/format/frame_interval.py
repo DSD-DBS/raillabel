@@ -31,15 +31,13 @@ class FrameInterval:
         """Convert a list of frame uids into FrameIntervals.
 
         Example:
-        -------
-        ```python
-        FrameInterval.from_frame_ids([0, 1, 2, 3, 9, 12, 13, 14]) == [
-            FrameInterval(0, 3),
-            FrameInterval(9, 9),
-            FrameInterval(12, 14),
-        ]
-        ```
+        .. code-block:: python
 
+            FrameInterval.from_frame_ids([0, 1, 2, 3, 9, 12, 13, 14]) == [
+                FrameInterval(0, 3),
+                FrameInterval(9, 9),
+                FrameInterval(12, 14),
+            ]
         """
         sorted_frame_ids = sorted(frame_ids)
         frame_id_intervals = _slice_into_intervals(sorted_frame_ids)

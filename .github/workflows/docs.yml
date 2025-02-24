@@ -18,7 +18,7 @@ jobs:
           fetch-depth: 0
       - uses: actions/setup-python@v4
         with:
-          python-version: "3.8"
+          python-version: "3.12"
       - name: Upgrade pip
         run: |
           python -m pip install -U pip
@@ -27,7 +27,7 @@ jobs:
           python -m pip install '.[docs]'
       - name: Auto-generate APIDOC sources
         run: |-
-          sphinx-apidoc --output-dir docs/source/code --force .
+          sphinx-apidoc --output-dir docs/source/code --force . --no-toc --private --separate
       - name: Create docs
         run: |
           make -C docs html

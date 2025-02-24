@@ -104,10 +104,17 @@ class SceneBuilder:
         another frame_id.
 
         Example:
-        ```python
-        scene = SceneBuilder.empty().add_frame(frame_id=1).add_frame(frame_id=3).add_frame().result
-        assert sorted(list(scene.frames.keys())) == [1, 2, 3]
-        ```
+
+        .. code-block:: python
+
+            scene = (
+                SceneBuilder.empty()
+                    .add_frame(frame_id=1)
+                    .add_frame(frame_id=3)
+                    .add_frame()
+                    .result
+            )
+            assert sorted(list(scene.frames.keys())) == [1, 2, 3]
         """
         scene = deepcopy(self.result)
 
