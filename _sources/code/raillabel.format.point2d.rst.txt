@@ -1,0 +1,8 @@
+raillabel.format.point2d module
+===============================
+
+.. automodule:: raillabel.format.point2d
+   :members:
+   :private-members:
+   :show-inheritance:
+   :undoc-members:
