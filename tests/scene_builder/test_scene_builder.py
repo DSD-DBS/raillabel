@@ -18,6 +18,7 @@ from raillabel.format import (
     Frame,
     Bbox,
     Point2d,
+    SensorReference,
     Size2d,
     Cuboid,
     Point3d,
@@ -539,6 +540,35 @@ def test_add_seg3d__just_defaults():
             ),
         },
     )
+
+
+def test_result_has_all_frame_sensors():
+    actual = (
+        SceneBuilder.empty()
+        .add_sensor("rgb_middle")
+        .add_frame(timestamp=12345)
+        .add_frame(timestamp=67890)
+        .add_sensor("lidar")
+        .result
+    )
+
+    actual.to_json()  # check if scene is also valid in JSON
+    assert actual.frames == {
+        1: Frame(
+            timestamp=Decimal(12345),
+            sensors={
+                "rgb_middle": SensorReference(timestamp=Decimal(12345)),
+                "lidar": SensorReference(timestamp=Decimal(12345)),
+            },
+        ),
+        2: Frame(
+            timestamp=Decimal(67890),
+            sensors={
+                "rgb_middle": SensorReference(timestamp=Decimal(67890)),
+                "lidar": SensorReference(timestamp=Decimal(67890)),
+            },
+        ),
+    }
 
 
 if __name__ == "__main__":
