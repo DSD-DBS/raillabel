@@ -166,48 +166,48 @@ def test_exclude_object_types():
 
 def test_include_sensor_ids():
     scene = (
-        SceneBuilder.empty().add_bbox(sensor_id="rgb_middle").add_cuboid(sensor_id="lidar").result
+        SceneBuilder.empty().add_bbox(sensor_id="rgb_center").add_cuboid(sensor_id="lidar").result
     )
-    filters = [raillabel.filter.IncludeSensorIdFilter(["rgb_middle"])]
+    filters = [raillabel.filter.IncludeSensorIdFilter(["rgb_center"])]
 
     actual = scene.filter(filters)
-    assert actual == SceneBuilder.empty().add_bbox(sensor_id="rgb_middle").result
+    assert actual == SceneBuilder.empty().add_bbox(sensor_id="rgb_center").result
 
 
 def test_exclude_sensor_ids():
     scene = (
-        SceneBuilder.empty().add_bbox(sensor_id="rgb_middle").add_cuboid(sensor_id="lidar").result
+        SceneBuilder.empty().add_bbox(sensor_id="rgb_center").add_cuboid(sensor_id="lidar").result
     )
     filters = [raillabel.filter.ExcludeSensorIdFilter(["lidar"])]
 
     actual = scene.filter(filters)
-    assert actual == SceneBuilder.empty().add_bbox(sensor_id="rgb_middle").result
+    assert actual == SceneBuilder.empty().add_bbox(sensor_id="rgb_center").result
 
 
 def test_include_sensor_types():
     scene = (
         SceneBuilder.empty()
-        .add_bbox(sensor_id="rgb_middle")
-        .add_cuboid(sensor_id="lidar_middle")
+        .add_bbox(sensor_id="rgb_center")
+        .add_cuboid(sensor_id="lidar_center")
         .result
     )
     filters = [raillabel.filter.IncludeSensorTypeFilter(["camera"])]
 
     actual = scene.filter(filters)
-    assert actual == SceneBuilder.empty().add_bbox(sensor_id="rgb_middle").result
+    assert actual == SceneBuilder.empty().add_bbox(sensor_id="rgb_center").result
 
 
 def test_exclude_sensor_types():
     scene = (
         SceneBuilder.empty()
-        .add_bbox(sensor_id="rgb_middle")
-        .add_cuboid(sensor_id="lidar_middle")
+        .add_bbox(sensor_id="rgb_center")
+        .add_cuboid(sensor_id="lidar_center")
         .result
     )
     filters = [raillabel.filter.ExcludeSensorTypeFilter(["lidar"])]
 
     actual = scene.filter(filters)
-    assert actual == SceneBuilder.empty().add_bbox(sensor_id="rgb_middle").result
+    assert actual == SceneBuilder.empty().add_bbox(sensor_id="rgb_center").result
 
 
 def test_include_attributes__only_keys():
@@ -264,12 +264,12 @@ def test_exclude_attributes__with_values():
 
 def test_remove_unused_sensors():
     scene = (
-        SceneBuilder.empty().add_bbox(sensor_id="rgb_middle").add_cuboid(sensor_id="lidar").result
+        SceneBuilder.empty().add_bbox(sensor_id="rgb_center").add_cuboid(sensor_id="lidar").result
     )
     filters = [raillabel.filter.ExcludeSensorIdFilter(["lidar"])]
 
     actual = scene.filter(filters)
-    assert "rgb_middle" in actual.sensors
+    assert "rgb_center" in actual.sensors
     assert "lidar" not in actual.sensors
 
 
@@ -277,14 +277,14 @@ def test_remove_unused_sensor_references():
     scene = (
         SceneBuilder.empty()
         .add_frame(frame_id=1, timestamp=1234)
-        .add_bbox(frame_id=1, sensor_id="rgb_middle")
+        .add_bbox(frame_id=1, sensor_id="rgb_center")
         .add_cuboid(frame_id=1, sensor_id="lidar")
         .result
     )
     filters = [raillabel.filter.ExcludeSensorIdFilter(["lidar"])]
 
     actual = scene.filter(filters)
-    assert "rgb_middle" in actual.frames[1].sensors
+    assert "rgb_center" in actual.frames[1].sensors
     assert "lidar" not in actual.frames[1].sensors
 
 

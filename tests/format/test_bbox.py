@@ -21,9 +21,9 @@ def bbox_json(
 ) -> JSONBbox:
     return JSONBbox(
         uid="2811f67c-124C-4fac-a275-20807d0471de",
-        name="rgb_middle__bbox__person",
+        name="rgb_center__bbox__person",
         val=point2d_json + size2d_json,
-        coordinate_system="rgb_middle",
+        coordinate_system="rgb_center",
         attributes=attributes_multiple_types_json,
     )
 
@@ -43,7 +43,7 @@ def bbox(
     return Bbox(
         pos=point2d,
         size=size2d,
-        sensor_id="rgb_middle",
+        sensor_id="rgb_center",
         attributes=attributes_multiple_types,
         object_id=object_person_id,
     )
@@ -59,7 +59,7 @@ def test_from_json(bbox, bbox_json, object_person_id):
 
 def test_name(bbox):
     actual = bbox.name("person")
-    assert actual == "rgb_middle__bbox__person"
+    assert actual == "rgb_center__bbox__person"
 
 
 def test_to_json(bbox, bbox_json, bbox_id):

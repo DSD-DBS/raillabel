@@ -28,7 +28,7 @@ def object_person_json() -> JSONObject:
         type="person",
         frame_intervals=[JSONFrameInterval(frame_start=1, frame_end=1)],
         object_data_pointers={
-            "rgb_middle__bbox__person": JSONElementDataPointer(
+            "rgb_center__bbox__person": JSONElementDataPointer(
                 frame_intervals=[JSONFrameInterval(frame_start=1, frame_end=1)],
                 type="bbox",
                 attribute_pointers={
@@ -85,7 +85,7 @@ def object_track_json() -> JSONObject:
         type="track",
         frame_intervals=[JSONFrameInterval(frame_start=1, frame_end=1)],
         object_data_pointers={
-            "rgb_middle__poly2d__track": JSONElementDataPointer(
+            "rgb_center__poly2d__track": JSONElementDataPointer(
                 frame_intervals=[JSONFrameInterval(frame_start=1, frame_end=1)],
                 type="poly2d",
                 attribute_pointers={

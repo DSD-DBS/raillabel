@@ -145,7 +145,7 @@ class SceneBuilder:
         uid: str | UUID | None = None,
         frame_id: int = 1,
         object_name: str = "person_0001",
-        sensor_id: str = "rgb_middle",
+        sensor_id: str = "rgb_center",
     ) -> SceneBuilder:
         """Add an annotation to the scene."""
         new_builder = deepcopy(self)
@@ -174,7 +174,7 @@ class SceneBuilder:
         size: Size2d | None = None,
         frame_id: int = 1,
         object_name: str = "person_0001",
-        sensor_id: str = "rgb_middle",
+        sensor_id: str = "rgb_center",
         attributes: dict | None = None,
     ) -> SceneBuilder:
         """Add a bbox to the scene."""
@@ -227,7 +227,7 @@ class SceneBuilder:
         points: list[Point2d] | None = None,
         frame_id: int = 1,
         object_name: str = "person_0001",
-        sensor_id: str = "rgb_middle",
+        sensor_id: str = "rgb_center",
         attributes: dict | None = None,
     ) -> SceneBuilder:
         """Add a poly2d to the scene."""

@@ -141,12 +141,12 @@ def test_add_object__object_id_iteration():
 
 
 def test_add_sensor__camera_rgb(camera_empty):
-    actual = SceneBuilder.empty().add_sensor("rgb_middle").result
+    actual = SceneBuilder.empty().add_sensor("rgb_center").result
 
     actual.to_json()
     assert actual == Scene(
         metadata=Metadata(schema_version="1.0.0"),
-        sensors={"rgb_middle": camera_empty},
+        sensors={"rgb_center": camera_empty},
     )
 
 
@@ -233,7 +233,7 @@ def test_add_bbox(camera_empty):
             size=Size2d(3, 4),
             frame_id=2,
             object_name="person_0001",
-            sensor_id="ir_middle",
+            sensor_id="ir_center",
             attributes={"attr": True},
         )
         .result
@@ -245,12 +245,12 @@ def test_add_bbox(camera_empty):
         objects={
             UUID("5c59aad4-0000-4000-0000-000000000000"): Object(name="person_0001", type="person")
         },
-        sensors={"ir_middle": camera_empty},
+        sensors={"ir_center": camera_empty},
         frames={
             2: Frame(
                 annotations={
                     UUID("6c95543d-4d4f-43df-a52d-36bf868e09d8"): Bbox(
-                        sensor_id="ir_middle",
+                        sensor_id="ir_center",
                         object_id=UUID("5c59aad4-0000-4000-0000-000000000000"),
                         pos=Point2d(1, 2),
                         size=Size2d(3, 4),
@@ -271,12 +271,12 @@ def test_add_bbox__just_defaults(camera_empty):
         objects={
             UUID("5c59aad4-0000-4000-0000-000000000000"): Object(name="person_0001", type="person")
         },
-        sensors={"rgb_middle": camera_empty},
+        sensors={"rgb_center": camera_empty},
         frames={
             1: Frame(
                 annotations={
                     UUID("6c95543d-0000-4000-0000-000000000000"): Bbox(
-                        sensor_id="rgb_middle",
+                        sensor_id="rgb_center",
                         object_id=UUID("5c59aad4-0000-4000-0000-000000000000"),
                         pos=Point2d(0, 0),
                         size=Size2d(0, 0),
@@ -401,12 +401,12 @@ def test_add_poly2d__just_defaults(camera_empty):
         objects={
             UUID("5c59aad4-0000-4000-0000-000000000000"): Object(name="person_0001", type="person")
         },
-        sensors={"rgb_middle": camera_empty},
+        sensors={"rgb_center": camera_empty},
         frames={
             1: Frame(
                 annotations={
                     UUID("6c95543d-0000-4000-0000-000000000000"): Poly2d(
-                        sensor_id="rgb_middle",
+                        sensor_id="rgb_center",
                         object_id=UUID("5c59aad4-0000-4000-0000-000000000000"),
                         points=[],
                         closed=False,
@@ -547,7 +547,7 @@ def test_add_annotation():
         pos=Point2d(0, 0),
         size=Size2d(0, 0),
         object_id=UUID("ffffffff-ffff-4fff-ffff-ffffffffffff"),
-        sensor_id="rgb_middle",
+        sensor_id="rgb_center",
         attributes={},
     )
     actual = SceneBuilder.empty().add_annotation(bbox).result
@@ -559,7 +559,7 @@ def test_add_annotation():
 def test_result_has_no_frame_sensors_due_to_no_timestamp():
     actual = (
         SceneBuilder.empty()
-        .add_sensor("rgb_middle")
+        .add_sensor("rgb_center")
         .add_frame(timestamp=None)
         .add_frame(timestamp=None)
         .add_sensor("lidar")
@@ -582,7 +582,7 @@ def test_result_has_no_frame_sensors_due_to_no_timestamp():
 def test_result_has_all_frame_sensors():
     actual = (
         SceneBuilder.empty()
-        .add_sensor("rgb_middle")
+        .add_sensor("rgb_center")
         .add_frame(timestamp=12345)
         .add_frame(timestamp=67890)
         .add_sensor("lidar")
@@ -594,14 +594,14 @@ def test_result_has_all_frame_sensors():
         1: Frame(
             timestamp=Decimal(12345),
             sensors={
-                "rgb_middle": SensorReference(timestamp=Decimal(12345)),
+                "rgb_center": SensorReference(timestamp=Decimal(12345)),
                 "lidar": SensorReference(timestamp=Decimal(12345)),
             },
         ),
         2: Frame(
             timestamp=Decimal(67890),
             sensors={
-                "rgb_middle": SensorReference(timestamp=Decimal(67890)),
+                "rgb_center": SensorReference(timestamp=Decimal(67890)),
                 "lidar": SensorReference(timestamp=Decimal(67890)),
             },
         ),

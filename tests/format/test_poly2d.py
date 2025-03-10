@@ -21,11 +21,11 @@ def poly2d_json(
 ) -> JSONPoly2d:
     return JSONPoly2d(
         uid="013e7b34-62E5-435c-9412-87318c50f6d8",
-        name="rgb_middle__poly2d__track",
+        name="rgb_center__poly2d__track",
         closed=True,
         mode="MODE_POLY2D_ABSOLUTE",
         val=point2d_json + another_point2d_json,
-        coordinate_system="rgb_middle",
+        coordinate_system="rgb_center",
         attributes=attributes_multiple_types_json,
     )
 
@@ -45,7 +45,7 @@ def poly2d(
     return Poly2d(
         points=[point2d, another_point2d],
         closed=True,
-        sensor_id="rgb_middle",
+        sensor_id="rgb_center",
         attributes=attributes_multiple_types,
         object_id=object_track_id,
     )
@@ -61,7 +61,7 @@ def test_from_json(poly2d, poly2d_json, object_track_id):
 
 def test_name(poly2d):
     actual = poly2d.name("track")
-    assert actual == "rgb_middle__poly2d__track"
+    assert actual == "rgb_center__poly2d__track"
 
 
 def test_to_json(poly2d, poly2d_json, poly2d_id):
