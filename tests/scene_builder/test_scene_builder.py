@@ -542,6 +542,29 @@ def test_add_seg3d__just_defaults():
     )
 
 
+def test_result_has_no_frame_sensors_due_to_no_timestamp():
+    actual = (
+        SceneBuilder.empty()
+        .add_sensor("rgb_middle")
+        .add_frame(timestamp=None)
+        .add_frame(timestamp=None)
+        .add_sensor("lidar")
+        .result
+    )
+
+    actual.to_json()  # check if scene is also valid in JSON
+    assert actual.frames == {
+        1: Frame(
+            timestamp=None,
+            sensors={},
+        ),
+        2: Frame(
+            timestamp=None,
+            sensors={},
+        ),
+    }
+
+
 def test_result_has_all_frame_sensors():
     actual = (
         SceneBuilder.empty()
