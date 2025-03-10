@@ -36,14 +36,14 @@ def scene_json(
                     parent="",
                     type="local",
                     pose_wrt_parent=None,
-                    children=["rgb_middle", "lidar", "radar"],
+                    children=["rgb_center", "lidar", "radar"],
                 ),
-                "rgb_middle": camera_json[1],
+                "rgb_center": camera_json[1],
                 "lidar": lidar_json[1],
                 "radar": radar_json[1],
             },
             streams={
-                "rgb_middle": camera_json[0],
+                "rgb_center": camera_json[0],
                 "lidar": lidar_json[0],
                 "radar": radar_json[0],
             },
@@ -72,7 +72,7 @@ def scene(
     return Scene(
         metadata=metadata,
         sensors={
-            "rgb_middle": camera,
+            "rgb_center": camera,
             "lidar": lidar,
             "radar": radar,
         },

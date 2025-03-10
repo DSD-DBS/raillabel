@@ -28,6 +28,7 @@ from raillabel.format import (
     Radar,
     Scene,
     Seg3d,
+    SensorReference,
     Size2d,
     Size3d,
 )
@@ -38,7 +39,16 @@ from raillabel.format._util import _flatten_list
 class SceneBuilder:
     """Use this class for easily creating scenes for tests."""
 
-    result: Scene
+    _result: Scene
+
+    @property
+    def result(self) -> Scene:
+        """Return the scene built by this SceneBuilder."""
+        return _add_sensor_reference_to_frames(self._result)
+
+    @result.setter
+    def result(self, new_result: Scene) -> None:
+        self._result = new_result
 
     @classmethod
     def empty(cls) -> SceneBuilder:
@@ -52,7 +62,7 @@ class SceneBuilder:
         object_name: str | None = None,
     ) -> SceneBuilder:
         """Add an object to the scene."""
-        scene = deepcopy(self.result)
+        scene = deepcopy(self._result)
 
         object_type, object_name = _resolve_empty_object_name_or_type(object_type, object_name)
         object_id = _resolve_empty_object_uid(scene, object_id)
@@ -67,7 +77,7 @@ class SceneBuilder:
         'ir_' are added as a camera. If the id is 'lidar', it is a lidar. 'radar' creates a Radar.
         'gps_imu' creates a GpsImu. If the id does not match any of these, a OtherSensor is added.
         """
-        scene = deepcopy(self.result)
+        scene = deepcopy(self._result)
 
         truncated_sensor_id = sensor_id.split("_")[0].lower()
 
@@ -112,11 +122,11 @@ class SceneBuilder:
                     .add_frame(frame_id=1)
                     .add_frame(frame_id=3)
                     .add_frame()
-                    .result
+                    ._result
             )
             assert sorted(list(scene.frames.keys())) == [1, 2, 3]
         """
-        scene = deepcopy(self.result)
+        scene = deepcopy(self._result)
 
         if frame_id is None:
             frame_id = 1
@@ -135,7 +145,7 @@ class SceneBuilder:
         uid: str | UUID | None = None,
         frame_id: int = 1,
         object_name: str = "person_0001",
-        sensor_id: str = "rgb_middle",
+        sensor_id: str = "rgb_center",
     ) -> SceneBuilder:
         """Add an annotation to the scene."""
         new_builder = deepcopy(self)
@@ -164,7 +174,7 @@ class SceneBuilder:
         size: Size2d | None = None,
         frame_id: int = 1,
         object_name: str = "person_0001",
-        sensor_id: str = "rgb_middle",
+        sensor_id: str = "rgb_center",
         attributes: dict | None = None,
     ) -> SceneBuilder:
         """Add a bbox to the scene."""
@@ -217,7 +227,7 @@ class SceneBuilder:
         points: list[Point2d] | None = None,
         frame_id: int = 1,
         object_name: str = "person_0001",
-        sensor_id: str = "rgb_middle",
+        sensor_id: str = "rgb_center",
         attributes: dict | None = None,
     ) -> SceneBuilder:
         """Add a poly2d to the scene."""
@@ -347,3 +357,11 @@ def _get_object_uid_from_name(object_name: str, scene: Scene) -> UUID:
             return object_uid
 
     raise RuntimeError
+
+
+def _add_sensor_reference_to_frames(scene: Scene) -> Scene:
+    for frame in scene.frames.values():
+        if frame.timestamp is None:
+            continue
+        frame.sensors = {sensor_id: SensorReference(frame.timestamp) for sensor_id in scene.sensors}
+    return scene

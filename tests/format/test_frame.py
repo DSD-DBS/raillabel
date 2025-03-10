@@ -34,7 +34,7 @@ def frame_json(
         frame_properties=JSONFrameProperties(
             timestamp=Decimal("1631337747.123123123"),
             streams={
-                "rgb_middle": sensor_reference_json,
+                "rgb_center": sensor_reference_json,
                 "lidar": another_sensor_reference_json,
             },
             frame_data=JSONFrameData(num=[num_json]),
@@ -76,7 +76,7 @@ def frame(
     return Frame(
         timestamp=Decimal("1631337747.123123123"),
         sensors={
-            "rgb_middle": sensor_reference,
+            "rgb_center": sensor_reference,
             "lidar": another_sensor_reference,
         },
         frame_data={num.name: num},

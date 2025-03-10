@@ -131,7 +131,7 @@ class Scene:
         filtered_scene.sensors = _get_used_sensors(self, filtered_scene)
         filtered_scene.objects = _get_used_objects(self, filtered_scene)
 
-        return filtered_scene
+        return _remove_unused_sensor_references(filtered_scene)
 
 
 def _sensors_from_json(
@@ -276,3 +276,13 @@ def _get_used_objects(scene: Scene, filtered_scene: Scene) -> dict[UUID, Object]
                 used_objects[annotation.object_id] = deepcopy(scene.objects[annotation.object_id])
 
     return used_objects
+
+
+def _remove_unused_sensor_references(filtered_scene: Scene) -> Scene:
+    for frame in filtered_scene.frames.values():
+        unused_sensor_reference_ids = [
+            sensor_id for sensor_id in frame.sensors if sensor_id not in filtered_scene.sensors
+        ]
+        for unused_sensor_id in unused_sensor_reference_ids:
+            del frame.sensors[unused_sensor_id]
+    return filtered_scene

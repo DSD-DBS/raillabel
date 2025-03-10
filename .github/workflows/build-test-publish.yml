@@ -28,12 +28,12 @@ jobs:
           - os: windows-latest
             python_version: "3.13"
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
       - name: Set up Python ${{matrix.python_version}}
-        uses: actions/setup-python@v2
+        uses: actions/setup-python@v4
         with:
           python-version: ${{matrix.python_version}}
-      - uses: actions/cache@v2
+      - uses: actions/cache@v4
         with:
           path: ~/.cache/pip
           key: ${{runner.os}}-pip-${{hashFiles('pyproject.toml')}}
