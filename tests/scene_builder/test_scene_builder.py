@@ -542,6 +542,20 @@ def test_add_seg3d__just_defaults():
     )
 
 
+def test_add_annotation():
+    bbox = Bbox(
+        pos=Point2d(0, 0),
+        size=Size2d(0, 0),
+        object_id=UUID("ffffffff-ffff-4fff-ffff-ffffffffffff"),
+        sensor_id="rgb_middle",
+        attributes={},
+    )
+    actual = SceneBuilder.empty().add_annotation(bbox).result
+
+    actual.to_json()  # check if scene is also valid in JSON
+    assert actual == SceneBuilder.empty().add_bbox().result
+
+
 def test_result_has_no_frame_sensors_due_to_no_timestamp():
     actual = (
         SceneBuilder.empty()
