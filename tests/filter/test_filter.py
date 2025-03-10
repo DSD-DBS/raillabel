@@ -262,5 +262,31 @@ def test_exclude_attributes__with_values():
     assert actual == SceneBuilder.empty().add_bbox(attributes={"is_dummy": True}).result
 
 
+def test_remove_unused_sensors():
+    scene = (
+        SceneBuilder.empty().add_bbox(sensor_id="rgb_middle").add_cuboid(sensor_id="lidar").result
+    )
+    filters = [raillabel.filter.ExcludeSensorIdFilter(["lidar"])]
+
+    actual = scene.filter(filters)
+    assert "rgb_middle" in actual.sensors
+    assert "lidar" not in actual.sensors
+
+
+def test_remove_unused_sensor_references():
+    scene = (
+        SceneBuilder.empty()
+        .add_frame(frame_id=1, timestamp=1234)
+        .add_bbox(frame_id=1, sensor_id="rgb_middle")
+        .add_cuboid(frame_id=1, sensor_id="lidar")
+        .result
+    )
+    filters = [raillabel.filter.ExcludeSensorIdFilter(["lidar"])]
+
+    actual = scene.filter(filters)
+    assert "rgb_middle" in actual.frames[1].sensors
+    assert "lidar" not in actual.frames[1].sensors
+
+
 if __name__ == "__main__":
     pytest.main([__file__, "-vv"])
