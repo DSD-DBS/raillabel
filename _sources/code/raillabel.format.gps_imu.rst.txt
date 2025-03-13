@@ -1,0 +1,8 @@
+raillabel.format.gps\_imu module
+================================
+
+.. automodule:: raillabel.format.gps_imu
+   :members:
+   :private-members:
+   :show-inheritance:
+   :undoc-members:

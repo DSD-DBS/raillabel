@@ -1,0 +1,8 @@
+raillabel.filter.include\_attributes\_filter module
+===================================================
+
+.. automodule:: raillabel.filter.include_attributes_filter
+   :members:
+   :private-members:
+   :show-inheritance:
+   :undoc-members:

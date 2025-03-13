@@ -1,0 +1,8 @@
+raillabel.format.intrinsics\_radar module
+=========================================
+
+.. automodule:: raillabel.format.intrinsics_radar
+   :members:
+   :private-members:
+   :show-inheritance:
+   :undoc-members:
