@@ -1,0 +1,8 @@
+raillabel.format.\_attributes module
+====================================
+
+.. automodule:: raillabel.format._attributes
+   :members:
+   :private-members:
+   :show-inheritance:
+   :undoc-members:

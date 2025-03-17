@@ -1,0 +1,8 @@
+raillabel.json\_format.text\_attribute module
+=============================================
+
+.. automodule:: raillabel.json_format.text_attribute
+   :members:
+   :private-members:
+   :show-inheritance:
+   :undoc-members:

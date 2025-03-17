@@ -1,0 +1,8 @@
+raillabel.format.frame module
+=============================
+
+.. automodule:: raillabel.format.frame
+   :members:
+   :private-members:
+   :show-inheritance:
+   :undoc-members:

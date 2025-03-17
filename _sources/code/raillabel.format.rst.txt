@@ -1,0 +1,46 @@
+raillabel.format package
+========================
+
+Submodules
+----------
+
+.. toctree::
+   :maxdepth: 4
+
+   raillabel.format._attributes
+   raillabel.format._sensor_without_intrinsics
+   raillabel.format._util
+   raillabel.format.bbox
+   raillabel.format.camera
+   raillabel.format.cuboid
+   raillabel.format.frame
+   raillabel.format.frame_interval
+   raillabel.format.gps_imu
+   raillabel.format.intrinsics_pinhole
+   raillabel.format.intrinsics_radar
+   raillabel.format.lidar
+   raillabel.format.metadata
+   raillabel.format.num
+   raillabel.format.object
+   raillabel.format.other_sensor
+   raillabel.format.point2d
+   raillabel.format.point3d
+   raillabel.format.poly2d
+   raillabel.format.poly3d
+   raillabel.format.quaternion
+   raillabel.format.radar
+   raillabel.format.scene
+   raillabel.format.seg3d
+   raillabel.format.sensor_reference
+   raillabel.format.size2d
+   raillabel.format.size3d
+   raillabel.format.transform
+
+Module contents
+---------------
+
+.. automodule:: raillabel.format
+   :members:
+   :private-members:
+   :show-inheritance:
+   :undoc-members:

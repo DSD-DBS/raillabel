@@ -1,0 +1,8 @@
+raillabel.json\_format.metadata module
+======================================
+
+.. automodule:: raillabel.json_format.metadata
+   :members:
+   :private-members:
+   :show-inheritance:
+   :undoc-members:
