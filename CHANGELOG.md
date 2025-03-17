@@ -120,3 +120,7 @@ New features:
 
 # 4.1.0
 - Add value arguments to `SceneBuilder.add_bbox()`, `SceneBuilder.add_cuboid()`, `SceneBuilder.add_poly2s()`, `SceneBuilder.add_poly3d()` and `SceneBuilder.add_seg3d()` like `SceneBuilder.add_bbox(pos=Point2d(1.0, 2.0))`
+
+# 4.1.1
+- `Scene.filter()` now also removes unused sensors from `Frame.sensors`
+- `SceneBuilder` now also automatically adds sensors to `Frame.sensor` if a frame has a timestamp value
