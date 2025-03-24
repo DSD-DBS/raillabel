@@ -309,7 +309,8 @@ def _resolve_empty_object_name_or_type(
         return object_type, object_name
 
     if object_name is not None and object_type is None:
-        object_type = object_name.split("_")[0]
+        length_of_object_suffix = len(object_name.split("_")[-1]) + 1
+        object_type = object_name[: len(object_name) - length_of_object_suffix]
         return object_type, object_name
 
     if object_name is not None and object_type is not None:
