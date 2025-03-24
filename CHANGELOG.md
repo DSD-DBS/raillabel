@@ -124,3 +124,6 @@ New features:
 # 4.1.1
 - `Scene.filter()` now also removes unused sensors from `Frame.sensors`
 - `SceneBuilder` now also automatically adds sensors to `Frame.sensor` if a frame has a timestamp value
+
+# 4.1.2
+- fixed a bug where the `SceneBuilder` created an `Object` with the wrong type from the object name if the object name contained more than one underscore (for example `SceneBuilder.add_object(object_name="signal_bridge_0001")` created an object with type `signal` before where now it creates an object with the correct type `signal_bridge`)

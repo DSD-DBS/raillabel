@@ -140,6 +140,20 @@ def test_add_object__object_id_iteration():
     )
 
 
+def test_add_object__object_name_with_underscore():
+    actual = SceneBuilder.empty().add_object(object_name="signal_bridge_0001").result
+
+    actual.to_json()  # check if scene is also valid in JSON
+    assert actual == Scene(
+        metadata=Metadata(schema_version="1.0.0"),
+        objects={
+            UUID("5c59aad4-0000-4000-0000-000000000000"): Object(
+                name="signal_bridge_0001", type="signal_bridge"
+            )
+        },
+    )
+
+
 def test_add_sensor__camera_rgb(camera_empty):
     actual = SceneBuilder.empty().add_sensor("rgb_center").result
 
