@@ -31,7 +31,7 @@ This library is designed to assist in the handling of the sensor annotations of 
 Motivation
 ----------
 
-Working with our own data has brought up the need to interact with the annotations programmatically. The annotation data is stored in .json files in the `ASAM OpenLABEL annotation <https://www.asam.net/standards/detail/openlabel/>`_ format, an emerging industry standard targeted towards the automotive sector. But as a standard it is designed very inclusively, which makes it overloaded for our limited use cases. We therefore decided to create a submodel called "RailLabel" with a corresponding devkit for easier interaction with the data. The example below shows a comparison between a purely JSON based approach compared to the devkit.
+Working with our own data has brought up the need to interact with the annotations programmatically. The annotation data is stored in .json files in the `ASAM OpenLABEL <https://www.asam.net/standards/detail/openlabel/>`_ annotation format, an emerging industry standard targeted towards the automotive sector. But as a standard it is designed very inclusively, which makes it overloaded for our limited use cases. We therefore decided to create a submodel called "RailLabel" with a corresponding devkit for easier interaction with the data. The example below shows a comparison between a purely JSON based approach compared to the devkit.
 
 With JSON only:
 
