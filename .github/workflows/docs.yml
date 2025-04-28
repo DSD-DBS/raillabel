@@ -27,7 +27,7 @@ jobs:
           python -m pip install '.[docs]'
       - name: Auto-generate APIDOC sources
         run: |-
-          sphinx-apidoc --output-dir docs/source/code --force . --no-toc --private --separate
+          sphinx-apidoc --output-dir docs/source/code --force . --private --separate
       - name: Create docs
         run: |
           make -C docs html
