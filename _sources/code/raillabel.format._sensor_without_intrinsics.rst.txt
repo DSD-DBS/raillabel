@@ -1,0 +1,8 @@
+raillabel.format.\_sensor\_without\_intrinsics module
+=====================================================
+
+.. automodule:: raillabel.format._sensor_without_intrinsics
+   :members:
+   :private-members:
+   :show-inheritance:
+   :undoc-members:
