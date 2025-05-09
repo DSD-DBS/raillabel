@@ -6,6 +6,7 @@ from __future__ import annotations
 import pytest
 
 from raillabel.format import Scene
+from raillabel.scene_builder import SceneBuilder
 from raillabel.json_format import (
     JSONScene,
     JSONSceneContent,
@@ -95,6 +96,22 @@ def test_from_json(scene, scene_json):
 def test_to_json(scene, scene_json):
     actual = scene.to_json()
     assert actual == scene_json
+
+
+def test_annotations_with_frame_id(bbox, cuboid, poly2d):
+    scene = (
+        SceneBuilder.empty()
+        .add_annotation(bbox, frame_id=1)
+        .add_annotation(cuboid, frame_id=1)
+        .add_annotation(poly2d, frame_id=2)
+        .result
+    )
+
+    assert scene.annotations_with_frame_id() == [
+        (bbox, 1),
+        (cuboid, 1),
+        (poly2d, 2),
+    ]
 
 
 if __name__ == "__main__":
