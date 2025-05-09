@@ -1,0 +1,4 @@
+global-exclude *.py[cod] __pycache__/
+prune tests
+prune docs
+prune .github
