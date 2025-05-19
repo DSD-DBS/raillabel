@@ -65,6 +65,8 @@ If you then want to save your changes, then use
 raillabel.save(cut_scene_with_only_red_trains, "/path/to/target.json")
 ```
 
+If you want to get a more practical understanding of the library, check out the [tutorial page](https://dsd-dbs.github.io/raillabel/tutorial).
+
 # Contributing
 
 To set up a development environment, clone the project and install it into a
