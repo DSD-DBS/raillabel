@@ -1,0 +1,22 @@
+raillabel package
+=================
+
+Subpackages
+-----------
+
+.. toctree::
+   :maxdepth: 4
+
+   raillabel.filter
+   raillabel.format
+   raillabel.json_format
+   raillabel.scene_builder
+
+Module contents
+---------------
+
+.. automodule:: raillabel
+   :members:
+   :private-members:
+   :show-inheritance:
+   :undoc-members:

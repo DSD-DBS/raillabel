@@ -1,0 +1,8 @@
+raillabel.format.bbox module
+============================
+
+.. automodule:: raillabel.format.bbox
+   :members:
+   :private-members:
+   :show-inheritance:
+   :undoc-members:

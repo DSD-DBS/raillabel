@@ -1,0 +1,8 @@
+raillabel.json\_format.element\_data\_pointer module
+====================================================
+
+.. automodule:: raillabel.json_format.element_data_pointer
+   :members:
+   :private-members:
+   :show-inheritance:
+   :undoc-members:

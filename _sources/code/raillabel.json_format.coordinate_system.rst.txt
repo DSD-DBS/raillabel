@@ -1,0 +1,8 @@
+raillabel.json\_format.coordinate\_system module
+================================================
+
+.. automodule:: raillabel.json_format.coordinate_system
+   :members:
+   :private-members:
+   :show-inheritance:
+   :undoc-members:

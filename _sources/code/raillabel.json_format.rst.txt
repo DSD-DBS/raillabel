@@ -1,0 +1,43 @@
+raillabel.json\_format package
+==============================
+
+Submodules
+----------
+
+.. toctree::
+   :maxdepth: 4
+
+   raillabel.json_format._json_format_base
+   raillabel.json_format.attributes
+   raillabel.json_format.bbox
+   raillabel.json_format.boolean_attribute
+   raillabel.json_format.coordinate_system
+   raillabel.json_format.cuboid
+   raillabel.json_format.element_data_pointer
+   raillabel.json_format.frame
+   raillabel.json_format.frame_interval
+   raillabel.json_format.metadata
+   raillabel.json_format.num
+   raillabel.json_format.num_attribute
+   raillabel.json_format.object
+   raillabel.json_format.object_data
+   raillabel.json_format.poly2d
+   raillabel.json_format.poly3d
+   raillabel.json_format.scene
+   raillabel.json_format.stream_camera
+   raillabel.json_format.stream_other
+   raillabel.json_format.stream_radar
+   raillabel.json_format.stream_sync
+   raillabel.json_format.text_attribute
+   raillabel.json_format.transform_data
+   raillabel.json_format.vec
+   raillabel.json_format.vec_attribute
+
+Module contents
+---------------
+
+.. automodule:: raillabel.json_format
+   :members:
+   :private-members:
+   :show-inheritance:
+   :undoc-members:

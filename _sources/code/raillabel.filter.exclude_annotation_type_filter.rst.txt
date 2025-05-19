@@ -1,0 +1,8 @@
+raillabel.filter.exclude\_annotation\_type\_filter module
+=========================================================
+
+.. automodule:: raillabel.filter.exclude_annotation_type_filter
+   :members:
+   :private-members:
+   :show-inheritance:
+   :undoc-members:

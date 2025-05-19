@@ -1,0 +1,8 @@
+raillabel.format.sensor\_reference module
+=========================================
+
+.. automodule:: raillabel.format.sensor_reference
+   :members:
+   :private-members:
+   :show-inheritance:
+   :undoc-members:

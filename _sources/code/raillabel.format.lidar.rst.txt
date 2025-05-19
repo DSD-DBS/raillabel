@@ -1,0 +1,8 @@
+raillabel.format.lidar module
+=============================
+
+.. automodule:: raillabel.format.lidar
+   :members:
+   :private-members:
+   :show-inheritance:
+   :undoc-members:

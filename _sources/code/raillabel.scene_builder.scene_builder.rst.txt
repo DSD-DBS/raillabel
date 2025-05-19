@@ -1,0 +1,8 @@
+raillabel.scene\_builder.scene\_builder module
+==============================================
+
+.. automodule:: raillabel.scene_builder.scene_builder
+   :members:
+   :private-members:
+   :show-inheritance:
+   :undoc-members:

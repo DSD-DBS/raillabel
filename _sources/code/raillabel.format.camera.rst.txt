@@ -1,0 +1,8 @@
+raillabel.format.camera module
+==============================
+
+.. automodule:: raillabel.format.camera
+   :members:
+   :private-members:
+   :show-inheritance:
+   :undoc-members:

@@ -1,0 +1,8 @@
+raillabel.format.cuboid module
+==============================
+
+.. automodule:: raillabel.format.cuboid
+   :members:
+   :private-members:
+   :show-inheritance:
+   :undoc-members:

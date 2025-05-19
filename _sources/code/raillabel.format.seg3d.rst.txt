@@ -1,0 +1,8 @@
+raillabel.format.seg3d module
+=============================
+
+.. automodule:: raillabel.format.seg3d
+   :members:
+   :private-members:
+   :show-inheritance:
+   :undoc-members:

@@ -1,0 +1,8 @@
+raillabel.format.scene module
+=============================
+
+.. automodule:: raillabel.format.scene
+   :members:
+   :private-members:
+   :show-inheritance:
+   :undoc-members:

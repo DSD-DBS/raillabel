@@ -1,0 +1,8 @@
+raillabel.format.quaternion module
+==================================
+
+.. automodule:: raillabel.format.quaternion
+   :members:
+   :private-members:
+   :show-inheritance:
+   :undoc-members:

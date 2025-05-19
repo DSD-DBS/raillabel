@@ -1,0 +1,19 @@
+raillabel.scene\_builder package
+================================
+
+Submodules
+----------
+
+.. toctree::
+   :maxdepth: 4
+
+   raillabel.scene_builder.scene_builder
+
+Module contents
+---------------
+
+.. automodule:: raillabel.scene_builder
+   :members:
+   :private-members:
+   :show-inheritance:
+   :undoc-members:

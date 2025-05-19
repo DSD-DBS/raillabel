@@ -1,0 +1,8 @@
+raillabel.json\_format.frame\_interval module
+=============================================
+
+.. automodule:: raillabel.json_format.frame_interval
+   :members:
+   :private-members:
+   :show-inheritance:
+   :undoc-members:

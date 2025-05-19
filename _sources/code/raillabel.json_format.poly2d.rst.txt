@@ -1,0 +1,8 @@
+raillabel.json\_format.poly2d module
+====================================
+
+.. automodule:: raillabel.json_format.poly2d
+   :members:
+   :private-members:
+   :show-inheritance:
+   :undoc-members:
