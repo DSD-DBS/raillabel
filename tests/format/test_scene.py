@@ -2,6 +2,7 @@
 # SPDX-License-Identifier: Apache-2.0
 
 from __future__ import annotations
+from uuid import UUID
 
 import pytest
 
@@ -101,17 +102,17 @@ def test_to_json(scene, scene_json):
 def test_annotations_with_frame_id(bbox, cuboid, poly2d):
     scene = (
         SceneBuilder.empty()
-        .add_annotation(bbox, frame_id=1)
-        .add_annotation(cuboid, frame_id=1)
-        .add_annotation(poly2d, frame_id=2)
+        .add_annotation(bbox, uid="1dbe924e-23f1-4313-9524-33ef9647160d", frame_id=1)
+        .add_annotation(cuboid, uid="cfebad9d-8fca-4a21-be7a-0555ff1fe4d2", frame_id=1)
+        .add_annotation(poly2d, uid="66137a24-634f-4d5f-837c-ebe9a53859b5", frame_id=2)
         .result
     )
 
-    assert scene.annotations_with_frame_id() == [
-        (bbox, 1),
-        (cuboid, 1),
-        (poly2d, 2),
-    ]
+    assert scene.annotations() == {
+        UUID("1dbe924e-23f1-4313-9524-33ef9647160d"): bbox,
+        UUID("cfebad9d-8fca-4a21-be7a-0555ff1fe4d2"): cuboid,
+        UUID("66137a24-634f-4d5f-837c-ebe9a53859b5"): poly2d,
+    }
 
 
 if __name__ == "__main__":

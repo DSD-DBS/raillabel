@@ -63,7 +63,7 @@ def test_number_of_cuboid_annotations_in_fourth_frame(path_to_calibration_json):
             raillabel.filter.IncludeAnnotationTypeFilter(["cuboid"]),
         ]
     )
-    number_of_cuboid_annotations_in_fourth_frame = len(filtered_scene.annotations_with_frame_id())
+    number_of_cuboid_annotations_in_fourth_frame = len(filtered_scene.annotations())
     assert number_of_cuboid_annotations_in_fourth_frame == 15
 
 
