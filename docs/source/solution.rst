@@ -57,7 +57,7 @@ This page contains the solutions to the tutorial exercises found :doc:`here <tut
             raillabel.filter.IncludeAnnotationTypeFilter(["cuboid"]),
         ]
     )
-    number_of_cuboid_annotations_in_fourth_frame = len(filtered_scene.annotations_with_frame_id())
+    number_of_cuboid_annotations_in_fourth_frame = len(filtered_scene.annotations())
     assert number_of_cuboid_annotations_in_fourth_frame == 15
 
 

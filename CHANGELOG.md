@@ -127,3 +127,6 @@ New features:
 
 # 4.1.2
 - fixed a bug where the `SceneBuilder` created an `Object` with the wrong type from the object name if the object name contained more than one underscore (for example `SceneBuilder.add_object(object_name="signal_bridge_0001")` created an object with type `signal` before where now it creates an object with the correct type `signal_bridge`)
+
+# 4.2.0
+- add the `Scene.annotations()` method that returns a dictionary containing the annotations from all frames merged into a single dict

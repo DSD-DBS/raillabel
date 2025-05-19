@@ -99,13 +99,15 @@ class Scene:
             )
         )
 
-    def annotations_with_frame_id(self) -> list[tuple[Bbox | Cuboid | Poly2d | Poly3d | Seg3d, int]]:
-        """Return every annotation with the frame_id it is contained in."""
-        return [
-            (ann, frame_id)
-            for frame_id, frame in self.frames.items()
-            for ann in frame.annotations.values()
-        ]
+    def annotations(self) -> dict[UUID, Bbox | Cuboid | Poly2d | Poly3d | Seg3d]:
+        """Return every annotation in this scene inside a single dict.
+
+        The keys of the return value are the annotation UIDs.
+        """
+        annotations = {}
+        for frame in self.frames.values():
+            annotations.update(frame.annotations)
+        return annotations
 
     def filter(self, filters: list[_FilterAbc]) -> Scene:
         """Return a scene with annotations, sensors, objects and frames excluded.
